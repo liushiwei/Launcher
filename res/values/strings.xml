@@ -146,5 +146,10 @@
          by the client-id, e.g. "android-google". -->
     <string name="default_browser_url" translatable="false">
         http://www.google.com/m?client=ms-{CID}&amp;source=android-home-hotseat</string>
-
+    <string name="toolbar_text_gps" >GPS</string>
+    <string name="toolbar_text_bluetooth" >Bluetooth</string>
+    <string name="toolbar_text_radio" >Radio</string>
+    <string name="toolbar_text_apps" >Apps</string>
+    <string name="app_bluetooth">com.carit.bluetooth.intent.action.BluetoothApplication</string>
+    <string name="app_radio">com.carit.radioplayer.intent.action.RadioPlayer</string>
 </resources>

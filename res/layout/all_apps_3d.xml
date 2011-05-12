@@ -26,7 +26,7 @@
     android:drawSelectorOnTop="false"
     android:listSelector="@drawable/grid_selector"
     android:verticalSpacing="10dip"
-    android:numColumns="4"
+    android:numColumns="5"
     android:fadingEdgeLength="20dip"
     android:padding="2dip"
     android:cacheColorHint="#FF000000"

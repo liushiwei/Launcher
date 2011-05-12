@@ -18,24 +18,34 @@
 -->
 
 <resources>
-    <style name="HotseatButton">
-        <item name="android:paddingTop">12dip</item>
-        <item name="android:paddingBottom">12dip</item>
-        <item name="android:background">@drawable/hotseat_bg_center</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_width">fill_parent</item>
-        <item name="android:scaleType">center</item>
-        <item name="android:focusable">true</item>
-        <item name="android:clickable">true</item>
-    </style>
-    <style name="HotseatButton.Left">
-        <item name="android:layout_marginBottom">4dip</item>
-        <item name="android:background">@drawable/hotseat_bg_left</item>
-    </style>
-    <style name="HotseatButton.Right">
-        <item name="android:layout_marginTop">4dip</item>
-        <item name="android:background">@drawable/hotseat_bg_right</item>
-    </style>
-
+	<style name="HotseatButton">
+		<item name="android:paddingLeft">12dip</item>
+		<item name="android:paddingRight">12dip</item>
+		<item name="android:background">@drawable/hotseat_bg_center</item>
+		<item name="android:layout_width">wrap_content</item>
+		<item name="android:layout_height">fill_parent</item>
+		<item name="android:scaleType">center</item>
+		<item name="android:focusable">true</item>
+		<item name="android:clickable">true</item>
+	</style>
+	<style name="HotseatButton.Left">
+		<item name="android:layout_marginLeft">4dip</item>
+		<item name="android:background">@drawable/hotseat_bg_left</item>
+	</style>
+	<style name="HotseatButton.Right">
+		<item name="android:layout_marginRight">4dip</item>
+		<item name="android:background">@drawable/hotseat_bg_right</item>
+	</style>
+	<style name="WorkspaceButton">
+		<item name="android:background">#00000000</item>
+		<item name="android:shadowColor">#555555</item>
+		<item name="android:textColor">#DDDDDD</item>
+		<item name="android:textSize">15sp</item>
+		<item name="android:textStyle">bold</item>
+		<item name="android:layout_width">80px</item>
+		<item name="android:layout_height">fill_parent</item>
+		<item name="android:gravity">center</item>
+		<item name="android:layout_weight">1</item>
+	</style>
 </resources>
 

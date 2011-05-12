@@ -30,7 +30,7 @@
         android:drawSelectorOnTop="false"
         android:listSelector="@drawable/grid_selector"
         android:verticalSpacing="10dip"
-        android:numColumns="4"
+        android:numColumns="5"
         android:fadingEdgeLength="48dip"
         android:cacheColorHint="#FF000000"
         android:layout_width="match_parent"

@@ -122,8 +122,8 @@ public final class Launcher extends Activity
 
     static final int SCREEN_COUNT = 5;
     static final int DEFAULT_SCREEN = 2;
-    static final int NUMBER_CELLS_X = 4;
-    static final int NUMBER_CELLS_Y = 4;
+    static final int NUMBER_CELLS_X = 5;
+    static final int NUMBER_CELLS_Y = 3;
 
     static final int DIALOG_CREATE_SHORTCUT = 1;
     static final int DIALOG_RENAME_FOLDER = 2;
@@ -360,7 +360,7 @@ public final class Launcher extends Activity
 
         final int width = isPortrait ? display.getWidth() : display.getHeight();
         final int height = isPortrait ? display.getHeight() : display.getWidth();
-        wpm.suggestDesiredDimensions(width * WALLPAPER_SCREENS_SPAN, height);
+        wpm.suggestDesiredDimensions(850, 480);
     }
 
     // Note: This doesn't do all the client-id magic that BrowserProvider does
@@ -1066,7 +1066,7 @@ public final class Launcher extends Activity
         }
         if (appSearchData == null) {
             appSearchData = new Bundle();
-            appSearchData.putString(Search.SOURCE, "launcher-search");
+            //appSearchData.putString(Search.SOURCE, "launcher-search");
         }
 
         final SearchManager searchManager =
@@ -1430,6 +1430,38 @@ public final class Launcher extends Activity
         }
     }
 
+    public void onLauncherButtonClick(View v) {
+    	switch(v.getId()) {
+    	case R.id.button_gps: {
+    		try {
+    			Intent it = new Intent(Intent.ACTION_VIEW);                  
+    			it.setClassName("com.google.android.apps.maps","com.google.android.maps.MapsActivity");  
+    			startActivity(it);
+    		} catch (Exception e) {
+        		Log.e(TAG, e.getMessage());
+    		}
+    		break;
+    	}
+    	case R.id.button_bluetooth: {
+    		try {
+        		Intent it = new Intent(getString(R.string.app_bluetooth));
+        		startActivity(it);
+    		} catch (Exception e) {
+        		Log.e(TAG, e.getMessage());
+    		}
+    		break;
+    	}
+    	case R.id.button_radio: {
+    		try {
+        		Intent it = new Intent(getString(R.string.app_radio));
+        		startActivity(it);
+    		} catch (Exception e) {
+        		Log.e(TAG, e.getMessage());
+    		}
+    		break;
+    	}
+    	}
+    }
     /**
      * Launches the intent referred by the clicked shortcut.
      *
