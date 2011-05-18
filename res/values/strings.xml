@@ -152,4 +152,6 @@
     <string name="toolbar_text_apps" >Apps</string>
     <string name="app_bluetooth">com.carit.bluetooth.intent.action.BluetoothApplication</string>
     <string name="app_radio">com.carit.radioplayer.intent.action.RadioPlayer</string>
+    <string name="app_dvd">com.carit.dvdplayer.intent.action.DVDPlayer</string>
+    <string name="toolbar_text_dvd" >DVD</string>
 </resources>

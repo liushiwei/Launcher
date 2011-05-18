@@ -16,7 +16,13 @@
 
 package com.android.launcher2;
 
-import com.android.common.Search;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -24,6 +30,8 @@ import android.app.Dialog;
 import android.app.SearchManager;
 import android.app.StatusBarManager;
 import android.app.WallpaperManager;
+import android.appwidget.AppWidgetManager;
+import android.appwidget.AppWidgetProviderInfo;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -33,7 +41,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Intent.ShortcutIconResource;
 import android.content.IntentFilter;
-import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
@@ -41,10 +48,10 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.database.ContentObserver;
 import android.graphics.Bitmap;
-import android.graphics.Rect;
 import android.graphics.Canvas;
-import android.graphics.drawable.Drawable;
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -64,25 +71,15 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnLongClickListener;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ImageView;
-import android.widget.PopupWindow;
-import android.widget.LinearLayout;
-import android.appwidget.AppWidgetManager;
-import android.appwidget.AppWidgetProviderInfo;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.HashMap;
-import java.io.DataOutputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.DataInputStream;
 
 import com.android.launcher.R;
 
@@ -1451,15 +1448,16 @@ public final class Launcher extends Activity
     		}
     		break;
     	}
-    	case R.id.button_radio: {
+    	case R.id.button_dvd: {
     		try {
-        		Intent it = new Intent(getString(R.string.app_radio));
+        		Intent it = new Intent(getString(R.string.app_dvd));
         		startActivity(it);
     		} catch (Exception e) {
         		Log.e(TAG, e.getMessage());
     		}
     		break;
     	}
+    	
     	}
     }
     /**

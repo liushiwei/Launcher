@@ -67,5 +67,6 @@
      <string name="toolbar_text_gps" >导航</string>
     <string name="toolbar_text_bluetooth" >蓝牙</string>
     <string name="toolbar_text_radio" >收音</string>
+    <string name="toolbar_text_dvd" >DVD</string>
     <string name="toolbar_text_apps" >应用</string>
 </resources>

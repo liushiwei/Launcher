@@ -81,6 +81,7 @@
                 <category android:name="android.intent.category.HOME" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.MONKEY"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
@@ -122,4 +123,7 @@
             android:readPermission="com.android.launcher.permission.READ_SETTINGS" />
 
     </application>
+    <supports-screens android:smallScreens="true"
+		android:normalScreens="true" android:largeScreens="true"
+		android:anyDensity="true" />
 </manifest>

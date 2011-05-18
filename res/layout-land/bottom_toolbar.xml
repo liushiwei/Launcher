@@ -14,12 +14,16 @@
 			<Button android:id="@+id/button_bluetooth" android:text="@string/toolbar_text_bluetooth"
 				android:drawableTop="@drawable/bluetooth_icon" style="@style/WorkspaceButton"
 				android:onClick="onLauncherButtonClick" />
-			<Button android:id="@+id/button_radio" android:text="@string/toolbar_text_radio"
-				android:drawableTop="@drawable/radio_icon" style="@style/WorkspaceButton"
-				android:onClick="onLauncherButtonClick" />
 			<com.android.launcher2.HandleView
 				android:id="@+id/all_apps_button" android:text="@string/toolbar_text_apps"
 				android:drawableTop="@drawable/apps_icon" style="@style/WorkspaceButton" />
+			<Button android:id="@+id/button_radio" android:text="@string/toolbar_text_radio"
+				android:drawableTop="@drawable/radio_icon" style="@style/WorkspaceButton"
+				android:onClick="onLauncherButtonClick" />
+			<Button android:id="@+id/button_dvd" android:text="@string/toolbar_text_dvd"
+				android:drawableTop="@drawable/dvd_icon" style="@style/WorkspaceButton"
+				android:onClick="onLauncherButtonClick" />
+				
 		</LinearLayout>
 	</LinearLayout>
 </merge>

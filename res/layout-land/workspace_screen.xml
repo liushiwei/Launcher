@@ -27,6 +27,6 @@
     launcher:longAxisStartPadding="15dip"
     launcher:longAxisEndPadding="15dip"
     launcher:shortAxisStartPadding="15px"
-    launcher:shortAxisEndPadding="150px"
+    launcher:shortAxisEndPadding="130px"
     launcher:shortAxisCells="3"
     launcher:longAxisCells="5" />

@@ -760,10 +760,10 @@ public class LauncherProvider extends ContentProvider {
         
         private boolean addAppWidget(SQLiteDatabase db, ContentValues values, TypedArray a,
                 PackageManager packageManager) {
-
+        	
             String packageName = a.getString(R.styleable.Favorite_packageName);
             String className = a.getString(R.styleable.Favorite_className);
-
+            Log.e(TAG, "packageName = "+packageName+" className = "+className);
             if (packageName == null || className == null) {
                 return false;
             }
@@ -773,6 +773,8 @@ public class LauncherProvider extends ContentProvider {
             try {
                 packageManager.getReceiverInfo(cn, 0);
             } catch (Exception e) {
+            	Log.e(TAG, "Exception ");
+            	e.printStackTrace();
                 String[] packages = packageManager.currentToCanonicalPackageNames(
                         new String[] { packageName });
                 cn = new ComponentName(packages[0], className);
@@ -782,7 +784,7 @@ public class LauncherProvider extends ContentProvider {
                     hasPackage = false;
                 }
             }
-
+            Log.e(TAG, "hasPackage =  "+hasPackage);
             if (hasPackage) {
                 int spanX = a.getInt(R.styleable.Favorite_spanX, 0);
                 int spanY = a.getInt(R.styleable.Favorite_spanY, 0);
@@ -796,7 +798,7 @@ public class LauncherProvider extends ContentProvider {
                 int spanX, int spanY) {
             boolean allocatedAppWidgets = false;
             final AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(mContext);
-
+            
             try {
                 int appWidgetId = mAppWidgetHost.allocateAppWidgetId();
                 
@@ -807,7 +809,6 @@ public class LauncherProvider extends ContentProvider {
                 db.insert(TABLE_FAVORITES, null, values);
 
                 allocatedAppWidgets = true;
-                
                 appWidgetManager.bindAppWidgetId(appWidgetId, cn);
             } catch (RuntimeException ex) {
                 Log.e(TAG, "Problem allocating appWidgetId", ex);

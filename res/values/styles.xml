@@ -52,8 +52,6 @@
     </style>
 
     <style name="WorkspaceIcon.Landscape">
-        <item name="android:drawablePadding">3dip</item>
-        <item name="android:paddingTop">2dip</item>
         <item name="android:layout_marginLeft">10dip</item>
         <item name="android:layout_marginRight">10dip</item>
     </style>

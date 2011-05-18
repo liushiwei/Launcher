@@ -33,7 +33,7 @@ import com.android.launcher.R;
  * too aggressive.
  */
 public class BubbleTextView extends TextView {
-    static final float CORNER_RADIUS = 8.0f;
+    static final float CORNER_RADIUS = 3.0f;
     static final float PADDING_H = 5.0f;
     static final float PADDING_V = 1.0f;
 
