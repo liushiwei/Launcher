@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android" xmlns:launcher="http://schemas.android.com/apk/res/com.carit.launcher">
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:launcher="http://schemas.android.com/apk/res/com.carit.launcher">
 	<LinearLayout android:orientation="vertical"
-		android:layout_width="match_parent" android:layout_height="120px" android:layout_gravity="bottom|center_horizontal" android:gravity="bottom">
+		android:layout_width="match_parent" android:layout_height="120px"
+		android:layout_gravity="bottom|center_horizontal" android:gravity="bottom">
 		<LinearLayout android:id="@+id/all_apps_button_cluster"
 			android:layout_width="660px" android:layout_height="110px"
 			android:layout_gravity="bottom|center_horizontal" android:background="@drawable/bottom_toolbar_no_change"
-			android:paddingLeft="20px"
-			android:paddingRight="20px">
-
+			android:paddingLeft="20px" android:paddingRight="20px">
+			<Button android:id="@+id/button_radio" android:text="@string/toolbar_text_radio"
+				android:drawableTop="@drawable/radio_icon" style="@style/WorkspaceButton"
+				android:onClick="onLauncherButtonClick" />
 			<Button android:id="@+id/button_gps" android:text="@string/toolbar_text_gps"
 				android:drawableTop="@drawable/gps_icon" style="@style/WorkspaceButton"
-				android:onClick="onLauncherButtonClick" />
-			<Button android:id="@+id/button_bluetooth" android:text="@string/toolbar_text_bluetooth"
-				android:drawableTop="@drawable/bluetooth_icon" style="@style/WorkspaceButton"
 				android:onClick="onLauncherButtonClick" />
 			<com.android.launcher2.HandleView
 				android:id="@+id/all_apps_button" android:text="@string/toolbar_text_apps"
 				android:drawableTop="@drawable/apps_icon" style="@style/WorkspaceButton" />
-			<Button android:id="@+id/button_radio" android:text="@string/toolbar_text_radio"
-				android:drawableTop="@drawable/radio_icon" style="@style/WorkspaceButton"
+			<Button android:id="@+id/button_bluetooth" android:text="@string/toolbar_text_bluetooth"
+				android:drawableTop="@drawable/bluetooth_icon" style="@style/WorkspaceButton"
 				android:onClick="onLauncherButtonClick" />
 			<Button android:id="@+id/button_dvd" android:text="@string/toolbar_text_dvd"
 				android:drawableTop="@drawable/dvd_icon" style="@style/WorkspaceButton"
 				android:onClick="onLauncherButtonClick" />
-				
+
 		</LinearLayout>
 	</LinearLayout>
 </merge>

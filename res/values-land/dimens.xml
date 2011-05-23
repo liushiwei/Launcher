@@ -18,5 +18,5 @@
     <dimen name="workspace_cell_width">140dip</dimen>
     <dimen name="workspace_cell_height">105dip</dimen>
     <dimen name="button_bar_height">62dip</dimen>
-    <dimen name="app_icon_size">80dip</dimen>
+    <dimen name="app_icon_size">70px</dimen>
 </resources>

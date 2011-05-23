@@ -133,8 +133,8 @@ final class Utilities {
                     }
                 } else if (sourceWidth < width && sourceHeight < height) {
                     // It's small, use the size they gave us.
-                    width = sourceWidth;
-                    height = sourceHeight;
+//                    width = sourceWidth;
+//                    height = sourceHeight;
                 }
             }
 

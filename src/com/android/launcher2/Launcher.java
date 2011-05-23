@@ -1439,6 +1439,15 @@ public final class Launcher extends Activity
     		}
     		break;
     	}
+    	case R.id.button_radio: {
+    		try {
+    			Intent it = new Intent(getString(R.string.app_radio));
+        		startActivity(it);
+    		} catch (Exception e) {
+        		Log.e(TAG, e.getMessage());
+    		}
+    		break;
+    	}
     	case R.id.button_bluetooth: {
     		try {
         		Intent it = new Intent(getString(R.string.app_bluetooth));
