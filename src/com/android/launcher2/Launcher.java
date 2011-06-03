@@ -73,6 +73,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -208,10 +213,12 @@ public final class Launcher extends Activity
     private Drawable[] mHotseatIcons = null;
     private CharSequence[] mHotseatLabels = null;
 
+    private AnimationSet mInAnimation; //bottom bar animation;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        createAnimations();
         LauncherApplication app = ((LauncherApplication)getApplication());
         mModel = app.setLauncher(this);
         mIconCache = app.getIconCache();
@@ -564,6 +571,9 @@ public final class Launcher extends Activity
             mModel.startLoader(this, true);
             mRestoring = false;
         }
+        findViewById(R.id.all_apps_button_cluster).startAnimation(mInAnimation);
+		findViewById(R.id.all_apps_button_cluster).setVisibility(View.VISIBLE);
+		Log.e(TAG, "onResume");
     }
 
     @Override
@@ -2342,4 +2352,43 @@ public final class Launcher extends Activity
         mAllAppsGrid.dumpState();
         Log.d(TAG, "END launcher2 dump state");
     }
+    
+    private void createAnimations() {
+        if (mInAnimation == null) {
+            mInAnimation = new FastAnimationSet();
+            final AnimationSet animationSet = mInAnimation;
+            animationSet.setInterpolator(new AccelerateInterpolator());
+            animationSet.addAnimation(new AlphaAnimation(0.0f, 1.0f));
+                animationSet.addAnimation(new TranslateAnimation(Animation.ABSOLUTE, 0.0f,
+                        Animation.ABSOLUTE, 0.0f, Animation.RELATIVE_TO_SELF, 1.0f,
+                        Animation.RELATIVE_TO_SELF, 0.0f));
+            animationSet.setDuration(500);
+        }
+    }
+    private static class FastAnimationSet extends AnimationSet {
+        FastAnimationSet() {
+            super(false);
+        }
+
+        @Override
+        public boolean willChangeTransformationMatrix() {
+            return true;
+        }
+
+        @Override
+        public boolean willChangeBounds() {
+            return false;
+        }
+    }
+
+	@Override
+	protected void onStart() {
+		Log.e(TAG, "onstart");
+		
+		super.onStart();
+	}
+	
+	
+	
+    
 }

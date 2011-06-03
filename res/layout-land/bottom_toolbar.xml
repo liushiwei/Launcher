@@ -3,9 +3,9 @@
 	xmlns:launcher="http://schemas.android.com/apk/res/com.carit.launcher">
 	<LinearLayout android:orientation="vertical"
 		android:layout_width="match_parent" android:layout_height="120px"
-		android:layout_gravity="bottom|center_horizontal" android:gravity="bottom">
+		android:layout_gravity="bottom|center_horizontal" android:gravity="bottom" >
 		<LinearLayout android:id="@+id/all_apps_button_cluster"
-			android:layout_width="660px" android:layout_height="110px"
+			android:layout_width="660px" android:layout_height="110px" android:visibility="invisible"
 			android:layout_gravity="bottom|center_horizontal" android:background="@drawable/bottom_toolbar_no_change"
 			android:paddingLeft="20px" android:paddingRight="20px">
 			<Button android:id="@+id/button_radio" android:text="@string/toolbar_text_radio"
