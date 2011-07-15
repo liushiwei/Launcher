@@ -1444,7 +1444,7 @@ public final class Launcher extends Activity
     	case R.id.button_gps: {
     		try {
     			Intent it = new Intent(Intent.ACTION_VIEW);                  
-    			it.setClassName("com.google.android.apps.maps","com.google.android.maps.MapsActivity");  
+    			it.setClassName("cld.navi.mainframe","cld.navi.mainframe.MainActivity"); 
     			startActivity(it);
     		} catch (Exception e) {
         		Log.e(TAG, e.getMessage());
