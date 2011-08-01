@@ -44,8 +44,8 @@
 	<favorite launcher:packageName="com.carit.vedio.media"
 		launcher:className="com.carit.vedio.media.Gallery" launcher:screen="2"
 		launcher:x="2" launcher:y="2" />
-	<favorite launcher:packageName="com.android.browser"
-		launcher:className="com.android.browser.BrowserActivity"
+	<favorite launcher:packageName="com.mx.browser.tablet"
+		launcher:className="com.mx.browser.MxBrowserActivity"
 		launcher:screen="2" launcher:x="4" launcher:y="2" />
 	<favorite launcher:packageName="com.android.settings"
 		launcher:className="com.android.settings.Settings" launcher:screen="4"
@@ -59,8 +59,8 @@
 	<favorite launcher:packageName="com.android.mms"
 		launcher:className="com.android.mms.ui.ConversationList" launcher:screen="4"
 		launcher:x="3" launcher:y="0" />
-	<favorite launcher:packageName="com.carit.application"
-		launcher:className="com.carit.application.CaritApplication"
+	<favorite launcher:packageName="com.carit.filemanager"
+		launcher:className="com.carit.filemanager.FileManagerActivity"
 		launcher:screen="4" launcher:x="4" launcher:y="0" />
 
 	<!-- Right screen [3] -->
