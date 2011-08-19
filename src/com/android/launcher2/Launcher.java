@@ -123,6 +123,9 @@ public final class Launcher extends Activity
 
     static final String EXTRA_SHORTCUT_DUPLICATE = "duplicate";
 
+    static final String EXTRA_SHORTCUT_SCREEN = "screen";
+    static final String EXTRA_SHORTCUT_CELL_X = "cell_x";
+    static final String EXTRA_SHORTCUT_CELL_Y = "cell_y";
     static final int SCREEN_COUNT = 5;
     static final int DEFAULT_SCREEN = 2;
     static final int NUMBER_CELLS_X = 5;
