@@ -16,9 +16,12 @@
 
 package com.android.launcher2;
 
+import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -217,6 +220,8 @@ public final class Launcher extends Activity
     private Drawable[] mHotseatIcons = null;
     private CharSequence[] mHotseatLabels = null;
 
+    private static final String PROPERTIESFILE = "/data/system/.properties_file";
+    
     private AnimationSet mInAnimation; //bottom bar animation;
     
     @Override
@@ -1447,7 +1452,40 @@ public final class Launcher extends Activity
     	case R.id.button_gps: {
     		try {
     			Intent it = new Intent(Intent.ACTION_VIEW);                  
-    			it.setClassName("cld.navi.mainframe","cld.navi.mainframe.MainActivity"); 
+    			File file = new File(PROPERTIESFILE);
+    			String packageName = null;
+				String className = null;
+    			if(file.exists()){
+    				BufferedReader buf;
+    				String source=null;
+    				
+    				try {
+    					buf = new BufferedReader(new FileReader(file));
+    					do{
+    						source =buf.readLine();
+    						if(source !=null&&source.startsWith("nav_app_class_name=")){
+    							className=source.substring(source.indexOf("=")+1);
+    						}
+    						if(source !=null&&source.startsWith("nav_app_package_name=")){
+    							packageName=source.substring(source.indexOf("=")+1);
+    						}
+    						if(source!=null)
+    						Log.e(TAG, source); 
+    					}while(source!=null);
+    					buf.close();
+    					Log.e(TAG, "packageName="+packageName+" className="+className); 
+    					ComponentName component =new ComponentName(packageName,className);
+    					it.setComponent(component);
+    				} catch (FileNotFoundException e) {
+    					// TODO Auto-generated catch block
+    					e.printStackTrace();
+    				} catch (IOException e) {
+    					// TODO Auto-generated catch block
+    					e.printStackTrace();
+    				}
+    			}else if(packageName==null||className==null){
+    				it.setClassName("cld.navi.mainframe","cld.navi.mainframe.MainActivity"); 
+    			}
     			startActivity(it);
     		} catch (Exception e) {
         		Log.e(TAG, e.getMessage());
