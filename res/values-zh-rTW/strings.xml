@@ -64,4 +64,9 @@
     <string name="permlab_write_settings" msgid="1360567537236705628">"寫入首頁設定和捷徑"</string>
     <string name="permdesc_write_settings" msgid="1098648778383349818">"允許應用程式變更首頁中的設定和捷徑。"</string>
     <string name="gadget_error_text" msgid="8359351016167075858">"載入小工具時發生問題"</string>
+    <string name="toolbar_text_gps" >導航</string>
+    <string name="toolbar_text_bluetooth" >藍牙</string>
+    <string name="toolbar_text_radio" >收音</string>
+    <string name="toolbar_text_dvd" >DVD</string>
+    <string name="toolbar_text_apps" >應用</string>
 </resources>
