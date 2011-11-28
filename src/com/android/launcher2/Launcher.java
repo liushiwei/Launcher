@@ -172,6 +172,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 	private static int sScreen = DEFAULT_SCREEN;
 
 	private final BroadcastReceiver mCloseSystemDialogsReceiver = new CloseSystemDialogsIntentReceiver();
+	private final BroadcastReceiver mOpenAllAppReceiver = new OpenAllAppIntentReceiver();
 	private final ContentObserver mWidgetObserver = new AppWidgetResetObserver();
 
 	private LayoutInflater mInflater;
@@ -269,6 +270,9 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 
 		IntentFilter filter = new IntentFilter(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
 		registerReceiver(mCloseSystemDialogsReceiver, filter);
+		filter = new IntentFilter("com.android.launcher.action.allapp");
+		registerReceiver(mOpenAllAppReceiver, filter);
+		
 	}
 
 	private void checkForLocaleChange() {
@@ -2101,6 +2105,18 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 					animate = false;
 				}
 				closeAllApps(animate);
+			}
+		}
+	}
+	
+	private class OpenAllAppIntentReceiver extends BroadcastReceiver {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			Log.e(TAG, "receive open all app");
+			closeSystemDialogs();
+			startActivity(new Intent(Launcher.this,Launcher.class));
+			if (!isAllAppsVisible()) {
+				showAllApps(true);
 			}
 		}
 	}
