@@ -272,7 +272,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 		registerReceiver(mCloseSystemDialogsReceiver, filter);
 		filter = new IntentFilter("com.android.launcher.action.allapp");
 		registerReceiver(mOpenAllAppReceiver, filter);
-		
+
 	}
 
 	private void checkForLocaleChange() {
@@ -2108,13 +2108,13 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 			}
 		}
 	}
-	
+
 	private class OpenAllAppIntentReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			Log.e(TAG, "receive open all app");
 			closeSystemDialogs();
-			startActivity(new Intent(Launcher.this,Launcher.class));
+			startActivity(new Intent(Launcher.this, Launcher.class));
 			if (!isAllAppsVisible()) {
 				showAllApps(true);
 			}
@@ -2349,8 +2349,8 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 			final AnimationSet animationSet = mInAnimation;
 			animationSet.setInterpolator(new AccelerateInterpolator());
 			animationSet.addAnimation(new AlphaAnimation(0.0f, 1.0f));
-			animationSet.addAnimation(new TranslateAnimation(Animation.ABSOLUTE, 0.0f, Animation.ABSOLUTE, 0.0f,
-					Animation.RELATIVE_TO_SELF, 1.0f, Animation.RELATIVE_TO_SELF, 0.0f));
+			animationSet.addAnimation(new TranslateAnimation(Animation.RELATIVE_TO_SELF, -1.0f, Animation.RELATIVE_TO_SELF, 0.0f,
+					Animation.ABSOLUTE, 0.0f, Animation.ABSOLUTE, 0.0f));
 			animationSet.setDuration(500);
 		}
 	}

@@ -16,29 +16,30 @@
 
 package com.android.launcher2;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Shader.TileMode;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.ViewGroup;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
-import android.view.ViewConfiguration;
 import android.widget.AdapterView;
-import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
-
-import java.util.ArrayList;
-import java.util.Collections;
+import android.widget.TextView;
 
 import com.android.launcher.R;
 
@@ -126,15 +127,14 @@ public class AllApps2D
 
     @Override
     protected void onFinishInflate() {
-        setBackgroundColor(Color.BLACK);
-
+        setBackgroundColor(0xff26292e);
         try {
             mGrid = (GridView)findViewWithTag("all_apps_2d_grid");
             if (mGrid == null) throw new Resources.NotFoundException();
             mGrid.setOnItemClickListener(this);
             mGrid.setOnItemLongClickListener(this);
-            mGrid.setBackgroundColor(Color.BLACK);
-            mGrid.setCacheColorHint(Color.BLACK);
+            mGrid.setBackgroundColor(0xff26292e);
+            mGrid.setCacheColorHint(0xff26292e);
             
             ImageButton homeButton = (ImageButton) findViewWithTag("all_apps_2d_home");
             if (homeButton == null) throw new Resources.NotFoundException();

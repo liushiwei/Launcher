@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:launcher="http://schemas.android.com/apk/res/com.carit.launcher" >
+
+    <LinearLayout
+        android:layout_width="120px"
+        android:layout_height="fill_parent"
+        android:layout_gravity="left|center_vertical"
+        
+        android:gravity="center_horizontal"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/all_apps_button_cluster"
+            android:layout_width="120px"
+            android:layout_height="fill_parent"
+            android:layout_gravity="left|center_vertical"
+            android:orientation="vertical"
+            android:visibility="invisible" 
+            android:background="@drawable/left_toolbar_bg"
+            android:gravity="center_horizontal">
+
+            <Button
+                android:id="@+id/button_radio"
+                style="@style/WorkspaceButton"
+                android:drawableTop="@drawable/radio_icon"
+                android:onClick="onLauncherButtonClick"
+                android:text="@string/toolbar_text_radio" />
+
+            <Button
+                android:id="@+id/button_gps"
+                style="@style/WorkspaceButton"
+                android:drawableTop="@drawable/gps_icon"
+                android:onClick="onLauncherButtonClick"
+                android:text="@string/toolbar_text_gps" />
+
+            
+
+            <Button
+                android:id="@+id/button_bluetooth"
+                style="@style/WorkspaceButton"
+                android:drawableTop="@drawable/bluetooth_icon"
+                android:onClick="onLauncherButtonClick"
+                android:text="@string/toolbar_text_bluetooth" />
+
+            <Button
+                android:id="@+id/button_dvd"
+                style="@style/WorkspaceButton"
+                android:drawableTop="@drawable/dvd_icon"
+                android:onClick="onLauncherButtonClick"
+                android:text="@string/toolbar_text_dvd" />
+            
+            <com.android.launcher2.HandleView
+                android:id="@+id/all_apps_button"
+                style="@style/WorkspaceButton"
+                android:drawableTop="@drawable/apps_icon"
+                android:text="@string/toolbar_text_apps" />
+        </LinearLayout>
+    </LinearLayout>
+
+</merge>

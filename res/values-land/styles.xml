@@ -40,12 +40,13 @@
 		<item name="android:background">#00000000</item>
 		<item name="android:shadowColor">#555555</item>
 		<item name="android:textColor">#DDDDDD</item>
-		<item name="android:textSize">15sp</item>
+		<item name="android:textSize">14sp</item>
 		<item name="android:textStyle">bold</item>
-		<item name="android:layout_width">80px</item>
-		<item name="android:layout_height">fill_parent</item>
+		<item name="android:layout_width">72px</item>
+		<item name="android:layout_height">80px</item>
 		<item name="android:gravity">center</item>
 		<item name="android:layout_weight">1</item>
+		
 	</style>
 </resources>
 
