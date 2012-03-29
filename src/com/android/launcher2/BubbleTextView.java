@@ -16,14 +16,16 @@
 
 package com.android.launcher2;
 
-import android.widget.TextView;
 import android.content.Context;
-import android.util.AttributeSet;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.Layout;
+import android.util.AttributeSet;
+import android.widget.TextView;
 
 import com.android.launcher.R;
 
@@ -118,7 +120,15 @@ public class BubbleTextView extends TextView {
                 canvas.translate(-scrollX, -scrollY);
             }
         }
-
+        BitmapDrawable shade=(BitmapDrawable)getResources().getDrawable(R.drawable.shade);
+        Bitmap bmp=shade.getBitmap();
+        shade.setBounds(20, 0+getCompoundDrawablePadding(),  bmp.getWidth()+20, bmp.getHeight()+getCompoundDrawablePadding());
+        
+        canvas.translate(mScrollX, mScrollY);
+        shade.draw(canvas);
+        canvas.translate(-mScrollX, -mScrollY);
+        
+        
         final Layout layout = getLayout();
         final RectF rect = mRect;
         final int left = getCompoundPaddingLeft();
@@ -128,7 +138,8 @@ public class BubbleTextView extends TextView {
                 top + layout.getLineTop(0) -  mPaddingV,
                 Math.min(left + layout.getLineRight(0) + mPaddingH, mScrollX + mRight - mLeft),
                 top + layout.getLineBottom(0) + mPaddingV);
-        canvas.drawRoundRect(rect, mCornerRadius, mCornerRadius, mPaint);
+        
+        //canvas.drawRoundRect(rect, mCornerRadius, mCornerRadius, mPaint);
 
         super.draw(canvas);
     }

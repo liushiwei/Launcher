@@ -28,7 +28,7 @@
     </style>
     
     <style name="WorkspaceIcon">
-        <item name="android:textSize">13dip</item>
+        <item name="android:textSize">15dip</item>
         <item name="android:singleLine">true</item>
         <item name="android:ellipsize">marquee</item>
         <item name="android:shadowColor">#FF000000</item>
@@ -56,6 +56,10 @@
         <item name="android:paddingTop">2dip</item>
         <item name="android:layout_marginLeft">10dip</item>
         <item name="android:layout_marginRight">10dip</item>
+        <item name="android:shadowDx">3</item>
+        <item name="android:shadowDy">3</item>
+        <item name="android:shadowColor">#000</item>
+        <item name="android:shadowRadius">2</item>
     </style>
 
     <style name="SearchButton" parent="@android:style/Widget.Button.Small">

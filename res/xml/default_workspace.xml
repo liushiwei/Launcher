@@ -23,14 +23,8 @@
 
 	<appwidget launcher:packageName="com.carit.caritweather"
 		launcher:className="com.carit.caritweather.WeatherAppWidgetProvider"
-		launcher:screen="2" launcher:x="0" launcher:y="0" launcher:spanX="2"
+		launcher:screen="2" launcher:x="0" launcher:y="0" launcher:spanX="3"
 		launcher:spanY="2" />
-
-	<appwidget launcher:packageName="com.android.deskclock"
-		launcher:className="com.android.alarmclock.DigitClockAppWidgetProvider"
-		launcher:screen="2" launcher:x="3" launcher:y="0" launcher:spanX="2"
-		launcher:spanY="2" />
-
 
 	<favorite launcher:packageName="com.carit.cmmbplayer"
 		launcher:className="com.carit.cmmbplayer.CMMBPlayer" launcher:screen="2"

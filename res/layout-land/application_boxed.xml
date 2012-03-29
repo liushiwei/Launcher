@@ -25,9 +25,10 @@
     android:paddingBottom="2dip"
     android:drawablePadding="0dip"
 
-    android:textSize="13dip"
+    android:textSize="15dip"
     android:maxLines="2"
     android:ellipsize="marquee"
     android:fadingEdge="horizontal"
     android:textColor="@color/bright_text_dark_focused"
-    android:gravity="top|center_horizontal" />
+    android:gravity="top|center_horizontal" 
+    />
