@@ -122,10 +122,14 @@ public class BubbleTextView extends TextView {
         }
         BitmapDrawable shade=(BitmapDrawable)getResources().getDrawable(R.drawable.shade);
         Bitmap bmp=shade.getBitmap();
-        shade.setBounds(20, 0+getCompoundDrawablePadding(),  bmp.getWidth()+20, bmp.getHeight()+getCompoundDrawablePadding());
+        shade.setBounds(22, 0+getCompoundDrawablePadding()-1,  bmp.getWidth()+22, bmp.getHeight()+getCompoundDrawablePadding()-1);
         
         canvas.translate(mScrollX, mScrollY);
         shade.draw(canvas);
+        BitmapDrawable btn_bg=(BitmapDrawable)getResources().getDrawable(R.drawable.btn_bg);
+        Bitmap bmp_btn_bg=btn_bg.getBitmap();
+        btn_bg.setBounds(24, 0+getCompoundDrawablePadding()-2,  bmp_btn_bg.getWidth()+24, bmp_btn_bg.getHeight()+getCompoundDrawablePadding()-2);
+        btn_bg.draw(canvas);
         canvas.translate(-mScrollX, -mScrollY);
         
         
@@ -142,6 +146,14 @@ public class BubbleTextView extends TextView {
         //canvas.drawRoundRect(rect, mCornerRadius, mCornerRadius, mPaint);
 
         super.draw(canvas);
+        BitmapDrawable top_face=(BitmapDrawable)getResources().getDrawable(R.drawable.top);
+        Bitmap bmp_top=top_face.getBitmap();
+        top_face.setBounds(24, 0+getCompoundDrawablePadding()-2,  bmp_top.getWidth()+24, bmp_top.getHeight()+getCompoundDrawablePadding()-2);
+        
+        canvas.translate(mScrollX, mScrollY);
+        top_face.draw(canvas);
+        canvas.translate(-mScrollX, -mScrollY);
+        
     }
 
     @Override

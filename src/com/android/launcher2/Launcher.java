@@ -1054,6 +1054,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 		dismissPreview(mNextView);
 
 		unregisterReceiver(mCloseSystemDialogsReceiver);
+		unregisterReceiver(mOpenAllAppReceiver);
 	}
 
 	@Override
