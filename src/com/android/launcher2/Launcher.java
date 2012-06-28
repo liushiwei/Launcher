@@ -1464,9 +1464,9 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 					}
 				}
 				if (packageName == null || className == null) {
-					Log.e(TAG, "packageName or className is null ,launche default");
-					it.setClassName("cld.navi.mainframe", "cld.navi.mainframe.MainActivity");
-				}
+                    Log.e(TAG, "packageName or className is null ,launche default");
+                    it.setClassName("cld.navi.c2025.mainframe", "cld.navi.c2025.mainframe.NaviMainActivity");
+                }
 				startActivity(it);
 			} catch (Exception e) {
 				Log.e(TAG, e.getMessage());
