@@ -575,9 +575,20 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 			mModel.startLoader(this, true);
 			mRestoring = false;
 		}
-		findViewById(R.id.all_apps_button_cluster).startAnimation(mInAnimation);
+		
 		findViewById(R.id.all_apps_button_cluster).setVisibility(View.VISIBLE);
-		Log.e(TAG, "onResume");
+		Log.e(TAG, "onResume :  " + mAppShow);
+		if (mAppShow == 1){			
+			if (!isAllAppsVisible()) {
+				showAllApps(true);				
+			}else {
+			}
+		}
+		else{
+			//Log.e(TAG, "onResume2");
+			findViewById(R.id.all_apps_button_cluster).startAnimation(mInAnimation);
+		}
+		mAppShow = 0;
 	}
 
 	@Override
@@ -1054,7 +1065,6 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 		dismissPreview(mNextView);
 
 		unregisterReceiver(mCloseSystemDialogsReceiver);
-		unregisterReceiver(mOpenAllAppReceiver);
 	}
 
 	@Override
@@ -2110,15 +2120,18 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 		}
 	}
 
+	private static int mAppShow = 0;
 	private class OpenAllAppIntentReceiver extends BroadcastReceiver {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			Log.e(TAG, "receive open all app");
-			closeSystemDialogs();
-			startActivity(new Intent(Launcher.this, Launcher.class));
+
+		if (!mPaused){
 			if (!isAllAppsVisible()) {
-				showAllApps(true);
+				showAllApps(true);		
 			}
+		} else {
+			mAppShow = 1;
+		}
 		}
 	}
 
@@ -2350,8 +2363,8 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 			final AnimationSet animationSet = mInAnimation;
 			animationSet.setInterpolator(new AccelerateInterpolator());
 			animationSet.addAnimation(new AlphaAnimation(0.0f, 1.0f));
-			animationSet.addAnimation(new TranslateAnimation(Animation.RELATIVE_TO_SELF, -1.0f, Animation.RELATIVE_TO_SELF, 0.0f,
-					Animation.ABSOLUTE, 0.0f, Animation.ABSOLUTE, 0.0f));
+			animationSet.addAnimation(new TranslateAnimation(Animation.ABSOLUTE, 0.0f, Animation.ABSOLUTE, 0.0f,
+					Animation.RELATIVE_TO_SELF, 1.0f, Animation.RELATIVE_TO_SELF, 0.0f));
 			animationSet.setDuration(500);
 		}
 	}
