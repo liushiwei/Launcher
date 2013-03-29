@@ -17,17 +17,17 @@
 
 package com.android.launcher2;
 
+import android.widget.ImageView;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Button;
 
 import com.android.launcher.R;
 
-public class HandleView extends Button {
+public class HandleView extends ImageView {
     private static final int ORIENTATION_HORIZONTAL = 1;
 
     private Launcher mLauncher;
@@ -69,11 +69,6 @@ public class HandleView extends Button {
             return false;
         }
         return super.onTouchEvent(ev);
-    }
-
-    private static boolean isDirectionKey(int keyCode) {
-        return keyCode == KeyEvent.KEYCODE_DPAD_DOWN || keyCode == KeyEvent.KEYCODE_DPAD_LEFT ||
-                keyCode == KeyEvent.KEYCODE_DPAD_RIGHT || keyCode == KeyEvent.KEYCODE_DPAD_UP;
     }
 
     void setLauncher(Launcher launcher) {

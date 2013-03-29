@@ -16,15 +16,13 @@
 
 package com.android.launcher2;
 
+import java.util.ArrayList;
+
 import android.content.ComponentName;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
-
-import java.util.ArrayList;
 
 /**
  * Represents a launchable icon on the workspaces and in folders.
@@ -52,11 +50,6 @@ class ShortcutInfo extends ItemInfo {
      * app.
      */
     boolean usingFallbackIcon;
-
-    /**
-     * Indicates whether the shortcut is on external storage and may go away at any time.
-     */
-    boolean onExternalStorage;
 
     /**
      * If isShortcut=true and customIcon=false, this contains a reference to the
@@ -101,6 +94,7 @@ class ShortcutInfo extends ItemInfo {
     public Bitmap getIcon(IconCache iconCache) {
         if (mIcon == null) {
             mIcon = iconCache.getIcon(this.intent);
+            this.usingFallbackIcon = iconCache.isDefaultIcon(mIcon);
         }
         return mIcon;
     }
@@ -135,7 +129,7 @@ class ShortcutInfo extends ItemInfo {
                     LauncherSettings.BaseLauncherColumns.ICON_TYPE_BITMAP);
             writeBitmap(values, mIcon);
         } else {
-            if (onExternalStorage && !usingFallbackIcon) {
+            if (!usingFallbackIcon) {
                 writeBitmap(values, mIcon);
             }
             values.put(LauncherSettings.BaseLauncherColumns.ICON_TYPE,
@@ -153,12 +147,6 @@ class ShortcutInfo extends ItemInfo {
     public String toString() {
         return "ShortcutInfo(title=" + title.toString() + ")";
     }
-
-    @Override
-    void unbind() {
-        super.unbind();
-    }
-
 
     public static void dumpShortcutInfoList(String tag, String label,
             ArrayList<ShortcutInfo> list) {

@@ -16,16 +16,15 @@
 
 package com.android.launcher2;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.ComponentName;
-import android.content.Intent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 
 /**
@@ -92,7 +91,7 @@ class AllAppsList {
 
         if (matches.size() > 0) {
             for (ResolveInfo info : matches) {
-                add(new ApplicationInfo(info, mIconCache));
+                add(new ApplicationInfo(context.getPackageManager(), info, mIconCache, null));
             }
         }
     }
@@ -143,11 +142,22 @@ class AllAppsList {
                         info.activityInfo.applicationInfo.packageName,
                         info.activityInfo.name);
                 if (applicationInfo == null) {
-                    add(new ApplicationInfo(info, mIconCache));
+                    add(new ApplicationInfo(context.getPackageManager(), info, mIconCache, null));
                 } else {
                     mIconCache.remove(applicationInfo.componentName);
-                    mIconCache.getTitleAndIcon(applicationInfo, info);
+                    mIconCache.getTitleAndIcon(applicationInfo, info, null);
                     modified.add(applicationInfo);
+                }
+            }
+        } else {
+            // Remove all data for this package.
+            for (int i = data.size() - 1; i >= 0; i--) {
+                final ApplicationInfo applicationInfo = data.get(i);
+                final ComponentName component = applicationInfo.intent.getComponent();
+                if (packageName.equals(component.getPackageName())) {
+                    removed.add(applicationInfo);
+                    mIconCache.remove(component);
+                    data.remove(i);
                 }
             }
         }
@@ -161,23 +171,10 @@ class AllAppsList {
 
         final Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
         mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+        mainIntent.setPackage(packageName);
 
         final List<ResolveInfo> apps = packageManager.queryIntentActivities(mainIntent, 0);
-        final List<ResolveInfo> matches = new ArrayList<ResolveInfo>();
-
-        if (apps != null) {
-            // Find all activities that match the packageName
-            int count = apps.size();
-            for (int i = 0; i < count; i++) {
-                final ResolveInfo info = apps.get(i);
-                final ActivityInfo activityInfo = info.activityInfo;
-                if (packageName.equals(activityInfo.packageName)) {
-                    matches.add(info);
-                }
-            }
-        }
-
-        return matches;
+        return apps != null ? apps : new ArrayList<ResolveInfo>();
     }
 
     /**
