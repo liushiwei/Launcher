@@ -21,13 +21,14 @@
 
     <!-- Search buttons container -->
     <include android:id="@+id/qsb_search_bar"
+        android:visibility="gone" 
         layout="@layout/search_bar" />
 
     <!-- Drag specific targets container -->
     <LinearLayout
         style="@style/SearchDropTargetBar"
         android:id="@+id/drag_target_bar"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <FrameLayout
             style="@style/DropTargetButtonContainer"

@@ -77,6 +77,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -88,11 +89,12 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Advanceable;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.common.Search;
+//import com.android.common.Search;
 import com.android.launcher.R;
 import com.android.launcher2.DropTarget.DragObject;
 
@@ -113,6 +115,7 @@ public final class Launcher extends Activity
                    AllAppsView.Watcher, View.OnTouchListener {
     static final String TAG = "Launcher";
     static final boolean LOGD = false;
+    public static Launcher mLauncher = null;
 
     static final boolean PROFILE_STARTUP = false;
     static final boolean DEBUG_WIDGETS = false;
@@ -274,6 +277,7 @@ public final class Launcher extends Activity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LauncherApplication app = ((LauncherApplication)getApplication());
+        mLauncher = this;
         mModel = app.setLauncher(this);
         mIconCache = app.getIconCache();
         mDragController = new DragController(this);
@@ -754,8 +758,8 @@ public final class Launcher extends Activity
 
         mDragLayer = (DragLayer) findViewById(R.id.drag_layer);
         mWorkspace = (Workspace) mDragLayer.findViewById(R.id.workspace);
-        mQsbDivider = (ImageView) findViewById(R.id.qsb_divider);
-        mDockDivider = (ImageView) findViewById(R.id.dock_divider);
+//        mQsbDivider = (ImageView) findViewById(R.id.qsb_divider);
+//        mDockDivider = (ImageView) findViewById(R.id.dock_divider);
 
         // Setup the drag layer
         mDragLayer.setup(this, dragController);
@@ -765,6 +769,19 @@ public final class Launcher extends Activity
         if (mHotseat != null) {
             mHotseat.setup(this);
         }
+        
+        ImageButton ib = (ImageButton) findViewById(R.id.hotseat_button);
+        ib.setOnClickListener(new OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				if(mHotseat.getVisibility() == View.VISIBLE){
+					mHotseat.setVisibility(View.GONE);
+				}else{
+					mHotseat.setVisibility(View.VISIBLE);
+				}
+			}
+		});
 
         // Setup the workspace
         mWorkspace.setHapticFeedbackEnabled(false);
@@ -1309,7 +1326,7 @@ public final class Launcher extends Activity
     @Override
     public void startSearch(String initialQuery, boolean selectInitialQuery,
             Bundle appSearchData, boolean globalSearch) {
-
+/*
         showWorkspace(true);
 
         if (initialQuery == null) {
@@ -1325,7 +1342,7 @@ public final class Launcher extends Activity
         final SearchManager searchManager =
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         searchManager.startSearch(initialQuery, selectInitialQuery, getComponentName(),
-            appSearchData, globalSearch, sourceBounds);
+            appSearchData, globalSearch, sourceBounds);*/
     }
 
     @Override
@@ -1970,7 +1987,7 @@ public final class Launcher extends Activity
         return true;
     }
 
-    boolean isHotseatLayout(View layout) {
+    boolean isHotseatLayout(View layout) {   	
         return mHotseat != null && layout != null &&
                 (layout instanceof CellLayout) && (layout == mHotseat.getLayout());
     }

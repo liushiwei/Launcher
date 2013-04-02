@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"        
+    android:layout_width="156px"
+    android:layout_height="190px"
+    android:background="#aa2213">
+    <ImageView android:id="@+id/widget_img" 
+         android:layout_gravity="center" android:background="@drawable/widget_navit"
+         android:layout_width="147px" android:layout_height="163px">
+    </ImageView>
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:textColor="@android:color/white" android:textSize="18sp" 
+        android:layout_marginLeft="10px" android:layout_marginBottom="5px"
+        android:text="@string/widget_app_navit" android:layout_gravity="bottom"/>
+</FrameLayout>

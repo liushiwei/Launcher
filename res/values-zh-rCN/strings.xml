@@ -103,4 +103,14 @@
     <string name="folder_closed" msgid="3130534551370511932">"文件夹已关闭"</string>
     <string name="folder_renamed" msgid="781234745487414781">"已将文件夹重命名为“%1$s”"</string>
     <string name="folder_name_format" msgid="4513766553514769310">"文件夹：%1$s"</string>
+    
+    <string name="widget_app_app">所有应用</string>
+    <string name="widget_app_filemanager">文件管理</string>
+    <string name="widget_app_gallery">图片</string>
+    <string name="widget_app_market">应用市场</string>
+    <string name="widget_app_message">短信</string>
+    <string name="widget_app_navit">导航</string>
+    <string name="widget_app_news">新闻</string>
+    <string name="widget_app_setting">设置</string>  
+    <string name="widget_app_video">视频</string>
 </resources>

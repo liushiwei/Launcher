@@ -30,7 +30,7 @@ LOCAL_CERTIFICATE := shared
 LOCAL_OVERRIDES_PACKAGES := Home
 
 LOCAL_PROGUARD_FLAG_FILES := proguard.flags
-
+LOCAL_PROGUARD_ENABLED := disabled
 include $(BUILD_PACKAGE)
 
 include $(call all-makefiles-under,$(LOCAL_PATH))

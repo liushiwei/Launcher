@@ -120,13 +120,85 @@
                 <action android:name="com.android.launcher.action.UNINSTALL_SHORTCUT" />
             </intent-filter>
         </receiver>
-
+              
+        <receiver android:name="com.android.launcher2.WidgetAllApp" android:icon="@drawable/widget_allapp"                   
+             android:label="@string/widget_app_app">
+             <intent-filter>
+                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                 <action android:name="com.android.launcher.intent.action.ALLAPP"/>                         
+             </intent-filter>                 
+             <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_provider_allapp"/>             
+        </receiver>
+       <receiver android:name="com.android.launcher2.WidgetFileManager" android:icon="@drawable/widget_filemanager"                   
+             android:label="@string/widget_app_filemanager">
+             <intent-filter>
+                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>  
+                 <action android:name="com.android.launcher.intent.action.FILEMANAGER"/>                                 
+             </intent-filter>                 
+             <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_provider_filemanager"/>             
+        </receiver>
+       <receiver android:name="com.android.launcher2.WidgetGallery" android:icon="@drawable/widget_gallery"                   
+             android:label="@string/widget_app_gallery">
+             <intent-filter>
+                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>   
+                 <action android:name="com.android.launcher.intent.action.GALLERY"/>                  
+             </intent-filter>                 
+             <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_provider_gallery"/>             
+        </receiver>
+        <receiver android:name="com.android.launcher2.WidgetMarket" android:icon="@drawable/widget_market"                   
+             android:label="@string/widget_app_market">
+             <intent-filter>
+                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>   
+                 <action android:name="com.android.launcher.intent.action.MARKET"/>                             
+             </intent-filter>                 
+             <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_provider_market"/>             
+        </receiver>
+        <receiver android:name="com.android.launcher2.WidgetMessage" android:icon="@drawable/widget_message"                   
+             android:label="@string/widget_app_message">
+             <intent-filter>
+                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/> 
+                 <action android:name="com.android.launcher.intent.action.MESSAGE"/>                            
+             </intent-filter>                 
+             <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_provider_message"/>             
+        </receiver>
+        <receiver android:name="com.android.launcher2.WidgetNavit" android:icon="@drawable/widget_navit"                   
+             android:label="@string/widget_app_navit">
+             <intent-filter>
+                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/> 
+                 <action android:name="com.android.launcher.intent.action.NAVIT"/>                                
+             </intent-filter>                 
+             <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_provider_navit"/>             
+        </receiver>
+        <receiver android:name="com.android.launcher2.WidgetNews" android:icon="@drawable/widget_news"                   
+             android:label="@string/widget_app_news">
+             <intent-filter>
+                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                 <action android:name="com.android.launcher.intent.action.NEWS"/>                   
+             </intent-filter>                 
+             <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_provider_news"/>             
+        </receiver>
+        <receiver android:name="com.android.launcher2.WidgetSetting" android:icon="@drawable/widget_setting"                   
+             android:label="@string/widget_app_setting">
+             <intent-filter>
+                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>  
+                 <action android:name="com.android.launcher.intent.action.SETTING"/>                
+             </intent-filter>                 
+             <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_provider_setting"/>             
+        </receiver>
+         <receiver android:name="com.android.launcher2.WidgetVideo" android:icon="@drawable/widget_video"                   
+             android:label="@string/widget_app_video">
+             <intent-filter>
+                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>  
+                 <action android:name="com.android.launcher.intent.action.VIDEO"/>                
+             </intent-filter>                 
+             <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_provider_video"/>             
+        </receiver>
+                
         <!-- The settings provider contains Home's data, like the workspace favorites -->
         <provider
             android:name="com.android.launcher2.LauncherProvider"
             android:authorities="com.android.launcher2.settings"
             android:writePermission="com.android.launcher.permission.WRITE_SETTINGS"
             android:readPermission="com.android.launcher.permission.READ_SETTINGS" />
-
     </application>
 </manifest>

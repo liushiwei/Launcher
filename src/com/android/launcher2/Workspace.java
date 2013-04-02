@@ -3517,7 +3517,8 @@ public class Workspace extends SmoothPagedView
     }
 
     void setFadeForOverScroll(float fade) {
-        if (!isScrollingIndicatorEnabled()) return;
+/*
+       if (!isScrollingIndicatorEnabled()) return;
 
         mOverscrollFade = fade;
         float reducedFade = 0.5f + 0.5f * (1 - fade);
@@ -3529,6 +3530,6 @@ public class Workspace extends SmoothPagedView
         cancelScrollingIndicatorAnimations();
         if (qsbDivider != null) qsbDivider.setAlpha(reducedFade);
         if (dockDivider != null) dockDivider.setAlpha(reducedFade);
-        scrollIndicator.setAlpha(1 - fade);
+        scrollIndicator.setAlpha(1 - fade);*/
     }
 }
