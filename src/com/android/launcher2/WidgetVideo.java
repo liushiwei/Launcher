@@ -13,8 +13,8 @@ import android.widget.RemoteViews;
 
 public class WidgetVideo extends AppWidgetProvider {
 	private static final String TAG="WidgetNews";
-	private static final String PKG = "com.carit.vedio.media";
-	private static final String CLS = "com.carit.vedio.media.Gallery";
+	private static final String PKG = "com.android.gallery3d";
+	private static final String CLS = "com.android.gallery3d.app.Video";	
 	private static final String WIDGET_APP_ACTION="com.android.launcher.intent.action.VIDEO";
 
 	@Override
