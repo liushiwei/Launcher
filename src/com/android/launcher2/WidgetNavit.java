@@ -119,6 +119,7 @@ public class WidgetNavit extends AppWidgetProvider {
 			if (packageName == null || className == null) {
 				Log.e(TAG, "packageName or className is null ,launche default");
 				it.setClassName("cld.navi.c2025.mainframe", "cld.navi.c2025.mainframe.NaviMainActivity");
+				it.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT|Intent.FLAG_ACTIVITY_NEW_TASK);
 			}
 			context.startActivity(it);
 		} catch (Exception e) {
