@@ -447,7 +447,7 @@ public class CellLayout extends ViewGroup {
             Drawable d = FolderRingAnimator.sSharedOuterRingDrawable;
             int width = (int) fra.getOuterRingSize();
             int height = width;
-            cellToPoint(fra.mCellX, fra.mCellY, mTempLocation);
+            cellToPoint(fra.mCellX, fra.mCellY, mTempLocation,LayoutParams.CELL_TYPE_FOLDER);
 
             int centerX = mTempLocation[0] + mCellWidth / 2;
             int centerY = mTempLocation[1] + FolderRingAnimator.sPreviewSize / 2;
@@ -462,7 +462,7 @@ public class CellLayout extends ViewGroup {
             d = FolderRingAnimator.sSharedInnerRingDrawable;
             width = (int) fra.getInnerRingSize();
             height = width;
-            cellToPoint(fra.mCellX, fra.mCellY, mTempLocation);
+            cellToPoint(fra.mCellX, fra.mCellY, mTempLocation,LayoutParams.CELL_TYPE_FOLDER);
 
             centerX = mTempLocation[0] + mCellWidth / 2;
             centerY = mTempLocation[1] + FolderRingAnimator.sPreviewSize / 2;
@@ -478,7 +478,7 @@ public class CellLayout extends ViewGroup {
             int width = d.getIntrinsicWidth();
             int height = d.getIntrinsicHeight();
 
-            cellToPoint(mFolderLeaveBehindCell[0], mFolderLeaveBehindCell[1], mTempLocation);
+            cellToPoint(mFolderLeaveBehindCell[0], mFolderLeaveBehindCell[1], mTempLocation,LayoutParams.CELL_TYPE_FOLDER);
             int centerX = mTempLocation[0] + mCellWidth / 2;
             int centerY = mTempLocation[1] + FolderRingAnimator.sPreviewSize / 2;
 
@@ -766,12 +766,25 @@ public class CellLayout extends ViewGroup {
      *
      * @param result Array of 2 ints to hold the x and y coordinate of the point
      */
-    void cellToPoint(int cellX, int cellY, int[] result) {
+    void cellToPoint(int cellX, int cellY, int[] result,int cellType) {
         final int hStartPadding = getPaddingLeft();
         final int vStartPadding = getPaddingTop();
 
         result[0] = hStartPadding + cellX * (mCellWidth + mWidthGap);
-        result[1] = vStartPadding + cellY * (mCellHeight + mHeightGap);
+        switch(cellType){
+        	case LayoutParams.CELL_TYPE_FOLDER:
+        	case LayoutParams.CELL_TYPE_SHORTCUT:
+        		result[1] = vStartPadding + cellY * (mCellHeight + mHeightGap)+50;
+        		break;
+        		
+        	case LayoutParams.CELL_TYPE_WIDGET:
+        		result[1] = vStartPadding + cellY * (mCellHeight + mHeightGap);
+        		break;
+        		
+        	default:
+        		result[1] = vStartPadding + cellY * (mCellHeight + mHeightGap);
+        		break;
+        }        
     }
 
     /**
@@ -1071,8 +1084,17 @@ public class CellLayout extends ViewGroup {
 
         if (nearest != null && (nearest[0] != oldDragCellX || nearest[1] != oldDragCellY)) {
             // Find the top left corner of the rect the object will occupy
+        	int cellType = LayoutParams.CELL_TYPE_SHORTCUT;
+        	if(v == null){
+        		if(dragRegion.width() == 68){//widget
+        			cellType = LayoutParams.CELL_TYPE_WIDGET;
+        		}
+        	}else if(v instanceof LauncherAppWidgetHostView){
+    			cellType = LayoutParams.CELL_TYPE_WIDGET;
+    		}
+    		
             final int[] topLeft = mTmpPoint;
-            cellToPoint(nearest[0], nearest[1], topLeft);
+            cellToPoint(nearest[0], nearest[1], topLeft,cellType);
 
             int left = topLeft[0];
             int top = topLeft[1];
@@ -1681,6 +1703,10 @@ out:            for (int i = x; i < x + spanX - 1 && x < xCount; i++) {
     }
 
     public static class LayoutParams extends ViewGroup.MarginLayoutParams {
+    	public static final int CELL_TYPE_FOLDER = 0;
+    	public static final int CELL_TYPE_SHORTCUT = 1;
+    	public static final int CELL_TYPE_WIDGET = 2;
+    	
         /**
          * Horizontal location of the item in the grid.
          */
@@ -1704,6 +1730,12 @@ out:            for (int i = x; i < x + spanX - 1 && x < xCount; i++) {
          */
         @ViewDebug.ExportedProperty
         public int cellVSpan;
+        
+        @ViewDebug.ExportedProperty
+        public long container;
+        
+        @ViewDebug.ExportedProperty
+        public int cellType = CELL_TYPE_SHORTCUT;
 
         /**
          * Indicates whether the item will set its x, y, width and height parameters freely,
@@ -1748,6 +1780,15 @@ out:            for (int i = x; i < x + spanX - 1 && x < xCount; i++) {
             this.cellVSpan = cellVSpan;
         }
 
+        public LayoutParams(int cellX, int cellY, int cellHSpan, int cellVSpan,int container) {
+            super(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+            this.cellX = cellX;
+            this.cellY = cellY;
+            this.cellHSpan = cellHSpan;
+            this.cellVSpan = cellVSpan;
+            this.container = container;
+        }
+
         public void setup(int cellWidth, int cellHeight, int widthGap, int heightGap) {
             if (isLockedToGrid) {
                 final int myCellHSpan = cellHSpan;
@@ -1760,7 +1801,19 @@ out:            for (int i = x; i < x + spanX - 1 && x < xCount; i++) {
                 height = myCellVSpan * cellHeight + ((myCellVSpan - 1) * heightGap) -
                         topMargin - bottomMargin;
                 x = myCellX * (cellWidth + widthGap) + leftMargin;
-                y = myCellY * (cellHeight + heightGap) + topMargin;
+                if(container == 0){//folder
+                	y = myCellY * (cellHeight + heightGap) + topMargin; 
+                }else if(container != LauncherSettings.Favorites.CONTAINER_HOTSEAT){	
+                	if(cellType == CELL_TYPE_WIDGET){
+                		y = myCellY * (cellHeight + heightGap) + topMargin;  
+                	}else if(cellType == CELL_TYPE_FOLDER){
+                		y = myCellY * (cellHeight + heightGap) + topMargin+75;  
+                	}else{
+                		y = myCellY * (cellHeight + heightGap) + topMargin+55; 
+                	}               	
+                }else{
+                	y = myCellY * (cellHeight + heightGap) + topMargin+10;
+                }
             }
         }
 

@@ -88,6 +88,13 @@ public class CellLayoutChildren extends ViewGroup {
         final int cellHeight = mCellHeight;
         CellLayout.LayoutParams lp = (CellLayout.LayoutParams) child.getLayoutParams();
 
+        if(child instanceof LauncherAppWidgetHostView){
+        	lp.cellType = CellLayout.LayoutParams.CELL_TYPE_WIDGET;
+        }else if(child instanceof FolderIcon){
+        	lp.cellType = CellLayout.LayoutParams.CELL_TYPE_FOLDER;
+        }else{
+        	lp.cellType = CellLayout.LayoutParams.CELL_TYPE_SHORTCUT;	
+        }
         lp.setup(cellWidth, cellHeight, mWidthGap, mHeightGap);
         int childWidthMeasureSpec = MeasureSpec.makeMeasureSpec(lp.width, MeasureSpec.EXACTLY);
         int childheightMeasureSpec = MeasureSpec.makeMeasureSpec(lp.height,

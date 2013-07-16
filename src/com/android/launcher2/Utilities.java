@@ -83,14 +83,14 @@ final class Utilities {
             return icon;
         } else {
             // Icon is too small, render to a larger bitmap
-            return createIconBitmap(new BitmapDrawable(icon), context);
+            return createIconBitmap(new BitmapDrawable(icon), context,false);
         }
     }
 
     /**
      * Returns a bitmap suitable for the all apps view.
      */
-    static Bitmap createIconBitmap(Drawable icon, Context context) {
+    static Bitmap createIconBitmap(Drawable icon, Context context,boolean isAllApp) {
         synchronized (sCanvas) { // we share the statics :-(
             if (sIconWidth == -1) {
                 initStatics(context);
@@ -98,6 +98,9 @@ final class Utilities {
 
             int width = sIconWidth;
             int height = sIconHeight;
+            if(isAllApp == true){
+            	width = height= 48;
+            }
 
             if (icon instanceof PaintDrawable) {
                 PaintDrawable painter = (PaintDrawable) icon;
@@ -134,6 +137,9 @@ final class Utilities {
             // no intrinsic size --> use default size
             int textureWidth = sIconTextureWidth;
             int textureHeight = sIconTextureHeight;
+            if(isAllApp == true){
+            	textureWidth = textureHeight= 48;
+            }
 
             final Bitmap bitmap = Bitmap.createBitmap(textureWidth, textureHeight,
                     Bitmap.Config.ARGB_8888);
@@ -153,7 +159,11 @@ final class Utilities {
             }
 
             sOldBounds.set(icon.getBounds());
-            icon.setBounds(left, top, left+width, top+height);
+            if(isAllApp == true){
+            	icon.setBounds(left, top, left+width,top+height);
+            }else{
+            	icon.setBounds(0, 0, textureWidth,textureWidth);
+            }
             icon.draw(canvas);
             icon.setBounds(sOldBounds);
             canvas.setBitmap(null);
@@ -206,7 +216,7 @@ final class Utilities {
             if (bitmap.getWidth() == sIconWidth && bitmap.getHeight() == sIconHeight) {
                 return bitmap;
             } else {
-                return createIconBitmap(new BitmapDrawable(bitmap), context);
+                return createIconBitmap(new BitmapDrawable(bitmap), context,false);
             }
         }
     }

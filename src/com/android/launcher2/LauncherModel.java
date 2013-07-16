@@ -148,7 +148,7 @@ public class LauncherModel extends BroadcastReceiver {
         mIconCache = iconCache;
 
         mDefaultIcon = Utilities.createIconBitmap(
-                mIconCache.getFullResDefaultActivityIcon(), app);
+                mIconCache.getFullResDefaultActivityIcon(), app,false);
 
         final Resources res = app.getResources();
         mAllAppsLoadDelay = res.getInteger(R.integer.config_allAppsBatchLoadDelay);
@@ -1722,7 +1722,7 @@ public class LauncherModel extends BroadcastReceiver {
                 if (resources != null) {
                     final int id = resources.getIdentifier(resourceName, null, null);
                     icon = Utilities.createIconBitmap(
-                            mIconCache.getFullResIcon(resources, id), context);
+                            mIconCache.getFullResIcon(resources, id), context,false);
                 }
             } catch (Exception e) {
                 // drop this.  we have other places to look for icons
@@ -1851,7 +1851,7 @@ public class LauncherModel extends BroadcastReceiver {
         ShortcutIconResource iconResource = null;
 
         if (bitmap != null && bitmap instanceof Bitmap) {
-            icon = Utilities.createIconBitmap(new FastBitmapDrawable((Bitmap)bitmap), context);
+            icon = Utilities.createIconBitmap(new FastBitmapDrawable((Bitmap)bitmap), context,false);
             customIcon = true;
         } else {
             Parcelable extra = data.getParcelableExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE);
@@ -1863,7 +1863,7 @@ public class LauncherModel extends BroadcastReceiver {
                             iconResource.packageName);
                     final int id = resources.getIdentifier(iconResource.resourceName, null, null);
                     icon = Utilities.createIconBitmap(
-                            mIconCache.getFullResIcon(resources, id), context);
+                            mIconCache.getFullResIcon(resources, id), context,false);
                 } catch (Exception e) {
                     Log.w(TAG, "Could not load shortcut icon: " + extra);
                 }

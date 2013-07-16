@@ -156,7 +156,7 @@ public class IconCache {
     public void getTitleAndIcon(ApplicationInfo application, ResolveInfo info,
             HashMap<Object, CharSequence> labelCache) {
         synchronized (mCache) {
-            CacheEntry entry = cacheLocked(application.componentName, info, labelCache);
+            CacheEntry entry = cacheLocked(application.componentName, info, labelCache,true);
 
             application.title = entry.title;
             application.iconBitmap = entry.icon;
@@ -172,7 +172,7 @@ public class IconCache {
                 return mDefaultIcon;
             }
 
-            CacheEntry entry = cacheLocked(component, resolveInfo, null);
+            CacheEntry entry = cacheLocked(component, resolveInfo, null,false);
             return entry.icon;
         }
     }
@@ -184,7 +184,7 @@ public class IconCache {
                 return null;
             }
 
-            CacheEntry entry = cacheLocked(component, resolveInfo, labelCache);
+            CacheEntry entry = cacheLocked(component, resolveInfo, labelCache,false);
             return entry.icon;
         }
     }
@@ -194,9 +194,9 @@ public class IconCache {
     }
 
     private CacheEntry cacheLocked(ComponentName componentName, ResolveInfo info,
-            HashMap<Object, CharSequence> labelCache) {
+            HashMap<Object, CharSequence> labelCache,boolean isAllApp) {
         CacheEntry entry = mCache.get(componentName);
-        if (entry == null) {
+       // if (entry == null) {
             entry = new CacheEntry();
 
             mCache.put(componentName, entry);
@@ -215,8 +215,8 @@ public class IconCache {
             }
 
             entry.icon = Utilities.createIconBitmap(
-                    getFullResIcon(info), mContext);
-        }
+                    getFullResIcon(info), mContext,isAllApp);
+        //}
         return entry;
     }
 

@@ -27,14 +27,12 @@
         android:id="@+id/workspace"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
- 
         launcher:defaultScreen="2"
         launcher:cellCountX="5"
-        launcher:cellCountY="4"
+        launcher:cellCountY="2"
         launcher:pageSpacing="@dimen/workspace_page_spacing"
         launcher:scrollIndicatorPaddingLeft="@dimen/qsb_bar_height"
         launcher:scrollIndicatorPaddingRight="@dimen/button_bar_height">
-
         <include android:id="@+id/cell1" layout="@layout/workspace_screen" />
         <include android:id="@+id/cell2" layout="@layout/workspace_screen" />
         <include android:id="@+id/cell3" layout="@layout/workspace_screen" />
@@ -79,8 +77,8 @@
         android:id="@+id/hotseat_button"
         android:layout_gravity="bottom" 
         android:layout_width="@dimen/button_bar_width_right_padding" 
-        android:layout_height="@dimen/button_bar_width_right_padding" 
-        android:src="@drawable/shortcut"/>
+        android:layout_height="50dp" 
+        android:background="@drawable/shortcut"/>
 
     <include layout="@layout/apps_customize_pane"
         android:id="@+id/apps_customize_pane"

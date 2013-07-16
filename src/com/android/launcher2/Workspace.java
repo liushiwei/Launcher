@@ -530,6 +530,7 @@ public class Workspace extends SmoothPagedView
             lp.cellHSpan = spanX;
             lp.cellVSpan = spanY;
         }
+        lp.container = container;
 
         if (spanX < 0 && spanY < 0) {
             lp.isLockedToGrid = false;
