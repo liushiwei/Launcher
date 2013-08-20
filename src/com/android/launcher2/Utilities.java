@@ -29,7 +29,6 @@ import android.graphics.Paint;
 import android.graphics.PaintFlagsDrawFilter;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
-import android.graphics.TableMaskFilter;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.PaintDrawable;
@@ -41,6 +40,7 @@ import com.android.launcher.R;
  * Various utilities shared amongst the Launcher's classes.
  */
 final class Utilities {
+    @SuppressWarnings("unused")
     private static final String TAG = "Launcher.Utilities";
 
     private static int sIconWidth = -1;
@@ -83,14 +83,15 @@ final class Utilities {
             return icon;
         } else {
             // Icon is too small, render to a larger bitmap
-            return createIconBitmap(new BitmapDrawable(icon), context,false);
+            final Resources resources = context.getResources();
+            return createIconBitmap(new BitmapDrawable(resources, icon), context);
         }
     }
 
     /**
      * Returns a bitmap suitable for the all apps view.
      */
-    static Bitmap createIconBitmap(Drawable icon, Context context,boolean isAllApp) {
+    static Bitmap createIconBitmap(Drawable icon, Context context) {
         synchronized (sCanvas) { // we share the statics :-(
             if (sIconWidth == -1) {
                 initStatics(context);
@@ -98,9 +99,6 @@ final class Utilities {
 
             int width = sIconWidth;
             int height = sIconHeight;
-            if(isAllApp == true){
-            	width = height= 48;
-            }
 
             if (icon instanceof PaintDrawable) {
                 PaintDrawable painter = (PaintDrawable) icon;
@@ -116,7 +114,6 @@ final class Utilities {
             }
             int sourceWidth = icon.getIntrinsicWidth();
             int sourceHeight = icon.getIntrinsicHeight();
-
             if (sourceWidth > 0 && sourceHeight > 0) {
                 // There are intrinsic sizes.
                 if (width < sourceWidth || height < sourceHeight) {
@@ -137,9 +134,6 @@ final class Utilities {
             // no intrinsic size --> use default size
             int textureWidth = sIconTextureWidth;
             int textureHeight = sIconTextureHeight;
-            if(isAllApp == true){
-            	textureWidth = textureHeight= 48;
-            }
 
             final Bitmap bitmap = Bitmap.createBitmap(textureWidth, textureHeight,
                     Bitmap.Config.ARGB_8888);
@@ -149,7 +143,9 @@ final class Utilities {
             final int left = (textureWidth-width) / 2;
             final int top = (textureHeight-height) / 2;
 
-            if (false) {
+            @SuppressWarnings("all") // suppress dead code warning
+            final boolean debug = false;
+            if (debug) {
                 // draw a big box for the icon for debugging
                 canvas.drawColor(sColors[sColorIndex]);
                 if (++sColorIndex >= sColors.length) sColorIndex = 0;
@@ -159,11 +155,7 @@ final class Utilities {
             }
 
             sOldBounds.set(icon.getBounds());
-            if(isAllApp == true){
-            	icon.setBounds(left, top, left+width,top+height);
-            }else{
-            	icon.setBounds(0, 0, textureWidth,textureWidth);
-            }
+            icon.setBounds(left, top, left+width, top+height);
             icon.draw(canvas);
             icon.setBounds(sOldBounds);
             canvas.setBitmap(null);
@@ -216,7 +208,8 @@ final class Utilities {
             if (bitmap.getWidth() == sIconWidth && bitmap.getHeight() == sIconHeight) {
                 return bitmap;
             } else {
-                return createIconBitmap(new BitmapDrawable(bitmap), context,false);
+                final Resources resources = context.getResources();
+                return createIconBitmap(new BitmapDrawable(resources, bitmap), context);
             }
         }
     }
@@ -249,9 +242,7 @@ final class Utilities {
 
         sBlurPaint.setMaskFilter(new BlurMaskFilter(5 * density, BlurMaskFilter.Blur.NORMAL));
         sGlowColorPressedPaint.setColor(0xffffc300);
-        sGlowColorPressedPaint.setMaskFilter(TableMaskFilter.CreateClipTable(0, 30));
         sGlowColorFocusedPaint.setColor(0xffff8e00);
-        sGlowColorFocusedPaint.setMaskFilter(TableMaskFilter.CreateClipTable(0, 30));
 
         ColorMatrix cm = new ColorMatrix();
         cm.setSaturation(0.2f);

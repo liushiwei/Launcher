@@ -48,17 +48,23 @@ public class AppsCustomizeTabHost extends TabHost implements LauncherTransitiona
     private ViewGroup mTabs;
     private ViewGroup mTabsContainer;
     private AppsCustomizePagedView mAppsCustomizePane;
-    private boolean mSuppressContentCallback = false;
     private FrameLayout mAnimationBuffer;
     private LinearLayout mContent;
 
     private boolean mInTransition;
+    private boolean mTransitioningToWorkspace;
     private boolean mResetAfterTransition;
-    private Animator mLauncherTransition;
+    private Runnable mRelayoutAndMakeVisible;
 
     public AppsCustomizeTabHost(Context context, AttributeSet attrs) {
         super(context, attrs);
         mLayoutInflater = LayoutInflater.from(context);
+        mRelayoutAndMakeVisible = new Runnable() {
+                public void run() {
+                    mTabs.requestLayout();
+                    mTabsContainer.setAlpha(1f);
+                }
+            };
     }
 
     /**
@@ -67,17 +73,18 @@ public class AppsCustomizeTabHost extends TabHost implements LauncherTransitiona
      * reflects the new content (but doesn't do the animation and logic associated with changing
      * tabs manually).
      */
-    private void setContentTypeImmediate(AppsCustomizePagedView.ContentType type) {
+    void setContentTypeImmediate(AppsCustomizePagedView.ContentType type) {
+        setOnTabChangedListener(null);
         onTabChangedStart();
         onTabChangedEnd(type);
+        setCurrentTabByTag(getTabTagForContentType(type));
+        setOnTabChangedListener(this);
     }
     void selectAppsTab() {
         setContentTypeImmediate(AppsCustomizePagedView.ContentType.Applications);
-        setCurrentTabByTag(APPS_TAB_TAG);
     }
     void selectWidgetsTab() {
         setContentTypeImmediate(AppsCustomizePagedView.ContentType.Widgets);
-        setCurrentTabByTag(WIDGETS_TAB_TAG);
     }
 
     /**
@@ -89,7 +96,7 @@ public class AppsCustomizeTabHost extends TabHost implements LauncherTransitiona
         setup();
 
         final ViewGroup tabsContainer = (ViewGroup) findViewById(R.id.tabs_container);
-        final TabWidget tabs = (TabWidget) findViewById(com.android.internal.R.id.tabs);
+        final TabWidget tabs = getTabWidget();
         final AppsCustomizePagedView appsCustomizePane = (AppsCustomizePagedView)
                 findViewById(R.id.apps_customize_pane_content);
         mTabs = tabs;
@@ -110,12 +117,12 @@ public class AppsCustomizeTabHost extends TabHost implements LauncherTransitiona
         // Create the tabs
         TextView tabView;
         String label;
-        label = mContext.getString(R.string.all_apps_button_label);
+        label = getContext().getString(R.string.all_apps_button_label);
         tabView = (TextView) mLayoutInflater.inflate(R.layout.tab_widget_indicator, tabs, false);
         tabView.setText(label);
         tabView.setContentDescription(label);
         addTab(newTabSpec(APPS_TAB_TAG).setIndicator(tabView).setContent(contentFactory));
-        label = mContext.getString(R.string.widgets_tab_label);
+        label = getContext().getString(R.string.widgets_tab_label);
         tabView = (TextView) mLayoutInflater.inflate(R.layout.tab_widget_indicator, tabs, false);
         tabView.setText(label);
         tabView.setContentDescription(label);
@@ -144,19 +151,29 @@ public class AppsCustomizeTabHost extends TabHost implements LauncherTransitiona
             if (contentWidth > 0 && mTabs.getLayoutParams().width != contentWidth) {
                 // Set the width and show the tab bar
                 mTabs.getLayoutParams().width = contentWidth;
-                post(new Runnable() {
-                    public void run() {
-                        mTabs.requestLayout();
-                        mTabsContainer.setAlpha(1f);
-                    }
-                });
+                mRelayoutAndMakeVisible.run();
             }
+
+            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         }
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
+
+     public boolean onInterceptTouchEvent(MotionEvent ev) {
+         // If we are mid transitioning to the workspace, then intercept touch events here so we
+         // can ignore them, otherwise we just let all apps handle the touch events.
+         if (mInTransition && mTransitioningToWorkspace) {
+             return true;
+         }
+         return super.onInterceptTouchEvent(ev);
+     };
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        // Allow touch events to fall through to the workspace if we are transitioning there
+        if (mInTransition && mTransitioningToWorkspace) {
+            return super.onTouchEvent(event);
+        }
+
         // Intercept all touch events up to the bottom of the AppsCustomizePane so they do not fall
         // through to the workspace and trigger showWorkspace()
         if (event.getY() < mAppsCustomizePane.getBottom()) {
@@ -184,10 +201,6 @@ public class AppsCustomizeTabHost extends TabHost implements LauncherTransitiona
     @Override
     public void onTabChanged(String tabId) {
         final AppsCustomizePagedView.ContentType type = getContentTypeForTabTag(tabId);
-        if (mSuppressContentCallback) {
-            mSuppressContentCallback = false;
-            return;
-        }
 
         // Animate the changing of the tab content by fading pages in and out
         final Resources res = getResources();
@@ -238,8 +251,8 @@ public class AppsCustomizeTabHost extends TabHost implements LauncherTransitiona
                     PagedViewWidget.setDeletePreviewsWhenDetachedFromWindow(true);
                     mAnimationBuffer.setAlpha(1f);
                     mAnimationBuffer.setVisibility(View.VISIBLE);
-                    LayoutParams p = new FrameLayout.LayoutParams(child.getWidth(),
-                            child.getHeight());
+                    LayoutParams p = new FrameLayout.LayoutParams(child.getMeasuredWidth(),
+                            child.getMeasuredHeight());
                     p.setMargins((int) child.getLeft(), (int) child.getTop(), 0, 0);
                     mAnimationBuffer.addView(child, p);
                 }
@@ -249,7 +262,7 @@ public class AppsCustomizeTabHost extends TabHost implements LauncherTransitiona
                 onTabChangedEnd(type);
 
                 // Animate the transition
-                ObjectAnimator outAnim = ObjectAnimator.ofFloat(mAnimationBuffer, "alpha", 0f);
+                ObjectAnimator outAnim = LauncherAnimUtils.ofFloat(mAnimationBuffer, "alpha", 0f);
                 outAnim.addListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
@@ -262,24 +275,30 @@ public class AppsCustomizeTabHost extends TabHost implements LauncherTransitiona
                         mAnimationBuffer.removeAllViews();
                     }
                 });
-                ObjectAnimator inAnim = ObjectAnimator.ofFloat(mAppsCustomizePane, "alpha", 1f);
+                ObjectAnimator inAnim = LauncherAnimUtils.ofFloat(mAppsCustomizePane, "alpha", 1f);
                 inAnim.addListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         reloadCurrentPage();
                     }
                 });
-                AnimatorSet animSet = new AnimatorSet();
+
+                final AnimatorSet animSet = LauncherAnimUtils.createAnimatorSet();
                 animSet.playTogether(outAnim, inAnim);
                 animSet.setDuration(duration);
-                animSet.start();
+                post(new Runnable() {
+                    public void run() {
+                        animSet.start();
+                    }
+                });
             }
         });
     }
 
     public void setCurrentTabFromContent(AppsCustomizePagedView.ContentType type) {
-        mSuppressContentCallback = true;
+        setOnTabChangedListener(null);
         setCurrentTabByTag(getTabTagForContentType(type));
+        setOnTabChangedListener(this);
     }
 
     /**
@@ -341,60 +360,67 @@ public class AppsCustomizeTabHost extends TabHost implements LauncherTransitiona
         }
     }
 
-    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        super.onLayout(changed, left, top, right, bottom);
-        if (mLauncherTransition != null) {
-            enableAndBuildHardwareLayer();
-            mLauncherTransition.start();
-            mLauncherTransition = null;
-        }
+    @Override
+    public View getContent() {
+        return mContent;
     }
 
     /* LauncherTransitionable overrides */
     @Override
-    public boolean onLauncherTransitionStart(Launcher l, Animator animation, boolean toWorkspace) {
+    public void onLauncherTransitionPrepare(Launcher l, boolean animated, boolean toWorkspace) {
+        mAppsCustomizePane.onLauncherTransitionPrepare(l, animated, toWorkspace);
         mInTransition = true;
-        boolean delayLauncherTransitionUntilLayout = false;
-        boolean animated = (animation != null);
-        mLauncherTransition = null;
+        mTransitioningToWorkspace = toWorkspace;
 
-        // if the content wasn't visible before, delay the launcher animation until after a call
-        // to layout -- this prevents a blip
-        if (animated && mContent.getVisibility() == GONE) {
-            mLauncherTransition = animation;
-            delayLauncherTransitionUntilLayout = true;
-        }
-        mContent.setVisibility(VISIBLE);
+        if (toWorkspace) {
+            // Going from All Apps -> Workspace
+            setVisibilityOfSiblingsWithLowerZOrder(VISIBLE);
+            // Stop the scrolling indicator - we don't want All Apps to be invalidating itself
+            // during the transition, especially since it has a hardware layer set on it
+            mAppsCustomizePane.cancelScrollingIndicatorAnimations();
+        } else {
+            // Going from Workspace -> All Apps
+            mContent.setVisibility(VISIBLE);
 
-        if (!toWorkspace) {
             // Make sure the current page is loaded (we start loading the side pages after the
             // transition to prevent slowing down the animation)
             mAppsCustomizePane.loadAssociatedPages(mAppsCustomizePane.getCurrentPage(), true);
-        }
-        if (animated && !delayLauncherTransitionUntilLayout) {
-            enableAndBuildHardwareLayer();
+
+            if (!LauncherApplication.isScreenLarge()) {
+                mAppsCustomizePane.showScrollingIndicator(true);
+            }
         }
 
-        if (!toWorkspace && !LauncherApplication.isScreenLarge()) {
-            mAppsCustomizePane.showScrollingIndicator(false);
-        }
         if (mResetAfterTransition) {
             mAppsCustomizePane.reset();
             mResetAfterTransition = false;
         }
-        return delayLauncherTransitionUntilLayout;
     }
 
     @Override
-    public void onLauncherTransitionEnd(Launcher l, Animator animation, boolean toWorkspace) {
+    public void onLauncherTransitionStart(Launcher l, boolean animated, boolean toWorkspace) {
+        if (animated) {
+            enableAndBuildHardwareLayer();
+        }
+    }
+
+    @Override
+    public void onLauncherTransitionStep(Launcher l, float t) {
+        // Do nothing
+    }
+
+    @Override
+    public void onLauncherTransitionEnd(Launcher l, boolean animated, boolean toWorkspace) {
+        mAppsCustomizePane.onLauncherTransitionEnd(l, animated, toWorkspace);
         mInTransition = false;
-        if (animation != null) {
+        if (animated) {
             setLayerType(LAYER_TYPE_NONE, null);
         }
 
         if (!toWorkspace) {
-            // Dismiss the workspace cling and show the all apps cling (if not already shown)
+            // Dismiss the workspace cling
             l.dismissWorkspaceCling(null);
+            // Show the all apps cling (if not already shown)
             mAppsCustomizePane.showAllAppsCling();
             // Make sure adjacent pages are loaded (we wait until after the transition to
             // prevent slowing down the animation)
@@ -403,10 +429,37 @@ public class AppsCustomizeTabHost extends TabHost implements LauncherTransitiona
             if (!LauncherApplication.isScreenLarge()) {
                 mAppsCustomizePane.hideScrollingIndicator(false);
             }
+
+            // Going from Workspace -> All Apps
+            // NOTE: We should do this at the end since we check visibility state in some of the
+            // cling initialization/dismiss code above.
+            setVisibilityOfSiblingsWithLowerZOrder(INVISIBLE);
         }
     }
 
-    public void onResume() {
+    private void setVisibilityOfSiblingsWithLowerZOrder(int visibility) {
+        ViewGroup parent = (ViewGroup) getParent();
+        if (parent == null) return;
+
+        final int count = parent.getChildCount();
+        if (!isChildrenDrawingOrderEnabled()) {
+            for (int i = 0; i < count; i++) {
+                final View child = parent.getChildAt(i);
+                if (child == this) {
+                    break;
+                } else {
+                    if (child.getVisibility() == GONE) {
+                        continue;
+                    }
+                    child.setVisibility(visibility);
+                }
+            }
+        } else {
+            throw new RuntimeException("Failed; can't get z-order of views");
+        }
+    }
+
+    public void onWindowVisible() {
         if (getVisibility() == VISIBLE) {
             mContent.setVisibility(VISIBLE);
             // We unload the widget previews when the UI is hidden, so need to reload pages

@@ -24,15 +24,19 @@
     <original-package android:name="com.android.launcher2" />
 
     <permission
+        android:name="com.android.launcher.permission.PRELOAD_WORKSPACE"
+        android:permissionGroup="android.permission-group.SYSTEM_TOOLS"
+        android:protectionLevel="system|signature" />
+    <permission
         android:name="com.android.launcher.permission.INSTALL_SHORTCUT"
         android:permissionGroup="android.permission-group.SYSTEM_TOOLS"
-        android:protectionLevel="normal"
+        android:protectionLevel="dangerous"
         android:label="@string/permlab_install_shortcut"
         android:description="@string/permdesc_install_shortcut" />
     <permission
         android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT"
         android:permissionGroup="android.permission-group.SYSTEM_TOOLS"
-        android:protectionLevel="normal"
+        android:protectionLevel="dangerous"
         android:label="@string/permlab_uninstall_shortcut"
         android:description="@string/permdesc_uninstall_shortcut"/>
     <permission
@@ -53,15 +57,17 @@
     <uses-permission android:name="android.permission.SET_WALLPAPER_HINTS" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.BIND_APPWIDGET" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
     <uses-permission android:name="com.android.launcher.permission.WRITE_SETTINGS" />
 
     <application
         android:name="com.android.launcher2.LauncherApplication"
         android:label="@string/application_name"
-        android:icon="@drawable/ic_launcher_home"
-        android:hardwareAccelerated="@bool/config_hardwareAccelerated"
-        android:largeHeap="@bool/config_largeHeap">
+        android:icon="@mipmap/ic_launcher_home"
+        android:hardwareAccelerated="true"
+        android:largeHeap="@bool/config_largeHeap"
+        android:supportsRtl="true">
         <activity
             android:name="com.android.launcher2.Launcher"
             android:launchMode="singleTask"
@@ -80,9 +86,9 @@
 
         <activity
             android:name="com.android.launcher2.WallpaperChooser"
-            style="@style/Theme.WallpaperPicker"
+            android:theme="@style/Theme.WallpaperPicker"
             android:label="@string/pick_wallpaper"
-            android:icon="@drawable/ic_launcher_wallpaper"
+            android:icon="@mipmap/ic_launcher_wallpaper"
             android:finishOnCloseSystemDialogs="true"
             android:process=":wallpaper_chooser">
             <intent-filter>
@@ -93,15 +99,14 @@
                 android:resource="@xml/wallpaper_picker_preview" />
         </activity>
 
-        <activity android:name="com.android.launcher2.RocketLauncher"
-            android:label="@string/dream_name"
-            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
+        <!-- Intent received used to prepopulate the default workspace. -->
+        <receiver
+            android:name="com.android.launcher2.PreloadReceiver"
+            android:permission="com.android.launcher.permission.PRELOAD_WORKSPACE">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.DREAM" />
+                <action android:name="com.android.launcher.action.PRELOAD_WORKSPACE" />
             </intent-filter>
-        </activity>
+        </receiver>
 
         <!-- Intent received used to install shortcuts from other applications -->
         <receiver
@@ -120,7 +125,16 @@
                 <action android:name="com.android.launcher.action.UNINSTALL_SHORTCUT" />
             </intent-filter>
         </receiver>
-              
+
+        <!-- New user initialization; set up initial wallpaper -->
+        <receiver
+            android:name="com.android.launcher2.UserInitializeReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.USER_INITIALIZE" />
+            </intent-filter>
+        </receiver>
+        
         <receiver android:name="com.android.launcher2.WidgetAllApp" android:icon="@drawable/widget_allapp"                   
              android:label="@string/widget_app_app">
              <intent-filter>
@@ -193,12 +207,16 @@
              </intent-filter>                 
              <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_provider_video"/>             
         </receiver>
-                
+        
         <!-- The settings provider contains Home's data, like the workspace favorites -->
         <provider
             android:name="com.android.launcher2.LauncherProvider"
             android:authorities="com.android.launcher2.settings"
+            android:exported="true"
             android:writePermission="com.android.launcher.permission.WRITE_SETTINGS"
             android:readPermission="com.android.launcher.permission.READ_SETTINGS" />
+
+        <meta-data android:name="android.nfc.disable_beam_default"
+                       android:value="true" />
     </application>
 </manifest>

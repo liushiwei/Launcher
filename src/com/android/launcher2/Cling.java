@@ -28,6 +28,9 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.view.FocusFinder;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.FrameLayout;
 
 import com.android.launcher.R;
@@ -40,13 +43,16 @@ public class Cling extends FrameLayout {
 
     private static String WORKSPACE_PORTRAIT = "workspace_portrait";
     private static String WORKSPACE_LANDSCAPE = "workspace_landscape";
+    private static String WORKSPACE_LARGE = "workspace_large";
+    private static String WORKSPACE_CUSTOM = "workspace_custom";
+
     private static String ALLAPPS_PORTRAIT = "all_apps_portrait";
     private static String ALLAPPS_LANDSCAPE = "all_apps_landscape";
+    private static String ALLAPPS_LARGE = "all_apps_large";
+
     private static String FOLDER_PORTRAIT = "folder_portrait";
     private static String FOLDER_LANDSCAPE = "folder_landscape";
-    private static String WORKSPACE_LARGE = "workspace_large";
     private static String FOLDER_LARGE = "folder_large";
-    private static String ALLAPPS_LARGE = "all_apps_large";
 
     private Launcher mLauncher;
     private boolean mIsInitialized;
@@ -76,6 +82,8 @@ public class Cling extends FrameLayout {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.Cling, defStyle, 0);
         mDrawIdentifier = a.getString(R.styleable.Cling_drawIdentifier);
         a.recycle();
+
+        setClickable(true);
     }
 
     void init(Launcher l, int[] positionData) {
@@ -84,11 +92,12 @@ public class Cling extends FrameLayout {
             mPositionData = positionData;
 
             Resources r = getContext().getResources();
+
             mPunchThroughGraphic = r.getDrawable(R.drawable.cling);
             mPunchThroughGraphicCenterRadius =
                 r.getDimensionPixelSize(R.dimen.clingPunchThroughGraphicCenterRadius);
             mAppIconSize = r.getDimensionPixelSize(R.dimen.app_icon_size);
-            mRevealRadius = mAppIconSize * 1f;
+            mRevealRadius = r.getDimensionPixelSize(R.dimen.reveal_radius) * 1f;
             mButtonBarHeight = r.getDimensionPixelSize(R.dimen.button_bar_height);
 
             mErasePaint = new Paint();
@@ -107,7 +116,11 @@ public class Cling extends FrameLayout {
         mIsInitialized = false;
     }
 
-    private int[] getPunchThroughPosition() {
+    public String getDrawIdentifier() {
+        return mDrawIdentifier;
+    }
+
+    private int[] getPunchThroughPositions() {
         if (mDrawIdentifier.equals(WORKSPACE_PORTRAIT)) {
             return new int[]{getMeasuredWidth() / 2, getMeasuredHeight() - (mButtonBarHeight / 2)};
         } else if (mDrawIdentifier.equals(WORKSPACE_LANDSCAPE)) {
@@ -126,6 +139,27 @@ public class Cling extends FrameLayout {
     }
 
     @Override
+    public View focusSearch(int direction) {
+        return this.focusSearch(this, direction);
+    }
+
+    @Override
+    public View focusSearch(View focused, int direction) {
+        return FocusFinder.getInstance().findNextFocus(this, focused, direction);
+    }
+
+    @Override
+    public boolean onHoverEvent(MotionEvent event) {
+        return (mDrawIdentifier.equals(WORKSPACE_PORTRAIT)
+                || mDrawIdentifier.equals(WORKSPACE_LANDSCAPE)
+                || mDrawIdentifier.equals(WORKSPACE_LARGE)
+                || mDrawIdentifier.equals(ALLAPPS_PORTRAIT)
+                || mDrawIdentifier.equals(ALLAPPS_LANDSCAPE)
+                || mDrawIdentifier.equals(ALLAPPS_LARGE)
+                || mDrawIdentifier.equals(WORKSPACE_CUSTOM));
+    }
+
+    @Override
     public boolean onTouchEvent(android.view.MotionEvent event) {
         if (mDrawIdentifier.equals(WORKSPACE_PORTRAIT) ||
             mDrawIdentifier.equals(WORKSPACE_LANDSCAPE) ||
@@ -133,11 +167,14 @@ public class Cling extends FrameLayout {
             mDrawIdentifier.equals(ALLAPPS_PORTRAIT) ||
             mDrawIdentifier.equals(ALLAPPS_LANDSCAPE) ||
             mDrawIdentifier.equals(ALLAPPS_LARGE)) {
-            int[] pos = getPunchThroughPosition();
-            double diff = Math.sqrt(Math.pow(event.getX() - pos[0], 2) +
-                    Math.pow(event.getY() - pos[1], 2));
-            if (diff < mRevealRadius) {
-                return false;
+
+            int[] positions = getPunchThroughPositions();
+            for (int i = 0; i < positions.length; i += 2) {
+                double diff = Math.sqrt(Math.pow(event.getX() - positions[i], 2) +
+                        Math.pow(event.getY() - positions[i + 1], 2));
+                if (diff < mRevealRadius) {
+                    return false;
+                }
             }
         } else if (mDrawIdentifier.equals(FOLDER_PORTRAIT) ||
                    mDrawIdentifier.equals(FOLDER_LANDSCAPE) ||
@@ -168,8 +205,8 @@ public class Cling extends FrameLayout {
             // Draw the background
             if (mBackground == null) {
                 if (mDrawIdentifier.equals(WORKSPACE_PORTRAIT) ||
-                    mDrawIdentifier.equals(WORKSPACE_LANDSCAPE) ||
-                    mDrawIdentifier.equals(WORKSPACE_LARGE)) {
+                        mDrawIdentifier.equals(WORKSPACE_LANDSCAPE) ||
+                        mDrawIdentifier.equals(WORKSPACE_LARGE)) {
                     mBackground = getResources().getDrawable(R.drawable.bg_cling1);
                 } else if (mDrawIdentifier.equals(ALLAPPS_PORTRAIT) ||
                         mDrawIdentifier.equals(ALLAPPS_LANDSCAPE) ||
@@ -180,6 +217,8 @@ public class Cling extends FrameLayout {
                     mBackground = getResources().getDrawable(R.drawable.bg_cling3);
                 } else if (mDrawIdentifier.equals(FOLDER_LARGE)) {
                     mBackground = getResources().getDrawable(R.drawable.bg_cling4);
+                } else if (mDrawIdentifier.equals(WORKSPACE_CUSTOM)) {
+                    mBackground = getResources().getDrawable(R.drawable.bg_cling5);
                 }
             }
             if (mBackground != null) {
@@ -196,13 +235,15 @@ public class Cling extends FrameLayout {
             int dh = (int) (scale * mPunchThroughGraphic.getIntrinsicHeight());
 
             // Determine where to draw the punch through graphic
-            int[] pos = getPunchThroughPosition();
-            cx = pos[0];
-            cy = pos[1];
-            if (cx > -1 && cy > -1) {
-                c.drawCircle(cx, cy, mRevealRadius, mErasePaint);
-                mPunchThroughGraphic.setBounds(cx - dw/2, cy - dh/2, cx + dw/2, cy + dh/2);
-                mPunchThroughGraphic.draw(c);
+            int[] positions = getPunchThroughPositions();
+            for (int i = 0; i < positions.length; i += 2) {
+                cx = positions[i];
+                cy = positions[i + 1];
+                if (cx > -1 && cy > -1) {
+                    c.drawCircle(cx, cy, mRevealRadius, mErasePaint);
+                    mPunchThroughGraphic.setBounds(cx - dw/2, cy - dh/2, cx + dw/2, cy + dh/2);
+                    mPunchThroughGraphic.draw(c);
+                }
             }
 
             // Draw the hand graphic in All Apps
