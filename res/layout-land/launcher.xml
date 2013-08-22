@@ -35,8 +35,8 @@
             android:id="@+id/workspace"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingLeft="@dimen/workspace_left_padding"
-            android:paddingRight="@dimen/workspace_right_padding"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
             android:paddingTop="@dimen/workspace_top_padding"
             android:paddingBottom="@dimen/workspace_bottom_padding"
             launcher:defaultScreen="2"
@@ -45,13 +45,16 @@
             launcher:pageSpacing="@dimen/workspace_page_spacing"
             launcher:scrollIndicatorPaddingLeft="@dimen/qsb_bar_height"
             launcher:scrollIndicatorPaddingRight="@dimen/button_bar_height">
-
             <include android:id="@+id/cell1" layout="@layout/workspace_screen" />
             <include android:id="@+id/cell2" layout="@layout/workspace_screen" />
             <include android:id="@+id/cell3" layout="@layout/workspace_screen" />
             <include android:id="@+id/cell4" layout="@layout/workspace_screen" />
             <include android:id="@+id/cell5" layout="@layout/workspace_screen" />
         </com.android.launcher2.Workspace>
+        <!-- 
+        	android:paddingLeft="@dimen/workspace_left_padding"
+            android:paddingRight="@dimen/workspace_right_padding"
+             -->
 
         <include
             android:id="@+id/qsb_divider"
@@ -84,7 +87,8 @@
 
         <include
             android:id="@+id/qsb_bar"
-            layout="@layout/qsb_bar" />
+            layout="@layout/qsb_bar" 
+            android:visibility="gone"/>
 
         <!-- The Workspace cling must appear under the AppsCustomizePagedView below to ensure
              that it is still visible during the transition to AllApps and doesn't overlay on
