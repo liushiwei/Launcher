@@ -36,7 +36,7 @@
     <dimen name="cell_layout_right_padding_port">8dp</dimen>
     <dimen name="cell_layout_right_padding_land">8dp</dimen>
     <dimen name="cell_layout_top_padding_port">8dp</dimen>
-    <dimen name="cell_layout_top_padding_land">8dp</dimen>
+    <dimen name="cell_layout_top_padding_land">70dp</dimen>
     <dimen name="cell_layout_bottom_padding_port">8dp</dimen>
     <dimen name="cell_layout_bottom_padding_land">8dp</dimen>
 </resources>

@@ -174,18 +174,18 @@
         launcher:screen="1"
         launcher:x="1"
         launcher:y="0" />
-    <favorite
+        <favorite
         launcher:packageName="com.carit.radioplayer"
         launcher:className="com.carit.radioplayer.RedAndBlackActivity"
         launcher:container="-101"
-        launcher:screen="3"
-        launcher:x="3"
+        launcher:screen="2"
+        launcher:x="2"
         launcher:y="0" />
     <favorite
         launcher:packageName="com.android.settings"
         launcher:className="com.android.settings.Settings"
         launcher:container="-101"
-        launcher:screen="4"
-        launcher:x="4"
-        launcher:y="0" />
+        launcher:screen="3"
+        launcher:x="3"
+        launcher:y="0" />   
 </favorites>

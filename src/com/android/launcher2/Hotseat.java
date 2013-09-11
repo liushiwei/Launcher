@@ -63,6 +63,7 @@ public class Hotseat extends FrameLayout {
                 r.getBoolean(R.bool.hotseat_transpose_layout_with_orientation);
         mIsLandscape = context.getResources().getConfiguration().orientation ==
             Configuration.ORIENTATION_LANDSCAPE;
+        mIsLandscape = false;
     }
 
     public void setup(Launcher launcher) {

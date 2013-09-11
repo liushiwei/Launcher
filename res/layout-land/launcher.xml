@@ -78,17 +78,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom" />
-
+                   
         <include layout="@layout/hotseat"
             android:id="@+id/hotseat"
-            android:layout_width="@dimen/button_bar_height_plus_padding"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_bar_height_plus_padding"
             android:layout_gravity="right" />
 
         <include
             android:id="@+id/qsb_bar"
-            layout="@layout/qsb_bar" 
-            android:visibility="gone"/>
+            layout="@layout/qsb_bar"/>
 
         <!-- The Workspace cling must appear under the AppsCustomizePagedView below to ensure
              that it is still visible during the transition to AllApps and doesn't overlay on

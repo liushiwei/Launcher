@@ -2972,7 +2972,8 @@ public class Workspace extends SmoothPagedView
     public void getHitRect(Rect outRect) {
         // We want the workspace to have the whole area of the display (it will find the correct
         // cell layout to drop to in the existing drag/drop logic.
-        outRect.set(0, 0, mDisplaySize.x, mDisplaySize.y);
+//        outRect.set(0, 0, mDisplaySize.x, mDisplaySize.y);
+    	outRect.set(0, 0, mDisplaySize.x, 480);
     }
 
     /**
