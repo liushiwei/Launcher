@@ -2057,6 +2057,34 @@ public final class Launcher extends Activity
             startActivity(intent);
         }
     }
+    
+    void startApplicationUninstallActivity(ShortcutInfo shortcutInfo) {
+    	int flags = 0;
+    	String packageName = shortcutInfo.getPackageName();
+        String className = shortcutInfo.intent.getComponent().getClassName();
+          
+    	try {
+            int appFlags = getPackageManager().getApplicationInfo(packageName, 0).flags;
+            if ((appFlags & android.content.pm.ApplicationInfo.FLAG_SYSTEM) == 0) {
+                flags |= ApplicationInfo.DOWNLOADED_FLAG;
+            }
+        } catch (NameNotFoundException e) {
+            Log.d(TAG, "PackageManager.getApplicationInfo failed for " + packageName);
+        }
+    	
+    	if ((flags & ApplicationInfo.DOWNLOADED_FLAG) == 0) {
+             // System applications cannot be installed. For now, show a toast explaining that.
+             // We may give them the option of disabling apps this way.
+             int messageId = R.string.uninstall_system_app_text;
+             Toast.makeText(this, messageId, Toast.LENGTH_SHORT).show();
+         } else {
+	        Intent intent = new Intent(
+	                Intent.ACTION_DELETE, Uri.fromParts("package", packageName, className));
+	        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+	                Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+	        startActivity(intent);  
+         }
+    }
 
     boolean startActivity(View v, Intent intent, Object tag) {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

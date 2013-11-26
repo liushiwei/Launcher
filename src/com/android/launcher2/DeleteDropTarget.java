@@ -104,6 +104,10 @@ public class DeleteDropTarget extends ButtonDropTarget {
         }
         return false;
     }
+    private boolean isShortcutInfo(DragSource source, Object info) {
+        return info instanceof ShortcutInfo;
+    }
+    
     private boolean isDragSourceWorkspaceOrFolder(DragObject d) {
         return (d.dragSource instanceof Workspace) || (d.dragSource instanceof Folder);
     }
@@ -137,23 +141,34 @@ public class DeleteDropTarget extends ButtonDropTarget {
         boolean isVisible = true;
         boolean isUninstall = false;
 
-        // If we are dragging a widget from AppsCustomize, hide the delete target
         if (isAllAppsWidget(source, info)) {
-            isVisible = false;
+        	// If we are dragging a widget from AppsCustomize, hide the delete target
+        	isVisible = false;
+        }else if (isAllAppsApplication(source, info)) {
+        	// If we are dragging an application from AppsCustomize, only show the control if we can
+            // delete the app (it was downloaded), and rename the string to "uninstall" in such a case
+        	ApplicationInfo appInfo = (ApplicationInfo) info;
+        	if (getId() == R.id.uninstall_target_text) {
+        		isUninstall = true;
+                if ((appInfo.flags & ApplicationInfo.DOWNLOADED_FLAG) == 0) {       
+                    isVisible = false;
+                }else{
+                	isVisible = true;
+                }
+        	}else{
+        		if ((appInfo.flags & ApplicationInfo.DOWNLOADED_FLAG) == 0) {       
+                    isVisible = true;
+                }else{
+                	isVisible = false;
+                }
+        	}
+        }else if(!isShortcutInfo(source, info)){
+        	if (getId() == R.id.uninstall_target_text) {
+        		isVisible = false;
+        	}
         }
-
-        // If we are dragging an application from AppsCustomize, only show the control if we can
-        // delete the app (it was downloaded), and rename the string to "uninstall" in such a case
-        if (isAllAppsApplication(source, info)) {
-            ApplicationInfo appInfo = (ApplicationInfo) info;
-            if ((appInfo.flags & ApplicationInfo.DOWNLOADED_FLAG) != 0) {
-                isUninstall = true;
-            } else {
-                isVisible = false;
-            }
-        }
-
-        if (isUninstall) {
+        
+        if (getId() == R.id.uninstall_target_text) {
             setCompoundDrawablesWithIntrinsicBounds(mUninstallDrawable, null, null, null);
         } else {
             setCompoundDrawablesWithIntrinsicBounds(mRemoveDrawable, null, null, null);
@@ -220,9 +235,14 @@ public class DeleteDropTarget extends ButtonDropTarget {
 
         if (isAllAppsApplication(d.dragSource, item)) {
             // Uninstall the application if it is being dragged from AppsCustomize
-            mLauncher.startApplicationUninstallActivity((ApplicationInfo) item);
+        	if(getId() == R.id.uninstall_target_text){
+        		mLauncher.startApplicationUninstallActivity((ApplicationInfo) item);
+        	}
         } else if (isWorkspaceOrFolderApplication(d)) {
-            LauncherModel.deleteItemFromDatabase(mLauncher, item);
+        	if (getId() == R.id.uninstall_target_text){
+        		mLauncher.startApplicationUninstallActivity((ShortcutInfo)item);
+        	}
+        	LauncherModel.deleteItemFromDatabase(mLauncher, item);
         } else if (isWorkspaceFolder(d)) {
             // Remove the folder from the workspace and delete the contents from launcher model
             FolderInfo folderInfo = (FolderInfo) item;

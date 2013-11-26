@@ -21,6 +21,18 @@
         <!-- Delete target -->
         <com.android.launcher2.DeleteDropTarget
             style="@style/DropTargetButton"
+            android:id="@+id/uninstall_target_text"
+            android:text="@string/delete_zone_label_workspace"
+            android:drawableLeft="@drawable/uninstall_target_selector" 
+            android:paddingLeft="34dp"/>
+    </FrameLayout>
+    <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        style="@style/DropTargetButtonContainer"
+        android:layout_weight="1">
+        <!-- Delete target -->
+        <com.android.launcher2.DeleteDropTarget
+            style="@style/DropTargetButton"
             android:id="@+id/delete_target_text"
             android:text="@string/delete_zone_label_workspace"
             android:drawableLeft="@drawable/remove_target_selector" 
