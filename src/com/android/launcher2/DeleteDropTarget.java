@@ -20,6 +20,9 @@ import android.animation.TimeInterpolator;
 import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -27,6 +30,7 @@ import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.drawable.TransitionDrawable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
@@ -139,8 +143,6 @@ public class DeleteDropTarget extends ButtonDropTarget {
     @Override
     public void onDragStart(DragSource source, Object info, int dragAction) {
         boolean isVisible = true;
-        boolean isUninstall = false;
-
         if (isAllAppsWidget(source, info)) {
         	// If we are dragging a widget from AppsCustomize, hide the delete target
         	isVisible = false;
@@ -149,25 +151,45 @@ public class DeleteDropTarget extends ButtonDropTarget {
             // delete the app (it was downloaded), and rename the string to "uninstall" in such a case
         	ApplicationInfo appInfo = (ApplicationInfo) info;
         	if (getId() == R.id.uninstall_target_text) {
-        		isUninstall = true;
-                if ((appInfo.flags & ApplicationInfo.DOWNLOADED_FLAG) == 0) {       
+                if ((appInfo.flags & ApplicationInfo.DOWNLOADED_FLAG) == 0) {
                     isVisible = false;
                 }else{
                 	isVisible = true;
                 }
         	}else{
-        		if ((appInfo.flags & ApplicationInfo.DOWNLOADED_FLAG) == 0) {       
+        		if ((appInfo.flags & ApplicationInfo.DOWNLOADED_FLAG) == 0) {
                     isVisible = true;
                 }else{
                 	isVisible = false;
                 }
         	}
-        }else if(!isShortcutInfo(source, info)){
+        }else if(isShortcutInfo(source, info)){
+        	int flags = 0;
+        	ShortcutInfo shortcutInfo = (ShortcutInfo)info;
+        	try{
+	        	PackageManager pm = getContext().getPackageManager();    
+	        	int appFlags = pm.getApplicationInfo(shortcutInfo.getPackageName(), 0).flags;
+	            if ((appFlags & android.content.pm.ApplicationInfo.FLAG_SYSTEM) == 0) {
+	               flags |= ApplicationInfo.DOWNLOADED_FLAG;
+	            }
+            } catch (NameNotFoundException e) {
+                Log.d(TAG, "PackageManager.getApplicationInfo failed for " + shortcutInfo.getPackageName());
+            }
+        	
+            if (getId() == R.id.uninstall_target_text) {
+            	if ((flags & ApplicationInfo.DOWNLOADED_FLAG) == 0) {  
+                    isVisible = false;
+                }else{
+                	isVisible = true;
+                }
+            }else{
+               isVisible = true;
+            }
+        }else{
         	if (getId() == R.id.uninstall_target_text) {
-        		isVisible = false;
+       		 	isVisible = false;
         	}
         }
-        
         if (getId() == R.id.uninstall_target_text) {
             setCompoundDrawablesWithIntrinsicBounds(mUninstallDrawable, null, null, null);
         } else {
@@ -179,7 +201,7 @@ public class DeleteDropTarget extends ButtonDropTarget {
         resetHoverColor();
         ((ViewGroup) getParent()).setVisibility(isVisible ? View.VISIBLE : View.GONE);
         if (getText().length() > 0) {
-            setText(isUninstall ? R.string.delete_target_uninstall_label
+            setText(getId() == R.id.uninstall_target_text ? R.string.delete_target_uninstall_label
                 : R.string.delete_target_label);
         }
     }
