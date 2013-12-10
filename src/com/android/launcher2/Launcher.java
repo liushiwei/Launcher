@@ -140,6 +140,7 @@ public final class Launcher extends Activity
     private static final int REQUEST_PICK_WALLPAPER = 10;
 
     private static final int REQUEST_BIND_APPWIDGET = 11;
+    private static final int REQUEST_UNINSTALLER = 120;
 
     static final String EXTRA_SHORTCUT_DUPLICATE = "duplicate";
 
@@ -621,7 +622,18 @@ public final class Launcher extends Activity
     @Override
     protected void onActivityResult(
             final int requestCode, final int resultCode, final Intent data) {
-        if (requestCode == REQUEST_BIND_APPWIDGET) {
+    	if(requestCode == REQUEST_UNINSTALLER){
+    		boolean bIsUninstaller = data == null ?false:data.getBooleanExtra("IsUninstaller", false);		
+    		if(bIsUninstaller == false){
+				ShortcutInfo info = unistallerShortcutInfo;
+				String uri = info.intent.toUri(0).toString();
+				View shortcut = mLauncher.createShortcut(info);
+				mLauncher.mWorkspace.addInScreen(shortcut, unistallerShortcutInfo.container, unistallerShortcutInfo.screen, unistallerShortcutInfo.cellX,
+						unistallerShortcutInfo.cellY, 1, 1, false);
+    		}else{
+    			LauncherModel.deleteItemFromDatabase(mLauncher, unistallerShortcutInfo);
+    		}
+    	}else if (requestCode == REQUEST_BIND_APPWIDGET) {
             int appWidgetId = data != null ?
                     data.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, -1) : -1;
             if (resultCode == RESULT_CANCELED) {
@@ -2058,8 +2070,10 @@ public final class Launcher extends Activity
         }
     }
     
+    ShortcutInfo unistallerShortcutInfo = null;
     void startApplicationUninstallActivity(ShortcutInfo shortcutInfo) {
     	int flags = 0;
+    	unistallerShortcutInfo = shortcutInfo;
     	String packageName = shortcutInfo.getPackageName();
         String className = shortcutInfo.intent.getComponent().getClassName();
           
@@ -2080,9 +2094,9 @@ public final class Launcher extends Activity
          } else {
 	        Intent intent = new Intent(
 	                Intent.ACTION_DELETE, Uri.fromParts("package", packageName, className));
-	        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-	                Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-	        startActivity(intent);  
+//	        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+//	                Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+	        startActivityForResult(intent, REQUEST_UNINSTALLER);  
          }
     }
 

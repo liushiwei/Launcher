@@ -263,8 +263,9 @@ public class DeleteDropTarget extends ButtonDropTarget {
         } else if (isWorkspaceOrFolderApplication(d)) {
         	if (getId() == R.id.uninstall_target_text){
         		mLauncher.startApplicationUninstallActivity((ShortcutInfo)item);
-        	}
-        	LauncherModel.deleteItemFromDatabase(mLauncher, item);
+        	}else{
+				LauncherModel.deleteItemFromDatabase(mLauncher, item);
+			}
         } else if (isWorkspaceFolder(d)) {
             // Remove the folder from the workspace and delete the contents from launcher model
             FolderInfo folderInfo = (FolderInfo) item;
