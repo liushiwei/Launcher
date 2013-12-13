@@ -231,6 +231,7 @@ public class Folder extends LinearLayout implements DragSource, View.OnClickList
             mInfo.remove(mCurrentDragInfo);
             mDragInProgress = true;
             mItemAddedBackToSelfViaIcon = false;
+            completeDragExit();
         }
         return true;
     }
