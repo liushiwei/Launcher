@@ -55,6 +55,10 @@ import com.android.launcher2.LauncherSettings.Favorites;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -215,8 +219,10 @@ public class LauncherProvider extends ContentProvider {
             int workspaceResId = origWorkspaceResId;
             Log.d(TAG,"loadDefaultFavoritesIfNecessary origWorkspaceResId = "+origWorkspaceResId);
             // Use default workspace resource if none provided
-            if (workspaceResId == 0) {
-                workspaceResId = sp.getInt(DEFAULT_WORKSPACE_RESOURCE_ID, R.xml.default_workspace);
+            if (workspaceResId == 0) {            	
+            	boolean isRdsVersion = isRDSSystemVersion();
+                workspaceResId = sp.getInt(DEFAULT_WORKSPACE_RESOURCE_ID, 
+                		isRdsVersion?R.xml.default_workspace_rds:R.xml.default_workspace);
             }
             Log.d(TAG,"loadDefaultFavoritesIfNecessary workspaceResId = "+workspaceResId);
 
@@ -1190,5 +1196,32 @@ public class LauncherProvider extends ContentProvider {
                 throw new IllegalArgumentException("Invalid URI: " + url);
             }
         }
+    }
+    
+    public static String readVersionFile(String fileName){
+		File model = new File(fileName);
+		String text = "";
+		if (model.exists()) {
+			FileInputStream fileInput;
+			try {
+				fileInput = new FileInputStream(model);
+				DataInputStream bInput = new DataInputStream(fileInput);
+				    text = bInput.readLine();
+				Log.d(TAG,"buff = "+text);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}else{
+			Log.e(TAG,fileName +" not exist!!!");
+		}
+		return text;
+	}	
+	
+    private static final String APP_FILE = "/system/etc/carit_version";
+	boolean isRDSSystemVersion(){
+    	String app = readVersionFile(APP_FILE);
+    	return app.contains("rds");
     }
 }

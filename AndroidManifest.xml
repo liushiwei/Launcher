@@ -207,6 +207,22 @@
              </intent-filter>                 
              <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_provider_video"/>             
         </receiver>
+        <receiver android:name="com.android.launcher2.WidgetEmail" android:icon="@drawable/widget_email"                   
+             android:label="@string/widget_app_email">
+             <intent-filter>
+                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>  
+                 <action android:name="com.android.launcher.intent.action.EMAIL"/>                
+             </intent-filter>                 
+             <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_provider_email"/>             
+        </receiver>
+        <receiver android:name="com.android.launcher2.WidgetCalc" android:icon="@drawable/widget_calc"                   
+             android:label="@string/widget_app_calc">
+             <intent-filter>
+                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>  
+                 <action android:name="com.android.launcher.intent.action.CALC"/>                
+             </intent-filter>                 
+             <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_provider_calc"/>             
+        </receiver>
         
         <!-- The settings provider contains Home's data, like the workspace favorites -->
         <provider

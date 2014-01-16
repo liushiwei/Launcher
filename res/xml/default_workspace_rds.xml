@@ -137,10 +137,10 @@
         launcher:y="2"
         launcher:spanX="1"
         launcher:spanY="2" />
-               
+       
       <appwidget
         launcher:packageName="com.android.launcher"
-        launcher:className="com.android.launcher2.WidgetNews"
+        launcher:className="com.android.launcher2.WidgetCalc"
         launcher:screen="3"
         launcher:x="3"
         launcher:y="2"
@@ -149,12 +149,12 @@
                 
       <appwidget
         launcher:packageName="com.android.launcher"
-        launcher:className="com.android.launcher2.WidgetMarket"
+        launcher:className="com.android.launcher2.WidgetEmail"
         launcher:screen="3"
         launcher:x="4"
         launcher:y="2"
         launcher:spanX="1"
-        launcher:spanY="2" />                     
+        launcher:spanY="2" />                 
                             
     <!-- Far-right screen [4] -->
 

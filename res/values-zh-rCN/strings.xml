@@ -121,4 +121,6 @@
     <string name="widget_app_news">新闻</string>
     <string name="widget_app_setting">设置</string>
     <string name="widget_app_video">视频</string> 
+    <string name="widget_app_email">邮件</string> 
+    <string name="widget_app_calc">计算器</string> 
 </resources>

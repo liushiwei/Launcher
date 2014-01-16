@@ -282,6 +282,7 @@ s -->
     <string name="widget_app_navit">Navi</string>
     <string name="widget_app_news">News</string>
     <string name="widget_app_setting">Setting</string>
-    <string name="widget_app_video">Video</string>    
-
+    <string name="widget_app_video">Video</string>   
+    <string name="widget_app_email">Email</string> 
+    <string name="widget_app_calc">Calc</string> 
 </resources>
