@@ -223,6 +223,14 @@
              </intent-filter>                 
              <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_provider_calc"/>             
         </receiver>
+        <receiver android:name="com.android.launcher2.WidgetDrivingMode" android:icon="@drawable/widget_driving_mode"                   
+             android:label="@string/widget_app_driving_mode">
+             <intent-filter>
+                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>  
+                 <action android:name="com.android.launcher.intent.action.DRIVINGMODE"/>                
+             </intent-filter>                 
+             <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_provider_driving_mode"/>             
+        </receiver>
         
         <!-- The settings provider contains Home's data, like the workspace favorites -->
         <provider

@@ -219,10 +219,25 @@ public class LauncherProvider extends ContentProvider {
             int workspaceResId = origWorkspaceResId;
             Log.d(TAG,"loadDefaultFavoritesIfNecessary origWorkspaceResId = "+origWorkspaceResId);
             // Use default workspace resource if none provided
-            if (workspaceResId == 0) {            	
-            	boolean isRdsVersion = isRDSSystemVersion();
-                workspaceResId = sp.getInt(DEFAULT_WORKSPACE_RESOURCE_ID, 
-                		isRdsVersion?R.xml.default_workspace_rds:R.xml.default_workspace);
+            if (workspaceResId == 0) { 
+            	int defaultXmlId = R.xml.default_workspace;
+            	int version = getSystemVersion();
+            	switch(version){           	
+            		case VERSION_NORMAL:
+            			defaultXmlId = R.xml.default_workspace;
+            			break;
+            			
+            		case VERSION_RDS:
+            			defaultXmlId = R.xml.default_workspace_rds;
+            			break;
+            			
+            		case VERSION_CARLF:
+//            			defaultXmlId = R.xml.default_workspace_carlf;
+            			defaultXmlId = R.xml.default_workspace;
+            			break;
+            	}
+            	
+                workspaceResId = sp.getInt(DEFAULT_WORKSPACE_RESOURCE_ID,defaultXmlId);
             }
             Log.d(TAG,"loadDefaultFavoritesIfNecessary workspaceResId = "+workspaceResId);
 
@@ -1220,8 +1235,21 @@ public class LauncherProvider extends ContentProvider {
 	}	
 	
     private static final String APP_FILE = "/system/etc/carit_version";
-	boolean isRDSSystemVersion(){
-    	String app = readVersionFile(APP_FILE);
-    	return app.contains("rds");
+    private static final String APP_FILE2 = "/system/etc/carit_version2";
+    private static final int VERSION_NORMAL = 0;
+    private static final int VERSION_RDS = 1;
+    private static final int VERSION_CARLF = 2;
+	int getSystemVersion(){
+		String version = readVersionFile(APP_FILE2);
+		if(version.contains("carlf")){
+			return VERSION_CARLF;
+		}
+		
+    	version = readVersionFile(APP_FILE);
+    	if(version.contains("rds")){
+    		return VERSION_RDS;
+    	}
+    	
+    	return VERSION_NORMAL;
     }
 }

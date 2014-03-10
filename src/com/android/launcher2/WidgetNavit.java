@@ -16,6 +16,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.widget.RemoteViews;
+import android.widget.Toast;
 
 public class WidgetNavit extends AppWidgetProvider {
 	private static final String TAG="WidgetNavit";
@@ -123,6 +124,7 @@ public class WidgetNavit extends AppWidgetProvider {
 			it.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT|Intent.FLAG_ACTIVITY_NEW_TASK);
 			context.startActivity(it);
 		} catch (Exception e) {
+			Toast.makeText(context, R.string.no_navi_app, Toast.LENGTH_LONG).show();
 			Log.e(TAG, e.getMessage());
 		}
 	}

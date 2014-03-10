@@ -285,4 +285,6 @@ s -->
     <string name="widget_app_video">Video</string>   
     <string name="widget_app_email">Email</string> 
     <string name="widget_app_calc">Calc</string> 
+    <string name="widget_app_driving_mode">DrivingMode</string>
+    <string name="no_navi_app">No navigation map, please install the navigation program</string>  
 </resources>

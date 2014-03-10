@@ -20,33 +20,23 @@
     <!-- Left screen [1] -->
 
     <!-- Middle screen [2] -->
+     	<appwidget
+        launcher:packageName="com.carit.ipodplayer"
+        launcher:className="com.carit.ipodplayer.WidgetProvider"
+        launcher:screen="2"
+        launcher:x="0"
+        launcher:y="0"
+        launcher:spanX="2"
+        launcher:spanY="2" />
         
     	<appwidget
         launcher:packageName="com.carit.radioplayer"
         launcher:className="com.carit.radioplayer.WidgetProvider"
         launcher:screen="2"
-        launcher:x="0"
+        launcher:x="2"
         launcher:y="0"
         launcher:spanX="2"
         launcher:spanY="2"/>  
-        
-        <appwidget
-        launcher:packageName="com.android.launcher"
-        launcher:className="com.android.launcher2.WidgetGallery"
-        launcher:screen="2"
-        launcher:x="2"
-        launcher:y="0"
-        launcher:spanX="1"
-        launcher:spanY="2" />
-        
-        <appwidget
-        launcher:packageName="com.android.launcher"
-        launcher:className="com.android.launcher2.WidgetSetting"
-        launcher:screen="2"
-        launcher:x="3"
-        launcher:y="0"
-        launcher:spanX="1"
-        launcher:spanY="2" />
         
        <appwidget
         launcher:packageName="com.android.launcher"
@@ -74,10 +64,10 @@
         launcher:y="2"
         launcher:spanX="1"
         launcher:spanY="2" /> 
-          
-       <appwidget
-        launcher:packageName="com.carit.dvdplayer"
-        launcher:className="com.carit.dvdplayer.WidgetProvider"
+        
+        <appwidget
+        launcher:packageName="com.android.launcher"
+        launcher:className="com.android.launcher2.WidgetDrivingMode"
         launcher:screen="2"
         launcher:x="2"
         launcher:y="2"
@@ -93,43 +83,43 @@
         launcher:spanX="2"
         launcher:spanY="2" />  
                                    
-     <!-- Right screen [3] -->
-      <appwidget
+     <!-- Right screen [3] -->   
+       <appwidget
         launcher:packageName="com.android.launcher"
-        launcher:className="com.android.launcher2.WidgetEmail"
+        launcher:className="com.android.launcher2.WidgetSetting"
         launcher:screen="3"
         launcher:x="0"
         launcher:y="0"
         launcher:spanX="1"
         launcher:spanY="2" />
-        
-        <appwidget
+     
+      <appwidget
         launcher:packageName="com.android.launcher"
-        launcher:className="com.android.launcher2.WidgetFileManager"
+        launcher:className="com.android.launcher2.WidgetGallery"
         launcher:screen="3"
         launcher:x="1"
         launcher:y="0"
         launcher:spanX="1"
         launcher:spanY="2" />
         
-	    <appwidget
-        launcher:packageName="com.carit.ipodplayer"
-        launcher:className="com.carit.ipodplayer.WidgetProvider"
+     <appwidget
+        launcher:packageName="com.carit.carlfweather"
+        launcher:className="com.carit.carlfweather.WeatherAppWidgetProvider"
         launcher:screen="3"
         launcher:x="2"
         launcher:y="0"
         launcher:spanX="2"
-        launcher:spanY="2" />
-        
-       <appwidget
+        launcher:spanY="2"/> 
+                     
+     <appwidget
         launcher:packageName="com.android.launcher"
-        launcher:className="com.android.launcher2.WidgetCalc"
+        launcher:className="com.android.launcher2.WidgetFileManager"
         launcher:screen="3"
         launcher:x="4"
         launcher:y="0"
         launcher:spanX="1"
         launcher:spanY="2" />
-                     
+         
      <appwidget
 		launcher:packageName="com.android.launcher"
         launcher:className="com.android.launcher2.WidgetVideo"
@@ -138,43 +128,42 @@
         launcher:y="2"
         launcher:spanX="2"
         launcher:spanY="2"/>  
+        
+     <appwidget
+        launcher:packageName="com.carit.dvdplayer"
+        launcher:className="com.carit.dvdplayer.WidgetProvider"
+        launcher:screen="3"
+        launcher:x="2"
+        launcher:y="2"
+        launcher:spanX="1"
+        launcher:spanY="2" />
+        
+    <!--  <appwidget
+        launcher:packageName="com.android.launcher"
+        launcher:className="com.android.launcher2.WidgetMessage"
+        launcher:screen="3"
+        launcher:x="2"
+        launcher:y="2"
+        launcher:spanX="1"
+        launcher:spanY="2" />
+          -->      
+      <appwidget
+        launcher:packageName="com.android.launcher"
+        launcher:className="com.android.launcher2.WidgetNews"
+        launcher:screen="3"
+        launcher:x="3"
+        launcher:y="2"
+        launcher:spanX="1"
+        launcher:spanY="2" /> 
                 
       <appwidget
         launcher:packageName="com.android.launcher"
         launcher:className="com.android.launcher2.WidgetMarket"
         launcher:screen="3"
-        launcher:x="2"
-        launcher:y="2"
-        launcher:spanX="1"
-        launcher:spanY="2" />   
-        
-      <appwidget
-        launcher:packageName="com.android.launcher"
-        launcher:className="com.android.launcher2.WidgetMessage"
-        launcher:screen="3"
-        launcher:x="3"
-        launcher:y="2"
-        launcher:spanX="1"
-        launcher:spanY="2" />
-        
-      <appwidget
-        launcher:packageName="com.android.launcher"
-        launcher:className="com.android.launcher2.WidgetNews"
-        launcher:screen="3"
         launcher:x="4"
         launcher:y="2"
         launcher:spanX="1"
-        launcher:spanY="2" /> 
-        
-         <!-- 
-     <appwidget
-        launcher:packageName="com.carit.caritweather"
-        launcher:className="com.carit.caritweather.WeatherAppWidgetProvider"
-        launcher:screen="3"
-        launcher:x="2"
-        launcher:y="0"
-        launcher:spanX="2"
-        launcher:spanY="2"/>  -->
+        launcher:spanY="2" />                     
                             
     <!-- Far-right screen [4] -->
 
@@ -187,13 +176,21 @@
         launcher:x="0"
         launcher:y="0" />
     <favorite
+        launcher:packageName="com.carit.carlfweather"
+        launcher:className="com.carit.carlfweather.CompassActivity"
+        launcher:container="-101"
+        launcher:screen="1"
+        launcher:x="1"
+        launcher:y="0" />
+        
+    <!-- <favorite
         launcher:packageName="com.carit.dvdplayer"
         launcher:className="com.carit.dvdplayer.DVDPlayer"
         launcher:container="-101"
         launcher:screen="1"
         launcher:x="1"
-        launcher:y="0" />
-        <favorite
+        launcher:y="0" /> -->
+    <favorite
         launcher:packageName="com.carit.radioplayer"
         launcher:className="com.carit.radioplayer.RedAndBlackActivity"
         launcher:container="-101"
@@ -207,4 +204,4 @@
         launcher:screen="3"
         launcher:x="3"
         launcher:y="0" />   
-	</favorites>
+</favorites>
