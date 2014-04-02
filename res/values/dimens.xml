@@ -138,7 +138,8 @@
 
 <!-- Workspace padding -->
     <dimen name="workspace_left_padding_port">0dp</dimen>
-    <dimen name="workspace_left_padding_land">@dimen/qsb_bar_height</dimen>
+    <dimen name="workspace_left_padding_land">0dp</dimen>
+    <!-- <dimen name="workspace_left_padding_land">@dimen/qsb_bar_height</dimen> -->
     <dimen name="workspace_right_padding_port">0dp</dimen>
     <dimen name="workspace_right_padding_land">@dimen/button_bar_height</dimen>
     <dimen name="workspace_top_padding_port">@dimen/qsb_bar_height_inset</dimen>
@@ -155,4 +156,9 @@
     <dimen name="workspace_width_gap_port">0dp</dimen>
     <dimen name="workspace_height_gap_land">0dp</dimen>
     <dimen name="workspace_height_gap_port">0dp</dimen>
+    
+    <dimen name="widget_width">131dp</dimen>
+    <dimen name="widget_width2">282dp</dimen>
+    <dimen name="widget_height">130dp</dimen>
+    
 </resources>

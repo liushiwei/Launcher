@@ -231,12 +231,10 @@ public class LauncherProvider extends ContentProvider {
             			defaultXmlId = R.xml.default_workspace_rds;
             			break;
             			
-            		case VERSION_CARLF:
+//            		case VERSION_CARLF:
 //            			defaultXmlId = R.xml.default_workspace_carlf;
-            			defaultXmlId = R.xml.default_workspace;
-            			break;
+//            			break;
             	}
-            	
                 workspaceResId = sp.getInt(DEFAULT_WORKSPACE_RESOURCE_ID,defaultXmlId);
             }
             Log.d(TAG,"loadDefaultFavoritesIfNecessary workspaceResId = "+workspaceResId);
@@ -1234,7 +1232,6 @@ public class LauncherProvider extends ContentProvider {
 		return text;
 	}	
 	
-    private static final String APP_FILE = "/system/etc/carit_version";
     private static final String APP_FILE2 = "/system/etc/carit_version2";
     private static final int VERSION_NORMAL = 0;
     private static final int VERSION_RDS = 1;
@@ -1243,13 +1240,10 @@ public class LauncherProvider extends ContentProvider {
 		String version = readVersionFile(APP_FILE2);
 		if(version.contains("carlf")){
 			return VERSION_CARLF;
+		}else if(version.contains("rds")){
+			return VERSION_RDS;
+		}else{
+			return VERSION_NORMAL;
 		}
-		
-    	version = readVersionFile(APP_FILE);
-    	if(version.contains("rds")){
-    		return VERSION_RDS;
-    	}
-    	
-    	return VERSION_NORMAL;
     }
 }

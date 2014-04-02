@@ -35,7 +35,7 @@
             android:id="@+id/workspace"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingLeft="0dp"
+            android:paddingLeft="@dimen/workspace_left_padding"
             android:paddingRight="0dp"
             android:paddingTop="@dimen/workspace_top_padding"
             android:paddingBottom="@dimen/workspace_bottom_padding"

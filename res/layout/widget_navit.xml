@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>  
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"        
-    android:layout_width="131px"
-    android:layout_height="130px"
+    android:layout_width="@dimen/widget_width"
+    android:layout_height="@dimen/widget_height"
     android:background="#aa2213">
     <ImageView android:id="@+id/widget_img" 
          android:layout_gravity="center" android:background="@drawable/widget_navit"

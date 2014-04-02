@@ -193,7 +193,7 @@
         launcher:screen="1"
         launcher:x="1"
         launcher:y="0" />
-        <favorite
+     <favorite
         launcher:packageName="com.carit.radioplayer"
         launcher:className="com.carit.radioplayer.RedAndBlackActivity"
         launcher:container="-101"
