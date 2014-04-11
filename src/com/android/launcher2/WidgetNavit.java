@@ -83,7 +83,7 @@ public class WidgetNavit extends AppWidgetProvider {
 	private static final String PROPERTIESFILE = "/data/system/.properties_file";
 	void startNavitActivity(Context context){
 		try {
-			Intent it = new Intent(Intent.ACTION_VIEW);
+			Intent it = new Intent();
 			File file = new File(PROPERTIESFILE);
 			String packageName = null;
 			String className = null;
@@ -121,7 +121,8 @@ public class WidgetNavit extends AppWidgetProvider {
 				Log.e(TAG, "packageName or className is null ,launche default");
 				it.setClassName("cld.navi.c2025.mainframe", "cld.navi.c2025.mainframe.NaviMainActivity");
 			}
-			it.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT|Intent.FLAG_ACTIVITY_NEW_TASK);
+//			it.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT|Intent.FLAG_ACTIVITY_NEW_TASK);
+			it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			context.startActivity(it);
 		} catch (Exception e) {
 			Toast.makeText(context, R.string.no_navi_app, Toast.LENGTH_LONG).show();
