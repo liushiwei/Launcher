@@ -70,7 +70,8 @@ public class WidgetAllApp extends AppWidgetProvider {
 		// TODO Auto-generated method stub
 		super.onReceive(context, intent);
 		Log.d(TAG,"onReceive getAction="+intent.getAction());
-		if(intent.getAction().equals(WIDGET_APP_ACTION) == true){
+		if(intent.getAction().equals(WIDGET_APP_ACTION) == true||
+			intent.getAction().equals("com.android.launcher.action.allapp") == true){
 			try{
 				Launcher.mLauncher.showAllApps(true);	
 			}catch (Exception e) {

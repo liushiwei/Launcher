@@ -139,7 +139,8 @@
              android:label="@string/widget_app_app">
              <intent-filter>
                  <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
-                 <action android:name="com.android.launcher.intent.action.ALLAPP"/>                         
+                 <action android:name="com.android.launcher.action.allapp"/> 
+                 <action android:name="com.android.launcher.intent.action.ALLAPP"/>
              </intent-filter>                 
              <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_provider_allapp"/>             
         </receiver>
