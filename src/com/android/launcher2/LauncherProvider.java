@@ -51,6 +51,7 @@ import android.util.Xml;
 
 import com.android.launcher.R;
 import com.android.launcher2.LauncherSettings.Favorites;
+import com.carit.util.CaritUtil;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -221,20 +222,15 @@ public class LauncherProvider extends ContentProvider {
             // Use default workspace resource if none provided
             if (workspaceResId == 0) { 
             	int defaultXmlId = R.xml.default_workspace;
-            	int version = getSystemVersion();
-            	switch(version){           	
-            		case VERSION_NORMAL:
-            			defaultXmlId = R.xml.default_workspace;
-            			break;
-            			
-            		case VERSION_RDS:
-            			defaultXmlId = R.xml.default_workspace_rds;
-            			break;
-            			
-//            		case VERSION_CARLF:
-//            			defaultXmlId = R.xml.default_workspace_carlf;
-//            			break;
+            	String version = CaritUtil.getCaritVersion2();
+            	if(version.contains("rds")){
+            		defaultXmlId = R.xml.default_workspace_rds;
+            	}else if(version.contains("teana")){
+            		defaultXmlId = R.xml.default_workspace_teana;
+            	}else{
+            		defaultXmlId = R.xml.default_workspace;
             	}
+            	
                 workspaceResId = sp.getInt(DEFAULT_WORKSPACE_RESOURCE_ID,defaultXmlId);
             }
             Log.d(TAG,"loadDefaultFavoritesIfNecessary workspaceResId = "+workspaceResId);
@@ -1209,41 +1205,5 @@ public class LauncherProvider extends ContentProvider {
                 throw new IllegalArgumentException("Invalid URI: " + url);
             }
         }
-    }
-    
-    public static String readVersionFile(String fileName){
-		File model = new File(fileName);
-		String text = "";
-		if (model.exists()) {
-			FileInputStream fileInput;
-			try {
-				fileInput = new FileInputStream(model);
-				DataInputStream bInput = new DataInputStream(fileInput);
-				    text = bInput.readLine();
-				Log.d(TAG,"buff = "+text);
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}else{
-			Log.e(TAG,fileName +" not exist!!!");
-		}
-		return text;
-	}	
-	
-    private static final String APP_FILE2 = "/system/etc/carit_version2";
-    private static final int VERSION_NORMAL = 0;
-    private static final int VERSION_RDS = 1;
-    private static final int VERSION_CARLF = 2;
-	int getSystemVersion(){
-		String version = readVersionFile(APP_FILE2);
-		if(version.contains("carlf")){
-			return VERSION_CARLF;
-		}else if(version.contains("rds")){
-			return VERSION_RDS;
-		}else{
-			return VERSION_NORMAL;
-		}
     }
 }
