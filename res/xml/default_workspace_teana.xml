@@ -101,21 +101,12 @@
         launcher:y="0"
         launcher:spanX="1"
         launcher:spanY="2" />
-        
-        <appwidget
-        launcher:packageName="com.android.launcher"
-        launcher:className="com.android.launcher2.WidgetFileManager"
-        launcher:screen="3"
-        launcher:x="1"
-        launcher:y="0"
-        launcher:spanX="1"
-        launcher:spanY="2" />
-        
+          
 	    <appwidget
         launcher:packageName="com.carit.ipodplayer"
         launcher:className="com.carit.ipodplayer.WidgetProvider"
         launcher:screen="3"
-        launcher:x="2"
+        launcher:x="1"
         launcher:y="0"
         launcher:spanX="2"
         launcher:spanY="2" />
@@ -124,13 +115,20 @@
         launcher:packageName="com.android.launcher"
         launcher:className="com.android.launcher2.WidgetCalc"
         launcher:screen="3"
+        launcher:x="3"
+        launcher:y="0"
+        launcher:spanX="1"
+        launcher:spanY="2" />
+        
+        <appwidget
+        launcher:packageName="com.android.launcher"
+        launcher:className="com.android.launcher2.WidgetFileManager"
+        launcher:screen="3"
         launcher:x="4"
         launcher:y="0"
         launcher:spanX="1"
         launcher:spanY="2" />
-                             
-   
-                
+                                      
       <appwidget
         launcher:packageName="com.android.launcher"
         launcher:className="com.android.launcher2.WidgetMarket"
@@ -157,11 +155,10 @@
         launcher:y="2"
         launcher:spanX="1"
         launcher:spanY="2" /> 
-        
-        <!--  
+         
         <appwidget
         launcher:packageName="com.android.launcher"
-        launcher:className="com.android.launcher2.WidgetEmail"
+        launcher:className="com.android.launcher2.WidgetEQ"
         launcher:screen="3"
         launcher:x="3"
         launcher:y="2"
@@ -170,23 +167,12 @@
         
        <appwidget
         launcher:packageName="com.android.launcher"
-        launcher:className="com.android.launcher2.WidgetEmail"
+        launcher:className="com.android.launcher2.WidgetAUX"
         launcher:screen="3"
         launcher:x="4"
         launcher:y="2"
         launcher:spanX="1"
         launcher:spanY="2" />
-        -->
-        
-         <!-- 
-     <appwidget
-        launcher:packageName="com.carit.caritweather"
-        launcher:className="com.carit.caritweather.WeatherAppWidgetProvider"
-        launcher:screen="3"
-        launcher:x="2"
-        launcher:y="0"
-        launcher:spanX="2"
-        launcher:spanY="2"/>  -->
                             
     <!-- Far-right screen [4] -->
 

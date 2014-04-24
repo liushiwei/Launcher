@@ -224,6 +224,30 @@
              </intent-filter>                 
              <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_provider_calc"/>             
         </receiver>
+        <receiver android:name="com.android.launcher2.WidgetAUX" android:icon="@drawable/widget_aux"                   
+             android:label="@string/widget_app_aux">
+             <intent-filter>
+                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>  
+                 <action android:name="com.android.launcher.intent.action.AUX"/>                
+             </intent-filter>                 
+             <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_provider_aux"/>             
+        </receiver>
+        <receiver android:name="com.android.launcher2.WidgetDTV" android:icon="@drawable/widget_dtv"                   
+             android:label="@string/widget_app_dtv">
+             <intent-filter>
+                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>  
+                 <action android:name="com.android.launcher.intent.action.DTV"/>                
+             </intent-filter>                 
+             <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_provider_dtv"/>             
+        </receiver>
+        <receiver android:name="com.android.launcher2.WidgetEQ" android:icon="@drawable/widget_eq"                   
+             android:label="@string/widget_app_eq">
+             <intent-filter>
+                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>  
+                 <action android:name="com.android.launcher.intent.action.EQ"/>                
+             </intent-filter>                 
+             <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_provider_eq"/>             
+        </receiver>
         <receiver android:name="com.android.launcher2.WidgetDrivingMode" android:icon="@drawable/widget_driving_mode"                   
              android:label="@string/widget_app_driving_mode">
              <intent-filter>
