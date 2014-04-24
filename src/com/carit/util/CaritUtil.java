@@ -36,7 +36,7 @@ public class CaritUtil {
 			try {
 				fileInput = new FileInputStream(model);
 				DataInputStream bInput = new DataInputStream(fileInput);
-				    text = bInput.readLine();
+				text = bInput.readLine();
 				if(DEBUG)Log.d(TAG,"buff = "+text);
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
@@ -45,6 +45,9 @@ public class CaritUtil {
 			}
 		}else{
 			if(DEBUG)Log.e(TAG,fileName +" not exist!!!");
+		}
+		if(text == null){
+			text = "";
 		}
 		return text;
 	}
