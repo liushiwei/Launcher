@@ -125,6 +125,7 @@
     <string name="widget_app_calc">计算器</string> 
     <string name="widget_app_eq">均衡器</string> 
     <string name="widget_app_dtv">数字电视</string>
+    <string name="widget_app_maxthon">遨游浏览器</string>
     <string name="widget_app_driving_mode">驾驶模式</string>  
     <string name="no_navi_app">没有安装导航应用程序或者没有设置导航应用程序信息</string> 
 </resources>

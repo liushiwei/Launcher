@@ -248,6 +248,14 @@
              </intent-filter>                 
              <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_provider_eq"/>             
         </receiver>
+        <receiver android:name="com.android.launcher2.WidgetMaxthon" android:icon="@drawable/widget_maxthon"                   
+             android:label="@string/widget_app_maxthon">
+             <intent-filter>
+                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>  
+                 <action android:name="com.android.launcher.intent.action.MAXTHON"/>                
+             </intent-filter>                 
+             <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_provider_maxthon"/>             
+        </receiver>
         <receiver android:name="com.android.launcher2.WidgetDrivingMode" android:icon="@drawable/widget_driving_mode"                   
              android:label="@string/widget_app_driving_mode">
              <intent-filter>

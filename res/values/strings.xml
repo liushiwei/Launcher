@@ -288,6 +288,7 @@ s -->
     <string name="widget_app_eq">EQ</string> 
     <string name="widget_app_dtv">DTV</string>
     <string name="widget_app_aux">AUX</string>
+    <string name="widget_app_maxthon">Maxthon</string>
     <string name="widget_app_driving_mode">DrivingMode</string>
     <string name="no_navi_app">No navigation map, please install the navigation program</string>  
 </resources>

@@ -158,7 +158,7 @@
          
         <appwidget
         launcher:packageName="com.android.launcher"
-        launcher:className="com.android.launcher2.WidgetEQ"
+        launcher:className="com.android.launcher2.WidgetMaxthon"
         launcher:screen="3"
         launcher:x="3"
         launcher:y="2"
@@ -167,7 +167,7 @@
         
        <appwidget
         launcher:packageName="com.android.launcher"
-        launcher:className="com.android.launcher2.WidgetAUX"
+        launcher:className="com.android.launcher2.WidgetDTV"
         launcher:screen="3"
         launcher:x="4"
         launcher:y="2"
