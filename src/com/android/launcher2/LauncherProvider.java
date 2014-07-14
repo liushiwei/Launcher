@@ -225,7 +225,8 @@ public class LauncherProvider extends ContentProvider {
             	String version = CaritUtil.getCaritVersion2();
             	if(version.contains("teana_en")){
             		defaultXmlId = R.xml.default_workspace_teana_en;
-            	}else if(version.contains("teana")){
+            	}else if(version.contains("teana") ||
+            		version.contains("accord9")){
             		defaultXmlId = R.xml.default_workspace_teana;
             	}else if(version.contains("rds")){
             		defaultXmlId = R.xml.default_workspace_rds;
