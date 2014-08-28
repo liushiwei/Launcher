@@ -3,5 +3,5 @@
     android:minWidth="40px"
     android:minHeight="100px"
     android:previewImage="@drawable/widget_preview_filemanager"
-    android:initialLayout="@layout/widget_allapp"/>  
+    android:initialLayout="@layout/widget_filemanager"/>  
     <!-- 70px*70px -->

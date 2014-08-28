@@ -3,5 +3,5 @@
     android:minWidth="100px"
     android:minHeight="100px"
     android:previewImage="@drawable/widget_preview_video"
-    android:initialLayout="@layout/widget_allapp"/>  
+    android:initialLayout="@layout/widget_video"/>  
     <!-- 70px*70px -->

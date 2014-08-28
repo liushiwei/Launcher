@@ -3,5 +3,5 @@
     android:minWidth="40px"
     android:minHeight="100px"
     android:previewImage="@drawable/widget_preview_driving_mode"
-    android:initialLayout="@layout/widget_allapp"/>  
+    android:initialLayout="@layout/widget_driving_mode"/>  
     <!-- 70px*70px -->
