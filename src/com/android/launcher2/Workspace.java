@@ -3378,6 +3378,7 @@ public class Workspace extends SmoothPagedView
                 cellLayout = (CellLayout) getChildAt(mDragInfo.screen);
             }
             cellLayout.onDropChild(mDragInfo.cell);
+			d.deferDragViewCleanupPostAnimation = false;
         }
         if (d.cancelled &&  mDragInfo.cell != null) {
                 mDragInfo.cell.setVisibility(VISIBLE);
