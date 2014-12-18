@@ -291,4 +291,8 @@ s -->
     <string name="widget_app_maxthon">Maxthon</string>
     <string name="widget_app_driving_mode">DrivingMode</string>
     <string name="no_navi_app">No navigation map, please install the navigation program</string>  
+    
+    <string name="app_bt">com.carit.bluetooth.intent.action.BluetoothApplication</string>
+    <string name="app_radio">com.carit.radioplayer.intent.action.RadioPlayer</string>
+    <string name="app_music">android.intent.action.MUSIC_PLAYER</string>
 </resources>

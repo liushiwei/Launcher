@@ -36,7 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingLeft="@dimen/workspace_left_padding"
-            android:paddingRight="0dp"
+            android:paddingRight="20dp"
             android:paddingTop="@dimen/workspace_top_padding"
             android:paddingBottom="@dimen/workspace_bottom_padding"
             launcher:defaultScreen="2"
@@ -77,13 +77,18 @@
             layout="@layout/scroll_indicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="100dp"
             android:layout_gravity="bottom" />
                    
         <include layout="@layout/hotseat"
             android:id="@+id/hotseat"
-            android:layout_width="match_parent"
+            android:layout_width="584dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center_horizontal|bottom"/>
+        <!-- 
+        	android:layout_width="wrap_content"
             android:layout_height="@dimen/button_bar_height_plus_padding"
-            android:layout_gravity="right" />
+             -->
 
         <include
             android:id="@+id/qsb_bar"

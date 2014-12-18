@@ -17,6 +17,7 @@
 package com.android.launcher2;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -139,10 +140,61 @@ public class Hotseat extends FrameLayout {
 
         // Note: We do this to ensure that the hotseat is always laid out in the orientation of
         // the hotseat in order regardless of which orientation they were added
-        int x = getCellXFromOrder(mAllAppsButtonRank);
-        int y = getCellYFromOrder(mAllAppsButtonRank);
-        CellLayout.LayoutParams lp = new CellLayout.LayoutParams(x,y,1,1);
+//      int x = getCellXFromOrder(mAllAppsButtonRank);
+//      int y = getCellYFromOrder(mAllAppsButtonRank);
+//      CellLayout.LayoutParams lp = new CellLayout.LayoutParams(x,y,1,1);
+        CellLayout.LayoutParams lp = new CellLayout.LayoutParams(2,0,1,1);
+
         lp.canReorder = false;
         mContent.addViewToCellLayout(allAppsButton, -1, 0, lp, true);
+        
+        initButton(0,R.drawable.navi_button_icon,new View.OnClickListener() {
+		      @Override
+		      public void onClick(android.view.View v) {
+		    	  Intent intent = new Intent("com.carit.key.navi");
+		    	  getContext().sendBroadcast(intent);    	  
+		      }
+		});
+        initButton(1,R.drawable.radio_button_icon,new View.OnClickListener() {
+		      @Override
+		      public void onClick(android.view.View v) {
+		    	  doRunActivity(getContext().getString(R.string.app_radio));	
+		      }
+		});
+        initButton(3,R.drawable.bt_button_icon,new View.OnClickListener() {
+		      @Override
+		      public void onClick(android.view.View v) {
+		    	  doRunActivity(getContext().getString(R.string.app_bt));	
+		      }
+		});
+        initButton(4,R.drawable.music_button_icon,new View.OnClickListener() {
+		      @Override
+		      public void onClick(android.view.View v) {
+		    	  doRunActivity(getContext().getString(R.string.app_music));	
+		      }
+		});
+    }
+    
+	private void doRunActivity(String name){
+		try {
+    		Intent it = new Intent(name);
+    		it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    		getContext().startActivity(it);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+    
+    void initButton(int cellX,int icon,OnClickListener l){
+    	Context context = getContext();
+        LayoutInflater inflater = LayoutInflater.from(context);
+        BubbleTextView button = (BubbleTextView)
+        		inflater.inflate(R.layout.application, mContent, false);
+        button.setCompoundDrawablesWithIntrinsicBounds(null,
+        		context.getResources().getDrawable(icon), null, null);
+        button.setOnClickListener(l);
+		CellLayout.LayoutParams lp = new CellLayout.LayoutParams(cellX,0,1,1);
+		lp.canReorder = false;
+		mContent.addViewToCellLayout(button, -1, 0, lp, true);
     }
 }

@@ -20,9 +20,9 @@
     launcher:cellCountY="1">
     <com.android.launcher2.CellLayout
         android:id="@+id/layout"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="right"
+        android:layout_gravity="center"
         android:paddingTop="@dimen/button_bar_height_top_padding"
         android:paddingBottom="@dimen/button_bar_height_bottom_padding"
         android:paddingLeft="@dimen/button_bar_width_left_padding"

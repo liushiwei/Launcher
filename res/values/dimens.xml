@@ -145,7 +145,7 @@
     <dimen name="workspace_top_padding_port">@dimen/qsb_bar_height_inset</dimen>
     <dimen name="workspace_top_padding_land">0dp</dimen>
     <dimen name="workspace_bottom_padding_port">@dimen/button_bar_height</dimen>
-    <dimen name="workspace_bottom_padding_land">0dp</dimen>
+    <dimen name="workspace_bottom_padding_land">20dp</dimen>
 
 <!-- Workspace cell size -->
     <dimen name="workspace_cell_width_land">156dp</dimen>

@@ -223,16 +223,16 @@ public class LauncherProvider extends ContentProvider {
             if (workspaceResId == 0) { 
             	int defaultXmlId = R.xml.default_workspace;
             	String version = CaritUtil.getCaritVersion2();
-            	if(version.contains("teana_en")){
-            		defaultXmlId = R.xml.default_workspace_teana_en;
-            	}else if(version.contains("teana") ||
-            		version.contains("accord9")){
-            		defaultXmlId = R.xml.default_workspace_teana;
-            	}else if(version.contains("rds")){
-            		defaultXmlId = R.xml.default_workspace_rds;
-            	}else{
-            		defaultXmlId = R.xml.default_workspace;
-            	}
+//            	if(version.contains("teana_en")){
+//            		defaultXmlId = R.xml.default_workspace_teana_en;
+//            	}else if(version.contains("teana") ||
+//            		version.contains("accord9")){
+//            		defaultXmlId = R.xml.default_workspace_teana;
+//            	}else if(version.contains("rds")){
+//            		defaultXmlId = R.xml.default_workspace_rds;
+//            	}else{
+//            		defaultXmlId = R.xml.default_workspace;
+//            	}
             	
                 workspaceResId = sp.getInt(DEFAULT_WORKSPACE_RESOURCE_ID,defaultXmlId);
             }
