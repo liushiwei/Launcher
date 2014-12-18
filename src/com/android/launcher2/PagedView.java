@@ -1738,6 +1738,17 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
         }
         return mScrollIndicator;
     }
+    
+    private boolean isHomeScreen(){
+        ViewGroup parent = (ViewGroup) getParent();
+        if (parent != null) {
+        	View scrollIndicator = (View) (parent.findViewById(R.id.paged_view_indicator1));
+            if(scrollIndicator != null){
+            	return true;
+            }
+        }
+        return false;    	
+    }
 
     protected boolean isScrollingIndicatorEnabled() {
         return true;
@@ -1793,27 +1804,27 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
             // Fade the indicator out
             updateScrollingIndicatorPosition();
             cancelScrollingIndicatorAnimations();
-            if (immediately || mScrollingPaused) {
-                mScrollIndicator.setVisibility(View.INVISIBLE);
-                mScrollIndicator.setAlpha(0f);
-            } else {
-                mScrollIndicatorAnimator = LauncherAnimUtils.ofFloat(mScrollIndicator, "alpha", 0f);
-                mScrollIndicatorAnimator.setDuration(sScrollIndicatorFadeOutDuration);
-                mScrollIndicatorAnimator.addListener(new AnimatorListenerAdapter() {
-                    private boolean cancelled = false;
-                    @Override
-                    public void onAnimationCancel(android.animation.Animator animation) {
-                        cancelled = true;
-                    }
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        if (!cancelled) {
-                            mScrollIndicator.setVisibility(View.INVISIBLE);
-                        }
-                    }
-                });
-                mScrollIndicatorAnimator.start();
-            }
+//            if (immediately || mScrollingPaused) {
+//                mScrollIndicator.setVisibility(View.INVISIBLE);
+//                mScrollIndicator.setAlpha(0f);
+//            } else {
+//                mScrollIndicatorAnimator = LauncherAnimUtils.ofFloat(mScrollIndicator, "alpha", 0f);
+//                mScrollIndicatorAnimator.setDuration(sScrollIndicatorFadeOutDuration);
+//                mScrollIndicatorAnimator.addListener(new AnimatorListenerAdapter() {
+//                    private boolean cancelled = false;
+//                    @Override
+//                    public void onAnimationCancel(android.animation.Animator animation) {
+//                        cancelled = true;
+//                    }
+//                    @Override
+//                    public void onAnimationEnd(Animator animation) {
+//                        if (!cancelled) {
+//                            mScrollIndicator.setVisibility(View.INVISIBLE);
+//                        }
+//                    }
+//                });
+//                mScrollIndicatorAnimator.start();
+//            }
         }
     }
 
@@ -1839,7 +1850,15 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
     }
 
     private void updateScrollingIndicatorPosition() {
-        if (!isScrollingIndicatorEnabled()) return;
+    	if(isHomeScreen() == true){
+    		updateHomeScrollingIndicatorPosition();
+    	}else{
+    		updateAppsScrollingIndicatorPosition();
+    	}
+    }
+    
+    private void updateAppsScrollingIndicatorPosition() {
+    	if (!isScrollingIndicatorEnabled()) return;
         if (mScrollIndicator == null) return;
         int numPages = getChildCount();
         int pageWidth = getMeasuredWidth();
@@ -1852,6 +1871,34 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
         float offset = Math.max(0f, Math.min(1f, (float) getScrollX() / maxScrollX));
         int indicatorSpace = trackWidth / numPages;
         int indicatorPos = (int) (offset * (trackWidth - indicatorSpace)) + mScrollIndicatorPaddingLeft;
+        if (hasElasticScrollIndicator()) {
+            if (mScrollIndicator.getMeasuredWidth() != indicatorSpace) {
+                mScrollIndicator.getLayoutParams().width = indicatorSpace;
+                mScrollIndicator.requestLayout();
+            }
+        } else {
+            int indicatorCenterOffset = indicatorSpace / 2 - indicatorWidth / 2;
+            indicatorPos += indicatorCenterOffset;
+        }
+        mScrollIndicator.setTranslationX(indicatorPos);
+    }
+    
+    private void updateHomeScrollingIndicatorPosition() {
+    	int scrollIndicatorPaddingLeft = 400;
+    	int scrollIndicatorPaddingRight = 400;
+    	
+        if (!isScrollingIndicatorEnabled()) return;
+        if (mScrollIndicator == null) return;
+        int numPages = getChildCount();
+        int pageWidth = getMeasuredWidth();
+        int lastChildIndex = Math.max(0, getChildCount() - 1);
+        int maxScrollX = getChildOffset(lastChildIndex) - getRelativeChildOffset(lastChildIndex);
+        int trackWidth = pageWidth - scrollIndicatorPaddingLeft - scrollIndicatorPaddingRight;
+        int indicatorWidth = mScrollIndicator.getMeasuredWidth() -
+                mScrollIndicator.getPaddingLeft() - mScrollIndicator.getPaddingRight();
+        float offset = Math.max(0f, Math.min(1f, (float) getScrollX() / maxScrollX));
+       	int indicatorSpace = mScrollIndicator.getMeasuredWidth();
+        int indicatorPos = (int) (offset * (trackWidth - indicatorSpace)) + scrollIndicatorPaddingLeft;
         if (hasElasticScrollIndicator()) {
             if (mScrollIndicator.getMeasuredWidth() != indicatorSpace) {
                 mScrollIndicator.getLayoutParams().width = indicatorSpace;

@@ -71,11 +71,52 @@
             android:layout_height="match_parent"
             android:layout_marginRight="@dimen/button_bar_height"
             android:layout_gravity="right" />
-
+        
+      <include
+            android:id="@+id/paged_view_indicator1"
+            layout="@layout/scroll_home_indicator"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="100dp"
+            android:layout_marginLeft="400dp"
+            android:layout_gravity="bottom" />
+         <include
+           android:id="@+id/paged_view_indicator2"
+           layout="@layout/scroll_home_indicator"
+           android:layout_width="40dp"
+           android:layout_height="wrap_content"
+           android:layout_marginBottom="100dp"
+           android:layout_marginLeft="446dp"
+           android:layout_gravity="bottom" />
+         <include
+           android:id="@+id/paged_view_indicator3"
+           layout="@layout/scroll_home_indicator"
+           android:layout_width="40dp"
+           android:layout_height="wrap_content"
+           android:layout_marginBottom="100dp"
+           android:layout_marginLeft="492dp"
+           android:layout_gravity="bottom" />
+         <include
+           android:id="@+id/paged_view_indicator4"
+           layout="@layout/scroll_home_indicator"
+           android:layout_width="40dp"
+           android:layout_height="wrap_content"
+           android:layout_marginBottom="100dp"
+           android:layout_marginLeft="538dp"
+           android:layout_gravity="bottom" />
+         <include
+           android:id="@+id/paged_view_indicator5"
+           layout="@layout/scroll_home_indicator"
+           android:layout_width="40dp"
+           android:layout_height="wrap_content"
+           android:layout_marginBottom="100dp"
+           android:layout_marginLeft="584dp"
+           android:layout_gravity="bottom" />
+        
         <include
             android:id="@+id/paged_view_indicator"
             layout="@layout/scroll_indicator"
-            android:layout_width="wrap_content"
+            android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="100dp"
             android:layout_gravity="bottom" />

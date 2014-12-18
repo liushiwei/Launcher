@@ -17,5 +17,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:visibility="visible"
     android:alpha="1"
-    android:src="@drawable/hotseat_scrubber_holo"
+    android:src="@drawable/hotseat_scrubber_home"
     android:scaleType="fitXY"/>
+<!-- 
+bg_appwidget_error
+
+ -->
