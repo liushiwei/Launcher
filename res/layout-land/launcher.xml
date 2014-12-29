@@ -77,7 +77,7 @@
             layout="@layout/scroll_home_indicator"
             android:layout_width="40dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="100dp"
+            android:layout_marginBottom="120dp"
             android:layout_marginLeft="400dp"
             android:layout_gravity="bottom" />
          <include
@@ -85,7 +85,7 @@
            layout="@layout/scroll_home_indicator"
            android:layout_width="40dp"
            android:layout_height="wrap_content"
-           android:layout_marginBottom="100dp"
+           android:layout_marginBottom="120dp"
            android:layout_marginLeft="446dp"
            android:layout_gravity="bottom" />
          <include
@@ -93,7 +93,7 @@
            layout="@layout/scroll_home_indicator"
            android:layout_width="40dp"
            android:layout_height="wrap_content"
-           android:layout_marginBottom="100dp"
+           android:layout_marginBottom="120dp"
            android:layout_marginLeft="492dp"
            android:layout_gravity="bottom" />
          <include
@@ -101,7 +101,7 @@
            layout="@layout/scroll_home_indicator"
            android:layout_width="40dp"
            android:layout_height="wrap_content"
-           android:layout_marginBottom="100dp"
+           android:layout_marginBottom="120dp"
            android:layout_marginLeft="538dp"
            android:layout_gravity="bottom" />
          <include
@@ -109,7 +109,7 @@
            layout="@layout/scroll_home_indicator"
            android:layout_width="40dp"
            android:layout_height="wrap_content"
-           android:layout_marginBottom="100dp"
+           android:layout_marginBottom="120dp"
            android:layout_marginLeft="584dp"
            android:layout_gravity="bottom" />
         
@@ -118,13 +118,13 @@
             layout="@layout/scroll_indicator"
             android:layout_width="40dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="100dp"
+            android:layout_marginBottom="120dp"
             android:layout_gravity="bottom" />
                    
         <include layout="@layout/hotseat"
             android:id="@+id/hotseat"
-            android:layout_width="584dp"
-            android:layout_height="100dp"
+            android:layout_width="900dp"
+            android:layout_height="120dp"
             android:layout_gravity="center_horizontal|bottom"/>
         <!-- 
         	android:layout_width="wrap_content"
