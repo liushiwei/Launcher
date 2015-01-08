@@ -128,4 +128,10 @@
     <string name="widget_app_maxthon">遨游浏览器</string>
     <string name="widget_app_driving_mode">驾驶模式</string>  
     <string name="no_navi_app">没有安装导航应用程序或者没有设置导航应用程序信息</string> 
+    
+    <string name="app_navi_name">导航</string>
+    <string name="app_radio_name">收音</string>
+    <string name="app_allapp_name">所有应用</string>
+    <string name="app_bt_name">蓝牙</string>
+    <string name="app_music_name">音乐</string>
 </resources>

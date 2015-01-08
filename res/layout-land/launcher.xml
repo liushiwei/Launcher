@@ -76,40 +76,40 @@
             android:id="@+id/paged_view_indicator1"
             layout="@layout/scroll_home_indicator"
             android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="120dp"
+            android:layout_height="2dp"
+            android:layout_marginBottom="150dp"
             android:layout_marginLeft="400dp"
             android:layout_gravity="bottom" />
          <include
            android:id="@+id/paged_view_indicator2"
            layout="@layout/scroll_home_indicator"
            android:layout_width="40dp"
-           android:layout_height="wrap_content"
-           android:layout_marginBottom="120dp"
+           android:layout_height="2dp"
+           android:layout_marginBottom="150dp"
            android:layout_marginLeft="446dp"
            android:layout_gravity="bottom" />
          <include
            android:id="@+id/paged_view_indicator3"
            layout="@layout/scroll_home_indicator"
            android:layout_width="40dp"
-           android:layout_height="wrap_content"
-           android:layout_marginBottom="120dp"
+           android:layout_height="2dp"
+           android:layout_marginBottom="150dp"
            android:layout_marginLeft="492dp"
            android:layout_gravity="bottom" />
          <include
            android:id="@+id/paged_view_indicator4"
            layout="@layout/scroll_home_indicator"
            android:layout_width="40dp"
-           android:layout_height="wrap_content"
-           android:layout_marginBottom="120dp"
+           android:layout_height="2dp"
+           android:layout_marginBottom="150dp"
            android:layout_marginLeft="538dp"
            android:layout_gravity="bottom" />
          <include
            android:id="@+id/paged_view_indicator5"
            layout="@layout/scroll_home_indicator"
            android:layout_width="40dp"
-           android:layout_height="wrap_content"
-           android:layout_marginBottom="120dp"
+           android:layout_height="2dp"
+           android:layout_marginBottom="150dp"
            android:layout_marginLeft="584dp"
            android:layout_gravity="bottom" />
         
@@ -117,19 +117,76 @@
             android:id="@+id/paged_view_indicator"
             layout="@layout/scroll_indicator"
             android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="120dp"
+            android:layout_height="2dp"
+            android:layout_marginBottom="150dp"
             android:layout_gravity="bottom" />
                    
         <include layout="@layout/hotseat"
             android:id="@+id/hotseat"
             android:layout_width="900dp"
             android:layout_height="120dp"
+            android:layout_marginBottom="30dp"
             android:layout_gravity="center_horizontal|bottom"/>
         <!-- 
         	android:layout_width="wrap_content"
             android:layout_height="@dimen/button_bar_height_plus_padding"
              -->
+             
+       <TextView
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:layout_marginLeft="75dp"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:textSize="25dp"
+            android:gravity="center"
+            android:text="@string/app_navi_name"
+            android:layout_gravity="bottom" />      
+       <TextView
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:layout_marginLeft="263dp"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:textSize="25dp"
+            android:gravity="center"
+            android:text="@string/app_radio_name"
+            android:layout_gravity="bottom" />    
+        <TextView
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:layout_marginLeft="452dp"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:textSize="25dp"
+            android:gravity="center"
+            android:text="@string/app_allapp_name"
+            android:layout_gravity="bottom" />    
+         <TextView
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:layout_marginLeft="640dp"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:textSize="25dp"
+            android:gravity="center"
+            android:text="@string/app_bt_name"
+            android:layout_gravity="bottom" />    
+         <TextView
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:layout_marginLeft="828dp"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:textSize="25dp"
+            android:gravity="center"
+            android:text="@string/app_music_name"
+            android:layout_gravity="bottom" />    
 
         <include
             android:id="@+id/qsb_bar"

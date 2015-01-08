@@ -79,7 +79,7 @@
     
     <!-- Workspace padding -->
     <dimen name="workspace_left_padding_land">20dp</dimen>
-    <dimen name="workspace_top_padding_land">20dp</dimen>
+    <dimen name="workspace_top_padding_land">0dp</dimen>
     
     <dimen name="widget_width">169dp</dimen>
     <dimen name="widget_width2">362dp</dimen>

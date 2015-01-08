@@ -295,4 +295,10 @@ s -->
     <string name="app_bt">com.carit.bluetooth.intent.action.BluetoothApplication</string>
     <string name="app_radio">com.carit.radioplayer.intent.action.RadioPlayer</string>
     <string name="app_music">android.intent.action.MUSIC_PLAYER</string>
+    
+    <string name="app_navi_name">Navi</string>
+    <string name="app_radio_name">Radio</string>
+    <string name="app_allapp_name">All App</string>
+    <string name="app_bt_name">Bluetooth</string>
+    <string name="app_music_name">Music</string>
 </resources>
