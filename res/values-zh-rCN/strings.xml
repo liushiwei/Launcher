@@ -131,7 +131,7 @@
     
     <string name="app_navi_name">导航</string>
     <string name="app_radio_name">收音</string>
-    <string name="app_allapp_name">所有应用</string>
+    <string name="app_allapp_name">应用</string>
     <string name="app_bt_name">蓝牙</string>
     <string name="app_music_name">音乐</string>
 </resources>

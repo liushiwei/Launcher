@@ -298,7 +298,7 @@ s -->
     
     <string name="app_navi_name">Navi</string>
     <string name="app_radio_name">Radio</string>
-    <string name="app_allapp_name">All App</string>
+    <string name="app_allapp_name">App</string>
     <string name="app_bt_name">Bluetooth</string>
     <string name="app_music_name">Music</string>
 </resources>
