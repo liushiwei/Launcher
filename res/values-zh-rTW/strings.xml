@@ -121,4 +121,10 @@
     <string name="widget_app_news">新闻</string>
     <string name="widget_app_setting">设置</string>
     <string name="widget_app_video">视频</string> 
+    
+    <string name="app_navi_name">導航</string>
+    <string name="app_radio_name">收音</string>
+    <string name="app_allapp_name">應用</string>
+    <string name="app_bt_name">藍牙</string>
+    <string name="app_music_name">音樂</string>
 </resources>
