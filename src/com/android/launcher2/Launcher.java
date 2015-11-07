@@ -2339,6 +2339,11 @@ public final class Launcher extends Activity
     }
 
     public boolean onLongClick(View v) {
+		
+		if(true){
+			return true;
+		}	
+		
         if (!isDraggingEnabled()) return false;
         if (isWorkspaceLocked()) return false;
         if (mState != State.WORKSPACE) return false;
