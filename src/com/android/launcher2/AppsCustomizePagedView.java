@@ -428,8 +428,7 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
     }
 
     private void updatePageCounts() {
-        mNumWidgetPages = (int) Math.ceil(mWidgets.size() /
-                (float) (mWidgetCountX * mWidgetCountY));
+	mNumWidgetPages = 0;
         mNumAppsPages = (int) Math.ceil((float) mApps.size() / (mCellCountX * mCellCountY));
     }
 

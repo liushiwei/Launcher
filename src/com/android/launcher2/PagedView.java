@@ -1837,7 +1837,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
     }
 
     private void updateScrollingIndicator() {
-        if (getChildCount() <= 1) return;
+        //if (getChildCount() <= 1) return;
         if (!isScrollingIndicatorEnabled()) return;
 
         getScrollingIndicator();
@@ -1869,6 +1869,8 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
                 mScrollIndicator.getPaddingLeft() - mScrollIndicator.getPaddingRight();
 
         float offset = Math.max(0f, Math.min(1f, (float) getScrollX() / maxScrollX));
+		//by cat: ArithmeticException: divide by zero
+		if(numPages==0){numPages=1;}
         int indicatorSpace = trackWidth / numPages;
         int indicatorPos = (int) (offset * (trackWidth - indicatorSpace)) + mScrollIndicatorPaddingLeft;
         if (hasElasticScrollIndicator()) {
@@ -1880,6 +1882,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
             int indicatorCenterOffset = indicatorSpace / 2 - indicatorWidth / 2;
             indicatorPos += indicatorCenterOffset;
         }
+		mScrollIndicator.setVisibility(View.INVISIBLE);
         mScrollIndicator.setTranslationX(indicatorPos);
     }
     
