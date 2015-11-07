@@ -1732,7 +1732,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
                 mScrollIndicator = (View) (parent.findViewById(R.id.paged_view_indicator));
                 mHasScrollIndicator = mScrollIndicator != null;
                 if (mHasScrollIndicator) {
-                    mScrollIndicator.setVisibility(View.VISIBLE);
+                    mScrollIndicator.setVisibility(View.INVISIBLE);
                 }
             }
         }
@@ -1777,7 +1777,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
         if (mScrollIndicator != null) {
             // Fade the indicator in
             updateScrollingIndicatorPosition();
-            mScrollIndicator.setVisibility(View.VISIBLE);
+            mScrollIndicator.setVisibility(View.INVISIBLE);
             cancelScrollingIndicatorAnimations();
             if (immediately || mScrollingPaused) {
                 mScrollIndicator.setAlpha(1f);

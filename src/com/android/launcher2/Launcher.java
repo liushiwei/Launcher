@@ -144,8 +144,8 @@ public final class Launcher extends Activity
 
     static final String EXTRA_SHORTCUT_DUPLICATE = "duplicate";
 
-    static final int SCREEN_COUNT = 5;
-    static final int DEFAULT_SCREEN = 2;
+    static final int SCREEN_COUNT = 2;
+    static final int DEFAULT_SCREEN = 0;
 
     private static final String PREFERENCES = "launcher.preferences";
     // To turn on these properties, type

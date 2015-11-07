@@ -18,7 +18,7 @@
      <appwidget
         launcher:packageName="com.carit.carlfweather"
         launcher:className="com.carit.carlfweather.WeatherAppWidgetProvider"
-        launcher:screen="2"
+        launcher:screen="0"
         launcher:x="0"
         launcher:y="0"
         launcher:spanX="5"
@@ -27,7 +27,7 @@
     <appwidget
         launcher:packageName="com.carit.carlfweather"
         launcher:className="com.carit.carlfweather.GsensorAppWidgetProvider"
-        launcher:screen="3"
+        launcher:screen="1"
         launcher:x="0"
         launcher:y="0"
         launcher:spanX="5"

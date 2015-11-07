@@ -39,7 +39,7 @@
             android:paddingRight="20dp"
             android:paddingTop="@dimen/workspace_top_padding"
             android:paddingBottom="@dimen/workspace_bottom_padding"
-            launcher:defaultScreen="2"
+            launcher:defaultScreen="0"
             launcher:cellCountX="@integer/cell_count_x"
             launcher:cellCountY="@integer/cell_count_y"
             launcher:pageSpacing="@dimen/workspace_page_spacing"
@@ -47,9 +47,11 @@
             launcher:scrollIndicatorPaddingRight="@dimen/button_bar_height">
             <include android:id="@+id/cell1" layout="@layout/workspace_screen" />
             <include android:id="@+id/cell2" layout="@layout/workspace_screen" />
+			<!--
             <include android:id="@+id/cell3" layout="@layout/workspace_screen" />
             <include android:id="@+id/cell4" layout="@layout/workspace_screen" />
             <include android:id="@+id/cell5" layout="@layout/workspace_screen" />
+			-->
         </com.android.launcher2.Workspace>
         <!-- 
         	android:paddingLeft="@dimen/workspace_left_padding"
@@ -75,43 +77,12 @@
       <include
             android:id="@+id/paged_view_indicator1"
             layout="@layout/scroll_home_indicator"
-            android:layout_width="40dp"
+            android:layout_width="0dp"
             android:layout_height="2dp"
             android:layout_marginBottom="150dp"
-            android:layout_marginLeft="400dp"
+            android:layout_marginLeft="460dp"
+			android:visibility="invisible"
             android:layout_gravity="bottom" />
-         <include
-           android:id="@+id/paged_view_indicator2"
-           layout="@layout/scroll_home_indicator"
-           android:layout_width="40dp"
-           android:layout_height="2dp"
-           android:layout_marginBottom="150dp"
-           android:layout_marginLeft="446dp"
-           android:layout_gravity="bottom" />
-         <include
-           android:id="@+id/paged_view_indicator3"
-           layout="@layout/scroll_home_indicator"
-           android:layout_width="40dp"
-           android:layout_height="2dp"
-           android:layout_marginBottom="150dp"
-           android:layout_marginLeft="492dp"
-           android:layout_gravity="bottom" />
-         <include
-           android:id="@+id/paged_view_indicator4"
-           layout="@layout/scroll_home_indicator"
-           android:layout_width="40dp"
-           android:layout_height="2dp"
-           android:layout_marginBottom="150dp"
-           android:layout_marginLeft="538dp"
-           android:layout_gravity="bottom" />
-         <include
-           android:id="@+id/paged_view_indicator5"
-           layout="@layout/scroll_home_indicator"
-           android:layout_width="40dp"
-           android:layout_height="2dp"
-           android:layout_marginBottom="150dp"
-           android:layout_marginLeft="584dp"
-           android:layout_gravity="bottom" />
         
         <include
             android:id="@+id/paged_view_indicator"

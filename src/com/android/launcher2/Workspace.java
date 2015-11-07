@@ -332,7 +332,7 @@ public class Workspace extends SmoothPagedView
         // if the value is manually specified, use that instead
         cellCountX = a.getInt(R.styleable.Workspace_cellCountX, cellCountX);
         cellCountY = a.getInt(R.styleable.Workspace_cellCountY, cellCountY);
-        mDefaultPage = a.getInt(R.styleable.Workspace_defaultScreen, 1);
+        mDefaultPage = a.getInt(R.styleable.Workspace_defaultScreen, 0);
         a.recycle();
 
         setOnHierarchyChangeListener(this);
