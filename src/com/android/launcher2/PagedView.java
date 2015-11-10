@@ -1416,9 +1416,15 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
     protected int getChildWidth(int index) {
         // This functions are called enough times that it actually makes a difference in the
         // profiler -- so just inline the max() here
-        final int measuredWidth = getPageAt(index).getMeasuredWidth();
-        final int minWidth = mMinimumWidth;
-        return (minWidth > measuredWidth) ? minWidth : measuredWidth;
+		
+		//by cat null point bug
+		if(getPageAt(index)==null){
+			return 912;
+		}    
+		final int measuredWidth = getPageAt(index).getMeasuredWidth();
+		final int minWidth = mMinimumWidth;
+		return (minWidth > measuredWidth) ? minWidth : measuredWidth;	
+		
     }
 
     int getPageNearestToCenterOfScreen() {
