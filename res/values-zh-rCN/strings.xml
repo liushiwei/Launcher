@@ -134,4 +134,5 @@
     <string name="app_allapp_name">应用</string>
     <string name="app_bt_name">蓝牙</string>
     <string name="app_music_name">音乐</string>
+    <string name="app_parking_name">全景泊车</string>
 </resources>

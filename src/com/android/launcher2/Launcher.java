@@ -986,6 +986,15 @@ public final class Launcher extends Activity
         if (mSearchDropTargetBar != null) {
             mSearchDropTargetBar.setup(this, dragController);
         }
+        
+        TextView  appIcon5 = (TextView)findViewById(R.id.launch_app_icon5);
+        if(appIcon5 != null){
+	        if(Hotseat.isInstallApp("globalmain.apk")){
+	        	appIcon5.setText(R.string.app_parking_name);
+	        }else{
+	        	appIcon5.setText(R.string.app_music_name);	
+	        }
+        }
     }
 
     /**

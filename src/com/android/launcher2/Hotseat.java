@@ -16,17 +16,19 @@
 
 package com.android.launcher2;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
-
+import java.io.File;
 import com.android.launcher.R;
 
 public class Hotseat extends FrameLayout {
@@ -167,13 +169,35 @@ public class Hotseat extends FrameLayout {
 		    	  doRunActivity(getContext().getString(R.string.app_bt));	
 		      }
 		});
-        initButton(4,R.drawable.music_button_icon,new View.OnClickListener() {
-		      @Override
-		      public void onClick(android.view.View v) {
-		    	  doRunActivity(getContext().getString(R.string.app_music));	
-		      }
-		});
+         
+        if(isInstallApp("globalmain.apk")){
+        	 initButton(4,R.drawable.parking_button_icon,new View.OnClickListener() {
+	   		      @Override
+	   		      public void onClick(android.view.View v) {	
+	   		    	Intent intent = new Intent(Intent.ACTION_MAIN);  
+	   		    	intent.addCategory(Intent.CATEGORY_LAUNCHER);              
+	   		    	ComponentName cn = new ComponentName("tianshuang.globalmain", "tianshuang.globalmain.MainActivity");              
+	   		    	intent.setComponent(cn);  
+	   		    	getContext().startActivity(intent);  	
+	   		      }
+        	 });
+		}else{       
+	        initButton(4,R.drawable.music_button_icon,new View.OnClickListener() {
+			      @Override
+			      public void onClick(android.view.View v) {
+			    	  doRunActivity(getContext().getString(R.string.app_music));	
+			      }
+			});
+		}
     }
+    
+	public static boolean isInstallApp(String appName) {		
+		File file = new File("/system/app/"+appName);
+		if (!file.exists()) {				
+			return false;
+		}		
+		return true;
+	}
     
 	private void doRunActivity(String name){
 		try {

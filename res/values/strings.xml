@@ -301,4 +301,5 @@ s -->
     <string name="app_allapp_name">App</string>
     <string name="app_bt_name">Bluetooth</string>
     <string name="app_music_name">Music</string>
+    <string name="app_parking_name">Parking</string>
 </resources>
