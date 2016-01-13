@@ -197,7 +197,7 @@ public class Hotseat extends FrameLayout {
 //		      }
 //		});
         getNavConfig();
-        if(mAppName.length()>0){
+        if(mAppName.length()>0&&mLauncher!=null){
         	TextView app2Name = (TextView) mLauncher.findViewById(R.id.app3_name);
         	app2Name.setText(mAppName);
         }
