@@ -61,7 +61,7 @@
             android:paddingRight="@dimen/workspace_right_padding"
             android:paddingTop="@dimen/workspace_top_padding"
             android:paddingBottom="@dimen/workspace_bottom_padding"
-            launcher:defaultScreen="2"
+            launcher:defaultScreen="0"
             launcher:cellCountX="@integer/cell_count_x"
             launcher:cellCountY="@integer/cell_count_y"
             launcher:pageSpacing="@dimen/workspace_page_spacing"
@@ -70,16 +70,14 @@
 
             <include android:id="@+id/cell1" layout="@layout/workspace_screen" />
             <include android:id="@+id/cell2" layout="@layout/workspace_screen" />
-            <include android:id="@+id/cell3" layout="@layout/workspace_screen" />
-            <include android:id="@+id/cell4" layout="@layout/workspace_screen" />
-            <include android:id="@+id/cell5" layout="@layout/workspace_screen" />
         </com.android.launcher2.Workspace>
 
         <include layout="@layout/hotseat"
             android:id="@+id/hotseat"
             android:layout_width="match_parent"
             android:layout_height="@dimen/button_bar_height_plus_padding"
-            android:layout_gravity="bottom" />
+            android:layout_gravity="bottom"
+            />
 
         <include
             android:id="@+id/qsb_bar"
