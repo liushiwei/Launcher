@@ -1461,6 +1461,11 @@ public final class Launcher extends Activity
             }
 
         }
+        if(intent!=null&&intent.getAction().equals("com.android.launcher.action.ALLAPP")){
+    		if (!isAllAppsVisible()) {
+    			showAllApps(true);
+    		}
+    	}
     }
 
     @Override
