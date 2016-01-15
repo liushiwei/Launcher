@@ -1029,16 +1029,9 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
     private void updateCurrentTab(int currentPage) {
         AppsCustomizeTabHost tabHost = getTabHost();
         if (tabHost != null) {
-            String tag = tabHost.getCurrentTabTag();
-            if (tag != null) {
-                if (currentPage >= mNumAppsPages &&
-                        !tag.equals(tabHost.getTabTagForContentType(ContentType.Widgets))) {
-                    tabHost.setCurrentTabFromContent(ContentType.Widgets);
-                } else if (currentPage < mNumAppsPages &&
-                        !tag.equals(tabHost.getTabTagForContentType(ContentType.Applications))) {
-                    tabHost.setCurrentTabFromContent(ContentType.Applications);
-                }
-            }
+			if (currentPage < mNumAppsPages ) {
+				tabHost.setCurrentTabFromContent(ContentType.Applications);
+			}
         }
     }
 
@@ -1807,12 +1800,7 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         mSaveInstanceStateItemIndex = -1;
 
         AppsCustomizeTabHost tabHost = getTabHost();
-        String tag = tabHost.getCurrentTabTag();
-        if (tag != null) {
-            if (!tag.equals(tabHost.getTabTagForContentType(ContentType.Applications))) {
-                tabHost.setCurrentTabFromContent(ContentType.Applications);
-            }
-        }
+        tabHost.setCurrentTabFromContent(ContentType.Applications);
 
         if (mCurrentPage != 0) {
             invalidatePageData(0);

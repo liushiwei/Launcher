@@ -16,8 +16,8 @@
 
 package com.android.launcher2;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
+import java.util.ArrayList;
+
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -40,11 +40,11 @@ import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityManager;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.animation.Interpolator;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Scroller;
 
 import com.android.launcher.R;
-
-import java.util.ArrayList;
 
 /**
  * An abstraction of the original Workspace which supports browsing through a
@@ -1740,7 +1740,9 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
                 if (mHasScrollIndicator) {
                     mScrollIndicator.setVisibility(View.INVISIBLE);
                 }
+                setPageSwitchListener(mListener);
             }
+            updateScrollingIndicatorBg();
         }
         return mScrollIndicator;
     }
@@ -1981,4 +1983,41 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
     public boolean onHoverEvent(android.view.MotionEvent event) {
         return true;
     }
+    
+    public void updateScrollingIndicatorBg(){
+    	ViewGroup parent = (ViewGroup) getParent();
+    	LinearLayout ll = (LinearLayout) parent.findViewById(
+				R.id.linearLayout_fav);
+        if(ll!=null){
+        	if (ll.getChildCount() > 0)
+        		ll.removeAllViews();
+        	Log.e(TAG, "getChildCount() ="+getChildCount());
+        	for (int i = 0; i < getChildCount(); i++) {
+        		ImageView iv = new ImageView(getContext());
+        		LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(
+        				LinearLayout.LayoutParams.WRAP_CONTENT,
+        				LinearLayout.LayoutParams.WRAP_CONTENT);
+        		
+        		iv.setLayoutParams(p);
+        		if(i<(getChildCount()-1))
+        		iv.setPadding(0, 0, 10, 0);
+        		if(mCurrentPage!=i)
+        		iv.setImageResource(R.drawable.point_n);
+        		else{
+        			iv.setImageResource(R.drawable.point_s );
+        		}
+        		ll.addView(iv);
+        	}
+        	ll.postInvalidate();
+        }
+    }
+    
+    private PageSwitchListener mListener  = new PageSwitchListener() {
+		
+		@Override
+		public void onPageSwitch(View newPage, int newPageIndex) {
+			Log.e(TAG, "-----current Page = "+newPageIndex);
+			updateScrollingIndicatorBg();
+		}
+	}; 
 }

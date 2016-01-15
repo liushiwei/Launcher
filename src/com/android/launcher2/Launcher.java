@@ -440,7 +440,6 @@ public final class Launcher extends Activity
         int coi = getCurrentOrientationIndexForGlobalIcons();
         if (sGlobalSearchIcon[coi] == null || sVoiceSearchIcon[coi] == null ||
                 sAppMarketIcon[coi] == null) {
-            updateAppMarketIcon();
             searchVisible = updateGlobalSearchIcon();
             voiceVisible = updateVoiceSearchIcon(searchVisible);
         }
@@ -452,9 +451,7 @@ public final class Launcher extends Activity
             updateVoiceSearchIcon(sVoiceSearchIcon[coi]);
             voiceVisible = true;
         }
-        if (sAppMarketIcon[coi] != null) {
-            updateAppMarketIcon(sAppMarketIcon[coi]);
-        }
+        
         if (mSearchDropTargetBar != null) {
             mSearchDropTargetBar.onSearchPackagesChanged(searchVisible, voiceVisible);
         }
@@ -1309,7 +1306,6 @@ public final class Launcher extends Activity
             }
             // When Launcher comes back to foreground, a different Activity might be responsible for
             // the app market intent, so refresh the icon
-            updateAppMarketIcon();
             clearTypedText();
         }
     }
@@ -1503,10 +1499,6 @@ public final class Launcher extends Activity
 
         // Save the current AppsCustomize tab
         if (mAppsCustomizeTabHost != null) {
-            String currentTabTag = mAppsCustomizeTabHost.getCurrentTabTag();
-            if (currentTabTag != null) {
-                outState.putString("apps_customize_currentTab", currentTabTag);
-            }
             int currentIndex = mAppsCustomizeContent.getSaveInstanceStateIndex();
             outState.putInt("apps_customize_currentIndex", currentIndex);
         }
@@ -3233,41 +3225,7 @@ public final class Launcher extends Activity
         invalidatePressedFocusedStates(voiceButtonContainer, voiceButton);
     }
 
-    /**
-     * Sets the app market icon
-     */
-    private void updateAppMarketIcon() {
-        final View marketButton = findViewById(R.id.market_button);
-        Intent intent = new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_APP_MARKET);
-        // Find the app market activity by resolving an intent.
-        // (If multiple app markets are installed, it will return the ResolverActivity.)
-        ComponentName activityName = intent.resolveActivity(getPackageManager());
-        if (activityName != null) {
-            int coi = getCurrentOrientationIndexForGlobalIcons();
-            mAppMarketIntent = intent;
-            sAppMarketIcon[coi] = updateTextButtonWithIconFromExternalActivity(
-                    R.id.market_button, activityName, R.drawable.ic_launcher_market_holo,
-                    TOOLBAR_ICON_METADATA_NAME);
-            marketButton.setVisibility(View.VISIBLE);
-        } else {
-            // We should hide and disable the view so that we don't try and restore the visibility
-            // of it when we swap between drag & normal states from IconDropTarget subclasses.
-            marketButton.setVisibility(View.GONE);
-            marketButton.setEnabled(false);
-        }
-    }
-
-    private void updateAppMarketIcon(Drawable.ConstantState d) {
-        // Ensure that the new drawable we are creating has the approprate toolbar icon bounds
-        Resources r = getResources();
-        Drawable marketIconDrawable = d.newDrawable(r);
-        int w = r.getDimensionPixelSize(R.dimen.toolbar_external_icon_width);
-        int h = r.getDimensionPixelSize(R.dimen.toolbar_external_icon_height);
-        marketIconDrawable.setBounds(0, 0, w, h);
-
-        updateTextButtonWithDrawable(R.id.market_button, marketIconDrawable);
-    }
-
+    
     @Override
     public boolean dispatchPopulateAccessibilityEvent(AccessibilityEvent event) {
         final boolean result = super.dispatchPopulateAccessibilityEvent(event);
@@ -3500,7 +3458,6 @@ public final class Launcher extends Activity
 
         // Update the market app icon as necessary (the other icons will be managed in response to
         // package changes in bindSearchablesChanged()
-        updateAppMarketIcon();
 
         // Animate up any icons as necessary
         if (mVisible || mWorkspaceLoading) {

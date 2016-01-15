@@ -50,7 +50,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:layout_marginBottom="@dimen/button_bar_height_plus_padding" />
+             />
+        <LinearLayout
+        android:id="@+id/linearLayout_fav"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:layout_marginBottom="25dp" />
 
         <!-- The workspace contains 5 screens of cells -->
         <com.android.launcher2.Workspace
