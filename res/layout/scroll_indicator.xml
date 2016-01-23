@@ -15,7 +15,4 @@
 -->
 <ImageView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:visibility="visible"
-    android:alpha="1"
-    android:src="@drawable/hotseat_scrubber_holo"
-    android:scaleType="fitXY"/>
+    android:src="@drawable/point_s" />

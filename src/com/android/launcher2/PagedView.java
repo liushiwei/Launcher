@@ -18,12 +18,18 @@ package com.android.launcher2;
 
 import java.util.ArrayList;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
@@ -183,6 +189,8 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
     protected static final int sScrollIndicatorFadeOutDuration = 650;
     protected static final int sScrollIndicatorFlashDuration = 650;
     private boolean mScrollingPaused = false;
+    
+    private LinearLayout mScrollIndicatorBg;
 
     // If set, will defer loading associated pages until the scrolling settles
     private boolean mDeferLoadAssociatedPagesUntilScrollCompletes;
@@ -224,8 +232,33 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
         a.recycle();
 
         setHapticFeedbackEnabled(false);
+        IntentFilter filter = new IntentFilter();
+        filter.addDataScheme("package");
+        filter.addAction("android.intent.action.PACKAGE_INSTALL");
+        filter.addAction("android.intent.action.PACKAGE_ADDED");
+        filter.addAction("android.intent.action.PACKAGE_REMOVED");
+        context.registerReceiver(mReceiver, filter);
         init();
     }
+    
+    BroadcastReceiver mReceiver = new BroadcastReceiver() {
+		
+		@Override
+		public void onReceive(Context arg0, Intent arg1) {
+			Log.e(TAG, "get Action = "+arg1.getAction());
+			Handler handler = new Handler();
+			handler.postDelayed(new Runnable() {
+				
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					updateScrollingIndicatorBg();
+					
+				}
+			}, 1000);
+			
+		}
+	};
 
     /**
      * Initializes various states for this workspace.
@@ -255,7 +288,12 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
             mPageSwitchListener.onPageSwitch(getPageAt(mCurrentPage), mCurrentPage);
         }
     }
-
+    /**
+     * Note: this is a reimplementation of View.isLayoutRtl() since that is currently hidden api.
+     */
+    public boolean isLayoutRtl() {
+        return (getLayoutDirection() == LAYOUT_DIRECTION_RTL);
+    }
     /**
      * Called by subclasses to mark that data is ready, and that we can begin loading and laying
      * out pages.
@@ -401,17 +439,27 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
 
     @Override
     public void scrollTo(int x, int y) {
+        final boolean isRtl = isLayoutRtl();
         mUnboundedScrollX = x;
-
-        if (x < 0) {
+        boolean isXBeforeFirstPage = isRtl ? (x > mMaxScrollX) : (x < 0);
+        boolean isXAfterLastPage = isRtl ? (x < 0) : (x > mMaxScrollX);
+        if (isXBeforeFirstPage) {
             super.scrollTo(0, y);
             if (mAllowOverScroll) {
-                overScroll(x);
+                if (isRtl) {
+                    overScroll(x - mMaxScrollX);
+                } else {
+                    overScroll(x);
+                }
             }
-        } else if (x > mMaxScrollX) {
+        } else if (isXAfterLastPage) {
             super.scrollTo(mMaxScrollX, y);
             if (mAllowOverScroll) {
-                overScroll(x - mMaxScrollX);
+                if (isRtl) {
+                    overScroll(x);
+                } else {
+                    overScroll(x - mMaxScrollX);
+                }
             }
         } else {
             mOverScrollX = x;
@@ -566,7 +614,8 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
         updateScrollingIndicatorPosition();
 
         if (childCount > 0) {
-            mMaxScrollX = getChildOffset(childCount - 1) - getRelativeChildOffset(childCount - 1);
+            final int index = isLayoutRtl() ? 0 : childCount - 1;
+            mMaxScrollX = getChildOffset(index) - getRelativeChildOffset(index);
         } else {
             mMaxScrollX = 0;
         }
@@ -631,9 +680,12 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
         if (DEBUG) Log.d(TAG, "PagedView.onLayout()");
         final int verticalPadding = getPaddingTop() + getPaddingBottom();
         final int childCount = getChildCount();
-        int childLeft = getRelativeChildOffset(0);
-
-        for (int i = 0; i < childCount; i++) {
+        final boolean isRtl = isLayoutRtl();
+        final int startIndex = isRtl ? childCount - 1 : 0;
+        final int endIndex = isRtl ? -1 : childCount;
+        final int delta = isRtl ? -1 : 1;
+        int childLeft = getRelativeChildOffset(startIndex);
+        for (int i = startIndex; i != endIndex; i += delta) {
             final View child = getPageAt(i);
             if (child.getVisibility() != View.GONE) {
                 final int childWidth = getScaledMeasuredWidth(child);
@@ -710,6 +762,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
     }
 
     protected int getChildOffset(int index) {
+        final boolean isRtl = isLayoutRtl();
         int[] childOffsets = Float.compare(mLayoutScale, 1f) == 0 ?
                 mChildOffsets : mChildOffsetsWithLayoutScale;
 
@@ -718,9 +771,11 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
         } else {
             if (getChildCount() == 0)
                 return 0;
-
-            int offset = getRelativeChildOffset(0);
-            for (int i = 0; i < index; ++i) {
+            final int startIndex = isRtl ? getChildCount() - 1 : 0;
+            final int endIndex = isRtl ? index : index;
+            final int delta = isRtl ? -1 : 1;
+            int offset = getRelativeChildOffset(startIndex);
+            for (int i = startIndex; i != endIndex; i += delta) {
                 offset += getScaledMeasuredWidth(getPageAt(i)) + mPageSpacing;
             }
             if (childOffsets != null) {
@@ -754,28 +809,31 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
     }
 
     protected void getVisiblePages(int[] range) {
+        final boolean isRtl = isLayoutRtl();
         final int pageCount = getChildCount();
 
         if (pageCount > 0) {
             final int screenWidth = getMeasuredWidth();
-            int leftScreen = 0;
+            int leftScreen = isRtl ? pageCount - 1 : 0;
             int rightScreen = 0;
+            int endIndex = isRtl ? 0 : pageCount - 1;
+            int delta = isRtl ? -1 : 1;
             View currPage = getPageAt(leftScreen);
-            while (leftScreen < pageCount - 1 &&
+            while (leftScreen != endIndex &&
                     currPage.getX() + currPage.getWidth() -
                     currPage.getPaddingRight() < getScrollX()) {
-                leftScreen++;
+                leftScreen += delta;
                 currPage = getPageAt(leftScreen);
             }
             rightScreen = leftScreen;
-            currPage = getPageAt(rightScreen + 1);
-            while (rightScreen < pageCount - 1 &&
+            currPage = getPageAt(rightScreen + delta);
+            while (rightScreen != endIndex &&
                     currPage.getX() - currPage.getPaddingLeft() < getScrollX() + screenWidth) {
-                rightScreen++;
-                currPage = getPageAt(rightScreen + 1);
+                rightScreen += delta;
+                currPage = getPageAt(rightScreen + delta);
             }
-            range[0] = leftScreen;
-            range[1] = rightScreen;
+            range[0] = Math.min(leftScreen, rightScreen);
+            range[1] = Math.max(leftScreen, rightScreen);
         } else {
             range[0] = -1;
             range[1] = -1;
@@ -930,16 +988,22 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
      * Return true if a tap at (x, y) should trigger a flip to the previous page.
      */
     protected boolean hitsPreviousPage(float x, float y) {
-        return (x < getRelativeChildOffset(mCurrentPage) - mPageSpacing);
+        if (isLayoutRtl()) {
+            return (x > (getMeasuredWidth() - getRelativeChildOffset(mCurrentPage) + mPageSpacing));
+        } else {
+            return (x < getRelativeChildOffset(mCurrentPage) - mPageSpacing);
+        }
     }
-
     /**
      * Return true if a tap at (x, y) should trigger a flip to the next page.
      */
     protected boolean hitsNextPage(float x, float y) {
-        return  (x > (getMeasuredWidth() - getRelativeChildOffset(mCurrentPage) + mPageSpacing));
+        if (isLayoutRtl()) {
+            return (x < getRelativeChildOffset(mCurrentPage) - mPageSpacing);
+        } else {
+            return (x > (getMeasuredWidth() - getRelativeChildOffset(mCurrentPage) + mPageSpacing));
+        }
     }
-
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         /*
@@ -1269,12 +1333,15 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
                 // We give flings precedence over large moves, which is why we short-circuit our
                 // test for a large move if a fling has been registered. That is, a large
                 // move to the left and fling to the right will register as a fling to the right.
-                if (((isSignificantMove && deltaX > 0 && !isFling) ||
-                        (isFling && velocityX > 0)) && mCurrentPage > 0) {
+                final boolean isRtl = isLayoutRtl();
+                boolean isDeltaXLeft = isRtl ? deltaX > 0 : deltaX < 0;
+                boolean isVelocityXLeft = isRtl ? velocityX > 0 : velocityX < 0;
+                if (((isSignificantMove && !isDeltaXLeft && !isFling) ||
+                        (isFling && !isVelocityXLeft)) && mCurrentPage > 0) {
                     finalPage = returnToOriginalPage ? mCurrentPage : mCurrentPage - 1;
                     snapToPageWithVelocity(finalPage, velocityX);
-                } else if (((isSignificantMove && deltaX < 0 && !isFling) ||
-                        (isFling && velocityX < 0)) &&
+                } else if (((isSignificantMove && isDeltaXLeft && !isFling) ||
+                        (isFling && isVelocityXLeft)) &&
                         mCurrentPage < getChildCount() - 1) {
                     finalPage = returnToOriginalPage ? mCurrentPage : mCurrentPage + 1;
                     snapToPageWithVelocity(finalPage, velocityX);
@@ -1342,7 +1409,9 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
                         hscroll = event.getAxisValue(MotionEvent.AXIS_HSCROLL);
                     }
                     if (hscroll != 0 || vscroll != 0) {
-                        if (hscroll > 0 || vscroll > 0) {
+                        boolean isForwardScroll = isLayoutRtl() ? (hscroll < 0 || vscroll < 0)
+                                                         : (hscroll > 0 || vscroll > 0);
+                        if (isForwardScroll) {
                             scrollRight();
                         } else {
                             scrollLeft();
@@ -1368,6 +1437,14 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
             mVelocityTracker = null;
         }
     }
+    
+    
+
+    @Override
+	protected void onDetachedFromWindow() {
+		getContext().unregisterReceiver(mReceiver);
+		super.onDetachedFromWindow();
+	}
 
     private void onSecondaryPointerUp(MotionEvent ev) {
         final int pointerIndex = (ev.getAction() & MotionEvent.ACTION_POINTER_INDEX_MASK) >>
@@ -1400,10 +1477,14 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
     }
 
     protected int getChildIndexForRelativeOffset(int relativeOffset) {
+        final boolean isRtl = isLayoutRtl();
         final int childCount = getChildCount();
         int left;
         int right;
-        for (int i = 0; i < childCount; ++i) {
+        final int startIndex = isRtl ? childCount - 1 : 0;
+        final int endIndex = isRtl ? -1 : childCount;
+        final int delta = isRtl ? -1 : 1;
+        for (int i = startIndex; i != endIndex; i += delta) {
             left = getRelativeChildOffset(i);
             right = (left + getScaledMeasuredWidth(getPageAt(i)));
             if (left <= relativeOffset && relativeOffset <= right) {
@@ -1738,24 +1819,12 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
                 mScrollIndicator = (View) (parent.findViewById(R.id.paged_view_indicator));
                 mHasScrollIndicator = mScrollIndicator != null;
                 if (mHasScrollIndicator) {
-                    mScrollIndicator.setVisibility(View.INVISIBLE);
+                    mScrollIndicator.setVisibility(View.VISIBLE);
                 }
-                setPageSwitchListener(mListener);
             }
             updateScrollingIndicatorBg();
         }
         return mScrollIndicator;
-    }
-    
-    private boolean isHomeScreen(){
-        ViewGroup parent = (ViewGroup) getParent();
-        if (parent != null) {
-        	View scrollIndicator = (View) (parent.findViewById(R.id.paged_view_indicator1));
-            if(scrollIndicator != null){
-            	return true;
-            }
-        }
-        return false;    	
     }
 
     protected boolean isScrollingIndicatorEnabled() {
@@ -1785,7 +1854,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
         if (mScrollIndicator != null) {
             // Fade the indicator in
             updateScrollingIndicatorPosition();
-            mScrollIndicator.setVisibility(View.INVISIBLE);
+            mScrollIndicator.setVisibility(View.VISIBLE);
             cancelScrollingIndicatorAnimations();
             if (immediately || mScrollingPaused) {
                 mScrollIndicator.setAlpha(1f);
@@ -1804,6 +1873,8 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
     }
 
     protected void hideScrollingIndicator(boolean immediately) {
+    	if(true)
+    		return ;
         if (getChildCount() <= 1) return;
         if (!isScrollingIndicatorEnabled()) return;
 
@@ -1812,30 +1883,29 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
             // Fade the indicator out
             updateScrollingIndicatorPosition();
             cancelScrollingIndicatorAnimations();
-//            if (immediately || mScrollingPaused) {
-//                mScrollIndicator.setVisibility(View.INVISIBLE);
-//                mScrollIndicator.setAlpha(0f);
-//            } else {
-//                mScrollIndicatorAnimator = LauncherAnimUtils.ofFloat(mScrollIndicator, "alpha", 0f);
-//                mScrollIndicatorAnimator.setDuration(sScrollIndicatorFadeOutDuration);
-//                mScrollIndicatorAnimator.addListener(new AnimatorListenerAdapter() {
-//                    private boolean cancelled = false;
-//                    @Override
-//                    public void onAnimationCancel(android.animation.Animator animation) {
-//                        cancelled = true;
-//                    }
-//                    @Override
-//                    public void onAnimationEnd(Animator animation) {
-//                        if (!cancelled) {
-//                            mScrollIndicator.setVisibility(View.INVISIBLE);
-//                        }
-//                    }
-//                });
-//                mScrollIndicatorAnimator.start();
-//            }
+            if (immediately || mScrollingPaused) {
+                mScrollIndicator.setVisibility(View.INVISIBLE);
+                mScrollIndicator.setAlpha(0f);
+            } else {
+                mScrollIndicatorAnimator = LauncherAnimUtils.ofFloat(mScrollIndicator, "alpha", 0f);
+                mScrollIndicatorAnimator.setDuration(sScrollIndicatorFadeOutDuration);
+                mScrollIndicatorAnimator.addListener(new AnimatorListenerAdapter() {
+                    private boolean cancelled = false;
+                    @Override
+                    public void onAnimationCancel(android.animation.Animator animation) {
+                        cancelled = true;
+                    }
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        if (!cancelled) {
+                            mScrollIndicator.setVisibility(View.INVISIBLE);
+                        }
+                    }
+                });
+                mScrollIndicatorAnimator.start();
+            }
         }
     }
-
     /**
      * To be overridden by subclasses to determine whether the scroll indicator should stretch to
      * fill its space on the track or not.
@@ -1845,7 +1915,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
     }
 
     private void updateScrollingIndicator() {
-        //if (getChildCount() <= 1) return;
+        if (getChildCount() <= 1) return;
         if (!isScrollingIndicatorEnabled()) return;
 
         getScrollingIndicator();
@@ -1858,68 +1928,23 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
     }
 
     private void updateScrollingIndicatorPosition() {
-    	if(isHomeScreen() == true){
-    		updateHomeScrollingIndicatorPosition();
-    	}else{
-    		updateAppsScrollingIndicatorPosition();
-    	}
-    }
-    
-    private void updateAppsScrollingIndicatorPosition() {
-    	if (!isScrollingIndicatorEnabled()) return;
-        if (mScrollIndicator == null) return;
-        int numPages = getChildCount();
-        int pageWidth = getMeasuredWidth();
-        int lastChildIndex = Math.max(0, getChildCount() - 1);
-        int maxScrollX = getChildOffset(lastChildIndex) - getRelativeChildOffset(lastChildIndex);
-        int trackWidth = pageWidth - mScrollIndicatorPaddingLeft - mScrollIndicatorPaddingRight;
-        int indicatorWidth = mScrollIndicator.getMeasuredWidth() -
-                mScrollIndicator.getPaddingLeft() - mScrollIndicator.getPaddingRight();
-
-        float offset = Math.max(0f, Math.min(1f, (float) getScrollX() / maxScrollX));
-		//by cat: ArithmeticException: divide by zero
-		if(numPages==0){numPages=1;}
-        int indicatorSpace = trackWidth / numPages;
-        int indicatorPos = (int) (offset * (trackWidth - indicatorSpace)) + mScrollIndicatorPaddingLeft;
-        if (hasElasticScrollIndicator()) {
-            if (mScrollIndicator.getMeasuredWidth() != indicatorSpace) {
-                mScrollIndicator.getLayoutParams().width = indicatorSpace;
-                mScrollIndicator.requestLayout();
-            }
-        } else {
-            int indicatorCenterOffset = indicatorSpace / 2 - indicatorWidth / 2;
-            indicatorPos += indicatorCenterOffset;
-        }
-		mScrollIndicator.setVisibility(View.INVISIBLE);
-        mScrollIndicator.setTranslationX(indicatorPos);
-    }
-    
-    private void updateHomeScrollingIndicatorPosition() {
-    	int scrollIndicatorPaddingLeft = 400;
-    	int scrollIndicatorPaddingRight = 400;
-    	
+        final boolean isRtl = isLayoutRtl();
         if (!isScrollingIndicatorEnabled()) return;
         if (mScrollIndicator == null) return;
         int numPages = getChildCount();
-        int pageWidth = getMeasuredWidth();
-        int lastChildIndex = Math.max(0, getChildCount() - 1);
-        int maxScrollX = getChildOffset(lastChildIndex) - getRelativeChildOffset(lastChildIndex);
-        int trackWidth = pageWidth - scrollIndicatorPaddingLeft - scrollIndicatorPaddingRight;
-        int indicatorWidth = mScrollIndicator.getMeasuredWidth() -
-                mScrollIndicator.getPaddingLeft() - mScrollIndicator.getPaddingRight();
-        float offset = Math.max(0f, Math.min(1f, (float) getScrollX() / maxScrollX));
-       	int indicatorSpace = mScrollIndicator.getMeasuredWidth();
-        int indicatorPos = (int) (offset * (trackWidth - indicatorSpace)) + scrollIndicatorPaddingLeft;
-        if (hasElasticScrollIndicator()) {
-            if (mScrollIndicator.getMeasuredWidth() != indicatorSpace) {
-                mScrollIndicator.getLayoutParams().width = indicatorSpace;
-                mScrollIndicator.requestLayout();
-            }
-        } else {
-            int indicatorCenterOffset = indicatorSpace / 2 - indicatorWidth / 2;
-            indicatorPos += indicatorCenterOffset;
+        int pageWidth =mScrollIndicatorBg.getMeasuredWidth();
+        int trackWidth = pageWidth ;
+        int indicatorWidth = mScrollIndicatorBg.getMeasuredWidth() ;
+        float scrollPos = isRtl ? mMaxScrollX - getScrollX() : getScrollX();
+        float offset = Math.max(0f, Math.min(1f, (float) scrollPos / mMaxScrollX));
+        if (isRtl) {
+            offset = 1f - offset;
         }
+//        mScrollIndicator.setLeft(ll.getLeft());
+        int indicatorSpace = trackWidth / numPages;
+        int indicatorPos = (int) (offset * (trackWidth - indicatorSpace)) ;
         mScrollIndicator.setTranslationX(indicatorPos);
+        
     }
 
     public void showScrollIndicatorTrack() {
@@ -1986,38 +2011,22 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
     
     public void updateScrollingIndicatorBg(){
     	ViewGroup parent = (ViewGroup) getParent();
-    	LinearLayout ll = (LinearLayout) parent.findViewById(
+    	mScrollIndicatorBg = (LinearLayout) parent.findViewById(
 				R.id.linearLayout_fav);
-        if(ll!=null){
-        	if (ll.getChildCount() > 0)
-        		ll.removeAllViews();
+        if(mScrollIndicatorBg!=null){
+        	if (mScrollIndicatorBg.getChildCount() > 0)
+        		mScrollIndicatorBg.removeAllViews();
         	Log.e(TAG, "getChildCount() ="+getChildCount());
         	for (int i = 0; i < getChildCount(); i++) {
         		ImageView iv = new ImageView(getContext());
         		LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(
         				LinearLayout.LayoutParams.WRAP_CONTENT,
         				LinearLayout.LayoutParams.WRAP_CONTENT);
-        		
         		iv.setLayoutParams(p);
-        		if(i<(getChildCount()-1))
-        		iv.setPadding(0, 0, 10, 0);
-        		if(mCurrentPage!=i)
-        		iv.setImageResource(R.drawable.point_n);
-        		else{
-        			iv.setImageResource(R.drawable.point_s );
-        		}
-        		ll.addView(iv);
+        		iv.setBackgroundResource(R.drawable.point_n);
+        		mScrollIndicatorBg.addView(iv);
         	}
-        	ll.postInvalidate();
+        	mScrollIndicatorBg.postInvalidate();
         }
     }
-    
-    private PageSwitchListener mListener  = new PageSwitchListener() {
-		
-		@Override
-		public void onPageSwitch(View newPage, int newPageIndex) {
-			Log.e(TAG, "-----current Page = "+newPageIndex);
-			updateScrollingIndicatorBg();
-		}
-	}; 
 }
