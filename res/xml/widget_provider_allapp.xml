@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>     
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"        
-    android:minWidth="40px"
-    android:minHeight="100px"
+    android:minHeight="320dp"
+    android:minWidth="320dp"
     android:previewImage="@drawable/widget_preview_allapp"
     android:initialLayout="@layout/widget_allapp"/>  
     <!-- 70px*70px -->

@@ -15,7 +15,7 @@
 -->
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_focused="true" android:drawable="@drawable/ic_bt_pressed" />
-    <item android:state_pressed="true" android:drawable="@drawable/ic_bt_pressed" />
-    <item android:drawable="@drawable/ic_bt" />
+    <item android:state_focused="true" android:drawable="@drawable/widget_navit_s" />
+    <item android:state_pressed="true" android:drawable="@drawable/widget_navit_s" />
+    <item android:drawable="@drawable/widget_navit_n" />
 </selector>

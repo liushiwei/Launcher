@@ -101,6 +101,8 @@ public abstract class PagedViewWithDraggableItems extends PagedView
     @Override
     public boolean onLongClick(View v) {
         // Return early if this is not initiated from a touch
+    	if(true)
+    	return true;
         if (!v.isInTouchMode()) return false;
         // Return early if we are still animating the pages
         if (mNextPage != INVALID_PAGE) return false;

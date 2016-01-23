@@ -214,7 +214,7 @@ public class Hotseat extends FrameLayout {
         	mApp3Intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         	
         }else{
-        	app3Drawable = context.getResources().getDrawable(R.drawable.bt_button_icon);
+        	app3Drawable = context.getResources().getDrawable(R.drawable.widget_apps);
         	mApp3Intent = new Intent(getContext().getString(R.string.app_bt));
         	mApp3Intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }

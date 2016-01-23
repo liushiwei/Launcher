@@ -138,6 +138,25 @@
             </intent-filter>
         </receiver>
         
+        <receiver android:name="com.android.launcher2.AllAppWidgetProvider" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_provider_allapp" />
+        </receiver>
+        <receiver android:name="com.android.launcher2.NaviWidgetProvider" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_provider_navit" />
+        </receiver>
+        
         
         <!-- The settings provider contains Home's data, like the workspace favorites -->
         <provider
@@ -153,4 +172,5 @@
     <supports-screens android:smallScreens="true"
 		android:normalScreens="true" android:largeScreens="true"
 		android:anyDensity="true" />
+    <uses-sdk android:maxSdkVersion="20" android:minSdkVersion="18" android:targetSdkVersion="19"/>
 </manifest>

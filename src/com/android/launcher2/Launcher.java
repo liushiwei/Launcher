@@ -30,6 +30,7 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityOptions;
 import android.app.SearchManager;
+import android.app.WallpaperManager;
 import android.appwidget.AppWidgetHostView;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProviderInfo;
@@ -122,7 +123,7 @@ public final class Launcher extends Activity
     static final boolean LOGD = false;
 
     static final boolean PROFILE_STARTUP = false;
-    static final boolean DEBUG_WIDGETS = false;
+    static final boolean DEBUG_WIDGETS = true;
     static final boolean DEBUG_STRICT_MODE = false;
 
     private static final int MENU_GROUP_WALLPAPER = 1;
@@ -371,7 +372,14 @@ public final class Launcher extends Activity
         // this also ensures that any synchronous binding below doesn't re-trigger another
         // LauncherModel load.
         mPaused = false;
-
+        WallpaperManager wpm = (WallpaperManager) getSystemService(
+                Context.WALLPAPER_SERVICE);
+        try {
+			wpm.setResource(R.drawable.workspace_bg);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         if (PROFILE_STARTUP) {
             android.os.Debug.startMethodTracing(
                     Environment.getExternalStorageDirectory() + "/launcher");
@@ -1246,6 +1254,10 @@ public final class Launcher extends Activity
             } else if (Intent.ACTION_USER_PRESENT.equals(action)) {
                 mUserPresent = true;
                 updateRunning();
+            }else if("com.android.launcher.action.ALLAPP".equals(action)){
+            	if (!isAllAppsVisible()) {
+        			showAllApps(true);
+        		}
             }
         }
     };
@@ -2113,10 +2125,7 @@ public final class Launcher extends Activity
             boolean useLaunchAnimation = (v != null) &&
                     !intent.hasExtra(INTENT_EXTRA_IGNORE_LAUNCH_ANIMATION);
             if (useLaunchAnimation) {
-                ActivityOptions opts = ActivityOptions.makeScaleUpAnimation(v, 0, 0,
-                        v.getMeasuredWidth(), v.getMeasuredHeight());
-
-                startActivity(intent, opts.toBundle());
+                startActivity(intent);
             } else {
                 startActivity(intent);
             }
@@ -2135,6 +2144,7 @@ public final class Launcher extends Activity
         boolean success = false;
         try {
             success = startActivity(v, intent, tag);
+            
         } catch (ActivityNotFoundException e) {
             Toast.makeText(this, R.string.activity_not_found, Toast.LENGTH_SHORT).show();
             Log.e(TAG, "Unable to launch. tag=" + tag + " intent=" + intent, e);
@@ -3417,7 +3427,7 @@ public final class Launcher extends Activity
         }
 
         item.hostView = mAppWidgetHost.createView(this, appWidgetId, appWidgetInfo);
-
+        item.hostView.setPadding(0, 0, 0, 0);
         item.hostView.setTag(item);
         item.onBindAppWidget(this);
 
