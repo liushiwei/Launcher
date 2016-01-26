@@ -97,7 +97,7 @@
     <dimen name="workspace_divider_padding_bottom">0dp</dimen>
 
 <!-- Workspace cell size -->
-    <dimen name="workspace_cell_width_land">278dip</dimen>
+    <dimen name="workspace_cell_width_land">267dip</dimen>
     <dimen name="workspace_cell_width_port">245dip</dimen>
     <dimen name="workspace_cell_height_land">248dip</dimen>
     <dimen name="workspace_cell_height_port">245dip</dimen>
