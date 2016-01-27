@@ -1642,6 +1642,9 @@ public final class Launcher extends Activity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+    	if(true)
+    		return false;
+    	
         if (isWorkspaceLocked()) {
             return false;
         }
