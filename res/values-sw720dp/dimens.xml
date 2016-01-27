@@ -61,9 +61,9 @@
 
 <!-- CellLayout padding land / port-->
     <dimen name="cell_layout_left_padding_port">0dp</dimen>
-    <dimen name="cell_layout_left_padding_land">0dp</dimen>
+    <dimen name="cell_layout_left_padding_land">10dp</dimen>
     <dimen name="cell_layout_right_padding_port">0dp</dimen>
-    <dimen name="cell_layout_right_padding_land">0dp</dimen>
+    <dimen name="cell_layout_right_padding_land">10dp</dimen>
     <dimen name="cell_layout_top_padding_port">0dp</dimen>
     <dimen name="cell_layout_top_padding_land">0dp</dimen>
     <dimen name="cell_layout_bottom_padding_port">0dp</dimen>
@@ -97,7 +97,7 @@
     <dimen name="workspace_divider_padding_bottom">0dp</dimen>
 
 <!-- Workspace cell size -->
-    <dimen name="workspace_cell_width_land">267dip</dimen>
+    <dimen name="workspace_cell_width_land">262dip</dimen>
     <dimen name="workspace_cell_width_port">245dip</dimen>
     <dimen name="workspace_cell_height_land">248dip</dimen>
     <dimen name="workspace_cell_height_port">245dip</dimen>
