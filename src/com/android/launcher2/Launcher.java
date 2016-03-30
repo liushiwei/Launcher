@@ -318,9 +318,7 @@ public final class Launcher extends Activity
         mAppWidgetHost = new LauncherAppWidgetHost(this, APPWIDGET_HOST_ID);
         mAppWidgetHost.startListening();
 
-        // If we are getting an onCreate, we can actually preempt onResume and unset mPaused here,
-        // this also ensures that any synchronous binding below doesn't re-trigger another
-        // LauncherModel load.
+        // If we are getting an onCreate, we can actually preempt onResume and unset mPaused here, this also ensures that any synchronous binding below doesn't re-trigger another LauncherModel load.
         mPaused = false;
         WallpaperManager wpm = (WallpaperManager) getSystemService(Context.WALLPAPER_SERVICE);
         try {
@@ -355,12 +353,10 @@ public final class Launcher extends Activity
 
         if (!mRestoring) {
             if (sPausedFromUserAction) {
-                // If the user leaves launcher, then we should just load items asynchronously when
-                // they return.
+                // If the user leaves launcher, then we should just load items asynchronously when they return.
                 mModel.startLoader(true, -1);
             } else {
-                // We only load the page synchronously if the user rotates (or triggers a
-                // configuration change) while launcher is in the foreground
+                // We only load the page synchronously if the user rotates (or triggers a configuration change) while launcher is in the foreground
                 mModel.startLoader(true, mWorkspace.getCurrentPage());
             }
         }
@@ -376,9 +372,7 @@ public final class Launcher extends Activity
 
         IntentFilter filter = new IntentFilter(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
         registerReceiver(mCloseSystemDialogsReceiver, filter);
-
         updateGlobalIcons();
-
         // On large interfaces, we want the screen to auto-rotate based on the current orientation
         unlockScreenOrientation(true);
     }
@@ -393,8 +387,7 @@ public final class Launcher extends Activity
         boolean voiceVisible = false;
         // If we have a saved version of these external icons, we load them up immediately
         int coi = getCurrentOrientationIndexForGlobalIcons();
-        if (sGlobalSearchIcon[coi] == null || sVoiceSearchIcon[coi] == null ||
-                sAppMarketIcon[coi] == null) {
+        if (sGlobalSearchIcon[coi] == null || sVoiceSearchIcon[coi] == null || sAppMarketIcon[coi] == null) {
             searchVisible = updateGlobalSearchIcon();
             voiceVisible = updateVoiceSearchIcon(searchVisible);
         }
@@ -406,7 +399,6 @@ public final class Launcher extends Activity
             updateVoiceSearchIcon(sVoiceSearchIcon[coi]);
             voiceVisible = true;
         }
-        
         if (mSearchDropTargetBar != null) {
             mSearchDropTargetBar.onSearchPackagesChanged(searchVisible, voiceVisible);
         }
@@ -472,15 +464,12 @@ public final class Launcher extends Activity
             configuration.mcc = in.readInt();
             configuration.mnc = in.readInt();
         } catch (FileNotFoundException e) {
-            // Ignore
         } catch (IOException e) {
-            // Ignore
         } finally {
             if (in != null) {
                 try {
                     in.close();
                 } catch (IOException e) {
-                    // Ignore
                 }
             }
         }
@@ -495,7 +484,6 @@ public final class Launcher extends Activity
             out.writeInt(configuration.mnc);
             out.flush();
         } catch (FileNotFoundException e) {
-            // Ignore
         } catch (IOException e) {
             //noinspection ResultOfMethodCallIgnored
             context.getFileStreamPath(PREFERENCES).delete();
@@ -504,7 +492,6 @@ public final class Launcher extends Activity
                 try {
                     out.close();
                 } catch (IOException e) {
-                    // Ignore
                 }
             }
         }
@@ -515,8 +502,7 @@ public final class Launcher extends Activity
     }
 
     boolean isDraggingEnabled() {
-        // We prevent dragging when we are loading the workspace as it is possible to pick up a view
-        // that is subsequently removed from the workspace in startBinding().
+        // We prevent dragging when we are loading the workspace as it is possible to pick up a view that is subsequently removed from the workspace in startBinding().
         return !mModel.isLoadingWorkspace();
     }
 
@@ -540,15 +526,13 @@ public final class Launcher extends Activity
         boolean result = false;
         switch (args.requestCode) {
             case REQUEST_PICK_APPLICATION:
-                completeAddApplication(args.intent, args.container, args.screen, args.cellX,
-                        args.cellY);
+                completeAddApplication(args.intent, args.container, args.screen, args.cellX,args.cellY);
                 break;
             case REQUEST_PICK_SHORTCUT:
                 processShortcut(args.intent);
                 break;
             case REQUEST_CREATE_SHORTCUT:
-                completeAddShortcut(args.intent, args.container, args.screen, args.cellX,
-                        args.cellY);
+                completeAddShortcut(args.intent, args.container, args.screen, args.cellX,args.cellY);
                 result = true;
                 break;
             case REQUEST_CREATE_APPWIDGET:
@@ -561,29 +545,25 @@ public final class Launcher extends Activity
                 break;
         }
         // Before adding this resetAddInfo(), after a shortcut was added to a workspace screen,
-        // if you turned the screen off and then back while in All Apps, Launcher would not
-        // return to the workspace. Clearing mAddInfo.container here fixes this issue
+        // if you turned the screen off and then back while in All Apps, Launcher would not return to the workspace. Clearing mAddInfo.container here fixes this issue
         resetAddInfo();
         return result;
     }
 
     @Override
-    protected void onActivityResult(
-            final int requestCode, final int resultCode, final Intent data) {
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
     	if(requestCode == REQUEST_UNINSTALLER){
     		boolean bIsUninstaller = data == null ?false:data.getBooleanExtra("IsUninstaller", false);		
     		if(bIsUninstaller == false){
 				ShortcutInfo info = unistallerShortcutInfo;
 				String uri = info.intent.toUri(0).toString();
 				View shortcut = mLauncher.createShortcut(info);
-				mLauncher.mWorkspace.addInScreen(shortcut, unistallerShortcutInfo.container, unistallerShortcutInfo.screen, unistallerShortcutInfo.cellX,
-						unistallerShortcutInfo.cellY, 1, 1, false);
+				mLauncher.mWorkspace.addInScreen(shortcut, unistallerShortcutInfo.container, unistallerShortcutInfo.screen, unistallerShortcutInfo.cellX, unistallerShortcutInfo.cellY, 1, 1, false);
     		}else{
     			LauncherModel.deleteItemFromDatabase(mLauncher, unistallerShortcutInfo);
     		}
     	}else if (requestCode == REQUEST_BIND_APPWIDGET) {
-            int appWidgetId = data != null ?
-                    data.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, -1) : -1;
+            int appWidgetId = data != null ? data.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, -1) : -1;
             if (resultCode == RESULT_CANCELED) {
                 completeTwoStageWidgetDrop(RESULT_CANCELED, appWidgetId);
             } else if (resultCode == RESULT_OK) {
