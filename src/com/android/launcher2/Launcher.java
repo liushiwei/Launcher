@@ -1,22 +1,4 @@
-
-/*
- * Copyright (C) 2008 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.android.launcher2;
-
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.animation.Animator;
@@ -26,6 +8,7 @@ import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityOptions;
@@ -94,10 +77,8 @@ import android.widget.Advanceable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.launcher.R;
 import com.android.launcher2.DropTarget.DragObject;
-
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.FileDescriptor;
@@ -113,9 +94,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Default launcher application.
- */
 public final class Launcher extends Activity
         implements View.OnClickListener, OnLongClickListener, LauncherModel.Callbacks,
                    View.OnTouchListener {
@@ -143,20 +121,15 @@ public final class Launcher extends Activity
     private static final int REQUEST_UNINSTALLER = 120;
 
     static final String EXTRA_SHORTCUT_DUPLICATE = "duplicate";
-
     static final int SCREEN_COUNT = 2;
     static final int DEFAULT_SCREEN = 0;
 
     private static final String PREFERENCES = "launcher.preferences";
-    // To turn on these properties, type
-    // adb shell setprop log.tag.PROPERTY_NAME [VERBOSE | SUPPRESS]
+    // To turn on these properties, type adb shell setprop log.tag.PROPERTY_NAME [VERBOSE | SUPPRESS]
     static final String FORCE_ENABLE_ROTATION_PROPERTY = "launcher_force_rotate";
     static final String DUMP_STATE_PROPERTY = "launcher_dump_state";
-
     // The Intent extra that defines whether to ignore the launch animation
-    static final String INTENT_EXTRA_IGNORE_LAUNCH_ANIMATION =
-            "com.android.launcher.intent.extra.shortcut.INGORE_LAUNCH_ANIMATION";
-
+    static final String INTENT_EXTRA_IGNORE_LAUNCH_ANIMATION = "com.android.launcher.intent.extra.shortcut.INGORE_LAUNCH_ANIMATION";
     // Type: int
     private static final String RUNTIME_STATE_CURRENT_SCREEN = "launcher.current_screen";
     // Type: int
@@ -181,10 +154,8 @@ public final class Launcher extends Activity
     private static final String RUNTIME_STATE_PENDING_ADD_WIDGET_INFO = "launcher.add_widget_info";
 
     private static final String TOOLBAR_ICON_METADATA_NAME = "com.android.launcher.toolbar_icon";
-    private static final String TOOLBAR_SEARCH_ICON_METADATA_NAME =
-            "com.android.launcher.toolbar_search_icon";
-    private static final String TOOLBAR_VOICE_SEARCH_ICON_METADATA_NAME =
-            "com.android.launcher.toolbar_voice_search_icon";
+    private static final String TOOLBAR_SEARCH_ICON_METADATA_NAME = "com.android.launcher.toolbar_search_icon";
+    private static final String TOOLBAR_VOICE_SEARCH_ICON_METADATA_NAME = "com.android.launcher.toolbar_voice_search_icon";
 
     /** The different states that Launcher can be in. */
     private enum State { NONE, WORKSPACE, APPS_CUSTOMIZE, APPS_CUSTOMIZE_SPRING_LOADED };
@@ -203,13 +174,9 @@ public final class Launcher extends Activity
 
     // How long to wait before the new-shortcut animation automatically pans the workspace
     private static int NEW_APPS_ANIMATION_INACTIVE_TIMEOUT_SECONDS = 10;
-
-    private final BroadcastReceiver mCloseSystemDialogsReceiver
-            = new CloseSystemDialogsIntentReceiver();
+    private final BroadcastReceiver mCloseSystemDialogsReceiver = new CloseSystemDialogsIntentReceiver();
     private final ContentObserver mWidgetObserver = new AppWidgetResetObserver();
-
     private LayoutInflater mInflater;
-
     private Workspace mWorkspace;
     private View mQsbDivider;
     private View mDockDivider;
@@ -217,7 +184,6 @@ public final class Launcher extends Activity
     public static Launcher mLauncher = null;
     private DragLayer mDragLayer;
     private DragController mDragController;
-
     private AppWidgetManager mAppWidgetManager;
     private LauncherAppWidgetHost mAppWidgetHost;
 
@@ -237,9 +203,7 @@ public final class Launcher extends Activity
     private boolean mAutoAdvanceRunning = false;
 
     private Bundle mSavedState;
-    // We set the state in both onCreate and then onNewIntent in some cases, which causes both
-    // scroll issues (because the workspace may not have been measured yet) and extra work.
-    // Instead, just save the state that we need to restore Launcher to, and commit it in onResume.
+    // We set the state in both onCreate and then onNewIntent in some cases, which causes both scroll issues (because the workspace may not have been measured yet) and extra work. Instead, just save the state that we need to restore Launcher to, and commit it in onResume.
     private State mOnResumeState = State.NONE;
 
     private SpannableStringBuilder mDefaultKeySsb = null;
@@ -277,8 +241,7 @@ public final class Launcher extends Activity
     private HashMap<View, AppWidgetProviderInfo> mWidgetsToAdvance =
         new HashMap<View, AppWidgetProviderInfo>();
 
-    // Determines how long to wait after a rotation before restoring the screen orientation to
-    // match the sensor state.
+    // Determines how long to wait after a rotation before restoring the screen orientation to match the sensor state.
     private final int mRestoreScreenOrientationDelay = 500;
 
     // External icons saved in case of resource changes, orientation, etc.
@@ -297,8 +260,7 @@ public final class Launcher extends Activity
     // it from the context.
     private SharedPreferences mSharedPrefs;
 
-    // Holds the page that we need to animate to, and the icon views that we need to animate up
-    // when we scroll to that page on resume.
+    // Holds the page that we need to animate to, and the icon views that we need to animate up when we scroll to that page on resume.
     private int mNewShortcutAnimatePage = -1;
     private ArrayList<View> mNewShortcutAnimateViews = new ArrayList<View>();
     private ImageView mFolderIconImageView;
@@ -308,8 +270,7 @@ public final class Launcher extends Activity
 
     private BubbleTextView mWaitingForResume;
 
-    private HideFromAccessibilityHelper mHideFromAccessibilityHelper
-        = new HideFromAccessibilityHelper();
+    private HideFromAccessibilityHelper mHideFromAccessibilityHelper = new HideFromAccessibilityHelper();
 
     private Runnable mBuildLayersRunnable = new Runnable() {
         public void run() {
@@ -319,8 +280,7 @@ public final class Launcher extends Activity
         }
     };
 
-    private static ArrayList<PendingAddArguments> sPendingAddList
-            = new ArrayList<PendingAddArguments>();
+    private static ArrayList<PendingAddArguments> sPendingAddList = new ArrayList<PendingAddArguments>();
 
     private static boolean sForceEnableRotation = isPropertyEnabled(FORCE_ENABLE_ROTATION_PROPERTY);
 
@@ -337,28 +297,18 @@ public final class Launcher extends Activity
         return Log.isLoggable(propertyName, Log.VERBOSE);
     }
 
-    @Override
+    @SuppressLint("ServiceCast")
+	@Override
     protected void onCreate(Bundle savedInstanceState) {
         if (DEBUG_STRICT_MODE) {
-            StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
-                    .detectDiskReads()
-                    .detectDiskWrites()
-                    .detectNetwork()   // or .detectAll() for all detectable problems
-                    .penaltyLog()
-                    .build());
-            StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
-                    .detectLeakedSqlLiteObjects()
-                    .detectLeakedClosableObjects()
-                    .penaltyLog()
-                    .penaltyDeath()
-                    .build());
+            StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectDiskReads().detectDiskWrites().detectNetwork().penaltyLog().build());
+            StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder().detectLeakedSqlLiteObjects().detectLeakedClosableObjects().penaltyLog().penaltyDeath().build());
         }
 
         super.onCreate(savedInstanceState);
         mLauncher = this;
         LauncherApplication app = ((LauncherApplication)getApplication());
-        mSharedPrefs = getSharedPreferences(LauncherApplication.getSharedPreferencesKey(),
-                Context.MODE_PRIVATE);
+        mSharedPrefs = getSharedPreferences(LauncherApplication.getSharedPreferencesKey(), Context.MODE_PRIVATE);
         mModel = app.setLauncher(this);
         mIconCache = app.getIconCache();
         mDragController = new DragController(this);
@@ -372,17 +322,14 @@ public final class Launcher extends Activity
         // this also ensures that any synchronous binding below doesn't re-trigger another
         // LauncherModel load.
         mPaused = false;
-        WallpaperManager wpm = (WallpaperManager) getSystemService(
-                Context.WALLPAPER_SERVICE);
+        WallpaperManager wpm = (WallpaperManager) getSystemService(Context.WALLPAPER_SERVICE);
         try {
 			wpm.setResource(R.drawable.workspace_bg);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         if (PROFILE_STARTUP) {
-            android.os.Debug.startMethodTracing(
-                    Environment.getExternalStorageDirectory() + "/launcher");
+            android.os.Debug.startMethodTracing(Environment.getExternalStorageDirectory() + "/launcher");
         }
 
         checkForLocaleChange();
@@ -485,13 +432,10 @@ public final class Launcher extends Activity
         }
 
         final Configuration configuration = getResources().getConfiguration();
-
         final String previousLocale = sLocaleConfiguration.locale;
         final String locale = configuration.locale.toString();
-
         final int previousMcc = sLocaleConfiguration.mcc;
         final int mcc = configuration.mcc;
-
         final int previousMnc = sLocaleConfiguration.mnc;
         final int mnc = configuration.mnc;
 
