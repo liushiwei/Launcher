@@ -750,9 +750,7 @@ public class LauncherModel extends BroadcastReceiver {
 
         final String action = intent.getAction();
 
-        if (Intent.ACTION_PACKAGE_CHANGED.equals(action)
-                || Intent.ACTION_PACKAGE_REMOVED.equals(action)
-                || Intent.ACTION_PACKAGE_ADDED.equals(action)) {
+        if (Intent.ACTION_PACKAGE_CHANGED.equals(action) || Intent.ACTION_PACKAGE_REMOVED.equals(action) || Intent.ACTION_PACKAGE_ADDED.equals(action)) {
             final String packageName = intent.getData().getSchemeSpecificPart();
             final boolean replacing = intent.getBooleanExtra(Intent.EXTRA_REPLACING, false);
 
@@ -769,8 +767,7 @@ public class LauncherModel extends BroadcastReceiver {
                 if (!replacing) {
                     op = PackageUpdatedTask.OP_REMOVE;
                 }
-                // else, we are replacing the package, so a PACKAGE_ADDED will be sent
-                // later, we will update the package at this time
+                // else, we are replacing the package, so a PACKAGE_ADDED will be sent later, we will update the package at this time
             } else if (Intent.ACTION_PACKAGE_ADDED.equals(action)) {
                 if (!replacing) {
                     op = PackageUpdatedTask.OP_ADD;
@@ -802,8 +799,7 @@ public class LauncherModel extends BroadcastReceiver {
              // above for ACTION_LOCALE_CHANGED
              Configuration currentConfig = context.getResources().getConfiguration();
              if (mPreviousConfigMcc != currentConfig.mcc) {
-                   Log.d(TAG, "Reload apps on config change. curr_mcc:"
-                       + currentConfig.mcc + " prevmcc:" + mPreviousConfigMcc);
+                   Log.d(TAG, "Reload apps on config change. curr_mcc:" + currentConfig.mcc + " prevmcc:" + mPreviousConfigMcc);
                    forceReload();
              }
              // Update previousConfig
@@ -821,7 +817,6 @@ public class LauncherModel extends BroadcastReceiver {
 
     private void forceReload() {
         resetLoadedState(true, true);
-
         // Do this here because if the launcher activity is running it will be restarted.
         // If it's not running startLoaderFromBackground will merely tell it that it needs
         // to reload.

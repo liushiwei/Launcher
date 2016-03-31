@@ -123,13 +123,10 @@ class ApplicationInfo extends ItemInfo {
         return "ApplicationInfo(title=" + title.toString() + ")";
     }
 
-    public static void dumpApplicationInfoList(String tag, String label,
-            ArrayList<ApplicationInfo> list) {
+    public static void dumpApplicationInfoList(String tag, String label,ArrayList<ApplicationInfo> list) {
         Log.d(tag, label + " size=" + list.size());
         for (ApplicationInfo info: list) {
-            Log.d(tag, "   title=\"" + info.title + "\" iconBitmap="
-                    + info.iconBitmap + " firstInstallTime="
-                    + info.firstInstallTime);
+            Log.d(tag, "   title=\"" + info.title + "\" iconBitmap=" + info.iconBitmap + " firstInstallTime=" + info.firstInstallTime);
         }
     }
 

@@ -94,9 +94,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public final class Launcher extends Activity
-        implements View.OnClickListener, OnLongClickListener, LauncherModel.Callbacks,
-                   View.OnTouchListener {
+public final class Launcher extends Activity implements View.OnClickListener, OnLongClickListener, LauncherModel.Callbacks, View.OnTouchListener {
     static final String TAG = "Launcher";
     static final boolean LOGD = false;
 

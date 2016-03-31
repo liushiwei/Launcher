@@ -103,12 +103,14 @@
         <item name="android:drawablePadding">4dp</item>
         <item name="android:textSize">13sp</item>
     </style>
-    <style name="WorkspaceIcon.Landscape.AppsCustomize">
+    
+    <!-- textSize -->  
+    <style name="WorkspaceIcon.Landscape.AppsCustomize">   
         <item name="android:background">@null</item>
         <item name="android:paddingTop">20dp</item>
         <item name="android:paddingBottom">0dp</item>
         <item name="android:drawablePadding">10dp</item>
-        <item name="android:textSize">30sp</item>
+        <item name="android:textSize">25sp</item>
     </style>
     <style name="TabIndicator.AppsCustomize">
         <item name="android:paddingLeft">32dp</item>
@@ -117,7 +119,7 @@
         <item name="android:maxWidth">240dp</item>
     </style>
 
-    <!-- QSB Search / Drop Target bar -->
+    <!-- QSB Search / Drop Target bar --> 
     <style name="QSBBar">
         <item name="android:orientation">horizontal</item>
         <item name="android:layout_width">match_parent</item>
