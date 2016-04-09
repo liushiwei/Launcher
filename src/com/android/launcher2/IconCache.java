@@ -25,8 +25,12 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.PixelFormat;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.NinePatchDrawable;
 
 import java.util.HashMap;
 
@@ -36,7 +40,6 @@ import java.util.HashMap;
 public class IconCache {
     @SuppressWarnings("unused")
     private static final String TAG = "Launcher.IconCache";
-
     private static final int INITIAL_ICON_CACHE_CAPACITY = 50;
 
     private static class CacheEntry {
@@ -47,25 +50,20 @@ public class IconCache {
     private final Bitmap mDefaultIcon;
     private final LauncherApplication mContext;
     private final PackageManager mPackageManager;
-    private final HashMap<ComponentName, CacheEntry> mCache =
-            new HashMap<ComponentName, CacheEntry>(INITIAL_ICON_CACHE_CAPACITY);
+    private final HashMap<ComponentName, CacheEntry> mCache = new HashMap<ComponentName, CacheEntry>(INITIAL_ICON_CACHE_CAPACITY);
     private int mIconDpi;
 
     public IconCache(LauncherApplication context) {
-        ActivityManager activityManager =
-                (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         mContext = context;
         mPackageManager = context.getPackageManager();
         mIconDpi = activityManager.getLauncherLargeIconDensity();
-
         // need to set mIconDpi before getting default icon
         mDefaultIcon = makeDefaultIcon();
     }
 
     public Drawable getFullResDefaultActivityIcon() {
-        return getFullResIcon(Resources.getSystem(),
-                android.R.mipmap.sym_def_app_icon);
+        return getFullResIcon(Resources.getSystem(), android.R.mipmap.sym_def_app_icon);
     }
 
     public Drawable getFullResIcon(Resources resources, int iconId) {
@@ -102,8 +100,7 @@ public class IconCache {
 
         Resources resources;
         try {
-            resources = mPackageManager.getResourcesForApplication(
-                    info.applicationInfo);
+            resources = mPackageManager.getResourcesForApplication(info.applicationInfo);
         } catch (PackageManager.NameNotFoundException e) {
             resources = null;
         }
@@ -118,9 +115,7 @@ public class IconCache {
 
     private Bitmap makeDefaultIcon() {
         Drawable d = getFullResDefaultActivityIcon();
-        Bitmap b = Bitmap.createBitmap(Math.max(d.getIntrinsicWidth(), 1),
-                Math.max(d.getIntrinsicHeight(), 1),
-                Bitmap.Config.ARGB_8888);
+        Bitmap b = Bitmap.createBitmap(Math.max(d.getIntrinsicWidth(), 1), Math.max(d.getIntrinsicHeight(), 1), Bitmap.Config.ARGB_8888);
         Canvas c = new Canvas(b);
         d.setBounds(0, 0, b.getWidth(), b.getHeight());
         d.draw(c);
@@ -146,14 +141,10 @@ public class IconCache {
         }
     }
 
-    /**
-     * Fill in "application" with the icon and label for "info."
-     */
-    public void getTitleAndIcon(ApplicationInfo application, ResolveInfo info,
-            HashMap<Object, CharSequence> labelCache) {
+    /** Fill in "application" with the icon and label for "info." */
+    public void getTitleAndIcon(ApplicationInfo application, ResolveInfo info, HashMap<Object, CharSequence> labelCache) {
         synchronized (mCache) {
             CacheEntry entry = cacheLocked(application.componentName, info, labelCache);
-
             application.title = entry.title;
             application.iconBitmap = entry.icon;
         }
@@ -167,14 +158,12 @@ public class IconCache {
             if (resolveInfo == null || component == null) {
                 return mDefaultIcon;
             }
-
             CacheEntry entry = cacheLocked(component, resolveInfo, null);
             return entry.icon;
         }
     }
 
-    public Bitmap getIcon(ComponentName component, ResolveInfo resolveInfo,
-            HashMap<Object, CharSequence> labelCache) {
+    public Bitmap getIcon(ComponentName component, ResolveInfo resolveInfo, HashMap<Object, CharSequence> labelCache) {
         synchronized (mCache) {
             if (resolveInfo == null || component == null) {
                 return null;
@@ -189,8 +178,7 @@ public class IconCache {
         return mDefaultIcon == icon;
     }
 
-    private CacheEntry cacheLocked(ComponentName componentName, ResolveInfo info,
-            HashMap<Object, CharSequence> labelCache) {
+    private CacheEntry cacheLocked(ComponentName componentName, ResolveInfo info, HashMap<Object, CharSequence> labelCache) {
         CacheEntry entry = mCache.get(componentName);
         if (entry == null) {
             entry = new CacheEntry();
@@ -206,12 +194,21 @@ public class IconCache {
                     labelCache.put(key, entry.title);
                 }
             }
-            if (entry.title == null) {
-                entry.title = info.activityInfo.name;
-            }
-
-            entry.icon = Utilities.createIconBitmap(
-                    getFullResIcon(info), mContext);
+            
+//            if (entry.title == null) {
+//                entry.title = info.activityInfo.name;
+//            }else if(entry.title.equals("酷狗音乐HD")){
+//            	entry.title = "111";
+//            	entry.icon = //Utilities.createIconBitmap(getFullResIcon(info), mContext);
+//            	
+//            }else if(entry.title.equals("优酷")){
+//            	entry.title = "222";
+//            	entry.icon = //Utilities.createIconBitmap(getFullResIcon(info), mContext);
+//            	
+//            } else {
+//            	
+//            }
+            entry.icon = Utilities.createIconBitmap(getFullResIcon(info), mContext);
         }
         return entry;
     }
@@ -226,4 +223,25 @@ public class IconCache {
             return set;
         }
     }
+    
+    // add by  zgy
+    Bitmap drawable2Bitmap(Drawable drawable) {  
+        if (drawable instanceof BitmapDrawable) {  
+            return ((BitmapDrawable) drawable).getBitmap();  
+        } else if (drawable instanceof NinePatchDrawable) {  
+            Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888 : Bitmap.Config.RGB_565);  
+            Canvas canvas = new Canvas(bitmap);  
+            drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());  
+            drawable.draw(canvas);  
+            return bitmap;  
+        } else {  
+            return null;  
+        }  
+    }  
+    
+//    private Bitmap resId2BitMap(int resId){
+//    	Resources res = getResources();  
+//    	Bitmap bmp = BitmapFactory.decodeResource(res, resId);
+//    }
+    
 }

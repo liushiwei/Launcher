@@ -15,10 +15,8 @@
  */
 
 package com.android.launcher2;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -27,23 +25,18 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 
 
-/**
- * Stores the list of all applications for the all apps view.
- */
+/*** Stores the list of all applications for the all apps view.  */
 class AllAppsList {
     public static final int DEFAULT_APPLICATIONS_NUMBER = 42;
     
     /** The list off all apps. */
-    public ArrayList<ApplicationInfo> data =
-            new ArrayList<ApplicationInfo>(DEFAULT_APPLICATIONS_NUMBER);
+    public ArrayList<ApplicationInfo> data = new ArrayList<ApplicationInfo>(DEFAULT_APPLICATIONS_NUMBER);
     /** The list of apps that have been added since the last notify() call. */
-    public ArrayList<ApplicationInfo> added =
-            new ArrayList<ApplicationInfo>(DEFAULT_APPLICATIONS_NUMBER);
+    public ArrayList<ApplicationInfo> added = new ArrayList<ApplicationInfo>(DEFAULT_APPLICATIONS_NUMBER);
     /** The list of apps that have been removed since the last notify() call. */
     public ArrayList<ApplicationInfo> removed = new ArrayList<ApplicationInfo>();
     /** The list of apps that have been modified since the last notify() call. */
     public ArrayList<ApplicationInfo> modified = new ArrayList<ApplicationInfo>();
-
     private IconCache mIconCache;
 
     /**
@@ -211,8 +204,7 @@ class AllAppsList {
     private ApplicationInfo findApplicationInfoLocked(String packageName, String className) {
         for (ApplicationInfo info: data) {
             final ComponentName component = info.intent.getComponent();
-            if (packageName.equals(component.getPackageName())
-                    && className.equals(component.getClassName())) {
+            if (packageName.equals(component.getPackageName()) && className.equals(component.getClassName())) {
                 return info;
             }
         }

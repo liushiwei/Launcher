@@ -1752,33 +1752,26 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
     }
 
     public void dumpState() {
-        // TODO: Dump information related to current list of Applications, Widgets, etc.
+        // Dump information related to current list of Applications, Widgets, etc.
         ApplicationInfo.dumpApplicationInfoList(TAG, "mApps", mApps);
         dumpAppWidgetProviderInfoList(TAG, "mWidgets", mWidgets);
     }
 
-    private void dumpAppWidgetProviderInfoList(String tag, String label,
-            ArrayList<Object> list) {
+    private void dumpAppWidgetProviderInfoList(String tag, String label, ArrayList<Object> list) {
         Log.d(tag, label + " size=" + list.size());
         for (Object i: list) {
             if (i instanceof AppWidgetProviderInfo) {
                 AppWidgetProviderInfo info = (AppWidgetProviderInfo) i;
-                Log.d(tag, "   label=\"" + info.label + "\" previewImage=" + info.previewImage
-                        + " resizeMode=" + info.resizeMode + " configure=" + info.configure
-                        + " initialLayout=" + info.initialLayout
-                        + " minWidth=" + info.minWidth + " minHeight=" + info.minHeight);
+                Log.d(tag, "   label=\"" + info.label + "\" previewImage=" + info.previewImage + " resizeMode=" + info.resizeMode + " configure=" + info.configure + " initialLayout=" + info.initialLayout + " minWidth=" + info.minWidth + " minHeight=" + info.minHeight);
             } else if (i instanceof ResolveInfo) {
                 ResolveInfo info = (ResolveInfo) i;
-                Log.d(tag, "   label=\"" + info.loadLabel(mPackageManager) + "\" icon="
-                        + info.icon);
+                Log.d(tag, "   label=\"" + info.loadLabel(mPackageManager) + "\" icon=" + info.icon);
             }
         }
     }
 
     public void surrender() {
-        // TODO: If we are in the middle of any process (ie. for holographic outlines, etc) we
-        // should stop this now.
-
+        // If we are in the middle of any process (ie. for holographic outlines, etc) we should stop this now.
         // Stop all background tasks
         cancelAllTasks();
     }

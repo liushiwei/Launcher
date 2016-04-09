@@ -1,4 +1,19 @@
 package com.android.launcher2;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.FileDescriptor;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
@@ -71,22 +86,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Advanceable;
 import android.widget.ImageView;
 import android.widget.Toast;
+
 import com.android.launcher.R;
 import com.android.launcher2.DropTarget.DragObject;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.FileDescriptor;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 public final class Launcher extends Activity implements View.OnClickListener, OnLongClickListener, LauncherModel.Callbacks, View.OnTouchListener {
     static final String TAG = "Launcher";
@@ -563,8 +565,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
             return;
         }
 
-        // The pattern used here is that a user PICKs a specific application, which, depending on the target, might need to CREATE the actual target.
-        // For example, the user would PICK_SHORTCUT for "Music playlist", and we launch over to the Music app to actually CREATE_SHORTCUT.
+        // The pattern used here is that a user PICKs a specific application, which, depending on the target, might need to CREATE the actual target. For example, the user would PICK_SHORTCUT for "Music playlist", and we launch over to the Music app to actually CREATE_SHORTCUT.
         if (resultCode == RESULT_OK && mPendingAddInfo.container != ItemInfo.NO_ID) {
             final PendingAddArguments args = new PendingAddArguments();
             args.requestCode = requestCode;
@@ -653,22 +654,16 @@ public final class Launcher extends Activity implements View.OnClickListener, On
             // Resets the previous all apps icon press state
             mAppsCustomizeContent.resetDrawableState();
         }
-        // It is possible that widgets can receive updates while launcher is not in the foreground.
-        // Consequently, the widgets will be inflated in the orientation of the foreground activity
-        // (framework issue). On resuming, we ensure that any widgets are inflated for the current
-        // orientation.
+        // It is possible that widgets can receive updates while launcher is not in the foreground. Consequently, the widgets will be inflated in the orientation of the foreground activity (framework issue). On resuming, we ensure that any widgets are inflated for the current orientation.
         getWorkspace().reinflateWidgetsIfNecessary();
 
-        // Again, as with the above scenario, it's possible that one or more of the global icons
-        // were updated in the wrong orientation.
+        // Again, as with the above scenario, it's possible that one or more of the global icons were updated in the wrong orientation.
         updateGlobalIcons();
     }
 
     @Override
     protected void onPause() {
-        // NOTE: We want all transitions from launcher to act as if the wallpaper were enabled
-        // to be consistent.  So re-enable the flag here, and we will re-disable it as necessary
-        // when Launcher resumes and we are still in AllApps.
+        // NOTE: We want all transitions from launcher to act as if the wallpaper were enabled to be consistent.  So re-enable the flag here, and we will re-disable it as necessary when Launcher resumes and we are still in AllApps.
         updateWallpaperVisibility(true);
 
         super.onPause();
@@ -1095,7 +1090,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
             } else if (Intent.ACTION_USER_PRESENT.equals(action)) {
                 mUserPresent = true;
                 updateRunning();
-            }else if("com.android.launcher.action.ALLAPP".equals(action)){
+            }else if("".equals(action)){
             	if (!isAllAppsVisible()) {
         			showAllApps(true);
         		}
@@ -1294,7 +1289,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
             }
 
         }
-        if(intent!=null&&intent.getAction().equals("com.android.launcher.action.ALLAPP")){
+        if(intent!=null&&intent.getAction().equals("")){
     		if (!isAllAppsVisible()) {
     			showAllApps(true);
     		}
@@ -3137,6 +3132,14 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         Runnable setAllAppsRunnable = new Runnable() {
             public void run() {
                 if (mAppsCustomizeContent != null) {
+                	
+                	for (int i = 0; i < apps.size(); i++) {
+						Log.e(TAG, "apps-wwwwwwwwwwwwwwww-11->"+apps.get(i).getPackageName());
+						Log.e(TAG, "apps-wwwwwwwwwwwwwwww-22->"+apps.get(i).componentName);
+						Log.e(TAG, "apps-wwwwwwwwwwwwwwww-33->"+apps.get(i).title);
+						Log.e(TAG, "apps-wwwwwwwwwwwwwwww-44->"+ apps.get(i).iconBitmap);
+					}
+                	
                     mAppsCustomizeContent.setApps(apps);
                 }
             }

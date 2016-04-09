@@ -17,7 +17,7 @@ import com.android.launcher.R;
 
 public class NaviWidgetProvider extends AppWidgetProvider {
 	 public static final String TAG = "MyAppWidgetProvider";  
-	    public static final String CLICK_ACTION = "com.android.launcher.action.ALLAPP";  
+	    public static final String CLICK_ACTION = "";  
 	    private static RemoteViews mRemoteViews;  
 	  
 	    /** 

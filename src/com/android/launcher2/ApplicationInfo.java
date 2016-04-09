@@ -62,20 +62,16 @@ class ApplicationInfo extends ItemInfo {
     /**
      * Must not hold the Context.
      */
-    public ApplicationInfo(PackageManager pm, ResolveInfo info, IconCache iconCache,
-            HashMap<Object, CharSequence> labelCache) {
+    public ApplicationInfo(PackageManager pm, ResolveInfo info, IconCache iconCache, HashMap<Object, CharSequence> labelCache) {
         final String packageName = info.activityInfo.applicationInfo.packageName;
-
         this.componentName = new ComponentName(packageName, info.activityInfo.name);
         this.container = ItemInfo.NO_ID;
-        this.setActivity(componentName,
-                Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+        this.setActivity(componentName, Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
 
         try {
             int appFlags = pm.getApplicationInfo(packageName, 0).flags;
             if ((appFlags & android.content.pm.ApplicationInfo.FLAG_SYSTEM) == 0) {
                 flags |= DOWNLOADED_FLAG;
-
                 if ((appFlags & android.content.pm.ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != 0) {
                     flags |= UPDATED_SYSTEM_APP_FLAG;
                 }
@@ -84,7 +80,6 @@ class ApplicationInfo extends ItemInfo {
         } catch (NameNotFoundException e) {
             Log.d(TAG, "PackageManager.getApplicationInfo failed for " + packageName);
         }
-
         iconCache.getTitleAndIcon(this, info, labelCache);
     }
 

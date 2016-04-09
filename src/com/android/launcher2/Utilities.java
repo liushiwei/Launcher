@@ -1,27 +1,8 @@
-/*
- * Copyright (C) 2008 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.android.launcher2;
-
 import java.util.Random;
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.Bitmap.Config;
 import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.ColorMatrix;
@@ -34,12 +15,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.PaintDrawable;
 import android.util.DisplayMetrics;
-
 import com.android.launcher.R;
 
-/**
- * Various utilities shared amongst the Launcher's classes.
- */
 final class Utilities {
     @SuppressWarnings("unused")
     private static final String TAG = "Launcher.Utilities";
@@ -57,17 +34,12 @@ final class Utilities {
     private static final Canvas sCanvas = new Canvas();
 
     static {
-        sCanvas.setDrawFilter(new PaintFlagsDrawFilter(Paint.DITHER_FLAG,
-                Paint.FILTER_BITMAP_FLAG));
+        sCanvas.setDrawFilter(new PaintFlagsDrawFilter(Paint.DITHER_FLAG, Paint.FILTER_BITMAP_FLAG));
     }
     static int sColors[] = { 0xffff0000, 0xff00ff00, 0xff0000ff };
     static int sColorIndex = 0;
 
-    /**
-     * Returns a bitmap suitable for the all apps view. Used to convert pre-ICS
-     * icon bitmaps that are stored in the database (which were 74x74 pixels at hdpi size)
-     * to the proper size (48dp)
-     */
+    /** Returns a bitmap suitable for the all apps view. Used to convert pre-ICS icon bitmaps that are stored in the database (which were 74x74 pixels at hdpi size) to the proper size (48dp) */
     static Bitmap createIconBitmap(Bitmap icon, Context context) {
         int textureWidth = sIconTextureWidth;
         int textureHeight = sIconTextureHeight;
@@ -75,10 +47,7 @@ final class Utilities {
         int sourceHeight = icon.getHeight();
         if (sourceWidth > textureWidth && sourceHeight > textureHeight) {
             // Icon is bigger than it should be; clip it (solves the GB->ICS migration case)
-            return Bitmap.createBitmap(icon,
-                    (sourceWidth - textureWidth) / 2,
-                    (sourceHeight - textureHeight) / 2,
-                    textureWidth, textureHeight);
+            return Bitmap.createBitmap(icon, (sourceWidth - textureWidth) / 2, (sourceHeight - textureHeight) / 2, textureWidth, textureHeight);
         } else if (sourceWidth == textureWidth && sourceHeight == textureHeight) {
             // Icon is the right size, no need to change it
             return icon;
@@ -90,19 +59,15 @@ final class Utilities {
     }
     
     public static Bitmap combineBitmap(Bitmap background, Bitmap foreground) {  
-        if (background == null) {  
-            return null;  
-        }  
+        if (background == null)      return null;  
         int bgWidth = background.getWidth();  
         int bgHeight = background.getHeight();  
         int fgWidth = foreground.getWidth();  
         int fgHeight = foreground.getHeight();  
-        Bitmap newmap = Bitmap  
-                .createBitmap(bgWidth, bgHeight, Bitmap.Config.ARGB_8888);  
+        Bitmap newmap = Bitmap  .createBitmap(bgWidth, bgHeight, Bitmap.Config.ARGB_8888);  
         Canvas canvas = new Canvas(newmap);  
         canvas.drawBitmap(background, 0, 0, null);  
-        canvas.drawBitmap(foreground, (bgWidth - fgWidth) / 2,  
-                (bgHeight - fgHeight) / 2, null);  
+        canvas.drawBitmap(foreground, (bgWidth - fgWidth) / 2, (bgHeight - fgHeight) / 2, null);  
         canvas.save(Canvas.ALL_SAVE_FLAG);  
         canvas.restore();  
         return newmap;  
@@ -155,8 +120,7 @@ final class Utilities {
             int textureWidth = sIconTextureWidth;
             int textureHeight = sIconTextureHeight;
 
-            final Bitmap bitmap = Bitmap.createBitmap(textureWidth, textureHeight,
-                    Bitmap.Config.ARGB_8888);
+            final Bitmap bitmap = Bitmap.createBitmap(textureWidth, textureHeight, Bitmap.Config.ARGB_8888);
             final Canvas canvas = sCanvas;
             canvas.setBitmap(bitmap);
 
@@ -184,43 +148,31 @@ final class Utilities {
         }
     }
 
-    static void drawSelectedAllAppsBitmap(Canvas dest, int destWidth, int destHeight,
-            boolean pressed, Bitmap src) {
-        synchronized (sCanvas) { // we share the statics :-(
+    static void drawSelectedAllAppsBitmap(Canvas dest, int destWidth, int destHeight, boolean pressed, Bitmap src) {
+        synchronized (sCanvas) {  // we share the statics :-(
             if (sIconWidth == -1) {
-                // We can't have gotten to here without src being initialized, which
-                // comes from this file already.  So just assert.
-                //initStatics(context);
+                // We can't have gotten to here without src being initialized, which comes from this file already.  So just assert. initStatics(context);
                 throw new RuntimeException("Assertion failed: Utilities not initialized");
             }
 
             dest.drawColor(0, PorterDuff.Mode.CLEAR);
-
             int[] xy = new int[2];
             Bitmap mask = src.extractAlpha(sBlurPaint, xy);
-
             float px = (destWidth - src.getWidth()) / 2;
             float py = (destHeight - src.getHeight()) / 2;
-            dest.drawBitmap(mask, px + xy[0], py + xy[1],
-                    pressed ? sGlowColorPressedPaint : sGlowColorFocusedPaint);
-
+            dest.drawBitmap(mask, px + xy[0], py + xy[1], pressed ? sGlowColorPressedPaint : sGlowColorFocusedPaint);
             mask.recycle();
         }
     }
 
     /**
-     * Returns a Bitmap representing the thumbnail of the specified Bitmap.
-     * The size of the thumbnail is defined by the dimension
-     * android.R.dimen.launcher_application_icon_size.
-     *
+     * Returns a Bitmap representing the thumbnail of the specified Bitmap. The size of the thumbnail is defined by the dimension android.R.dimen.launcher_application_icon_size.
      * @param bitmap The bitmap to get a thumbnail of.
      * @param context The application's context.
-     *
-     * @return A thumbnail for the specified bitmap or the bitmap itself if the
-     *         thumbnail could not be created.
+     * @return A thumbnail for the specified bitmap or the bitmap itself if the thumbnail could not be created.
      */
     static Bitmap resampleIconBitmap(Bitmap bitmap, Context context) {
-        synchronized (sCanvas) { // we share the statics :-(
+        synchronized (sCanvas) {  // we share the statics :-(
             if (sIconWidth == -1) {
                 initStatics(context);
             }
@@ -235,19 +187,15 @@ final class Utilities {
     }
 
     static Bitmap drawDisabledBitmap(Bitmap bitmap, Context context) {
-        synchronized (sCanvas) { // we share the statics :-(
+        synchronized (sCanvas) {   // we share the statics :-(
             if (sIconWidth == -1) {
                 initStatics(context);
             }
-            final Bitmap disabled = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(),
-                    Bitmap.Config.ARGB_8888);
+            final Bitmap disabled = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
             final Canvas canvas = sCanvas;
             canvas.setBitmap(disabled);
-            
             canvas.drawBitmap(bitmap, 0.0f, 0.0f, sDisabledPaint);
-
             canvas.setBitmap(null);
-
             return disabled;
         }
     }
@@ -256,7 +204,6 @@ final class Utilities {
         final Resources resources = context.getResources();
         final DisplayMetrics metrics = resources.getDisplayMetrics();
         final float density = metrics.density;
-
         sIconWidth = sIconHeight = (int) resources.getDimension(R.dimen.app_icon_size);
         sIconTextureWidth = sIconTextureHeight = sIconWidth;
 

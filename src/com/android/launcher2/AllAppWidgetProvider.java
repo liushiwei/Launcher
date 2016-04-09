@@ -12,7 +12,7 @@ import com.android.launcher.R;
 
 public class AllAppWidgetProvider extends AppWidgetProvider {
 	 public static final String TAG = "MyAppWidgetProvider";  
-	    public static final String CLICK_ACTION = "com.android.launcher.action.ALLAPP";  
+	    public static final String CLICK_ACTION = "";  
 	    private static RemoteViews mRemoteViews;  
 	  
 	    /** 
@@ -76,12 +76,9 @@ public class AllAppWidgetProvider extends AppWidgetProvider {
 	     * @param appWidgeManger 
 	     * @param appWidgetId 
 	     */  
-	    private void onWidgetUpdate(Context context,  
-	            AppWidgetManager appWidgeManger, int appWidgetId) {  
-	  
+	    private void onWidgetUpdate(Context context, AppWidgetManager appWidgeManger, int appWidgetId) {  
 	        Log.i(TAG, "appWidgetId = " + appWidgetId);  
 	        mRemoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_allapp);  
-	  
 	        // "窗口小部件"点击事件发送的Intent广播  
 	        Intent intentClick = new Intent();  
 	        intentClick.setAction(CLICK_ACTION);  
