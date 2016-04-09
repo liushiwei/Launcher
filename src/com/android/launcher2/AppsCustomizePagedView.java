@@ -473,7 +473,7 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
             // PagedViews are centered horizontally but top aligned Note we have to shift the items up now that Launcher sits under the status bar
             pos[0] += (getMeasuredWidth() - mWidgetSpacingLayout.getMeasuredWidth()) / 2 + offset[0];
             pos[1] += offset[1] - mLauncher.getDragLayer().getPaddingTop();
-            mLauncher.showFirstRunAllAppsCling(pos);
+//            mLauncher.showFirstRunAllAppsCling(pos);
         }
     }
 
@@ -793,7 +793,7 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
                 // We don't enter spring-loaded mode if the drag has been cancelled
                 if (mLauncher.getDragController().isDragging()) {
                     // Dismiss the cling
-                    mLauncher.dismissAllAppsCling(null);
+//                    mLauncher.dismissAllAppsCling(null);
 
                     // Reset the alpha on the dragged icon before we drag
                     resetDrawableState();

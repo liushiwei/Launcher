@@ -1,23 +1,5 @@
-/*
- * Copyright (C) 2010 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.android.launcher2;
-
 import java.util.ArrayList;
-
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
@@ -52,10 +34,6 @@ import android.widget.Scroller;
 
 import com.android.launcher.R;
 
-/**
- * An abstraction of the original Workspace which supports browsing through a
- * sequential list of "pages"
- */
 public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarchyChangeListener {
     private static final String TAG = "PagedView";
     private static final boolean DEBUG = false;
@@ -76,8 +54,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
     // The page is moved more than halfway, automatically move to the next page on touch up.
     private static final float SIGNIFICANT_MOVE_THRESHOLD = 0.4f;
 
-    // The following constants need to be scaled based on density. The scaled versions will be
-    // assigned to the corresponding member variables below.
+    // The following constants need to be scaled based on density. The scaled versions will be assigned to the corresponding member variables below.
     private static final int FLING_THRESHOLD_VELOCITY = 500;
     private static final int MIN_SNAP_VELOCITY = 1500;
     private static final int MIN_FLING_VELOCITY = 250;
@@ -143,8 +120,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
     protected boolean mForceDrawAllChildrenNextFrame;
 
     // mOverScrollX is equal to getScrollX() when we're within the normal scroll range. Otherwise
-    // it is equal to the scaled overscroll position. We use a separate value so as to prevent
-    // the screens from continuing to translate beyond the normal bounds.
+    // it is equal to the scaled overscroll position. We use a separate value so as to prevent the screens from continuing to translate beyond the normal bounds.
     protected int mOverScrollX;
 
     // parameter that adjusts the layout to be optimized for pages with that scale factor
@@ -164,12 +140,10 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
     // If true, modify alpha of neighboring pages as user scrolls left/right
     protected boolean mFadeInAdjacentScreens = true;
 
-    // It true, use a different slop parameter (pagingTouchSlop = 2 * touchSlop) for deciding
-    // to switch to a new page
+    // It true, use a different slop parameter (pagingTouchSlop = 2 * touchSlop) for deciding to switch to a new page
     protected boolean mUsePagingTouchSlop = true;
 
-    // If true, the subclass should directly update scrollX itself in its computeScroll method
-    // (SmoothPagedView does this)
+    // If true, the subclass should directly update scrollX itself in its computeScroll method (SmoothPagedView does this)
     protected boolean mDeferScrollUpdate = false;
 
     protected boolean mIsPageMoving = false;
@@ -209,26 +183,16 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
 
     public PagedView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-
-        TypedArray a = context.obtainStyledAttributes(attrs,
-                R.styleable.PagedView, defStyle, 0);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.PagedView, defStyle, 0);
         setPageSpacing(a.getDimensionPixelSize(R.styleable.PagedView_pageSpacing, 0));
-        mPageLayoutPaddingTop = a.getDimensionPixelSize(
-                R.styleable.PagedView_pageLayoutPaddingTop, 0);
-        mPageLayoutPaddingBottom = a.getDimensionPixelSize(
-                R.styleable.PagedView_pageLayoutPaddingBottom, 0);
-        mPageLayoutPaddingLeft = a.getDimensionPixelSize(
-                R.styleable.PagedView_pageLayoutPaddingLeft, 0);
-        mPageLayoutPaddingRight = a.getDimensionPixelSize(
-                R.styleable.PagedView_pageLayoutPaddingRight, 0);
-        mPageLayoutWidthGap = a.getDimensionPixelSize(
-                R.styleable.PagedView_pageLayoutWidthGap, 0);
-        mPageLayoutHeightGap = a.getDimensionPixelSize(
-                R.styleable.PagedView_pageLayoutHeightGap, 0);
-        mScrollIndicatorPaddingLeft =
-            a.getDimensionPixelSize(R.styleable.PagedView_scrollIndicatorPaddingLeft, 0);
-        mScrollIndicatorPaddingRight =
-            a.getDimensionPixelSize(R.styleable.PagedView_scrollIndicatorPaddingRight, 0);
+        mPageLayoutPaddingTop = a.getDimensionPixelSize(R.styleable.PagedView_pageLayoutPaddingTop, 0);
+        mPageLayoutPaddingBottom = a.getDimensionPixelSize(R.styleable.PagedView_pageLayoutPaddingBottom, 0);
+        mPageLayoutPaddingLeft = a.getDimensionPixelSize(R.styleable.PagedView_pageLayoutPaddingLeft, 0);
+        mPageLayoutPaddingRight = a.getDimensionPixelSize(R.styleable.PagedView_pageLayoutPaddingRight, 0);
+        mPageLayoutWidthGap = a.getDimensionPixelSize(R.styleable.PagedView_pageLayoutWidthGap, 0);
+        mPageLayoutHeightGap = a.getDimensionPixelSize(R.styleable.PagedView_pageLayoutHeightGap, 0);
+        mScrollIndicatorPaddingLeft = a.getDimensionPixelSize(R.styleable.PagedView_scrollIndicatorPaddingLeft, 0);
+        mScrollIndicatorPaddingRight = a.getDimensionPixelSize(R.styleable.PagedView_scrollIndicatorPaddingRight, 0);
         a.recycle();
 
         setHapticFeedbackEnabled(false);
@@ -242,27 +206,21 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
     }
     
     BroadcastReceiver mReceiver = new BroadcastReceiver() {
-		
 		@Override
 		public void onReceive(Context arg0, Intent arg1) {
 			Log.e(TAG, "get Action = "+arg1.getAction());
 			Handler handler = new Handler();
 			handler.postDelayed(new Runnable() {
-				
 				@Override
 				public void run() {
-					// TODO Auto-generated method stub
 					updateScrollingIndicatorBg();
 					
 				}
 			}, 1000);
-			
 		}
 	};
 
-    /**
-     * Initializes various states for this workspace.
-     */
+    /*** Initializes various states for this workspace. */
     protected void init() {
         mDirtyPageContent = new ArrayList<Boolean>();
         mDirtyPageContent.ensureCapacity(32);
@@ -294,20 +252,18 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
     public boolean isLayoutRtl() {
         return (getLayoutDirection() == LAYOUT_DIRECTION_RTL);
     }
-    /**
-     * Called by subclasses to mark that data is ready, and that we can begin loading and laying
-     * out pages.
-     */
+    
+    /** Called by subclasses to mark that data is ready, and that we can begin loading and laying  out pages. */
     protected void setDataIsReady() {
         mIsDataReady = true;
     }
+    
     protected boolean isDataReady() {
         return mIsDataReady;
     }
 
     /**
      * Returns the index of the currently displayed page.
-     *
      * @return The index of the currently displayed page.
      */
     int getCurrentPage() {
@@ -329,11 +285,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
         return index;
     }
 
-    /**
-     * Updates the scroll of the current page immediately to its final scroll position.  We use this
-     * in CustomizePagedView to allow tabs to share the same PagedView while resetting the scroll of
-     * the previous tab page.
-     */
+    /** Updates the scroll of the current page immediately to its final scroll position.  We use this in CustomizePagedView to allow tabs to share the same PagedView while resetting the scroll of  the previous tab page. */
     protected void updateCurrentPageScroll() {
         // If the current page is invalid, just reset the scroll position to zero
         int newX = 0;
@@ -372,12 +324,10 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
         if (!mScroller.isFinished()) {
             mScroller.abortAnimation();
         }
-        // don't introduce any checks like mCurrentPage == currentPage here-- if we change the
-        // the default
+        // don't introduce any checks like mCurrentPage == currentPage here-- if we change the  the default
         if (getChildCount() == 0) {
             return;
         }
-
 
         mCurrentPage = Math.max(0, Math.min(currentPage, getPageCount() - 1));
         updateCurrentPageScroll();
@@ -420,7 +370,6 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
 
     /**
      * Registers the specified listener on each page contained in this workspace.
-     *
      * @param l The listener used to respond to long clicks.
      */
     @Override
@@ -474,9 +423,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
     protected boolean computeScrollHelper() {
         if (mScroller.computeScrollOffset()) {
             // Don't bother scrolling if the page does not need to be moved
-            if (getScrollX() != mScroller.getCurrX()
-                || getScrollY() != mScroller.getCurrY()
-                || mOverScrollX != mScroller.getCurrX()) {
+            if (getScrollX() != mScroller.getCurrX() || getScrollY() != mScroller.getCurrY() || mOverScrollX != mScroller.getCurrX()) {
                 scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
             }
             invalidate();
@@ -492,18 +439,15 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
                 mDeferLoadAssociatedPagesUntilScrollCompletes = false;
             }
 
-            // We don't want to trigger a page end moving unless the page has settled
-            // and the user has stopped scrolling
+            // We don't want to trigger a page end moving unless the page has settled and the user has stopped scrolling
             if (mTouchState == TOUCH_STATE_REST) {
                 pageEndMoving();
             }
 
             // Notify the user when the page changes
-            AccessibilityManager accessibilityManager = (AccessibilityManager)
-                    getContext().getSystemService(Context.ACCESSIBILITY_SERVICE);
+            AccessibilityManager accessibilityManager = (AccessibilityManager)getContext().getSystemService(Context.ACCESSIBILITY_SERVICE);
             if (accessibilityManager.isEnabled()) {
-                AccessibilityEvent ev =
-                    AccessibilityEvent.obtain(AccessibilityEvent.TYPE_VIEW_SCROLLED);
+                AccessibilityEvent ev = AccessibilityEvent.obtain(AccessibilityEvent.TYPE_VIEW_SCROLLED);
                 ev.getText().add(getCurrentPageDescription());
                 sendAccessibilityEventUnchecked(ev);
             }
@@ -538,11 +482,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
             return;
         }
 
-        /* Allow the height to be set as WRAP_CONTENT. This allows the particular case
-         * of the All apps view on XLarge displays to not take up more space then it needs. Width
-         * is still not allowed to be set as WRAP_CONTENT since many parts of the code expect
-         * each page to have the same width.
-         */
+        /* Allow the height to be set as WRAP_CONTENT. This allows the particular case of the All apps view on XLarge displays to not take up more space then it needs. Width is still not allowed to be set as WRAP_CONTENT since many parts of the code expect each page to have the same width.  */
         int maxChildHeight = 0;
 
         final int verticalPadding = getPaddingTop() + getPaddingBottom();
@@ -589,24 +529,17 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
 
         setMeasuredDimension(widthSize, heightSize);
 
-        // We can't call getChildOffset/getRelativeChildOffset until we set the measured dimensions.
-        // We also wait until we set the measured dimensions before flushing the cache as well, to
-        // ensure that the cache is filled with good values.
+        // We can't call getChildOffset/getRelativeChildOffset until we set the measured dimensions. We also wait until we set the measured dimensions before flushing the cache as well, to ensure that the cache is filled with good values.
         invalidateCachedOffsets();
 
         if (childCount > 0) {
-            if (DEBUG) Log.d(TAG, "getRelativeChildOffset(): " + getMeasuredWidth() + ", "
-                    + getChildWidth(0));
+            if (DEBUG) Log.d(TAG, "getRelativeChildOffset(): " + getMeasuredWidth() + ", " + getChildWidth(0));
 
             // Calculate the variable page spacing if necessary
             if (mPageSpacing == AUTOMATIC_PAGE_SPACING) {
-                // The gap between pages in the PagedView should be equal to the gap from the page
-                // to the edge of the screen (so it is not visible in the current screen).  To
-                // account for unequal padding on each side of the paged view, we take the maximum
-                // of the left/right gap and use that as the gap between each page.
+                // The gap between pages in the PagedView should be equal to the gap from the page to the edge of the screen (so it is not visible in the current screen).  To account for unequal padding on each side of the paged view, we take the maximum of the left/right gap and use that as the gap between each page.
                 int offset = getRelativeChildOffset(0);
-                int spacing = Math.max(offset, widthSize - offset -
-                        getChildAt(0).getMeasuredWidth());
+                int spacing = Math.max(offset, widthSize - offset - getChildAt(0).getMeasuredWidth());
                 setPageSpacing(spacing);
             }
         }
@@ -633,9 +566,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
         setCurrentPage(newCurrentPage);
     }
 
-    // A layout scale of 1.0f assumes that the pages, in their unshrunken state, have a
-    // scale of 1.0f. A layout scale of 0.8f assumes the pages have a scale of 0.8f, and
-    // tightens the layout accordingly
+    // A layout scale of 1.0f assumes that the pages, in their unshrunken state, have a scale of 1.0f. A layout scale of 0.8f assumes the pages have a scale of 0.8f, and tightens the layout accordingly
     public void setLayoutScale(float childrenScale) {
         mLayoutScale = childrenScale;
         invalidateCachedOffsets();
@@ -661,8 +592,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
             child.setY(childrenY[i]);
         }
 
-        // Also, the page offset has changed  (since the pages are now smaller);
-        // update the page offset, but again preserving absolute X and Y coordinates
+        // Also, the page offset has changed  (since the pages are now smaller); update the page offset, but again preserving absolute X and Y coordinates
         scrollToNewPageWithoutMovingPages(mCurrentPage);
     }
 
@@ -696,8 +626,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
                 }
 
                 if (DEBUG) Log.d(TAG, "\tlayout-child" + i + ": " + childLeft + ", " + childTop);
-                child.layout(childLeft, childTop,
-                        childLeft + child.getMeasuredWidth(), childTop + childHeight);
+                child.layout(childLeft, childTop, childLeft + child.getMeasuredWidth(), childTop + childHeight);
                 childLeft += childWidth + mPageSpacing;
             }
         }
@@ -731,8 +660,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
 
     @Override
     public void onChildViewAdded(View parent, View child) {
-        // This ensures that when children are added, they get the correct transforms / alphas
-        // in accordance with any scroll effects.
+        // This ensures that when children are added, they get the correct transforms / alphas in accordance with any scroll effects.
         mForceScreenScrolled = true;
         invalidate();
         invalidateCachedOffsets();
@@ -790,8 +718,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
             return mChildRelativeOffsets[index];
         } else {
             final int padding = getPaddingLeft() + getPaddingRight();
-            final int offset = getPaddingLeft() +
-                    (getMeasuredWidth() - padding - getChildWidth(index)) / 2;
+            final int offset = getPaddingLeft() + (getMeasuredWidth() - padding - getChildWidth(index)) / 2;
             if (mChildRelativeOffsets != null) {
                 mChildRelativeOffsets[index] = offset;
             }
@@ -800,8 +727,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
     }
 
     protected int getScaledMeasuredWidth(View child) {
-        // This functions are called enough times that it actually makes a difference in the
-        // profiler -- so just inline the max() here
+        // This functions are called enough times that it actually makes a difference in the profiler -- so just inline the max() here
         final int measuredWidth = child.getMeasuredWidth();
         final int minWidth = mMinimumWidth;
         final int maxWidth = (minWidth > measuredWidth) ? minWidth : measuredWidth;
@@ -819,16 +745,13 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
             int endIndex = isRtl ? 0 : pageCount - 1;
             int delta = isRtl ? -1 : 1;
             View currPage = getPageAt(leftScreen);
-            while (leftScreen != endIndex &&
-                    currPage.getX() + currPage.getWidth() -
-                    currPage.getPaddingRight() < getScrollX()) {
+            while (leftScreen != endIndex && currPage.getX() + currPage.getWidth() - currPage.getPaddingRight() < getScrollX()) {
                 leftScreen += delta;
                 currPage = getPageAt(leftScreen);
             }
             rightScreen = leftScreen;
             currPage = getPageAt(rightScreen + delta);
-            while (rightScreen != endIndex &&
-                    currPage.getX() - currPage.getPaddingLeft() < getScrollX() + screenWidth) {
+            while (rightScreen != endIndex && currPage.getX() - currPage.getPaddingLeft() < getScrollX() + screenWidth) {
                 rightScreen += delta;
                 currPage = getPageAt(rightScreen + delta);
             }
@@ -847,13 +770,11 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
     @Override
     protected void dispatchDraw(Canvas canvas) {
         int halfScreenSize = getMeasuredWidth() / 2;
-        // mOverScrollX is equal to getScrollX() when we're within the normal scroll range.
-        // Otherwise it is equal to the scaled overscroll position.
+        // mOverScrollX is equal to getScrollX() when we're within the normal scroll range. Otherwise it is equal to the scaled overscroll position.
         int screenCenter = mOverScrollX + halfScreenSize;
 
         if (screenCenter != mLastScreenCenter || mForceScreenScrolled) {
-            // set mForceScreenScrolled before calling screenScrolled so that screenScrolled can
-            // set it for the next frame
+            // set mForceScreenScrolled before calling screenScrolled so that screenScrolled can set it for the next frame
             mForceScreenScrolled = false;
             screenScrolled(screenCenter);
             mLastScreenCenter = screenCenter;
@@ -869,13 +790,11 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
                 final long drawingTime = getDrawingTime();
                 // Clip to the bounds
                 canvas.save();
-                canvas.clipRect(getScrollX(), getScrollY(), getScrollX() + getRight() - getLeft(),
-                        getScrollY() + getBottom() - getTop());
+                canvas.clipRect(getScrollX(), getScrollY(), getScrollX() + getRight() - getLeft(), getScrollY() + getBottom() - getTop());
 
                 for (int i = getChildCount() - 1; i >= 0; i--) {
                     final View v = getPageAt(i);
-                    if (mForceDrawAllChildrenNextFrame ||
-                               (leftScreen <= i && i <= rightScreen && shouldDrawChild(v))) {
+                    if (mForceDrawAllChildrenNextFrame || (leftScreen <= i && i <= rightScreen && shouldDrawChild(v))) {
                         drawChild(canvas, v, drawingTime);
                     }
                 }
@@ -943,11 +862,8 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
     }
 
     /**
-     * If one of our descendant views decides that it could be focused now, only
-     * pass that along if it's on the current page.
-     *
-     * This happens when live folders requery, and if they're off page, they
-     * end up calling requestFocus, which pulls it on page.
+     * If one of our descendant views decides that it could be focused now, only pass that along if it's on the current page.
+     * This happens when live folders requery, and if they're off page, they end up calling requestFocus, which pulls it on page.
      */
     @Override
     public void focusableViewAvailable(View focused) {
@@ -976,8 +892,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
     @Override
     public void requestDisallowInterceptTouchEvent(boolean disallowIntercept) {
         if (disallowIntercept) {
-            // We need to make sure to cancel our long press if
-            // a scrollable widget takes over touch events
+            // We need to make sure to cancel our long press if a scrollable widget takes over touch events
             final View currentPage = getPageAt(mCurrentPage);
             currentPage.cancelLongPress();
         }
@@ -1597,8 +1512,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
         whichPage = Math.max(0, Math.min(whichPage, getPageCount() - 1));
 
         if (DEBUG) Log.d(TAG, "snapToPage.getChildOffset(): " + getChildOffset(whichPage));
-        if (DEBUG) Log.d(TAG, "snapToPage.getRelativeChildOffset(): " + getMeasuredWidth() + ", "
-                + getChildWidth(whichPage));
+        if (DEBUG) Log.d(TAG, "snapToPage.getRelativeChildOffset(): " + getMeasuredWidth() + ", " + getChildWidth(whichPage));
         int newX = getChildOffset(whichPage) - getRelativeChildOffset(whichPage);
         final int sX = mUnboundedScrollX;
         final int delta = newX - sX;
@@ -1609,8 +1523,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
         mNextPage = whichPage;
 
         View focusedChild = getFocusedChild();
-        if (focusedChild != null && whichPage != mCurrentPage &&
-                focusedChild == getPageAt(mCurrentPage)) {
+        if (focusedChild != null && whichPage != mCurrentPage && focusedChild == getPageAt(mCurrentPage)) {
             focusedChild.clearFocus();
         }
 
@@ -1623,8 +1536,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
         if (!mScroller.isFinished()) mScroller.abortAnimation();
         mScroller.startScroll(mUnboundedScrollX, 0, delta, 0, duration);
 
-        // Load associated pages immediately if someone else is handling the scroll, otherwise defer
-        // loading associated pages until the scroll settles
+        // Load associated pages immediately if someone else is handling the scroll, otherwise defer loading associated pages until the scroll settles
         if (mDeferScrollUpdate) {
             loadAssociatedPages(mNextPage);
         } else {
@@ -1697,8 +1609,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
             out.writeInt(currentPage);
         }
 
-        public static final Parcelable.Creator<SavedState> CREATOR =
-                new Parcelable.Creator<SavedState>() {
+        public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() {
             public SavedState createFromParcel(Parcel in) {
                 return new SavedState(in);
             }
@@ -1718,8 +1629,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
             if (page < count) {
                 int lowerPageBound = getAssociatedLowerPageBound(page);
                 int upperPageBound = getAssociatedUpperPageBound(page);
-                if (DEBUG) Log.d(TAG, "loadAssociatedPages: " + lowerPageBound + "/"
-                        + upperPageBound);
+                if (DEBUG) Log.d(TAG, "loadAssociatedPages: " + lowerPageBound + "/" + upperPageBound);
                 // First, clear any pages that should no longer be loaded
                 for (int i = 0; i < count; ++i) {
                     Page layout = (Page) getPageAt(i);
@@ -1775,9 +1685,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
         invalidatePageData(currentPage, false);
     }
     protected void invalidatePageData(int currentPage, boolean immediateAndOnly) {
-        if (!mIsDataReady) {
-            return;
-        }
+        if (!mIsDataReady)  return;
 
         if (mContentIsRefreshable) {
             // Force all scrolling-related behavior to end
@@ -1787,10 +1695,8 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
             // Update all the pages
             syncPages();
 
-            // We must force a measure after we've loaded the pages to update the content width and
-            // to determine the full scroll width
-            measure(MeasureSpec.makeMeasureSpec(getMeasuredWidth(), MeasureSpec.EXACTLY),
-                    MeasureSpec.makeMeasureSpec(getMeasuredHeight(), MeasureSpec.EXACTLY));
+            // We must force a measure after we've loaded the pages to update the content width and to determine the full scroll width
+            measure(MeasureSpec.makeMeasureSpec(getMeasuredWidth(), MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(getMeasuredHeight(), MeasureSpec.EXACTLY));
 
             // Set a new page as the current page if necessary
             if (currentPage > -1) {
@@ -1811,8 +1717,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
     }
 
     protected View getScrollingIndicator() {
-        // We use mHasScrollIndicator to prevent future lookups if there is no sibling indicator
-        // found
+        // We use mHasScrollIndicator to prevent future lookups if there is no sibling indicator found
         if (mHasScrollIndicator && mScrollIndicator == null) {
             ViewGroup parent = (ViewGroup) getParent();
             if (parent != null) {
@@ -1873,8 +1778,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
     }
 
     protected void hideScrollingIndicator(boolean immediately) {
-    	if(true)
-    		return ;
+    	if(true)  return ;
         if (getChildCount() <= 1) return;
         if (!isScrollingIndicatorEnabled()) return;
 
@@ -1947,12 +1851,6 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
         
     }
 
-    public void showScrollIndicatorTrack() {
-    }
-
-    public void hideScrollIndicatorTrack() {
-    }
-
     /* Accessibility */
     @Override
     public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
@@ -2000,8 +1898,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
     }
 
     protected String getCurrentPageDescription() {
-        return String.format(getContext().getString(R.string.default_scroll_format),
-                 getNextPage() + 1, getChildCount());
+        return String.format(getContext().getString(R.string.default_scroll_format), getNextPage() + 1, getChildCount());
     }
 
     @Override
@@ -2011,17 +1908,15 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
     
     public void updateScrollingIndicatorBg(){
     	ViewGroup parent = (ViewGroup) getParent();
-    	mScrollIndicatorBg = (LinearLayout) parent.findViewById(
-				R.id.linearLayout_fav);
+    	mScrollIndicatorBg = (LinearLayout) parent.findViewById(R.id.linearLayout_fav);
+    	
         if(mScrollIndicatorBg!=null){
         	if (mScrollIndicatorBg.getChildCount() > 0)
         		mScrollIndicatorBg.removeAllViews();
         	Log.e(TAG, "getChildCount() ="+getChildCount());
         	for (int i = 0; i < getChildCount(); i++) {
         		ImageView iv = new ImageView(getContext());
-        		LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(
-        				LinearLayout.LayoutParams.WRAP_CONTENT,
-        				LinearLayout.LayoutParams.WRAP_CONTENT);
+        		LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         		iv.setLayoutParams(p);
         		iv.setBackgroundResource(R.drawable.point_n);
         		mScrollIndicatorBg.addView(iv);

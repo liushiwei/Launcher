@@ -1,21 +1,4 @@
-/*
- * Copyright (C) 2008 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.android.launcher2;
-
 import android.app.SearchManager;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProviderInfo;
@@ -46,10 +29,8 @@ import android.os.Process;
 import android.os.RemoteException;
 import android.os.SystemClock;
 import android.util.Log;
-
 import com.android.launcher.R;
 import com.android.launcher2.InstallWidgetReceiver.WidgetMimeTypeHandlerData;
-
 import java.lang.ref.WeakReference;
 import java.net.URISyntaxException;
 import java.text.Collator;
@@ -111,19 +92,13 @@ public class LauncherModel extends BroadcastReceiver {
     // < only access in worker thread >
     private AllAppsList mBgAllAppsList;
 
-    // The lock that must be acquired before referencing any static bg data structures.  Unlike
-    // other locks, this one can generally be held long-term because we never expect any of these
-    // static data structures to be referenced outside of the worker thread except on the first
-    // load after configuration change.
+    // The lock that must be acquired before referencing any static bg data structures.  Unlike other locks, this one can generally be held long-term because we never expect any of these static data structures to be referenced outside of the worker thread except on the first load after configuration change.
     static final Object sBgLock = new Object();
 
-    // sBgItemsIdMap maps *all* the ItemInfos (shortcuts, folders, and widgets) created by
-    // LauncherModel to their ids
+    // sBgItemsIdMap maps *all* the ItemInfos (shortcuts, folders, and widgets) created by LauncherModel to their ids
     static final HashMap<Long, ItemInfo> sBgItemsIdMap = new HashMap<Long, ItemInfo>();
 
-    // sBgWorkspaceItems is passed to bindItems, which expects a list of all folders and shortcuts
-    //       created by LauncherModel that are directly on the home screen (however, no widgets or
-    //       shortcuts within folders).
+    // sBgWorkspaceItems is passed to bindItems, which expects a list of all folders and shortcuts created by LauncherModel that are directly on the home screen (however, no widgets or shortcuts within folders).
     static final ArrayList<ItemInfo> sBgWorkspaceItems = new ArrayList<ItemInfo>();
 
     // sBgAppWidgets is all LauncherAppWidgetInfo created by LauncherModel. Passed to bindAppWidget()
@@ -170,8 +145,7 @@ public class LauncherModel extends BroadcastReceiver {
         mBgAllAppsList = new AllAppsList(iconCache);
         mIconCache = iconCache;
 
-        mDefaultIcon = Utilities.createIconBitmap(
-                mIconCache.getFullResDefaultActivityIcon(), app);
+        mDefaultIcon = Utilities.createIconBitmap(mIconCache.getFullResDefaultActivityIcon(), app);
 
         final Resources res = app.getResources();
         mAllAppsLoadDelay = res.getInteger(R.integer.config_allAppsBatchLoadDelay);
@@ -211,8 +185,7 @@ public class LauncherModel extends BroadcastReceiver {
 
     public void unbindItemInfosAndClearQueuedBindRunnables() {
         if (sWorkerThread.getThreadId() == Process.myTid()) {
-            throw new RuntimeException("Expected unbindLauncherItemInfos() to be called from the " +
-                    "main thread");
+            throw new RuntimeException("Expected unbindLauncherItemInfos() to be called from the " + "main thread");
         }
 
         // Clear any deferred bind runnables
@@ -225,8 +198,7 @@ public class LauncherModel extends BroadcastReceiver {
 
     /** Unbinds all the sBgWorkspaceItems and sBgAppWidgets on the main thread */
     void unbindWorkspaceItemsOnMainThread() {
-        // Ensure that we don't use the same workspace items data structure on the main thread
-        // by making a copy of workspace items first.
+        // Ensure that we don't use the same workspace items data structure on the main thread by making a copy of workspace items first.
         final ArrayList<ItemInfo> tmpWorkspaceItems = new ArrayList<ItemInfo>();
         final ArrayList<ItemInfo> tmpAppWidgets = new ArrayList<ItemInfo>();
         synchronized (sBgLock) {
@@ -251,8 +223,7 @@ public class LauncherModel extends BroadcastReceiver {
      * Adds an item to the DB if it was not created previously, or move it to a new
      * <container, screen, cellX, cellY>
      */
-    static void addOrMoveItemInDatabase(Context context, ItemInfo item, long container,
-            int screen, int cellX, int cellY) {
+    static void addOrMoveItemInDatabase(Context context, ItemInfo item, long container, int screen, int cellX, int cellY) {
         if (item.container == ItemInfo.NO_ID) {
             // From all apps
             addItemToDatabase(context, item, container, screen, cellX, cellY, false);
@@ -270,33 +241,16 @@ public class LauncherModel extends BroadcastReceiver {
             if (modelItem instanceof ShortcutInfo && item instanceof ShortcutInfo) {
                 ShortcutInfo modelShortcut = (ShortcutInfo) modelItem;
                 ShortcutInfo shortcut = (ShortcutInfo) item;
-                if (modelShortcut.title.toString().equals(shortcut.title.toString()) &&
-                        modelShortcut.intent.filterEquals(shortcut.intent) &&
-                        modelShortcut.id == shortcut.id &&
-                        modelShortcut.itemType == shortcut.itemType &&
-                        modelShortcut.container == shortcut.container &&
-                        modelShortcut.screen == shortcut.screen &&
-                        modelShortcut.cellX == shortcut.cellX &&
-                        modelShortcut.cellY == shortcut.cellY &&
-                        modelShortcut.spanX == shortcut.spanX &&
-                        modelShortcut.spanY == shortcut.spanY &&
-                        ((modelShortcut.dropPos == null && shortcut.dropPos == null) ||
-                        (modelShortcut.dropPos != null &&
-                                shortcut.dropPos != null &&
-                                modelShortcut.dropPos[0] == shortcut.dropPos[0] &&
-                        modelShortcut.dropPos[1] == shortcut.dropPos[1]))) {
+                if (modelShortcut.title.toString().equals(shortcut.title.toString()) && modelShortcut.intent.filterEquals(shortcut.intent) && modelShortcut.id == shortcut.id && modelShortcut.itemType == shortcut.itemType && modelShortcut.container == shortcut.container &&
+                        modelShortcut.screen == shortcut.screen && modelShortcut.cellX == shortcut.cellX && modelShortcut.cellY == shortcut.cellY && modelShortcut.spanX == shortcut.spanX &&
+                        modelShortcut.spanY == shortcut.spanY && ((modelShortcut.dropPos == null && shortcut.dropPos == null) || (modelShortcut.dropPos != null && shortcut.dropPos != null && modelShortcut.dropPos[0] == shortcut.dropPos[0] && modelShortcut.dropPos[1] == shortcut.dropPos[1]))) {
                     // For all intents and purposes, this is the same object
                     return;
                 }
             }
 
-            // the modelItem needs to match up perfectly with item if our model is
-            // to be consistent with the database-- for now, just require
-            // modelItem == item or the equality check above
-            String msg = "item: " + ((item != null) ? item.toString() : "null") +
-                    "modelItem: " +
-                    ((modelItem != null) ? modelItem.toString() : "null") +
-                    "Error: ItemInfo passed to checkItemInfo doesn't match original";
+            // the modelItem needs to match up perfectly with item if our model is to be consistent with the database-- for now, just require modelItem == item or the equality check above
+            String msg = "item: " + ((item != null) ? item.toString() : "null") + "modelItem: " + ((modelItem != null) ? modelItem.toString() : "null") + "Error: ItemInfo passed to checkItemInfo doesn't match original";
             RuntimeException e = new RuntimeException(msg);
             if (stackTrace != null) {
                 e.setStackTrace(stackTrace);
@@ -318,8 +272,7 @@ public class LauncherModel extends BroadcastReceiver {
         runOnWorkerThread(r);
     }
 
-    static void updateItemInDatabaseHelper(Context context, final ContentValues values,
-            final ItemInfo item, final String callingFunction) {
+    static void updateItemInDatabaseHelper(Context context, final ContentValues values, final ItemInfo item, final String callingFunction) {
         final long itemId = item.id;
         final Uri uri = LauncherSettings.Favorites.getContentUri(itemId, false);
         final ContentResolver cr = context.getContentResolver();
@@ -337,18 +290,14 @@ public class LauncherModel extends BroadcastReceiver {
                             item.container != LauncherSettings.Favorites.CONTAINER_HOTSEAT) {
                         // Item is in a folder, make sure this folder exists
                         if (!sBgFolders.containsKey(item.container)) {
-                            // An items container is being set to a that of an item which is not in
-                            // the list of Folders.
-                            String msg = "item: " + item + " container being set to: " +
-                                    item.container + ", not in the list of folders";
+                            // An items container is being set to a that of an item which is not in the list of Folders.
+                            String msg = "item: " + item + " container being set to: " + item.container + ", not in the list of folders";
                             Log.e(TAG, msg);
-                            Launcher.dumpDebugLogsToConsole();
+//                            Launcher.dumpDebugLogsToConsole();
                         }
                     }
 
-                    // Items are added/removed from the corresponding FolderInfo elsewhere, such
-                    // as in Workspace.onDrop. Here, we just add/remove them from the list of items
-                    // that are on the desktop, as appropriate
+                    // Items are added/removed from the corresponding FolderInfo elsewhere, such as in Workspace.onDrop. Here, we just add/remove them from the list of items that are on the desktop, as appropriate
                     ItemInfo modelItem = sBgItemsIdMap.get(itemId);
                     if (modelItem.container == LauncherSettings.Favorites.CONTAINER_DESKTOP ||
                             modelItem.container == LauncherSettings.Favorites.CONTAINER_HOTSEAT) {
@@ -375,43 +324,32 @@ public class LauncherModel extends BroadcastReceiver {
     /**
      * Move an item in the DB to a new <container, screen, cellX, cellY>
      */
-    static void moveItemInDatabase(Context context, final ItemInfo item, final long container,
-            final int screen, final int cellX, final int cellY) {
-        String transaction = "DbDebug    Modify item (" + item.title + ") in db, id: " + item.id +
-                " (" + item.container + ", " + item.screen + ", " + item.cellX + ", " + item.cellY +
-                ") --> " + "(" + container + ", " + screen + ", " + cellX + ", " + cellY + ")";
+    static void moveItemInDatabase(Context context, final ItemInfo item, final long container, final int screen, final int cellX, final int cellY) {
+        String transaction = "DbDebug    Modify item (" + item.title + ") in db, id: " + item.id + " (" + item.container + ", " + item.screen + ", " + item.cellX + ", " + item.cellY + ") --> " + "(" + container + ", " + screen + ", " + cellX + ", " + cellY + ")";
         Launcher.sDumpLogs.add(transaction);
         Log.d(TAG, transaction);
         item.container = container;
         item.cellX = cellX;
         item.cellY = cellY;
-
-        // We store hotseat items in canonical form which is this orientation invariant position
-        // in the hotseat
-        if (context instanceof Launcher && screen < 0 &&
-                container == LauncherSettings.Favorites.CONTAINER_HOTSEAT) {
+        // We store hotseat items in canonical form which is this orientation invariant position in the hotseat
+        if (context instanceof Launcher && screen < 0 && container == LauncherSettings.Favorites.CONTAINER_HOTSEAT) {
             item.screen = ((Launcher) context).getHotseat().getOrderInHotseat(cellX, cellY);
         } else {
             item.screen = screen;
         }
-
         final ContentValues values = new ContentValues();
         values.put(LauncherSettings.Favorites.CONTAINER, item.container);
         values.put(LauncherSettings.Favorites.CELLX, item.cellX);
         values.put(LauncherSettings.Favorites.CELLY, item.cellY);
         values.put(LauncherSettings.Favorites.SCREEN, item.screen);
-
         updateItemInDatabaseHelper(context, values, item, "moveItemInDatabase");
     }
 
     /**
      * Move and/or resize item in the DB to a new <container, screen, cellX, cellY, spanX, spanY>
      */
-    static void modifyItemInDatabase(Context context, final ItemInfo item, final long container,
-            final int screen, final int cellX, final int cellY, final int spanX, final int spanY) {
-        String transaction = "DbDebug    Modify item (" + item.title + ") in db, id: " + item.id +
-                " (" + item.container + ", " + item.screen + ", " + item.cellX + ", " + item.cellY +
-                ") --> " + "(" + container + ", " + screen + ", " + cellX + ", " + cellY + ")";
+    static void modifyItemInDatabase(Context context, final ItemInfo item, final long container, final int screen, final int cellX, final int cellY, final int spanX, final int spanY) {
+        String transaction = "DbDebug    Modify item (" + item.title + ") in db, id: " + item.id + " (" + item.container + ", " + item.screen + ", " + item.cellX + ", " + item.cellY + ") --> " + "(" + container + ", " + screen + ", " + cellX + ", " + cellY + ")";
         Launcher.sDumpLogs.add(transaction);
         Log.d(TAG, transaction);
         item.cellX = cellX;
@@ -421,8 +359,7 @@ public class LauncherModel extends BroadcastReceiver {
 
         // We store hotseat items in canonical form which is this orientation invariant position
         // in the hotseat
-        if (context instanceof Launcher && screen < 0 &&
-                container == LauncherSettings.Favorites.CONTAINER_HOTSEAT) {
+        if (context instanceof Launcher && screen < 0 && container == LauncherSettings.Favorites.CONTAINER_HOTSEAT) {
             item.screen = ((Launcher) context).getHotseat().getOrderInHotseat(cellX, cellY);
         } else {
             item.screen = screen;
@@ -455,9 +392,7 @@ public class LauncherModel extends BroadcastReceiver {
      */
     static boolean shortcutExists(Context context, String title, Intent intent) {
         final ContentResolver cr = context.getContentResolver();
-        Cursor c = cr.query(LauncherSettings.Favorites.CONTENT_URI,
-            new String[] { "title", "intent" }, "title=? and intent=?",
-            new String[] { title, intent.toUri(0) }, null);
+        Cursor c = cr.query(LauncherSettings.Favorites.CONTENT_URI, new String[] { "title", "intent" }, "title=? and intent=?", new String[] { title, intent.toUri(0) }, null);
         boolean result = false;
         try {
             result = c.moveToFirst();
@@ -474,11 +409,7 @@ public class LauncherModel extends BroadcastReceiver {
     static ArrayList<ItemInfo> getItemsInLocalCoordinates(Context context) {
         ArrayList<ItemInfo> items = new ArrayList<ItemInfo>();
         final ContentResolver cr = context.getContentResolver();
-        Cursor c = cr.query(LauncherSettings.Favorites.CONTENT_URI, new String[] {
-                LauncherSettings.Favorites.ITEM_TYPE, LauncherSettings.Favorites.CONTAINER,
-                LauncherSettings.Favorites.SCREEN, LauncherSettings.Favorites.CELLX, LauncherSettings.Favorites.CELLY,
-                LauncherSettings.Favorites.SPANX, LauncherSettings.Favorites.SPANY }, null, null, null);
-
+        Cursor c = cr.query(LauncherSettings.Favorites.CONTENT_URI, new String[] { LauncherSettings.Favorites.ITEM_TYPE, LauncherSettings.Favorites.CONTAINER, LauncherSettings.Favorites.SCREEN, LauncherSettings.Favorites.CELLX, LauncherSettings.Favorites.CELLY, LauncherSettings.Favorites.SPANX, LauncherSettings.Favorites.SPANY }, null, null, null);
         final int itemTypeIndex = c.getColumnIndexOrThrow(LauncherSettings.Favorites.ITEM_TYPE);
         final int containerIndex = c.getColumnIndexOrThrow(LauncherSettings.Favorites.CONTAINER);
         final int screenIndex = c.getColumnIndexOrThrow(LauncherSettings.Favorites.SCREEN);
@@ -497,7 +428,6 @@ public class LauncherModel extends BroadcastReceiver {
                 item.container = c.getInt(containerIndex);
                 item.itemType = c.getInt(itemTypeIndex);
                 item.screen = c.getInt(screenIndex);
-
                 items.add(item);
             }
         } catch (Exception e) {
@@ -505,7 +435,6 @@ public class LauncherModel extends BroadcastReceiver {
         } finally {
             c.close();
         }
-
         return items;
     }
 
@@ -514,10 +443,7 @@ public class LauncherModel extends BroadcastReceiver {
      */
     FolderInfo getFolderById(Context context, HashMap<Long,FolderInfo> folderList, long id) {
         final ContentResolver cr = context.getContentResolver();
-        Cursor c = cr.query(LauncherSettings.Favorites.CONTENT_URI, null,
-                "_id=? and (itemType=? or itemType=?)",
-                new String[] { String.valueOf(id),
-                        String.valueOf(LauncherSettings.Favorites.ITEM_TYPE_FOLDER)}, null);
+        Cursor c = cr.query(LauncherSettings.Favorites.CONTENT_URI, null, "_id=? and (itemType=? or itemType=?)", new String[] { String.valueOf(id), String.valueOf(LauncherSettings.Favorites.ITEM_TYPE_FOLDER)}, null);
 
         try {
             if (c.moveToFirst()) {
@@ -547,7 +473,6 @@ public class LauncherModel extends BroadcastReceiver {
         } finally {
             c.close();
         }
-
         return null;
     }
 
@@ -586,8 +511,7 @@ public class LauncherModel extends BroadcastReceiver {
                 Launcher.sDumpLogs.add(transaction);
                 Log.d(TAG, transaction);
 
-                cr.insert(notify ? LauncherSettings.Favorites.CONTENT_URI :
-                        LauncherSettings.Favorites.CONTENT_URI_NO_NOTIFICATION, values);
+                cr.insert(notify ? LauncherSettings.Favorites.CONTENT_URI : LauncherSettings.Favorites.CONTENT_URI_NO_NOTIFICATION, values);
 
                 // Lock on mBgLock *after* the db operation
                 synchronized (sBgLock) {
@@ -599,16 +523,14 @@ public class LauncherModel extends BroadcastReceiver {
                             // Fall through
                         case LauncherSettings.Favorites.ITEM_TYPE_APPLICATION:
                         case LauncherSettings.Favorites.ITEM_TYPE_SHORTCUT:
-                            if (item.container == LauncherSettings.Favorites.CONTAINER_DESKTOP ||
-                                    item.container == LauncherSettings.Favorites.CONTAINER_HOTSEAT) {
+                            if (item.container == LauncherSettings.Favorites.CONTAINER_DESKTOP || item.container == LauncherSettings.Favorites.CONTAINER_HOTSEAT) {
                                 sBgWorkspaceItems.add(item);
                             } else {
                                 if (!sBgFolders.containsKey(item.container)) {
                                     // Adding an item to a folder that doesn't exist.
-                                    String msg = "adding item: " + item + " to a folder that " +
-                                            " doesn't exist";
+                                    String msg = "adding item: " + item + " to a folder that " + " doesn't exist";
                                     Log.e(TAG, msg);
-                                    Launcher.dumpDebugLogsToConsole();
+//                                    Launcher.dumpDebugLogsToConsole();
                                 }
                             }
                             break;
@@ -625,10 +547,8 @@ public class LauncherModel extends BroadcastReceiver {
     /**
      * Creates a new unique child id, for a given cell span across all layouts.
      */
-    static int getCellLayoutChildId(
-            long container, int screen, int localCellX, int localCellY, int spanX, int spanY) {
-        return (((int) container & 0xFF) << 24)
-                | (screen & 0xFF) << 16 | (localCellX & 0xFF) << 8 | (localCellY & 0xFF);
+    static int getCellLayoutChildId(long container, int screen, int localCellX, int localCellY, int spanX, int spanY) {
+        return (((int) container & 0xFF) << 24) | (screen & 0xFF) << 16 | (localCellX & 0xFF) << 8 | (localCellY & 0xFF);
     }
 
     static int getCellCountX() {
@@ -659,9 +579,7 @@ public class LauncherModel extends BroadcastReceiver {
 
         Runnable r = new Runnable() {
             public void run() {
-                String transaction = "DbDebug    Delete item (" + item.title + ") from db, id: "
-                        + item.id + " (" + item.container + ", " + item.screen + ", " + item.cellX +
-                        ", " + item.cellY + ")";
+                String transaction = "DbDebug    Delete item (" + item.title + ") from db, id: " + item.id + " (" + item.container + ", " + item.screen + ", " + item.cellX + ", " + item.cellY + ")";
                 Launcher.sDumpLogs.add(transaction);
                 Log.d(TAG, transaction);
 
@@ -676,10 +594,9 @@ public class LauncherModel extends BroadcastReceiver {
                                 if (info.container == item.id) {
                                     // We are deleting a folder which still contains items that
                                     // think they are contained by that folder.
-                                    String msg = "deleting a folder (" + item + ") which still " +
-                                            "contains items (" + info + ")";
+                                    String msg = "deleting a folder (" + item + ") which still " + "contains items (" + info + ")";
                                     Log.e(TAG, msg);
-                                    Launcher.dumpDebugLogsToConsole();
+//                                    Launcher.dumpDebugLogsToConsole();
                                 }
                             }
                             sBgWorkspaceItems.remove(item);

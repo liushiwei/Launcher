@@ -197,16 +197,16 @@ public class Hotseat extends FrameLayout {
 //		      }
 //		});
         getNavConfig();
-        if(mAppName.length()>0&&mLauncher!=null){
-        	TextView app2Name = (TextView) mLauncher.findViewById(R.id.app3_name);
-        	app2Name.setText(mAppName);
-        }
+        // zgy
+//        if(mAppName.length()>0&&mLauncher!=null){
+//        	TextView app2Name = (TextView) mLauncher.findViewById(R.id.app3_name);
+//        	app2Name.setText(mAppName);
+//        }
         mPackageManager = getContext().getPackageManager();
         if(mPackageName.length()>0){
         	try {
 				app3Drawable = mPackageManager.getActivityIcon(new ComponentName(mPackageName, mClassName));
 			} catch (NameNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
         	mApp3Intent = new Intent();

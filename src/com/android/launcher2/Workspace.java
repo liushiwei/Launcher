@@ -1235,7 +1235,8 @@ public class Workspace extends SmoothPagedView
             int index = mOverScrollX < 0 ? 0 : getChildCount() - 1;
             CellLayout cl = (CellLayout) getChildAt(index);
             float scrollProgress = getScrollProgress(screenCenter, cl, index);
-            cl.setOverScrollAmount(Math.abs(scrollProgress), index == 0);
+            cl.setOverScrollAmount(Math.abs(scrollProgress), index == 0);  // zgy
+            
             float rotation = - WORKSPACE_OVERSCROLL_ROTATION * scrollProgress;
             cl.setRotationY(rotation);
             setFadeForOverScroll(Math.abs(scrollProgress));

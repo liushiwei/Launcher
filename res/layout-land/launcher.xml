@@ -1,190 +1,163 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2007 The Android Open Source Project
+<!-- not come here  -->
 
-     Licensed under the Apache License, Version 2.0 (the "License");
-     you may not use this file except in compliance with the License.
-     You may obtain a copy of the License at
-
-          http://www.apache.org/licenses/LICENSE-2.0
-
-     Unless required by applicable law or agreed to in writing, software
-     distributed under the License is distributed on an "AS IS" BASIS,
-     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-     See the License for the specific language governing permissions and
-     limitations under the License.
--->
-
-<!-- Full screen view projects under the status bar and contains the background -->
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:launcher="http://schemas.android.com/apk/res/com.android.launcher"
-
     android:id="@+id/launcher"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/workspace_bg">
+    android:background="@drawable/workspace_bg" >
 
     <com.android.launcher2.DragLayer
         android:id="@+id/drag_layer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
+        android:fitsSystemWindows="true" >
 
-        <!-- The workspace contains 5 screens of cells -->
         <com.android.launcher2.Workspace
             android:id="@+id/workspace"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingBottom="@dimen/workspace_bottom_padding"
             android:paddingLeft="@dimen/workspace_left_padding"
             android:paddingRight="20dp"
             android:paddingTop="@dimen/workspace_top_padding"
-            android:paddingBottom="@dimen/workspace_bottom_padding"
-            launcher:defaultScreen="0"
             launcher:cellCountX="@integer/cell_count_x"
             launcher:cellCountY="@integer/cell_count_y"
+            launcher:defaultScreen="0"
             launcher:pageSpacing="@dimen/workspace_page_spacing"
             launcher:scrollIndicatorPaddingLeft="@dimen/qsb_bar_height"
-            launcher:scrollIndicatorPaddingRight="@dimen/button_bar_height">
-            <include android:id="@+id/cell1" layout="@layout/workspace_screen" />
-            <include android:id="@+id/cell2" layout="@layout/workspace_screen" />
-			<!--
-            <include android:id="@+id/cell3" layout="@layout/workspace_screen" />
-            <include android:id="@+id/cell4" layout="@layout/workspace_screen" />
-            <include android:id="@+id/cell5" layout="@layout/workspace_screen" />
-			-->
+            launcher:scrollIndicatorPaddingRight="@dimen/button_bar_height" >
+
+            <include
+                android:id="@+id/cell1"
+                layout="@layout/workspace_screen" />
+
+            <include
+                android:id="@+id/cell2"
+                layout="@layout/workspace_screen" />
+
         </com.android.launcher2.Workspace>
-        <!-- 
-        	android:paddingLeft="@dimen/workspace_left_padding"
-            android:paddingRight="@dimen/workspace_right_padding"
-             -->
 
         <include
             android:id="@+id/qsb_divider"
-            layout="@layout/workspace_divider"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_gravity="left"
             android:layout_marginLeft="@dimen/qsb_bar_height"
-            android:layout_gravity="left" />
+            layout="@layout/workspace_divider" />
 
         <include
             android:id="@+id/dock_divider"
-            layout="@layout/workspace_divider"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_gravity="right"
             android:layout_marginRight="@dimen/button_bar_height"
-            android:layout_gravity="right" />
-        
-      <include
+            layout="@layout/workspace_divider" />
+
+         <include
             android:id="@+id/paged_view_indicator1"
-            layout="@layout/scroll_home_indicator"
             android:layout_width="0dp"
             android:layout_height="2dp"
+            android:layout_gravity="bottom"
             android:layout_marginBottom="150dp"
             android:layout_marginLeft="460dp"
-			android:visibility="invisible"
-            android:layout_gravity="bottom" />
-        
+            layout="@layout/scroll_home_indicator"
+            android:visibility="invisible" />
+
         <include
             android:id="@+id/paged_view_indicator"
-            layout="@layout/scroll_indicator"
             android:layout_width="40dp"
             android:layout_height="2dp"
+            android:layout_gravity="bottom"
             android:layout_marginBottom="150dp"
-            android:layout_gravity="bottom" />
+            layout="@layout/scroll_indicator" />
 
-        <LinearLayout
-            android:id="@+id/linearLayout_fav"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center_horizontal"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal" />
-        
-		<include layout="@layout/hotseat"
+        <include
             android:id="@+id/hotseat"
             android:layout_width="900dp"
             android:layout_height="120dp"
+            android:layout_gravity="center_horizontal|bottom"
             android:layout_marginBottom="30dp"
-            android:layout_gravity="center_horizontal|bottom"/>
-        <!-- 
-        	android:layout_width="wrap_content"
-            android:layout_height="@dimen/button_bar_height_plus_padding"
-             -->
-             
-       <TextView
+            layout="@layout/hotseat" />
+
+       <!--  <TextView
             android:layout_width="120dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
             android:layout_marginBottom="2dp"
             android:layout_marginLeft="75dp"
-            android:textColor="@android:color/white"
-            android:textStyle="bold"
-            android:textSize="25dp"
             android:gravity="center"
             android:text="@string/app_navi_name"
-            android:layout_gravity="bottom" />      
-       <TextView
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
-            android:layout_marginLeft="263dp"
             android:textColor="@android:color/white"
-            android:textStyle="bold"
             android:textSize="25dp"
-            android:gravity="center"
-            android:text="@string/app_radio_name"
-            android:layout_gravity="bottom" />    
+            android:textStyle="bold" />
+
         <TextView
             android:layout_width="120dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="2dp"
+            android:layout_marginLeft="263dp"
+            android:gravity="center"
+            android:text="@string/app_radio_name"
+            android:textColor="@android:color/white"
+            android:textSize="25dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
             android:layout_marginBottom="2dp"
             android:layout_marginLeft="452dp"
-            android:textColor="@android:color/white"
-            android:textStyle="bold"
-            android:textSize="25dp"
             android:gravity="center"
             android:text="@string/app_allapp_name"
-            android:layout_gravity="bottom" />    
-         <TextView
-            android:id="@+id/app3_name"
+            android:textColor="@android:color/white"
+            android:textSize="25dp"
+            android:textStyle="bold" />
+
+        <TextView
             android:layout_width="120dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
             android:layout_marginBottom="2dp"
             android:layout_marginLeft="640dp"
-            android:textColor="@android:color/white"
-            android:textStyle="bold"
-            android:textSize="25dp"
             android:gravity="center"
             android:text="@string/app_bt_name"
-            android:layout_gravity="bottom" />    
-         <TextView android:id="@+id/launch_app_icon5"
+            android:textColor="@android:color/white"
+            android:textSize="25dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/launch_app_icon5"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
             android:layout_marginBottom="2dp"
             android:layout_marginLeft="828dp"
-            android:textColor="@android:color/white"
-            android:textStyle="bold"
-            android:textSize="25dp"
             android:gravity="center"
             android:text="@string/app_parking_name"
-            android:layout_gravity="bottom" />    
+            android:textColor="@android:color/white"
+            android:textSize="25dp"
+            android:textStyle="bold" /> -->
 
         <include
             android:id="@+id/qsb_bar"
-            layout="@layout/qsb_bar"/>
+            layout="@layout/qsb_bar" />
 
-        <!-- The Workspace cling must appear under the AppsCustomizePagedView below to ensure
-             that it is still visible during the transition to AllApps and doesn't overlay on
-             top of that view. -->
-        <include layout="@layout/workspace_cling"
+        <!-- <include
             android:id="@+id/workspace_cling"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone" />
+            layout="@layout/workspace_cling"
+            android:visibility="gone" /> -->
 
-        <include layout="@layout/folder_cling"
+        <include
             android:id="@+id/folder_cling"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            layout="@layout/folder_cling"
             android:visibility="gone" />
 
         <com.android.launcher2.DrawableStateProxyView
@@ -194,14 +167,16 @@
             android:layout_gravity="top|left"
             android:layout_marginTop="64dp"
             android:clickable="true"
-            android:onClick="onClickVoiceButton"
             android:importantForAccessibility="no"
+            android:onClick="onClickVoiceButton"
             launcher:sourceViewId="@+id/voice_button" />
 
-        <include layout="@layout/apps_customize_pane"
+        <include
             android:id="@+id/apps_customize_pane"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            layout="@layout/apps_customize_pane"
             android:visibility="invisible" />
     </com.android.launcher2.DragLayer>
+
 </FrameLayout>

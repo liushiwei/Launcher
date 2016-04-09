@@ -1,21 +1,4 @@
-/*
- * Copyright (C) 2008 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.android.launcher2;
-
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
@@ -47,10 +30,8 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LayoutAnimationController;
-
 import com.android.launcher.R;
 import com.android.launcher2.FolderIcon.FolderRingAnimator;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -60,26 +41,20 @@ import java.util.Stack;
 
 public class CellLayout extends ViewGroup {
     static final String TAG = "CellLayout";
-
     private Launcher mLauncher;
     private int mCellWidth;
     private int mCellHeight;
-
     private int mCountX;
     private int mCountY;
-
     private int mOriginalWidthGap;
     private int mOriginalHeightGap;
     private int mWidthGap;
     private int mHeightGap;
     private int mMaxGap;
     private boolean mScrollingTransformsDirty = false;
-
     private final Rect mRect = new Rect();
     private final CellInfo mCellInfo = new CellInfo();
-
-    // These are temporary variables to prevent having to allocate a new object just to
-    // return an (x, y) value from helper functions. Do NOT use them to maintain other state.
+    // These are temporary variables to prevent having to allocate a new object just to return an (x, y) value from helper functions. Do NOT use them to maintain other state.
     private final int[] mTmpXY = new int[2];
     private final int[] mTmpPoint = new int[2];
     int[] mTempLocation = new int[2];
@@ -100,8 +75,9 @@ public class CellLayout extends ViewGroup {
     private Drawable mNormalBackground;
     private Drawable mActiveGlowBackground;
     private Drawable mOverScrollForegroundDrawable;
-    private Drawable mOverScrollLeft;
-    private Drawable mOverScrollRight;
+    // delete by zgy
+//    private Drawable mOverScrollLeft;
+//    private Drawable mOverScrollRight;
     private Rect mBackgroundRect;
     private Rect mForegroundRect;
     private int mForegroundPadding;
@@ -110,12 +86,10 @@ public class CellLayout extends ViewGroup {
     private boolean mIsDragOverlapping = false;
     private final Point mDragCenter = new Point();
 
-    // These arrays are used to implement the drag visualization on x-large screens.
-    // They are used as circular arrays, indexed by mDragOutlineCurrent.
+    // These arrays are used to implement the drag visualization on x-large screens. They are used as circular arrays, indexed by mDragOutlineCurrent.
     private Rect[] mDragOutlines = new Rect[4];
     private float[] mDragOutlineAlphas = new float[mDragOutlines.length];
-    private InterruptibleInOutAnimator[] mDragOutlineAnims =
-            new InterruptibleInOutAnimator[mDragOutlines.length];
+    private InterruptibleInOutAnimator[] mDragOutlineAnims = new InterruptibleInOutAnimator[mDragOutlines.length];
 
     // Used as an index into the above 3 arrays; indicates which is the most current value.
     private int mDragOutlineCurrent = 0;
@@ -123,10 +97,8 @@ public class CellLayout extends ViewGroup {
 
     private BubbleTextView mPressedOrFocusedIcon;
 
-    private HashMap<CellLayout.LayoutParams, Animator> mReorderAnimators = new
-            HashMap<CellLayout.LayoutParams, Animator>();
-    private HashMap<View, ReorderHintAnimation>
-            mShakeAnimators = new HashMap<View, ReorderHintAnimation>();
+    private HashMap<CellLayout.LayoutParams, Animator> mReorderAnimators = new HashMap<CellLayout.LayoutParams, Animator>();
+    private HashMap<View, ReorderHintAnimation> mShakeAnimators = new HashMap<View, ReorderHintAnimation>();
 
     private boolean mItemPlacementDirty = false;
 
@@ -162,8 +134,7 @@ public class CellLayout extends ViewGroup {
     private static final int INVALID_DIRECTION = -100;
     private DropTarget.DragEnforcer mDragEnforcer;
 
-    private final static PorterDuffXfermode sAddBlendMode =
-            new PorterDuffXfermode(PorterDuff.Mode.ADD);
+    private final static PorterDuffXfermode sAddBlendMode = new PorterDuffXfermode(PorterDuff.Mode.ADD);
     private final static Paint sPaint = new Paint();
 
     public CellLayout(Context context) {
@@ -177,9 +148,7 @@ public class CellLayout extends ViewGroup {
     public CellLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         mDragEnforcer = new DropTarget.DragEnforcer(context);
-
-        // A ViewGroup usually does not draw, but CellLayout needs to draw a rectangle to show
-        // the user where a dragged item will land when dropped.
+        // A ViewGroup usually does not draw, but CellLayout needs to draw a rectangle to show the user where a dragged item will land when dropped.
         setWillNotDraw(false);
         mLauncher = (Launcher) context;
 
@@ -204,16 +173,15 @@ public class CellLayout extends ViewGroup {
         final Resources res = getResources();
         mHotseatScale = (res.getInteger(R.integer.hotseat_item_scale_percentage) / 100f);
 
-        mNormalBackground = res.getDrawable(R.drawable.homescreen_blue_normal_holo);
+        mNormalBackground = res.getDrawable(R.drawable.homescreen_blue_normal_holo);  // zgy
         mActiveGlowBackground = res.getDrawable(R.drawable.homescreen_blue_strong_holo);
+//        mOverScrollLeft = res.getDrawable(R.drawable.overscroll_glow_left);
+//        mOverScrollRight = res.getDrawable(R.drawable.overscroll_glow_right);
+        mOverScrollForegroundDrawable = res.getDrawable(R.drawable.overscroll_glow_left);
+        
+        mForegroundPadding = res.getDimensionPixelSize(R.dimen.workspace_overscroll_drawable_padding);
 
-        mOverScrollLeft = res.getDrawable(R.drawable.overscroll_glow_left);
-        mOverScrollRight = res.getDrawable(R.drawable.overscroll_glow_right);
-        mForegroundPadding =
-                res.getDimensionPixelSize(R.dimen.workspace_overscroll_drawable_padding);
-
-        mReorderHintAnimationMagnitude = (REORDER_HINT_MAGNITUDE *
-                res.getDimensionPixelSize(R.dimen.app_icon_size));
+        mReorderHintAnimationMagnitude = (REORDER_HINT_MAGNITUDE * res.getDimensionPixelSize(R.dimen.app_icon_size));
 
         mNormalBackground.setFilterBitmap(true);
         mActiveGlowBackground.setFilterBitmap(true);
@@ -222,16 +190,12 @@ public class CellLayout extends ViewGroup {
 
         mEaseOutInterpolator = new DecelerateInterpolator(2.5f); // Quint ease out
 
-
         mDragCell[0] = mDragCell[1] = -1;
         for (int i = 0; i < mDragOutlines.length; i++) {
             mDragOutlines[i] = new Rect(-1, -1, -1, -1);
         }
 
-        // When dragging things around the home screens, we show a green outline of
-        // where the item will land. The outlines gradually fade out, leaving a trail
-        // behind the drag path.
-        // Set up all the animations that are used to implement this fading.
+        // When dragging things around the home screens, we show a green outline of where the item will land. The outlines gradually fade out, leaving a trail behind the drag path. Set up all the animations that are used to implement this fading.
         final int duration = res.getInteger(R.integer.config_dragOutlineFadeTime);
         final float fromAlphaValue = 0;
         final float toAlphaValue = (float)res.getInteger(R.integer.config_dragOutlineMaxAlpha);
@@ -239,23 +203,19 @@ public class CellLayout extends ViewGroup {
         Arrays.fill(mDragOutlineAlphas, fromAlphaValue);
 
         for (int i = 0; i < mDragOutlineAnims.length; i++) {
-            final InterruptibleInOutAnimator anim =
-                new InterruptibleInOutAnimator(duration, fromAlphaValue, toAlphaValue);
+            final InterruptibleInOutAnimator anim = new InterruptibleInOutAnimator(duration, fromAlphaValue, toAlphaValue);
             anim.getAnimator().setInterpolator(mEaseOutInterpolator);
             final int thisIndex = i;
             anim.getAnimator().addUpdateListener(new AnimatorUpdateListener() {
                 public void onAnimationUpdate(ValueAnimator animation) {
                     final Bitmap outline = (Bitmap)anim.getTag();
-
-                    // If an animation is started and then stopped very quickly, we can still
-                    // get spurious updates we've cleared the tag. Guard against this.
+                    // If an animation is started and then stopped very quickly, we can still get spurious updates we've cleared the tag. Guard against this.
                     if (outline == null) {
                         @SuppressWarnings("all") // suppress dead code warning
                         final boolean debug = false;
                         if (debug) {
                             Object val = animation.getAnimatedValue();
-                            Log.d(TAG, "anim " + thisIndex + " update: " + val +
-                                     ", isStopped " + anim.isStopped());
+                            Log.d(TAG, "anim " + thisIndex + " update: " + val + ", isStopped " + anim.isStopped());
                         }
                         // Try to prevent it from continuing to run
                         animation.cancel();
@@ -265,8 +225,7 @@ public class CellLayout extends ViewGroup {
                     }
                 }
             });
-            // The animation holds a reference to the drag outline bitmap as long is it's
-            // running. This way the bitmap can be GCed when the animations are complete.
+            // The animation holds a reference to the drag outline bitmap as long is it's running. This way the bitmap can be GCed when the animations are complete.
             anim.getAnimator().addListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
@@ -287,24 +246,16 @@ public class CellLayout extends ViewGroup {
     }
 
     static int widthInPortrait(Resources r, int numCells) {
-        // We use this method from Workspace to figure out how many rows/columns Launcher should
-        // have. We ignore the left/right padding on CellLayout because it turns out in our design
-        // the padding extends outside the visible screen size, but it looked fine anyway.
+        // We use this method from Workspace to figure out how many rows/columns Launcher should have. We ignore the left/right padding on CellLayout because it turns out in our design the padding extends outside the visible screen size, but it looked fine anyway.
         int cellWidth = r.getDimensionPixelSize(R.dimen.workspace_cell_width);
-        int minGap = Math.min(r.getDimensionPixelSize(R.dimen.workspace_width_gap),
-                r.getDimensionPixelSize(R.dimen.workspace_height_gap));
-
+        int minGap = Math.min(r.getDimensionPixelSize(R.dimen.workspace_width_gap), r.getDimensionPixelSize(R.dimen.workspace_height_gap));
         return  minGap * (numCells - 1) + cellWidth * numCells;
     }
 
     static int heightInLandscape(Resources r, int numCells) {
-        // We use this method from Workspace to figure out how many rows/columns Launcher should
-        // have. We ignore the left/right padding on CellLayout because it turns out in our design
-        // the padding extends outside the visible screen size, but it looked fine anyway.
+        // We use this method from Workspace to figure out how many rows/columns Launcher should have. We ignore the left/right padding on CellLayout because it turns out in our design the padding extends outside the visible screen size, but it looked fine anyway.
         int cellHeight = r.getDimensionPixelSize(R.dimen.workspace_cell_height);
-        int minGap = Math.min(r.getDimensionPixelSize(R.dimen.workspace_width_gap),
-                r.getDimensionPixelSize(R.dimen.workspace_height_gap));
-
+        int minGap = Math.min(r.getDimensionPixelSize(R.dimen.workspace_width_gap), r.getDimensionPixelSize(R.dimen.workspace_height_gap));
         return minGap * (numCells - 1) + cellHeight * numCells;
     }
 
@@ -335,27 +286,23 @@ public class CellLayout extends ViewGroup {
 
     private void invalidateBubbleTextView(BubbleTextView icon) {
         final int padding = icon.getPressedOrFocusedBackgroundPadding();
-        invalidate(icon.getLeft() + getPaddingLeft() - padding,
-                icon.getTop() + getPaddingTop() - padding,
-                icon.getRight() + getPaddingLeft() + padding,
-                icon.getBottom() + getPaddingTop() + padding);
+        invalidate(icon.getLeft() + getPaddingLeft() - padding, icon.getTop() + getPaddingTop() - padding, icon.getRight() + getPaddingLeft() + padding, icon.getBottom() + getPaddingTop() + padding);
     }
 
+    // zgy del
     void setOverScrollAmount(float r, boolean left) {
-        if (left && mOverScrollForegroundDrawable != mOverScrollLeft) {
-            mOverScrollForegroundDrawable = mOverScrollLeft;
-        } else if (!left && mOverScrollForegroundDrawable != mOverScrollRight) {
-            mOverScrollForegroundDrawable = mOverScrollRight;
-        }
-
+//        if (left && mOverScrollForegroundDrawable != mOverScrollLeft) {
+//            mOverScrollForegroundDrawable = mOverScrollLeft;
+//        } else if (!left && mOverScrollForegroundDrawable != mOverScrollRight) {
+//            mOverScrollForegroundDrawable = mOverScrollRight;
+//        }
         mForegroundAlpha = (int) Math.round((r * 255));
         mOverScrollForegroundDrawable.setAlpha(mForegroundAlpha);
         invalidate();
     }
 
     void setPressedOrFocusedIcon(BubbleTextView icon) {
-        // We draw the pressed or focused BubbleTextView's background in CellLayout because it
-        // requires an expanded clip rect (due to the glow's blur radius)
+        // We draw the pressed or focused BubbleTextView's background in CellLayout because it requires an expanded clip rect (due to the glow's blur radius)
         BubbleTextView oldIcon = mPressedOrFocusedIcon;
         mPressedOrFocusedIcon = icon;
         if (oldIcon != null) {
@@ -386,8 +333,7 @@ public class CellLayout extends ViewGroup {
             setOverscrollTransformsDirty(false);
             setTranslationX(0);
             setRotationY(0);
-            // It doesn't matter if we pass true or false here, the important thing is that we
-            // pass 0, which results in the overscroll drawable not being drawn any more.
+            // It doesn't matter if we pass true or false here, the important thing is that we pass 0, which results in the overscroll drawable not being drawn any more.
             setOverScrollAmount(0, false);
             setPivotX(getMeasuredWidth() / 2);
             setPivotY(getMeasuredHeight() / 2);
@@ -415,25 +361,21 @@ public class CellLayout extends ViewGroup {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        // When we're large, we are either drawn in a "hover" state (ie when dragging an item to
-        // a neighboring page) or with just a normal background (if backgroundAlpha > 0.0f)
-        // When we're small, we are either drawn normally or in the "accepts drops" state (during
-        // a drag). However, we also drag the mini hover background *over* one of those two
-        // backgrounds
-        if (mBackgroundAlpha > 0.0f) {
-            Drawable bg;
-
-            if (mIsDragOverlapping) {
-                // In the mini case, we draw the active_glow bg *over* the active background
-                bg = mActiveGlowBackground;
-            } else {
-                bg = mNormalBackground;
-            }
-
-            bg.setAlpha((int) (mBackgroundAlpha * mBackgroundAlphaMultiplier * 255));
-            bg.setBounds(mBackgroundRect);
-            bg.draw(canvas);
-        }
+        // When we're large, we are either drawn in a "hover" state (ie when dragging an item to a neighboring page) or with just a normal background (if backgroundAlpha > 0.0f) When we're small, we are either drawn normally or in the "accepts drops" state (during  a drag). However, we also drag the mini hover background *over* one of those two backgrounds
+    	// del by zgy
+//        if (mBackgroundAlpha > 0.0f) {
+//            Drawable bg;
+//
+//            if (mIsDragOverlapping) {
+//                // In the mini case, we draw the active_glow bg *over* the active background
+//                bg = mActiveGlowBackground;
+//            } else {
+//                bg = mNormalBackground;
+//            }
+//            bg.setAlpha((int) (mBackgroundAlpha * mBackgroundAlphaMultiplier * 255));
+//            bg.setBounds(mBackgroundRect);
+//            bg.draw(canvas);
+//        }
 
         final Paint paint = mDragOutlinePaint;
         for (int i = 0; i < mDragOutlines.length; i++) {
@@ -447,16 +389,12 @@ public class CellLayout extends ViewGroup {
             }
         }
 
-        // We draw the pressed or focused BubbleTextView's background in CellLayout because it
-        // requires an expanded clip rect (due to the glow's blur radius)
+        // We draw the pressed or focused BubbleTextView's background in CellLayout because it requires an expanded clip rect (due to the glow's blur radius)
         if (mPressedOrFocusedIcon != null) {
             final int padding = mPressedOrFocusedIcon.getPressedOrFocusedBackgroundPadding();
             final Bitmap b = mPressedOrFocusedIcon.getPressedOrFocusedBackground();
             if (b != null) {
-                canvas.drawBitmap(b,
-                        mPressedOrFocusedIcon.getLeft() + getPaddingLeft() - padding,
-                        mPressedOrFocusedIcon.getTop() + getPaddingTop() - padding,
-                        null);
+                canvas.drawBitmap(b, mPressedOrFocusedIcon.getLeft() + getPaddingLeft() - padding, mPressedOrFocusedIcon.getTop() + getPaddingTop() - padding, null);
             }
         }
 
@@ -1027,8 +965,7 @@ public class CellLayout extends ViewGroup {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         mBackgroundRect.set(0, 0, w, h);
-        mForegroundRect.set(mForegroundPadding, mForegroundPadding,
-                w - mForegroundPadding, h - mForegroundPadding);
+        mForegroundRect.set(mForegroundPadding, mForegroundPadding, w - mForegroundPadding, h - mForegroundPadding);
     }
 
     @Override
