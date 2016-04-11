@@ -1,98 +1,94 @@
 package com.android.launcher2;
-
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.opengl.Matrix;
-import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
-
 import com.android.launcher.R;
 
 public class NaviWidgetProvider extends AppWidgetProvider {
-	 public static final String TAG = "MyAppWidgetProvider";  
-	    public static final String CLICK_ACTION = "";  
+//		private final String TAG = "MyAppWidgetProvider";  
 	    private static RemoteViews mRemoteViews;  
+		private final String PROPERTIESFILE = "/data/system/.properties_file";
+		private final String WIDGET_APP_ACTION = "com.android.launcher.intent.action.NAVIT";
 	  
-	    /** 
-	     * 每删除一次窗口小部件就调用一次 
-	     */  
 	    @Override  
-	    public void onDeleted(Context context, int[] appWidgetIds) {  
-	        super.onDeleted(context, appWidgetIds);  
-	        Log.i(TAG, "onDeleted");  
-	    }  
-	  
-	    /** 
-	     * 当最后一个该窗口小部件删除时调用该方法，注意是最后一个 
-	     */  
-	    @Override  
-	    public void onDisabled(Context context) {  
-	        super.onDisabled(context);  
-	        Log.i(TAG, "onDisabled");  
-	    }  
-	  
-	    /** 
-	     * 当该窗口小部件第一次添加到桌面时调用该方法，可添加多次但只第一次调用 
-	     */  
-	    @Override  
-	    public void onEnabled(Context context) {  
-	        super.onEnabled(context);  
-	        Log.i(TAG, "onEnabled");  
-	    }  
-	  
-	    /** 
-	     * 接收窗口小部件点击时发送的广播 
-	     */  
-	    @Override  
-	    public void onReceive(final Context context, Intent intent) {  
-	        super.onReceive(context, intent);  
-	        Log.i(TAG, "onReceive : action = " + intent.getAction());  
-	    }  
-	  
-	    /** 
-	     * 每次窗口小部件被点击更新都调用一次该方法 
-	     */  
-	    @Override  
-	    public void onUpdate(Context context, AppWidgetManager appWidgetManager,  
-	            int[] appWidgetIds) {  
+	    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {  
 	        super.onUpdate(context, appWidgetManager, appWidgetIds);  
-	        Log.i(TAG, "onUpdate");  
-	  
-	        final int counter = appWidgetIds.length;  
-	        Log.i(TAG, "counter = " + counter);  
-	        for (int i = 0; i < counter; i++) {  
-	            int appWidgetId = appWidgetIds[i];  
-	            onWidgetUpdate(context, appWidgetManager, appWidgetId);  
-	        }  
-	  
+	        mRemoteViews = new RemoteViews(context.getPackageName(),R.layout.widget_navit);
+	        Intent intent = new Intent();
+			intent.setAction(WIDGET_APP_ACTION);
+			mRemoteViews.setOnClickPendingIntent(R.id.widget_img, PendingIntent.getBroadcast(context, 0, intent, 0));
+			appWidgetManager.updateAppWidget(appWidgetIds, mRemoteViews);
+	        
 	    }  
 	  
-	    /** 
-	     * 窗口小部件更新 
-	     *  
-	     * @param context 
-	     * @param appWidgeManger 
-	     * @param appWidgetId 
-	     */  
-	    private void onWidgetUpdate(Context context,  
-	            AppWidgetManager appWidgeManger, int appWidgetId) {  
-	  
-	        Log.i(TAG, "appWidgetId = " + appWidgetId);  
-	        mRemoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_navit);  
-	  
-	        // "窗口小部件"点击事件发送的Intent广播  
-	        Intent intentClick = new Intent("com.carit.key.navi");  
-	        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intentClick, 0);  
-	        mRemoteViews.setOnClickPendingIntent(R.id.widget_img, pendingIntent);  
-	        appWidgeManger.updateAppWidget(appWidgetId, mRemoteViews);  
-	    }  
-	  
-	  
+	    @Override
+		public void onReceive(Context context, Intent intent) {
+			super.onReceive(context, intent);
+//			Log.d(TAG,"onReceive getAction----------------------------->"+intent.getAction());
+			if(intent.getAction().equals(WIDGET_APP_ACTION)){
+				startNavitActivityNavi(context);		
+			}
+		}
+	    
+	    /**
+	     * add by zgy
+	     */
+		private void startNavitActivityNavi(Context context){
+			try {
+				Intent intentClick = new Intent();
+				File file = new File(PROPERTIESFILE);
+				String packageName = null;
+				String className = null;
+				if (file.exists()) {
+					BufferedReader buf;
+					String source = null;
+
+					try {
+						buf = new BufferedReader(new FileReader(file));
+						do {
+							source = buf.readLine();
+							if (source != null && source.startsWith("nav_app_class_name=")) {
+								className = source.substring(source.indexOf("=") + 1);
+							}
+							if (source != null && source.startsWith("nav_app_package_name=")) {
+								packageName = source.substring(source.indexOf("=") + 1);
+							}
+							if (source != null)  {
+								/*Log.e(TAG, source);*/
+							}	
+						} while (source != null);
+						buf.close();
+						
+						if (packageName != null && className != null) {
+							ComponentName component = new ComponentName(packageName, className);
+							intentClick.setComponent(component);
+						}
+					} catch (FileNotFoundException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+				
+				if (packageName == null || className == null) {
+//					Log.e(TAG, "packageName or className is null ,launche default");
+					intentClick.setClassName("com.autonavi.amapauto", "com.autonavi.auto.remote.fill.UsbFillActivity");
+//					intentClick.setClassName("cld.navi.c2025.mainframe", "cld.navi.c2025.mainframe.NaviMainActivity");
+				}
+				intentClick.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				context.startActivity(intentClick);
+			} catch (Exception e) {
+				Toast.makeText(context, R.string.no_navi_app, Toast.LENGTH_LONG).show();
+			}
+		}
 }

@@ -240,7 +240,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
     private static Drawable.ConstantState[] sVoiceSearchIcon = new Drawable.ConstantState[2];
     private static Drawable.ConstantState[] sAppMarketIcon = new Drawable.ConstantState[2];
 
-    private Drawable mWorkspaceBackgroundDrawable;
+//    private Drawable mWorkspaceBackgroundDrawable;
     private Drawable mBlackBackgroundDrawable;
 
     private final ArrayList<Integer> mSynchronouslyBoundPages = new ArrayList<Integer>();
@@ -631,7 +631,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         mOnResumeState = State.NONE;
 
         // Background was set to gradient in onPause(), restore to black if in all apps.
-        setWorkspaceBackground(mState == State.WORKSPACE);
+        setWorkspaceBackground(/*mState == State.WORKSPACE*/);
 
         // Process any items that were added while Launcher was away
         InstallShortcutReceiver.flushInstallQueue(this);
@@ -665,7 +665,6 @@ public final class Launcher extends Activity implements View.OnClickListener, On
     protected void onPause() {
         // NOTE: We want all transitions from launcher to act as if the wallpaper were enabled to be consistent.  So re-enable the flag here, and we will re-disable it as necessary when Launcher resumes and we are still in AllApps.
         updateWallpaperVisibility(true);
-
         super.onPause();
         mPaused = true;
         mDragController.cancelDrag();
@@ -687,13 +686,10 @@ public final class Launcher extends Activity implements View.OnClickListener, On
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-
         if (hasFocus) {
-            final InputMethodManager inputManager = (InputMethodManager)
-                    getSystemService(Context.INPUT_METHOD_SERVICE);
+            final InputMethodManager inputManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
             WindowManager.LayoutParams lp = getWindow().getAttributes();
-            inputManager.hideSoftInputFromWindow(lp.token, 0, new android.os.ResultReceiver(new
-                        android.os.Handler()) {
+            inputManager.hideSoftInputFromWindow(lp.token, 0, new android.os.ResultReceiver(new android.os.Handler()) {
                         protected void onReceiveResult(int resultCode, Bundle resultData) {
                             Log.d(TAG, "ResultReceiver got resultCode=" + resultCode);
                         }
@@ -821,7 +817,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         mDockDivider = findViewById(R.id.dock_divider);
 
         mLauncherView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        mWorkspaceBackgroundDrawable = getResources().getDrawable(R.drawable.workspace_bg);
+//        mWorkspaceBackgroundDrawable = getResources().getDrawable(R.drawable.workspace_bg);
         mBlackBackgroundDrawable = new ColorDrawable(Color.BLACK);
 
         // Setup the drag layer
@@ -1871,12 +1867,9 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 
     boolean startActivity(View v, Intent intent, Object tag) {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
         try {
-            // Only launch using the new animation if the shortcut has not opted out (this is a
-            // private contract between launcher and may be ignored in the future).
-            boolean useLaunchAnimation = (v != null) &&
-                    !intent.hasExtra(INTENT_EXTRA_IGNORE_LAUNCH_ANIMATION);
+            // Only launch using the new animation if the shortcut has not opted out (this is a private contract between launcher and may be ignored in the future).
+            boolean useLaunchAnimation = (v != null) && !intent.hasExtra(INTENT_EXTRA_IGNORE_LAUNCH_ANIMATION);
             if (useLaunchAnimation) {
                 startActivity(intent);
             } else {
@@ -2050,8 +2043,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 
         info.opened = true;
 
-        // Just verify that the folder hasn't already been added to the DragLayer.
-        // There was a one-off crash where the folder had a parent already.
+        // Just verify that the folder hasn't already been added to the DragLayer. There was a one-off crash where the folder had a parent already.
         if (folder.getParent() == null) {
             mDragLayer.addView(folder);
             mDragController.addDropTarget((DropTarget) folder);
@@ -2076,7 +2068,6 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 
     void closeFolder(Folder folder) {
         folder.getInfo().opened = false;
-
         ViewGroup parent = (ViewGroup) folder.getParent().getParent();
         if (parent != null) {
             FolderIcon fi = (FolderIcon) mWorkspace.getViewForTag(folder.mInfo);
@@ -2179,18 +2170,48 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         }
     }
 
-    private void setWorkspaceBackground(boolean workspace) {
-        mLauncherView.setBackground(workspace ? mWorkspaceBackgroundDrawable : mBlackBackgroundDrawable);
+    private void setWorkspaceBackground(/*boolean workspace*/) {
+        mLauncherView.setBackground(/*workspace ? mWorkspaceBackgroundDrawable : */mBlackBackgroundDrawable);
     }
 
-    void updateWallpaperVisibility(boolean visible) {
+    // Modify by zgy
+    void updateWallpaperVisibility(boolean visible) { 
         int wpflags = visible ? WindowManager.LayoutParams.FLAG_SHOW_WALLPAPER : 0;
         int curflags = getWindow().getAttributes().flags & WindowManager.LayoutParams.FLAG_SHOW_WALLPAPER;
         if (wpflags != curflags) {
             getWindow().setFlags(wpflags, WindowManager.LayoutParams.FLAG_SHOW_WALLPAPER);
         }
-        setWorkspaceBackground(visible);
+    	// getWindow().setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN, WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+    	setWorkspaceBackground();
+    	
+//        if (visible) {
+//            WindowManager.LayoutParams lp = getWindow().getAttributes();
+//            lp.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
+//            getWindow().setAttributes(lp);
+//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+//        } else {
+//            WindowManager.LayoutParams attr = getWindow().getAttributes();
+//            attr.flags &= (~WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//            getWindow().setAttributes(attr);
+//            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+//        }
     }
+    
+    /**
+    private void full(boolean enable) {
+        if (enable) {
+            WindowManager.LayoutParams lp = getWindow().getAttributes();
+            lp.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
+            getWindow().setAttributes(lp);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        } else {
+            WindowManager.LayoutParams attr = getWindow().getAttributes();
+            attr.flags &= (~WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            getWindow().setAttributes(attr);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        }  
+    }  
+    **/
 
     private void dispatchOnLauncherTransitionPrepare(View v, boolean animated, boolean toWorkspace) {
         if (v instanceof LauncherTransitionable) {
@@ -3134,10 +3155,8 @@ public final class Launcher extends Activity implements View.OnClickListener, On
                 if (mAppsCustomizeContent != null) {
                 	
                 	for (int i = 0; i < apps.size(); i++) {
-						Log.e(TAG, "apps-wwwwwwwwwwwwwwww-11->"+apps.get(i).getPackageName());
-						Log.e(TAG, "apps-wwwwwwwwwwwwwwww-22->"+apps.get(i).componentName);
+						Log.e(TAG, "apps-wwwwwwwwwwwwwwww-11->"+apps.get(i).componentName.getPackageName());
 						Log.e(TAG, "apps-wwwwwwwwwwwwwwww-33->"+apps.get(i).title);
-						Log.e(TAG, "apps-wwwwwwwwwwwwwwww-44->"+ apps.get(i).iconBitmap);
 					}
                 	
                     mAppsCustomizeContent.setApps(apps);

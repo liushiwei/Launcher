@@ -1,21 +1,4 @@
-/*
- * Copyright (C) 2011 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.android.launcher2;
-
 import android.animation.AnimatorSet;
 import android.animation.ValueAnimator;
 import android.appwidget.AppWidgetHostView;
@@ -58,33 +41,25 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import com.android.launcher.R;
 import com.android.launcher2.DropTarget.DragObject;
-
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * A simple callback interface which also provides the results of the task.
- */
 interface AsyncTaskCallback {
     void run(AppsCustomizeAsyncTask task, AsyncTaskPageData data);
 }
 
-/**
- * The data needed to perform either of the custom AsyncTasks.
- */
+
 class AsyncTaskPageData {
     enum Type {
         LoadWidgetPreviewData
     }
 
-    AsyncTaskPageData(int p, ArrayList<Object> l, ArrayList<Bitmap> si, AsyncTaskCallback bgR,
-            AsyncTaskCallback postR) {
+    AsyncTaskPageData(int p, ArrayList<Object> l, ArrayList<Bitmap> si, AsyncTaskCallback bgR, AsyncTaskCallback postR) {
         page = p;
         items = l;
         sourceImages = si;
@@ -93,8 +68,7 @@ class AsyncTaskPageData {
         doInBackgroundCallback = bgR;
         postExecuteCallback = postR;
     }
-    AsyncTaskPageData(int p, ArrayList<Object> l, int cw, int ch, AsyncTaskCallback bgR,
-            AsyncTaskCallback postR) {
+    AsyncTaskPageData(int p, ArrayList<Object> l, int cw, int ch, AsyncTaskCallback bgR, AsyncTaskCallback postR) {
         page = p;
         items = l;
         generatedImages = new ArrayList<Bitmap>();
@@ -132,15 +106,15 @@ class AsyncTaskPageData {
     AsyncTaskCallback postExecuteCallback;
 }
 
-/**
- * A generic template for an async task used in AppsCustomize.
- */
-class AppsCustomizeAsyncTask extends AsyncTask<AsyncTaskPageData, Void, AsyncTaskPageData> {
-    AppsCustomizeAsyncTask(int p, AsyncTaskPageData.Type ty) {
+/*** A generic template for an async task used in AppsCustomize.  */
+class AppsCustomizeAsyncTask extends AsyncTask<AsyncTaskPageData, Void, AsyncTaskPageData> { 
+	
+	AppsCustomizeAsyncTask(int p, AsyncTaskPageData.Type ty) {
         page = p;
         threadPriority = Process.THREAD_PRIORITY_DEFAULT;
         dataType = ty;
     }
+	
     @Override
     protected AsyncTaskPageData doInBackground(AsyncTaskPageData... params) {
         if (params.length != 1) return null;
@@ -524,7 +498,8 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         // When we have exited all apps or are in transition, disregard clicks
         if (!mLauncher.isAllAppsVisible() || mLauncher.getWorkspace().isSwitchingState()) return;
 
-        if (v instanceof PagedViewIcon) {
+        if (v instanceof PagedViewIcon) {  // zgy
+        	Log.d(TAG, "按下图标 ------zgy------------>");
             // Animate some feedback to the click
             final ApplicationInfo appInfo = (ApplicationInfo) v.getTag();
 
@@ -533,13 +508,12 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
                 mPressedIcon.lockDrawableState();
             }
 
-            // NOTE: We want all transitions from launcher to act as if the wallpaper were enabled
-            // to be consistent.  So re-enable the flag here, and we will re-disable it as necessary
-            // when Launcher resumes and we are still in AllApps.
-            mLauncher.updateWallpaperVisibility(true);
+            // NOTE: We want all transitions from launcher to act as if the wallpaper were enabled to be consistent.  So re-enable the flag here, and we will re-disable it as necessary when Launcher resumes and we are still in AllApps.
+//            mLauncher.updateWallpaperVisibility(false);  // MOdify by zgy
             mLauncher.startActivitySafely(v, appInfo.intent, appInfo);
 
-        } else if (v instanceof PagedViewWidget) {
+        } else if (v instanceof PagedViewWidget) {  // click deskTop icon
+        	Log.d(TAG, "按下图标 ------zgy--1111111111111111111---------->");
             // Let the user know that they have to long press to add a widget
             if (mWidgetInstructionToast != null) {
                 mWidgetInstructionToast.cancel();
@@ -1002,35 +976,31 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         setVisibilityOnChildren(layout, View.VISIBLE);
     }
 
+    // zgy
     public void syncAppsPageItems(int page, boolean immediate) {
         // ensure that we have the right number of items on the pages
         int numCells = mCellCountX * mCellCountY;
         int startIndex = page * numCells;
         int endIndex = Math.min(startIndex + numCells, mApps.size());
         PagedViewCellLayout layout = (PagedViewCellLayout) getPageAt(page);
-
         layout.removeAllViewsOnPage();
         ArrayList<Object> items = new ArrayList<Object>();
         ArrayList<Bitmap> images = new ArrayList<Bitmap>();
         for (int i = startIndex; i < endIndex; ++i) {
             ApplicationInfo info = mApps.get(i);
-            PagedViewIcon icon = (PagedViewIcon) mLayoutInflater.inflate(
-                    R.layout.apps_customize_application, layout, false);
+            PagedViewIcon icon = (PagedViewIcon) mLayoutInflater.inflate(R.layout.apps_customize_application, layout, false);
             icon.applyFromApplicationInfo(info, true, this);
             icon.setOnClickListener(this);
             icon.setOnLongClickListener(this);
             icon.setOnTouchListener(this);
             icon.setOnKeyListener(this);
-
             int index = i - startIndex;
             int x = index % mCellCountX;
             int y = index / mCellCountX;
             layout.addViewToCellLayout(icon, -1, i, new PagedViewCellLayout.LayoutParams(x,y, 1,1));
-
             items.add(info);
             images.add(info.iconBitmap);
         }
-
         layout.createHardwareLayers();
     }
 
@@ -1079,8 +1049,7 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
     /**
      * Creates and executes a new AsyncTask to load a page of widget previews.
      */
-    private void prepareLoadWidgetPreviewsTask(int page, ArrayList<Object> widgets,
-            int cellWidth, int cellHeight, int cellCountX) {
+    private void prepareLoadWidgetPreviewsTask(int page, ArrayList<Object> widgets, int cellWidth, int cellHeight, int cellCountX) {
 
         // Prune all tasks that are no longer needed
         Iterator<AppsCustomizeAsyncTask> iter = mRunningTasks.iterator();
@@ -1599,8 +1568,7 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
                 v.setScaleY(scale);
                 v.setAlpha(alpha);
 
-                // If the view has 0 alpha, we set it to be invisible so as to prevent
-                // it from accepting touches
+                // If the view has 0 alpha, we set it to be invisible so as to prevent it from accepting touches
                 if (alpha == 0) {
                     v.setVisibility(INVISIBLE);
                 } else if (v.getVisibility() != VISIBLE) {
@@ -1626,8 +1594,7 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
     protected void onPageEndMoving() {
         super.onPageEndMoving();
         mForceDrawAllChildrenNextFrame = true;
-        // We reset the save index when we change pages so that it will be recalculated on next
-        // rotation
+        // We reset the save index when we change pages so that it will be recalculated on next rotation
         mSaveInstanceStateItemIndex = -1;
     }
 
@@ -1647,8 +1614,7 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
      */
     private void invalidateOnDataChange() {
         if (!isDataReady()) {
-            // The next layout pass will trigger data-ready if both widgets and apps are set, so
-            // request a layout to trigger the page data when ready.
+            // The next layout pass will trigger data-ready if both widgets and apps are set, so request a layout to trigger the page data when ready.
             requestLayout();
         } else {
             cancelAllTasks();
@@ -1726,9 +1692,7 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         invalidateOnDataChange();
     }
     public void updateApps(ArrayList<ApplicationInfo> list) {
-        // We remove and re-add the updated applications list because it's properties may have
-        // changed (ie. the title), and this will ensure that the items will be in their proper
-        // place in the list.
+        // We remove and re-add the updated applications list because it's properties may have changed (ie. the title), and this will ensure that the items will be in their proper place in the list.
         removeAppsWithoutInvalidate(list);
         addAppsWithoutInvalidate(list);
         updatePageCounts();
@@ -1771,15 +1735,13 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
     }
 
     public void surrender() {
-        // If we are in the middle of any process (ie. for holographic outlines, etc) we should stop this now.
-        // Stop all background tasks
+        // If we are in the middle of any process (ie. for holographic outlines, etc) we should stop this now. Stop all background tasks
         cancelAllTasks();
     }
 
     @Override
     public void iconPressed(PagedViewIcon icon) {
-        // Reset the previously pressed icon and store a reference to the pressed icon so that
-        // we can reset it on return to Launcher (in Launcher.onResume())
+        // Reset the previously pressed icon and store a reference to the pressed icon so that we can reset it on return to Launcher (in Launcher.onResume())
         if (mPressedIcon != null) {
             mPressedIcon.resetDrawableState();
         }
@@ -1793,10 +1755,7 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         }
     }
 
-    /*
-     * We load an extra page on each side to prevent flashes from scrolling and loading of the
-     * widget previews in the background with the AsyncTasks.
-     */
+     // We load an extra page on each side to prevent flashes from scrolling and loading of the widget previews in the background with the AsyncTasks.
     final static int sLookBehindPageCount = 2;
     final static int sLookAheadPageCount = 2;
     protected int getAssociatedLowerPageBound(int page) {
@@ -1805,11 +1764,11 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         int windowMinIndex = Math.max(Math.min(page - sLookBehindPageCount, count - windowSize), 0);
         return windowMinIndex;
     }
+    
     protected int getAssociatedUpperPageBound(int page) {
         final int count = getChildCount();
         int windowSize = Math.min(count, sLookBehindPageCount + sLookAheadPageCount + 1);
-        int windowMaxIndex = Math.min(Math.max(page + sLookAheadPageCount, windowSize - 1),
-                count - 1);
+        int windowMaxIndex = Math.min(Math.max(page + sLookAheadPageCount, windowSize - 1), count - 1);
         return windowMaxIndex;
     }
 
@@ -1818,7 +1777,6 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         int page = (mNextPage != INVALID_PAGE) ? mNextPage : mCurrentPage;
         int stringId = R.string.default_scroll_format;
         int count = 0;
-        
         if (page < mNumAppsPages) {
             stringId = R.string.apps_customize_apps_scroll_format;
             count = mNumAppsPages;
@@ -1827,7 +1785,6 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
             stringId = R.string.apps_customize_widgets_scroll_format;
             count = mNumWidgetPages;
         }
-
         return String.format(getContext().getString(stringId), page + 1, count);
     }
 }

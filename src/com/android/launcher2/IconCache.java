@@ -1,21 +1,4 @@
-/*
- * Copyright (C) 2008 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.android.launcher2;
-
 import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -34,9 +17,8 @@ import android.graphics.drawable.NinePatchDrawable;
 
 import java.util.HashMap;
 
-/**
- * Cache of application icons.  Icons can be made from any thread.
- */
+import com.android.launcher.R;
+
 public class IconCache {
     @SuppressWarnings("unused")
     private static final String TAG = "Launcher.IconCache";
@@ -123,18 +105,14 @@ public class IconCache {
         return b;
     }
 
-    /**
-     * Remove any records for the supplied ComponentName.
-     */
+    /*** Remove any records for the supplied ComponentName. */
     public void remove(ComponentName componentName) {
         synchronized (mCache) {
             mCache.remove(componentName);
         }
     }
 
-    /**
-     * Empty out the cache.
-     */
+    /***  Empty out the cache.   */
     public void flush() {
         synchronized (mCache) {
             mCache.clear();
@@ -168,7 +146,6 @@ public class IconCache {
             if (resolveInfo == null || component == null) {
                 return null;
             }
-
             CacheEntry entry = cacheLocked(component, resolveInfo, labelCache);
             return entry.icon;
         }
@@ -195,20 +172,31 @@ public class IconCache {
                 }
             }
             
-//            if (entry.title == null) {
-//                entry.title = info.activityInfo.name;
-//            }else if(entry.title.equals("酷狗音乐HD")){
-//            	entry.title = "111";
-//            	entry.icon = //Utilities.createIconBitmap(getFullResIcon(info), mContext);
-//            	
-//            }else if(entry.title.equals("优酷")){
-//            	entry.title = "222";
-//            	entry.icon = //Utilities.createIconBitmap(getFullResIcon(info), mContext);
-//            	
-//            } else {
-//            	
+            // M by zgy / change title
+            if (entry.title == null) {
+                entry.title = info.activityInfo.name;
+                
+            }
+//            else if(entry.title.equals("Baidu CarLife") || entry.title.equals("百度 CarLife")){
+//            	entry.title = "哈哈";
 //            }
-            entry.icon = Utilities.createIconBitmap(getFullResIcon(info), mContext);
+            else if(entry.title.equals("EasyConnected") || entry.title.equals("亿连")){
+            	entry.title = "E-Link";
+            	
+            } else {
+            	//
+            }
+            
+            // add by zgy / changer icon
+            if(componentName.getPackageName().equals("net.easyconn")){
+            	entry.icon = Utilities.createIconBitmap(drawable2Bitmap(R.drawable.easy_connected), mContext);
+            	
+            }else if(componentName.getPackageName().equals("com.baidu.carlifevehicle")){
+            	entry.icon = Utilities.createIconBitmap(drawableId2BitMap(R.drawable.ic_allapps), mContext);
+            	
+            }else {
+            	entry.icon = Utilities.createIconBitmap(getFullResIcon(info), mContext);
+            }
         }
         return entry;
     }
@@ -224,24 +212,38 @@ public class IconCache {
         }
     }
     
-    // add by  zgy
-    Bitmap drawable2Bitmap(Drawable drawable) {  
-        if (drawable instanceof BitmapDrawable) {  
-            return ((BitmapDrawable) drawable).getBitmap();  
-        } else if (drawable instanceof NinePatchDrawable) {  
-            Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888 : Bitmap.Config.RGB_565);  
-            Canvas canvas = new Canvas(bitmap);  
-            drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());  
-            drawable.draw(canvas);  
-            return bitmap;  
-        } else {  
-            return null;  
-        }  
-    }  
+    // add by zgy
+    private Drawable resId2BitMap(int resId){
+    	Resources res = mContext.getResources();  
+    	return getFullResIcon(res, resId);
+    }
     
-//    private Bitmap resId2BitMap(int resId){
-//    	Resources res = getResources();  
-//    	Bitmap bmp = BitmapFactory.decodeResource(res, resId);
-//    }
-    
+   private  Bitmap drawable2Bitmap(int resId) {  
+	   	   Drawable drawable =  resId2BitMap(resId);
+	       int width = (int) (drawable.getIntrinsicWidth() / 1.2);    
+	       int height = (int) (drawable.getIntrinsicHeight() / 1.2);    
+	       Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);    
+	       Canvas canvas = new Canvas(bitmap);    
+	       drawable.setBounds(0, 0, width, height);    
+	       drawable.draw(canvas);    
+	       return bitmap;
+//        if (drawable instanceof BitmapDrawable) {  
+//            return ((BitmapDrawable) resId2BitMap(resId)).getBitmap();  
+//            
+//        } else if (resId2BitMap(resId) instanceof NinePatchDrawable) {  
+//            Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth()/2, drawable.getIntrinsicHeight()/2, drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888 : Bitmap.Config.RGB_565);  
+//            Canvas canvas = new Canvas(bitmap);  
+//            drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());  
+//            drawable.draw(canvas);  
+//            return bitmap;  
+//        } else {  
+//            return null;  
+//        }  
+    } 
+   
+   //
+   private Bitmap drawableId2BitMap(int resId) {  
+	   Resources res = mContext.getResources();  
+	   return BitmapFactory.decodeResource(res, resId);  
+   }
 }

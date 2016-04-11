@@ -55,8 +55,7 @@ public class AllAppWidgetProvider extends AppWidgetProvider {
 	     * 每次窗口小部件被点击更新都调用一次该方法 
 	     */  
 	    @Override  
-	    public void onUpdate(Context context, AppWidgetManager appWidgetManager,  
-	            int[] appWidgetIds) {  
+	    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {  
 	        super.onUpdate(context, appWidgetManager, appWidgetIds);  
 	        Log.i(TAG, "onUpdate");  
 	  
