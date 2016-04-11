@@ -558,31 +558,16 @@ public class LauncherProvider extends ContentProvider {
                             final Uri uri = intent.getData();
                             if (uri != null) {
                                 final String data = uri.toString();
-                                if ((Intent.ACTION_VIEW.equals(intent.getAction()) ||
-                                        actionQuickContact.equals(intent.getAction())) &&
-                                        (data.startsWith("content://contacts/people/") ||
-                                        data.startsWith("content://com.android.contacts/" +
-                                                "contacts/lookup/"))) {
-
+                                if ((Intent.ACTION_VIEW.equals(intent.getAction()) || actionQuickContact.equals(intent.getAction())) && (data.startsWith("content://contacts/people/") || data.startsWith("content://com.android.contacts/" + "contacts/lookup/"))) {
                                     final Intent newIntent = new Intent(actionQuickContact);
-                                    // When starting from the launcher, start in a new, cleared task
-                                    // CLEAR_WHEN_TASK_RESET cannot reset the root of a task, so we
-                                    // clear the whole thing preemptively here since
-                                    // QuickContactActivity will finish itself when launching other
-                                    // detail activities.
-                                    newIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-                                            Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                    newIntent.putExtra(
-                                            Launcher.INTENT_EXTRA_IGNORE_LAUNCH_ANIMATION, true);
+                                    // When starting from the launcher, start in a new, cleared task CLEAR_WHEN_TASK_RESET cannot reset the root of a task, so we clear the whole thing preemptively here since QuickContactActivity will finish itself when launching other detail activities.
+                                    newIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    newIntent.putExtra(Launcher.INTENT_EXTRA_IGNORE_LAUNCH_ANIMATION, true);
                                     newIntent.setData(uri);
-                                    // Determine the type and also put that in the shortcut
-                                    // (that can speed up launch a bit)
+                                    // Determine the type and also put that in the shortcut (that can speed up launch a bit)
                                     newIntent.setDataAndType(uri, newIntent.resolveType(mContext));
-
                                     final ContentValues values = new ContentValues();
-                                    values.put(LauncherSettings.Favorites.INTENT,
-                                            newIntent.toUri(0));
-
+                                    values.put(LauncherSettings.Favorites.INTENT, newIntent.toUri(0));
                                     String updateWhere = Favorites._ID + "=" + favoriteId;
                                     db.update(TABLE_FAVORITES, values, updateWhere, null);
                                 }
