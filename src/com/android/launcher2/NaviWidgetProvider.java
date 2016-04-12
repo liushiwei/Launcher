@@ -4,18 +4,21 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
+
 import com.android.launcher.R;
 
 public class NaviWidgetProvider extends AppWidgetProvider {
-//		private final String TAG = "MyAppWidgetProvider";  
+		private final String TAG = "MyAppWidgetProvider";  
 	    private static RemoteViews mRemoteViews;  
 		private final String PROPERTIESFILE = "/data/system/.properties_file";
 		private final String WIDGET_APP_ACTION = "com.android.launcher.intent.action.NAVIT";
@@ -81,7 +84,7 @@ public class NaviWidgetProvider extends AppWidgetProvider {
 				}
 				
 				if (packageName == null || className == null) {
-//					Log.e(TAG, "packageName or className is null ,launche default");
+					Log.e(TAG, "packageName or className is null ,launche default");
 					intentClick.setClassName("com.autonavi.amapauto", "com.autonavi.auto.remote.fill.UsbFillActivity");
 //					intentClick.setClassName("cld.navi.c2025.mainframe", "cld.navi.c2025.mainframe.NaviMainActivity");
 				}

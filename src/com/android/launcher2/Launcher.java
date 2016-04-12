@@ -1762,7 +1762,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 
     /**
      * Event handler for the search button
-     * @param v The view that was clicked.
+     * @param v The view that was clicked.  
      */
     public void onClickSearchButton(View v) {
         v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
@@ -1781,7 +1781,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
             final SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
             ComponentName activityName = searchManager.getGlobalSearchActivity();
             Intent intent = new Intent(RecognizerIntent.ACTION_WEB_SEARCH);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);  
             if (activityName != null) {
                 intent.setPackage(activityName.getPackageName());
             }
