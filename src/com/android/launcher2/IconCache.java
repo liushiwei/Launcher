@@ -10,13 +10,8 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.PixelFormat;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.NinePatchDrawable;
-
 import java.util.HashMap;
-
 import com.android.launcher.R;
 
 public class IconCache {
@@ -55,7 +50,6 @@ public class IconCache {
         } catch (Resources.NotFoundException e) {
             d = null;
         }
-
         return (d != null) ? d : getFullResDefaultActivityIcon();
     }
 
@@ -79,7 +73,6 @@ public class IconCache {
     }
 
     public Drawable getFullResIcon(ActivityInfo info) {
-
         Resources resources;
         try {
             resources = mPackageManager.getResourcesForApplication(info.applicationInfo);
@@ -176,23 +169,33 @@ public class IconCache {
             if (entry.title == null) {
                 entry.title = info.activityInfo.name;
                 
-            }
-//            else if(entry.title.equals("Baidu CarLife") || entry.title.equals("百度 CarLife")){
-//            	entry.title = "哈哈";
-//            }
-            else if(entry.title.equals("EasyConnected") || entry.title.equals("亿连")){
+            } else if(entry.title.equals("Baidu CarLife")){
+            	entry.title = "Baidu CarLife";
+            	
+            }else if(entry.title.equals("百度 CarLife")){
+            	entry.title = "百度 CarLife";
+            	
+            }else if(entry.title.equals("EasyConnected")){  
             	entry.title = "E-Link";
             	
-            } else {
-            	//
+            } else if(entry.title.equals("亿连")){
+            	entry.title = "手机互联";
+            }else {
+            	
             }
             
             // add by zgy / changer icon
-            if(componentName.getPackageName().equals("net.easyconn")){
+            if(componentName.getPackageName().equals("net.easyconn")){  // 亿连
             	entry.icon = Utilities.createIconBitmap(drawable2Bitmap(R.drawable.easy_connected), mContext);
             	
-            }else if(componentName.getPackageName().equals("com.baidu.carlifevehicle")){
-            	entry.icon = Utilities.createIconBitmap(drawableId2BitMap(R.drawable.ic_allapps), mContext);
+            }else if(componentName.getPackageName().equals("com.baidu.carlifevehicle")){ // CarLife 
+            	entry.icon = Utilities.createIconBitmap(drawableId2BitMap(R.drawable.carlife), mContext);
+            	
+            }else if(componentName.getPackageName().equals("com.autonavi.amapauto")){ // 高德地图
+            	entry.icon = Utilities.createIconBitmap(drawableId2BitMap(R.drawable.navigation_widget), mContext);
+            	
+            }else if(componentName.getPackageName().equals("com.android.browser")){
+            	entry.icon = Utilities.createIconBitmap(drawableId2BitMap(R.drawable.browser), mContext);
             	
             }else {
             	entry.icon = Utilities.createIconBitmap(getFullResIcon(info), mContext);

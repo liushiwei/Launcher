@@ -133,7 +133,7 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_provider_navit" />
         </receiver>
-
+        
         <!-- The settings provider contains Home's data, like the workspace favorites -->
         <provider
             android:name="com.android.launcher2.LauncherProvider"
