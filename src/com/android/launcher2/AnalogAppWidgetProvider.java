@@ -21,9 +21,9 @@ public class AnalogAppWidgetProvider extends AppWidgetProvider {
     @Override  
     public void onUpdate(final Context context, final AppWidgetManager appWidgetManager, final int[] appWidgetIds) {  
 //    	  remoteViews = new RemoteViews(context.getPackageName(), R.layout.analog_appwidget);
-    	  Timer timer = new Timer();      
+//    	  Timer timer = new Timer();      
 //    	  thisWidget = new ComponentName(context,AnalogAppWidgetProvider.class);  
-    	  timer.scheduleAtFixedRate(new MyTime(context, appWidgetManager), 10, 3*60*60); 
+//    	  timer.scheduleAtFixedRate(new MyTime(context, appWidgetManager), 10, 3*60*60); 
           super.onUpdate(context, appWidgetManager, appWidgetIds);  
     }
     
