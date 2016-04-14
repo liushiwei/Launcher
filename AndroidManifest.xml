@@ -134,6 +134,17 @@
                 android:resource="@xml/widget_provider_navit" />
         </receiver>
         
+        <!-- add by zgy -->
+        <receiver android:name="com.android.launcher2.AnalogAppWidgetProvider" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/analog_appwidget" />
+        </receiver>
+        
         <!-- The settings provider contains Home's data, like the workspace favorites -->
         <provider
             android:name="com.android.launcher2.LauncherProvider"
