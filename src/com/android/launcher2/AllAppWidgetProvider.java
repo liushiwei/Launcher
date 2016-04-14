@@ -1,5 +1,4 @@
 package com.android.launcher2;
-
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -12,7 +11,7 @@ import com.android.launcher.R;
 
 public class AllAppWidgetProvider extends AppWidgetProvider {
 	 public static final String TAG = "MyAppWidgetProvider";  
-	    public static final String CLICK_ACTION = "";  
+	    public static final String CLICK_ACTION = "showApp";  
 	    private static RemoteViews mRemoteViews;  
 	  
 	    /** 
@@ -79,15 +78,19 @@ public class AllAppWidgetProvider extends AppWidgetProvider {
 	        Log.i(TAG, "appWidgetId = " + appWidgetId);  
 	        mRemoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_allapp);  
 	        // "窗口小部件"点击事件发送的Intent广播  
-	        Intent intentClick = new Intent();  
-	        intentClick.setAction(CLICK_ACTION);  
-	        intentClick.setClassName("com.android.launcher", "com.android.launcher2.Launcher");
-	        intentClick.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-	        intentClick.putExtra("showApp", true);
-	        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intentClick, 0);  
+//	        Intent intentClick = new Intent();  
+//	        intentClick.setAction(CLICK_ACTION);  
+//	        intentClick.setClassName("com.android.launcher", "com.android.launcher2.Launcher");
+//	        intentClick.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//	        intentClick.putExtra("showApp", true);
+//	        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intentClick, 0);  
+//	        mRemoteViews.setOnClickPendingIntent(R.id.widget_img, pendingIntent);  
+//	        appWidgeManger.updateAppWidget(appWidgetId, mRemoteViews);
+	        Intent intetnSend = new Intent();
+	        intetnSend.setAction(CLICK_ACTION);
+	        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intetnSend, 0);   //getActivity(context, 0, intentClick, 0);  
 	        mRemoteViews.setOnClickPendingIntent(R.id.widget_img, pendingIntent);  
-	        appWidgeManger.updateAppWidget(appWidgetId, mRemoteViews);  
+//	        Log.d(TAG, "click allApp--------------->");
+	        appWidgeManger.updateAppWidget(appWidgetId, mRemoteViews);
 	    }  
-	  
-	  
 }

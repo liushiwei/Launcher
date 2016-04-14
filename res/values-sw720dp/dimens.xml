@@ -27,7 +27,8 @@
     <dimen name="button_bar_width_right_padding">12dp</dimen>
     <dimen name="button_bar_height_plus_padding">82dip</dimen>
     <dimen name="hotseat_width_gap">58dp</dimen>
-	<dimen name="apps_customize_pageLayoutPaddingTop">72dp</dimen>
+    <!-- M by zgy -->
+	<dimen name="apps_customize_pageLayoutPaddingTop">45dp</dimen>
     <dimen name="apps_customize_pageLayoutPaddingBottom">14dp</dimen>
 <!-- QSB -->
     <dimen name="toolbar_button_vertical_padding">8dip</dimen>

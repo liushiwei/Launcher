@@ -21,7 +21,7 @@
         launcher:spanX="2"
         launcher:spanY="2"/> 
     
- <appwidget
+    <appwidget
         launcher:packageName="com.android.launcher"
         launcher:className="com.android.launcher2.NaviWidgetProvider"
         launcher:screen="1"
@@ -47,5 +47,15 @@
         launcher:y="0"
         launcher:spanX="2"
         launcher:spanY="2"/> 
+        
+    <!-- add by zgy -->
+     <appwidget
+        launcher:packageName="com.android.launcher"
+        launcher:className="com.android.launcher2.AnalogAppWidgetProvider"   
+        launcher:screen="0"
+        launcher:x="0"
+        launcher:y="0"
+        launcher:spanX="4"
+        launcher:spanY="2" /> 
         
 </favorites>

@@ -49,7 +49,7 @@ public class AddAdapter extends BaseAdapter {
     public class ListItem {
         public final CharSequence text;
         public final Drawable image;
-        public final int actionTag;
+        public final int actionTag;  
 
         public ListItem(Resources res, int textResourceId, int imageResourceId, int actionTag) {
             text = res.getString(textResourceId);

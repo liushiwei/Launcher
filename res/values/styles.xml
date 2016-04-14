@@ -187,4 +187,13 @@
     </style>
     <style name="CustomClingText">
     </style>
+    
+     <style name="small_thin">
+        <item name="android:fontFamily">sans-serif-thin</item>
+    </style>
+    
+     <!--  <style name="small_fat">
+        <item name="android:fontFamily">sans-serif</item>
+    </style> -->
+    
 </resources>

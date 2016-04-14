@@ -3338,21 +3338,17 @@ public class Workspace extends SmoothPagedView
 
     /**
      * Calculate the nearest cell where the given object would be dropped.
-     *
      * pixelX and pixelY should be in the coordinate system of layout
      */
-    private int[] findNearestArea(int pixelX, int pixelY,
-            int spanX, int spanY, CellLayout layout, int[] recycle) {
-        return layout.findNearestArea(
-                pixelX, pixelY, spanX, spanY, recycle);
+    private int[] findNearestArea(int pixelX, int pixelY, int spanX, int spanY, CellLayout layout, int[] recycle) {
+        return layout.findNearestArea(pixelX, pixelY, spanX, spanY, recycle);
     }
 
     void setup(DragController dragController) {
         mSpringLoadedDragController = new SpringLoadedDragController(mLauncher);
         mDragController = dragController;
 
-        // hardware layers on children are enabled on startup, but should be disabled until
-        // needed
+        // hardware layers on children are enabled on startup, but should be disabled until needed
         updateChildrenLayersEnabled(false);
         setWallpaperDimension();
     }
@@ -3408,8 +3404,7 @@ public class Workspace extends SmoothPagedView
             // Null check required as the AllApps button doesn't have an item info
             if (info != null && info.requiresDbUpdate) {
                 info.requiresDbUpdate = false;
-                LauncherModel.modifyItemInDatabase(mLauncher, info, container, screen, info.cellX,
-                        info.cellY, info.spanX, info.spanY);
+                LauncherModel.modifyItemInDatabase(mLauncher, info, container, screen, info.cellX, info.cellY, info.spanX, info.spanY);
             }
         }
     }
@@ -3502,19 +3497,13 @@ public class Workspace extends SmoothPagedView
         boolean result = false;
         if (!isSmall() && !mIsSwitchingState) {
             mInScrollArea = true;
-
-            final int page = getNextPage() +
-                       (direction == DragController.SCROLL_LEFT ? -1 : 1);
-
+            final int page = getNextPage() + (direction == DragController.SCROLL_LEFT ? -1 : 1);
             // We always want to exit the current layout to ensure parity of enter / exit
             setCurrentDropLayout(null);
-
             if (0 <= page && page < getChildCount()) {
                 CellLayout layout = (CellLayout) getChildAt(page);
                 setCurrentDragOverlappingLayout(layout);
-
-                // Workspace is responsible for drawing the edge glow on adjacent pages,
-                // so we need to redraw the workspace when this may have changed.
+                // Workspace is responsible for drawing the edge glow on adjacent pages, so we need to redraw the workspace when this may have changed.
                 invalidate();
                 result = true;
             }
@@ -3571,13 +3560,10 @@ public class Workspace extends SmoothPagedView
     }
 
     /**
-     * We should only use this to search for specific children.  Do not use this method to modify
-     * ShortcutsAndWidgetsContainer directly. Includes ShortcutAndWidgetContainers from
-     * the hotseat and workspace pages
+     * We should only use this to search for specific children.  Do not use this method to modify ShortcutsAndWidgetsContainer directly. Includes ShortcutAndWidgetContainers from the hotseat and workspace pages
      */
     ArrayList<ShortcutAndWidgetContainer> getAllShortcutAndWidgetContainers() {
-        ArrayList<ShortcutAndWidgetContainer> childrenLayouts =
-                new ArrayList<ShortcutAndWidgetContainer>();
+        ArrayList<ShortcutAndWidgetContainer> childrenLayouts = new ArrayList<ShortcutAndWidgetContainer>();
         int screenCount = getChildCount();
         for (int screen = 0; screen < screenCount; screen++) {
             childrenLayouts.add(((CellLayout) getChildAt(screen)).getShortcutsAndWidgets());
@@ -3589,8 +3575,7 @@ public class Workspace extends SmoothPagedView
     }
 
     public Folder getFolderForTag(Object tag) {
-        ArrayList<ShortcutAndWidgetContainer> childrenLayouts =
-                getAllShortcutAndWidgetContainers();
+        ArrayList<ShortcutAndWidgetContainer> childrenLayouts = getAllShortcutAndWidgetContainers();
         for (ShortcutAndWidgetContainer layout: childrenLayouts) {
             int count = layout.getChildCount();
             for (int i = 0; i < count; i++) {
@@ -3607,8 +3592,7 @@ public class Workspace extends SmoothPagedView
     }
 
     public View getViewForTag(Object tag) {
-        ArrayList<ShortcutAndWidgetContainer> childrenLayouts =
-                getAllShortcutAndWidgetContainers();
+        ArrayList<ShortcutAndWidgetContainer> childrenLayouts = getAllShortcutAndWidgetContainers();
         for (ShortcutAndWidgetContainer layout: childrenLayouts) {
             int count = layout.getChildCount();
             for (int i = 0; i < count; i++) {
@@ -3622,8 +3606,7 @@ public class Workspace extends SmoothPagedView
     }
 
     void clearDropTargets() {
-        ArrayList<ShortcutAndWidgetContainer> childrenLayouts =
-                getAllShortcutAndWidgetContainers();
+        ArrayList<ShortcutAndWidgetContainer> childrenLayouts = getAllShortcutAndWidgetContainers();
         for (ShortcutAndWidgetContainer layout: childrenLayouts) {
             int childCount = layout.getChildCount();
             for (int j = 0; j < childCount; j++) {
@@ -3724,10 +3707,8 @@ public class Workspace extends SmoothPagedView
             @Override
             public void run() {
                 String spKey = LauncherApplication.getSharedPreferencesKey();
-                SharedPreferences sp = context.getSharedPreferences(spKey,
-                        Context.MODE_PRIVATE);
-                Set<String> newApps = sp.getStringSet(InstallShortcutReceiver.NEW_APPS_LIST_KEY,
-                        null);
+                SharedPreferences sp = context.getSharedPreferences(spKey, Context.MODE_PRIVATE);
+                Set<String> newApps = sp.getStringSet(InstallShortcutReceiver.NEW_APPS_LIST_KEY, null);
 
                 // Remove all queued items that match the same package
                 if (newApps != null) {
@@ -3741,11 +3722,9 @@ public class Workspace extends SmoothPagedView
                                     iter.remove();
                                 }
 
-                                // It is possible that we've queued an item to be loaded, yet it has
-                                // not been added to the workspace, so remove those items as well.
+                                // It is possible that we've queued an item to be loaded, yet it has not been added to the workspace, so remove those items as well.
                                 ArrayList<ItemInfo> shortcuts;
-                                shortcuts = LauncherModel.getWorkspaceShortcutItemInfosWithIntent(
-                                        intent);
+                                shortcuts = LauncherModel.getWorkspaceShortcutItemInfosWithIntent(intent);
                                 for (ItemInfo info : shortcuts) {
                                     LauncherModel.deleteItemFromDatabase(context, info);
                                 }
@@ -3766,13 +3745,10 @@ public class Workspace extends SmoothPagedView
                 Object tag = view.getTag();
                 if (tag instanceof ShortcutInfo) {
                     ShortcutInfo info = (ShortcutInfo) tag;
-                    // We need to check for ACTION_MAIN otherwise getComponent() might
-                    // return null for some shortcuts (for instance, for shortcuts to
-                    // web pages.)
+                    // We need to check for ACTION_MAIN otherwise getComponent() might return null for some shortcuts (for instance, for shortcuts to web pages.)
                     final Intent intent = info.intent;
                     final ComponentName name = intent.getComponent();
-                    if (info.itemType == LauncherSettings.Favorites.ITEM_TYPE_APPLICATION &&
-                            Intent.ACTION_MAIN.equals(intent.getAction()) && name != null) {
+                    if (info.itemType == LauncherSettings.Favorites.ITEM_TYPE_APPLICATION && Intent.ACTION_MAIN.equals(intent.getAction()) && name != null) {
                         final int appCount = apps.size();
                         for (int k = 0; k < appCount; k++) {
                             ApplicationInfo app = apps.get(k);
@@ -3801,18 +3777,15 @@ public class Workspace extends SmoothPagedView
     }
 
     @Override
-    public void syncPages() {
-    }
+    public void syncPages() {   }
 
     @Override
-    public void syncPageItems(int page, boolean immediate) {
-    }
+    public void syncPageItems(int page, boolean immediate) {   }
 
     @Override
     protected String getCurrentPageDescription() {
         int page = (mNextPage != INVALID_PAGE) ? mNextPage : mCurrentPage;
-        return String.format(getContext().getString(R.string.workspace_scroll_format),
-                page + 1, getChildCount());
+        return String.format(getContext().getString(R.string.workspace_scroll_format), page + 1, getChildCount());
     }
 
     public void getLocationInDragLayer(int[] loc) {

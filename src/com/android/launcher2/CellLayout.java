@@ -559,8 +559,7 @@ public class CellLayout extends ViewGroup {
         child.setScaleX(getChildrenScale());
         child.setScaleY(getChildrenScale());
 
-        // Generate an id for each view, this assumes we have at most 256x256 cells
-        // per workspace screen
+        // Generate an id for each view, this assumes we have at most 256x256 cells per workspace screen
         if (lp.cellX >= 0 && lp.cellX <= mCountX - 1 && lp.cellY >= 0 && lp.cellY <= mCountY - 1) {
             // If the horizontal or vertical span is set to -1, it is taken to
             // mean that it spans the extent of the CellLayout

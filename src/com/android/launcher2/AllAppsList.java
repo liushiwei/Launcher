@@ -39,19 +39,12 @@ class AllAppsList {
     public ArrayList<ApplicationInfo> modified = new ArrayList<ApplicationInfo>();
     private IconCache mIconCache;
 
-    /**
-     * Boring constructor.
-     */
+    /**  Boring constructor. */
     public AllAppsList(IconCache iconCache) {
         mIconCache = iconCache;
     }
 
-    /**
-     * Add the supplied ApplicationInfo objects to the list, and enqueue it into the
-     * list to broadcast when notify() is called.
-     *
-     * If the app is already in the list, doesn't add it.
-     */
+    /** Add the supplied ApplicationInfo objects to the list, and enqueue it into the list to broadcast when notify() is called. If the app is already in the list, doesn't add it. */
     public void add(ApplicationInfo info) {
         if (findActivity(data, info.componentName)) {
             return;
@@ -62,7 +55,7 @@ class AllAppsList {
     
     public void clear() {
         data.clear();
-        // TODO: do we clear these too?
+        // do we clear these too?
         added.clear();
         removed.clear();
         modified.clear();
@@ -76,8 +69,7 @@ class AllAppsList {
         return data.get(index);
     }
 
-    /**
-     * Add the icons for the supplied apk called packageName.
+    /** * Add the icons for the supplied apk called packageName.
      */
     public void addPackage(Context context, String packageName) {
         final List<ResolveInfo> matches = findActivitiesForPackage(context, packageName);
@@ -106,14 +98,11 @@ class AllAppsList {
         mIconCache.flush();
     }
 
-    /**
-     * Add and remove icons for this package which has been updated.
-     */
+    /** Add and remove icons for this package which has been updated.  zgy */
     public void updatePackage(Context context, String packageName) {
         final List<ResolveInfo> matches = findActivitiesForPackage(context, packageName);
         if (matches.size() > 0) {
-            // Find disabled/removed activities and remove them from data and add them
-            // to the removed list.
+            // Find disabled/removed activities and remove them from data and add them to the removed list.
             for (int i = data.size() - 1; i >= 0; i--) {
                 final ApplicationInfo applicationInfo = data.get(i);
                 final ComponentName component = applicationInfo.intent.getComponent();
@@ -126,14 +115,11 @@ class AllAppsList {
                 }
             }
 
-            // Find enabled activities and add them to the adapter
-            // Also updates existing activities with new labels/icons
+            // Find enabled activities and add them to the adapter Also updates existing activities with new labels/icons
             int count = matches.size();
             for (int i = 0; i < count; i++) {
                 final ResolveInfo info = matches.get(i);
-                ApplicationInfo applicationInfo = findApplicationInfoLocked(
-                        info.activityInfo.applicationInfo.packageName,
-                        info.activityInfo.name);
+                ApplicationInfo applicationInfo = findApplicationInfoLocked(info.activityInfo.applicationInfo.packageName, info.activityInfo.name);
                 if (applicationInfo == null) {
                     add(new ApplicationInfo(context.getPackageManager(), info, mIconCache, null));
                 } else {

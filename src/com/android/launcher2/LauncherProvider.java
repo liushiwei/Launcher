@@ -68,31 +68,21 @@ import java.util.List;
 public class LauncherProvider extends ContentProvider {
     private static final String TAG = "Launcher.LauncherProvider";
     private static final boolean LOGD = false;
-
     private static final String DATABASE_NAME = "launcher.db";
-
     private static final int DATABASE_VERSION = 12;
-
     static final String AUTHORITY = "com.android.launcher2.settings";
-
     static final String TABLE_FAVORITES = "favorites";
     static final String PARAMETER_NOTIFY = "notify";
-    static final String DB_CREATED_BUT_DEFAULT_WORKSPACE_NOT_LOADED =
-            "DB_CREATED_BUT_DEFAULT_WORKSPACE_NOT_LOADED";
-    static final String DEFAULT_WORKSPACE_RESOURCE_ID =
-            "DEFAULT_WORKSPACE_RESOURCE_ID";
-
-    private static final String ACTION_APPWIDGET_DEFAULT_WORKSPACE_CONFIGURE =
-            "com.android.launcher.action.APPWIDGET_DEFAULT_WORKSPACE_CONFIGURE";
+    static final String DB_CREATED_BUT_DEFAULT_WORKSPACE_NOT_LOADED = "DB_CREATED_BUT_DEFAULT_WORKSPACE_NOT_LOADED";
+    static final String DEFAULT_WORKSPACE_RESOURCE_ID = "DEFAULT_WORKSPACE_RESOURCE_ID";
+    private static final String ACTION_APPWIDGET_DEFAULT_WORKSPACE_CONFIGURE = "com.android.launcher.action.APPWIDGET_DEFAULT_WORKSPACE_CONFIGURE";
 
     /**
      * {@link Uri} triggered at any registered {@link android.database.ContentObserver} when
      * {@link AppWidgetHost#deleteHost()} is called during database creation.
      * Use this to recall {@link AppWidgetHost#startListening()} if needed.
      */
-    static final Uri CONTENT_APPWIDGET_RESET_URI =
-            Uri.parse("content://" + AUTHORITY + "/appWidgetReset");
-
+    static final Uri CONTENT_APPWIDGET_RESET_URI = Uri.parse("content://" + AUTHORITY + "/appWidgetReset");
     private DatabaseHelper mOpenHelper;
 
     @Override
@@ -113,22 +103,17 @@ public class LauncherProvider extends ContentProvider {
     }
 
     @Override
-    public Cursor query(Uri uri, String[] projection, String selection,
-            String[] selectionArgs, String sortOrder) {
-
+    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         SqlArguments args = new SqlArguments(uri, selection, selectionArgs);
         SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
         qb.setTables(args.table);
-
         SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         Cursor result = qb.query(db, projection, args.where, args.args, null, null, sortOrder);
         result.setNotificationUri(getContext().getContentResolver(), uri);
-
         return result;
     }
 
-    private static long dbInsertAndCheck(DatabaseHelper helper,
-            SQLiteDatabase db, String table, String nullColumnHack, ContentValues values) {
+    private static long dbInsertAndCheck(DatabaseHelper helper, SQLiteDatabase db, String table, String nullColumnHack, ContentValues values) {
         if (!values.containsKey(LauncherSettings.Favorites._ID)) {
             throw new RuntimeException("Error: attempting to add item without specifying an id");
         }
@@ -144,21 +129,17 @@ public class LauncherProvider extends ContentProvider {
     @Override
     public Uri insert(Uri uri, ContentValues initialValues) {
         SqlArguments args = new SqlArguments(uri);
-
         SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         final long rowId = dbInsertAndCheck(mOpenHelper, db, args.table, null, initialValues);
         if (rowId <= 0) return null;
-
         uri = ContentUris.withAppendedId(uri, rowId);
         sendNotify(uri);
-
         return uri;
     }
 
     @Override
     public int bulkInsert(Uri uri, ContentValues[] values) {
         SqlArguments args = new SqlArguments(uri);
-
         SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         db.beginTransaction();
         try {
@@ -180,7 +161,6 @@ public class LauncherProvider extends ContentProvider {
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
         SqlArguments args = new SqlArguments(uri, selection, selectionArgs);
-
         SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         int count = db.delete(args.table, args.where, args.args);
         if (count > 0) sendNotify(uri);
@@ -233,7 +213,6 @@ public class LauncherProvider extends ContentProvider {
 //            	}else{
 //            		defaultXmlId = R.xml.default_workspace;
 //            	}
-            	
                 workspaceResId = sp.getInt(DEFAULT_WORKSPACE_RESOURCE_ID,defaultXmlId);
             }
             Log.d(TAG,"loadDefaultFavoritesIfNecessary workspaceResId = "+workspaceResId);
@@ -267,9 +246,7 @@ public class LauncherProvider extends ContentProvider {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
             mContext = context;
             mAppWidgetHost = new AppWidgetHost(context, Launcher.APPWIDGET_HOST_ID);
-
-            // In the case where neither onCreate nor onUpgrade gets called, we read the maxId from
-            // the DB here
+            // In the case where neither onCreate nor onUpgrade gets called, we read the maxId from the DB here
             if (mMaxId == -1) {
                 mMaxId = initializeMaxId(getWritableDatabase());
             }
@@ -337,8 +314,7 @@ public class LauncherProvider extends ContentProvider {
             if (LOGD) Log.d(TAG, "converting database from an older format, but not onUpgrade");
             boolean converted = false;
 
-            final Uri uri = Uri.parse("content://" + Settings.AUTHORITY +
-                    "/old_favorites?notify=true");
+            final Uri uri = Uri.parse("content://" + Settings.AUTHORITY + "/old_favorites?notify=true");
             final ContentResolver resolver = mContext.getContentResolver();
             Cursor cursor = null;
 
@@ -437,8 +413,7 @@ public class LauncherProvider extends ContentProvider {
                 db.beginTransaction();
                 try {
                     // Insert new column for holding appWidgetIds
-                    db.execSQL("ALTER TABLE favorites " +
-                        "ADD COLUMN appWidgetId INTEGER NOT NULL DEFAULT -1;");
+                    db.execSQL("ALTER TABLE favorites " + "ADD COLUMN appWidgetId INTEGER NOT NULL DEFAULT -1;");
                     db.setTransactionSuccessful();
                     version = 3;
                 } catch (SQLException ex) {
@@ -492,16 +467,13 @@ public class LauncherProvider extends ContentProvider {
             }
 
             if (version < 8) {
-                // Version 8 (froyo) has the icons all normalized.  This should
-                // already be the case in practice, but we now rely on it and don't
-                // resample the images each time.
+                // Version 8 (froyo) has the icons all normalized.  This should already be the case in practice, but we now rely on it and don't resample the images each time.
                 normalizeIcons(db);
                 version = 8;
             }
 
             if (version < 9) {
-                // The max id is not yet set at this point (onUpgrade is triggered in the ctor
-                // before it gets a change to get set, so we need to read it here when we use it)
+                // The max id is not yet set at this point (onUpgrade is triggered in the ctor before it gets a change to get set, so we need to read it here when we use it)
                 if (mMaxId == -1) {
                     mMaxId = initializeMaxId(db);
                 }
@@ -511,13 +483,9 @@ public class LauncherProvider extends ContentProvider {
                 version = 9;
             }
 
-            // We bumped the version three time during JB, once to update the launch flags, once to
-            // update the override for the default launch animation and once to set the mimetype
-            // to improve startup performance
+            // We bumped the version three time during JB, once to update the launch flags, once to update the override for the default launch animation and once to set the mimetype to improve startup performance
             if (version < 12) {
-                // Contact shortcuts need a different set of flags to be launched now
-                // The updateContactsShortcuts change is idempotent, so we can keep using it like
-                // back in the Donut days
+                // Contact shortcuts need a different set of flags to be launched now The updateContactsShortcuts change is idempotent, so we can keep using it like back in the Donut days
                 updateContactsShortcuts(db);
                 version = 12;
             }
@@ -530,17 +498,14 @@ public class LauncherProvider extends ContentProvider {
         }
 
         private boolean updateContactsShortcuts(SQLiteDatabase db) {
-            final String selectWhere = buildOrWhereString(Favorites.ITEM_TYPE,
-                    new int[] { Favorites.ITEM_TYPE_SHORTCUT });
+            final String selectWhere = buildOrWhereString(Favorites.ITEM_TYPE, new int[] { Favorites.ITEM_TYPE_SHORTCUT });
 
             Cursor c = null;
             final String actionQuickContact = "com.android.contacts.action.QUICK_CONTACT";
             db.beginTransaction();
             try {
                 // Select and iterate through each matching widget
-                c = db.query(TABLE_FAVORITES,
-                        new String[] { Favorites._ID, Favorites.INTENT },
-                        selectWhere, null, null, null, null);
+                c = db.query(TABLE_FAVORITES, new String[] { Favorites._ID, Favorites.INTENT }, selectWhere, null, null, null, null);
                 if (c == null) return false;
 
                 if (LOGD) Log.d(TAG, "found upgrade cursor count=" + c.getCount());
@@ -602,11 +567,9 @@ public class LauncherProvider extends ContentProvider {
             SQLiteStatement update = null;
             try {
                 boolean logged = false;
-                update = db.compileStatement("UPDATE favorites "
-                        + "SET icon=? WHERE _id=?");
+                update = db.compileStatement("UPDATE favorites " + "SET icon=? WHERE _id=?");
 
-                c = db.rawQuery("SELECT _id, icon FROM favorites WHERE iconType=" +
-                        Favorites.ICON_TYPE_BITMAP, null);
+                c = db.rawQuery("SELECT _id, icon FROM favorites WHERE iconType=" + Favorites.ICON_TYPE_BITMAP, null);
 
                 final int idIndex = c.getColumnIndexOrThrow(Favorites._ID);
                 final int iconIndex = c.getColumnIndexOrThrow(Favorites.ICON);
@@ -615,9 +578,7 @@ public class LauncherProvider extends ContentProvider {
                     long id = c.getLong(idIndex);
                     byte[] data = c.getBlob(iconIndex);
                     try {
-                        Bitmap bitmap = Utilities.resampleIconBitmap(
-                                BitmapFactory.decodeByteArray(data, 0, data.length),
-                                mContext);
+                        Bitmap bitmap = Utilities.resampleIconBitmap(BitmapFactory.decodeByteArray(data, 0, data.length), mContext);
                         if (bitmap != null) {
                             update.bindLong(1, id);
                             data = ItemInfo.flattenBitmap(bitmap);
@@ -650,11 +611,7 @@ public class LauncherProvider extends ContentProvider {
             }
         }
 
-        // Generates a new ID to use for an object in your database. This method should be only
-        // called from the main UI thread. As an exception, we do call it when we call the
-        // constructor from the worker thread; however, this doesn't extend until after the
-        // constructor is called, and we only pass a reference to LauncherProvider to LauncherApp
-        // after that point
+        // Generates a new ID to use for an object in your database. This method should be only called from the main UI thread. As an exception, we do call it when we call the constructor from the worker thread; however, this doesn't extend until after the constructor is called, and we only pass a reference to LauncherProvider to LauncherApp after that point
         public long generateNewId() {
             if (mMaxId < 0) {
                 throw new RuntimeException("Error: max id was not initialized");
@@ -665,7 +622,6 @@ public class LauncherProvider extends ContentProvider {
 
         private long initializeMaxId(SQLiteDatabase db) {
             Cursor c = db.rawQuery("SELECT MAX(_id) FROM favorites", null);
-
             // get the result
             final int maxIdIndex = 0;
             long id = -1;
@@ -679,21 +635,13 @@ public class LauncherProvider extends ContentProvider {
             if (id == -1) {
                 throw new RuntimeException("Error: could not query max id");
             }
-
             return id;
         }
 
-        /**
-         * Upgrade existing clock and photo frame widgets into their new widget
-         * equivalents.
-         */
+        /** Upgrade existing clock and photo frame widgets into their new widget equivalents. */
         private void convertWidgets(SQLiteDatabase db) {
             final AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(mContext);
-            final int[] bindSources = new int[] {
-                    Favorites.ITEM_TYPE_WIDGET_CLOCK,
-                    Favorites.ITEM_TYPE_WIDGET_PHOTO_FRAME,
-                    Favorites.ITEM_TYPE_WIDGET_SEARCH,
-            };
+            final int[] bindSources = new int[] { Favorites.ITEM_TYPE_WIDGET_CLOCK, Favorites.ITEM_TYPE_WIDGET_PHOTO_FRAME, Favorites.ITEM_TYPE_WIDGET_SEARCH, };
 
             final String selectWhere = buildOrWhereString(Favorites.ITEM_TYPE, bindSources);
 
@@ -702,8 +650,7 @@ public class LauncherProvider extends ContentProvider {
             db.beginTransaction();
             try {
                 // Select and iterate through each matching widget
-                c = db.query(TABLE_FAVORITES, new String[] { Favorites._ID, Favorites.ITEM_TYPE },
-                        selectWhere, null, null, null, null);
+                c = db.query(TABLE_FAVORITES, new String[] { Favorites._ID, Favorites.ITEM_TYPE }, selectWhere, null, null, null, null);
 
                 if (LOGD) Log.d(TAG, "found upgrade cursor count=" + c.getCount());
 
@@ -877,8 +824,7 @@ public class LauncherProvider extends ContentProvider {
                             }
                             final String folder_item_name = parser.getName();
 
-                            TypedArray ar = mContext.obtainStyledAttributes(attrs,
-                                    R.styleable.Favorite);
+                            TypedArray ar = mContext.obtainStyledAttributes(attrs,R.styleable.Favorite);
                             values.clear();
                             values.put(LauncherSettings.Favorites.CONTAINER, folderId);
 
@@ -894,14 +840,11 @@ public class LauncherProvider extends ContentProvider {
                                     folderItems.add(id);
                                 }
                             } else {
-                                throw new RuntimeException("Folders can " +
-                                        "contain only shortcuts");
+                                throw new RuntimeException("Folders can " + "contain only shortcuts");
                             }
                             ar.recycle();
                         }
-                        // We can only have folders with >= 2 items, so we need to remove the
-                        // folder and clean up if less than 2 items were included, or some
-                        // failed to add, and less than 2 were actually added
+                        // We can only have folders with >= 2 items, so we need to remove the folder and clean up if less than 2 items were included, or some failed to add, and less than 2 were actually added
                         if (folderItems.size() < 2 && folderId >= 0) {
                             // We just delete the folder and any items that made it
                             deleteId(db, folderId);
@@ -921,12 +864,10 @@ public class LauncherProvider extends ContentProvider {
             } catch (RuntimeException e) {
                 Log.w(TAG, "Got exception parsing favorites.", e);
             }
-
             return i;
         }
 
-        private long addAppShortcut(SQLiteDatabase db, ContentValues values, TypedArray a,
-                PackageManager packageManager, Intent intent) {
+        private long addAppShortcut(SQLiteDatabase db, ContentValues values, TypedArray a, PackageManager packageManager, Intent intent) {
             long id = -1;
             ActivityInfo info;
             String packageName = a.getString(R.styleable.Favorite_packageName);
@@ -944,8 +885,7 @@ public class LauncherProvider extends ContentProvider {
                 }
                 id = generateNewId();
                 intent.setComponent(cn);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-                        Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
                 values.put(Favorites.INTENT, intent.toUri(0));
                 values.put(Favorites.TITLE, info.loadLabel(packageManager).toString());
                 values.put(Favorites.ITEM_TYPE, Favorites.ITEM_TYPE_APPLICATION);
@@ -956,8 +896,7 @@ public class LauncherProvider extends ContentProvider {
                     return -1;
                 }
             } catch (PackageManager.NameNotFoundException e) {
-                Log.w(TAG, "Unable to add favorite: " + packageName +
-                        "/" + className, e);
+                Log.w(TAG, "Unable to add favorite: " + packageName + "/" + className, e);
             }
             return id;
         }
@@ -976,8 +915,7 @@ public class LauncherProvider extends ContentProvider {
         }
 
         private ComponentName getSearchWidgetProvider() {
-            SearchManager searchManager =
-                    (SearchManager) mContext.getSystemService(Context.SEARCH_SERVICE);
+            SearchManager searchManager = (SearchManager) mContext.getSystemService(Context.SEARCH_SERVICE);
             ComponentName searchComponent = searchManager.getGlobalSearchActivity();
             if (searchComponent == null) return null;
             return getProviderInPackage(searchComponent.getPackageName());
@@ -1007,18 +945,13 @@ public class LauncherProvider extends ContentProvider {
         }
 
         private boolean addClockWidget(SQLiteDatabase db, ContentValues values) {
-            ComponentName cn = new ComponentName("com.android.alarmclock",
-                    "com.android.alarmclock.AnalogAppWidgetProvider");
+            ComponentName cn = new ComponentName("com.android.alarmclock", "com.android.alarmclock.AnalogAppWidgetProvider");
             return addAppWidget(db, values, cn, 2, 2, null);
         }
 
-        private boolean addAppWidget(XmlResourceParser parser, AttributeSet attrs, int type,
-                SQLiteDatabase db, ContentValues values, TypedArray a,
-                PackageManager packageManager) throws XmlPullParserException, IOException {
-
+        private boolean addAppWidget(XmlResourceParser parser, AttributeSet attrs, int type, SQLiteDatabase db, ContentValues values, TypedArray a, PackageManager packageManager) throws XmlPullParserException, IOException {
             String packageName = a.getString(R.styleable.Favorite_packageName);
             String className = a.getString(R.styleable.Favorite_className);
-
             if (packageName == null || className == null) {
                 return false;
             }
@@ -1028,8 +961,7 @@ public class LauncherProvider extends ContentProvider {
             try {
                 packageManager.getReceiverInfo(cn, 0);
             } catch (Exception e) {
-                String[] packages = packageManager.currentToCanonicalPackageNames(
-                        new String[] { packageName });
+                String[] packages = packageManager.currentToCanonicalPackageNames(new String[] { packageName });
                 cn = new ComponentName(packages[0], className);
                 try {
                     packageManager.getReceiverInfo(cn, 0);
@@ -1045,8 +977,7 @@ public class LauncherProvider extends ContentProvider {
                 // Read the extras
                 Bundle extras = new Bundle();
                 int widgetDepth = parser.getDepth();
-                while ((type = parser.next()) != XmlPullParser.END_TAG ||
-                        parser.getDepth() > widgetDepth) {
+                while ((type = parser.next()) != XmlPullParser.END_TAG || parser.getDepth() > widgetDepth) {
                     if (type != XmlPullParser.START_TAG) {
                         continue;
                     }
@@ -1065,15 +996,12 @@ public class LauncherProvider extends ContentProvider {
                     }
                     ar.recycle();
                 }
-
                 return addAppWidget(db, values, cn, spanX, spanY, extras);
             }
-
             return false;
         }
 
-        private boolean addAppWidget(SQLiteDatabase db, ContentValues values, ComponentName cn,
-                int spanX, int spanY, Bundle extras) {
+        private boolean addAppWidget(SQLiteDatabase db, ContentValues values, ComponentName cn, int spanX, int spanY, Bundle extras) {
             boolean allocatedAppWidgets = false;
             final AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(mContext);
 

@@ -146,7 +146,7 @@ class LauncherSettings {
          * (if container is CONTAINER_HOTSEAT or CONTAINER_HOTSEAT)
          * <P>Type: INTEGER</P>
          */
-        static final String CELLX = "cellX";
+        static final String CELLX = "cellX"; 
 
         /**
          * The Y coordinate of the cell holding the favorite

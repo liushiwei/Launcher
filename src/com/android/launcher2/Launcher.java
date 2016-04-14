@@ -13,7 +13,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
@@ -86,7 +85,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Advanceable;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import com.android.launcher.R;
 import com.android.launcher2.DropTarget.DragObject;
 
@@ -211,19 +209,14 @@ public final class Launcher extends Activity implements View.OnClickListener, On
     // Keep track of whether the user has left launcher
     private static boolean sPausedFromUserAction = false;
 //    private Bundle mSavedInstanceState;
-
     private LauncherModel mModel;
     private IconCache mIconCache;
     private boolean mUserPresent = true;
     private boolean mVisible = false;
     private boolean mAttached = false;
-
     private static LocaleConfiguration sLocaleConfiguration = null;
-
     private static HashMap<Long, FolderInfo> sFolders = new HashMap<Long, FolderInfo>();
-
     private Intent mAppMarketIntent = null;
-
     // Related to the auto-advancing of widgets
     private final int ADVANCE_MSG = 1;
     private final int mAdvanceInterval = 20000;
@@ -241,7 +234,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
     private static Drawable.ConstantState[] sAppMarketIcon = new Drawable.ConstantState[2];
 
 //    private Drawable mWorkspaceBackgroundDrawable;
-    private Drawable mBlackBackgroundDrawable;
+//    private Drawable mBlackBackgroundDrawable;
 
     private final ArrayList<Integer> mSynchronouslyBoundPages = new ArrayList<Integer>();
 
@@ -356,6 +349,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 
         IntentFilter filter = new IntentFilter(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
         registerReceiver(mCloseSystemDialogsReceiver, filter);
+        
         updateGlobalIcons();
         // On large interfaces, we want the screen to auto-rotate based on the current orientation
         unlockScreenOrientation(true);
@@ -631,7 +625,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         mOnResumeState = State.NONE;
 
         // Background was set to gradient in onPause(), restore to black if in all apps.
-        setWorkspaceBackground(/*mState == State.WORKSPACE*/);
+//        setWorkspaceBackground(/*mState == State.WORKSPACE*/);
 
         // Process any items that were added while Launcher was away
         InstallShortcutReceiver.flushInstallQueue(this);
@@ -700,8 +694,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
     */
 
     private boolean acceptFilter() {
-        final InputMethodManager inputManager = (InputMethodManager)
-                getSystemService(Context.INPUT_METHOD_SERVICE);
+        final InputMethodManager inputManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         return !inputManager.isFullscreenMode();
     }
 
@@ -711,8 +704,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         final boolean handled = super.onKeyDown(keyCode, event);
         final boolean isKeyNotWhitespace = uniChar > 0 && !Character.isWhitespace(uniChar);
         if (!handled && acceptFilter() && isKeyNotWhitespace) {
-            boolean gotKey = TextKeyListener.getInstance().onKeyDown(mWorkspace, mDefaultKeySsb,
-                    keyCode, event);
+            boolean gotKey = TextKeyListener.getInstance().onKeyDown(mWorkspace, mDefaultKeySsb, keyCode, event);
             if (gotKey && mDefaultKeySsb != null && mDefaultKeySsb.length() > 0) {
                 // something usable has been typed - start a search the typed text will be retrieved and cleared by showSearchDialog() If there are multiple keystrokes before the search dialog takes focus, onSearchRequested() will be called for every keystroke, but it is idempotent, so it's fine.
                 return onSearchRequested();
@@ -805,9 +797,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         }
     }
 
-    /**
-     * Finds all the views we need and configure them properly.
-     */
+    /** Finds all the views we need and configure them properly.  */
     private void setupViews() {
         final DragController dragController = mDragController;
         mLauncherView = findViewById(R.id.launcher);
@@ -818,7 +808,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 
         mLauncherView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
 //        mWorkspaceBackgroundDrawable = getResources().getDrawable(R.drawable.workspace_bg);
-        mBlackBackgroundDrawable = new ColorDrawable(Color.BLACK);
+//        mBlackBackgroundDrawable = new ColorDrawable(Color.BLACK);
 
         // Setup the drag layer
         mDragLayer.setup(this, dragController);
@@ -1086,14 +1076,15 @@ public final class Launcher extends Activity implements View.OnClickListener, On
             } else if (Intent.ACTION_USER_PRESENT.equals(action)) {
                 mUserPresent = true;
                 updateRunning();
-            }else if("".equals(action)){
+            }else if(AllAppWidgetProvider.CLICK_ACTION.equals(action)){ // zgy all
             	if (!isAllAppsVisible()) {
+            		Log.d(TAG, "AllAppWidgetProvider.CLICK_ACTION------------>");
         			showAllApps(true);
         		}
             }
         }
     };
-
+    
     @Override
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
@@ -1101,7 +1092,9 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         final IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_SCREEN_OFF);
         filter.addAction(Intent.ACTION_USER_PRESENT);
+        filter.addAction(AllAppWidgetProvider.CLICK_ACTION);
         registerReceiver(mReceiver, filter);
+        
         mAttached = true;
         mVisible = true;
     }
@@ -1131,7 +1124,6 @@ public final class Launcher extends Activity implements View.OnClickListener, On
                     public boolean onPreDraw() {
                         // We delay the layer building a bit in order to give other message processing a time to run.  In particular this avoids a delay in hiding the IME if it was currently shown, because doing that may involve some communication back with the app.
                         mWorkspace.postDelayed(mBuildLayersRunnable, 500);
-
                         observer.removeOnPreDrawListener(this);
                         return true;
                     }
@@ -1334,7 +1326,6 @@ public final class Launcher extends Activity implements View.OnClickListener, On
     @Override
     public void onDestroy() {
         super.onDestroy();
-
         // Remove all pending runnables
         mHandler.removeMessages(ADVANCE_MSG);
         mHandler.removeMessages(0);
@@ -1356,15 +1347,14 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 
         TextKeyListener.getInstance().release();
 
-        // Disconnect any of the callbacks and drawables associated with ItemInfos on the workspace
-        // to prevent leaking Launcher activities on orientation change.
+        // Disconnect any of the callbacks and drawables associated with ItemInfos on the workspace to prevent leaking Launcher activities on orientation change.
         if (mModel != null) {
             mModel.unbindItemInfosAndClearQueuedBindRunnables();
         }
 
         getContentResolver().unregisterContentObserver(mWidgetObserver);
         unregisterReceiver(mCloseSystemDialogsReceiver);
-
+        
         mDragLayer.clearAllResizeFrames();
         ((ViewGroup) mWorkspace.getParent()).removeAllViews();
         mWorkspace.removeAllViews();
@@ -1384,10 +1374,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         super.startActivityForResult(intent, requestCode);
     }
 
-    /**
-     * Indicates that we want global search for this activity by setting the globalSearch
-     * argument for {@link #startSearch} to true.
-     */
+    /** Indicates that we want global search for this activity by setting the globalSearch argument for {@link #startSearch} to true. */
     @Override
     public void startSearch(String initialQuery, boolean selectInitialQuery, Bundle appSearchData, boolean globalSearch) {
         showWorkspace(true);
@@ -1402,13 +1389,10 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         if (mSearchDropTargetBar != null) {
             sourceBounds = mSearchDropTargetBar.getSearchBarBounds();
         }
-
         startGlobalSearch(initialQuery, selectInitialQuery, appSearchData, sourceBounds);
     }
 
-    /**
-     * Starts the global search activity. This code is a copied from SearchManager
-     */
+    /** Starts the global search activity. This code is a copied from SearchManager */
     public void startGlobalSearch(String initialQuery, boolean selectInitialQuery, Bundle appSearchData, Rect sourceBounds) {
         final SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         ComponentName globalSearchActivity = searchManager.getGlobalSearchActivity();
@@ -1838,7 +1822,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
     }
     
     ShortcutInfo unistallerShortcutInfo = null;
-    void startApplicationUninstallActivity(ShortcutInfo shortcutInfo) {
+    void startApplicationUninstallActivity(ShortcutInfo shortcutInfo) {   // system app  zgy
     	int flags = 0;
     	unistallerShortcutInfo = shortcutInfo;
     	String packageName = shortcutInfo.getPackageName();
@@ -2172,9 +2156,9 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         }
     }
 
-    private void setWorkspaceBackground(/*boolean workspace*/) {
-        mLauncherView.setBackground(/*workspace ? mWorkspaceBackgroundDrawable : */mBlackBackgroundDrawable);
-    }
+//    private void setWorkspaceBackground(/*boolean workspace*/) {
+//        mLauncherView.setBackground(/*workspace ? mWorkspaceBackgroundDrawable : */mBlackBackgroundDrawable);
+//    }
 
     // Modify by zgy
     void updateWallpaperVisibility(boolean visible) { 
@@ -2184,7 +2168,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
             getWindow().setFlags(wpflags, WindowManager.LayoutParams.FLAG_SHOW_WALLPAPER);
         }
     	// getWindow().setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN, WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
-    	setWorkspaceBackground();
+//    	setWorkspaceBackground();
     	
 //        if (visible) {
 //            WindowManager.LayoutParams lp = getWindow().getAttributes();
@@ -2293,7 +2277,6 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 
             mStateAnimation.addListener(new AnimatorListenerAdapter() {
                 boolean animationCancelled = false;
-
                 @Override
                 public void onAnimationStart(Animator animation) {
                     updateWallpaperVisibility(true);
@@ -2351,16 +2334,14 @@ public final class Launcher extends Activity implements View.OnClickListener, On
             final Runnable startAnimRunnable = new Runnable() {
                 public void run() {
                     // Check that mStateAnimation hasn't changed while we waited for a layout/draw pass
-                    if (mStateAnimation != stateAnimation)
-                        return;
+                    if (mStateAnimation != stateAnimation)   return;
                     setPivotsForZoom(toView, scale);
                     dispatchOnLauncherTransitionStart(fromView, animated, false);
                     dispatchOnLauncherTransitionStart(toView, animated, false);
                     toView.post(new Runnable() {
                         public void run() {
                             // Check that mStateAnimation hasn't changed while we waited for a layout/draw pass
-                            if (mStateAnimation != stateAnimation)
-                                return;
+                            if (mStateAnimation != stateAnimation)    return;
                             mStateAnimation.start();
                         }
                     });
@@ -2556,6 +2537,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 
     void showAllApps(boolean animated) {
         if (mState != State.WORKSPACE)   return;
+        
         showAppsCustomizeHelper(animated, false);
         mAppsCustomizeTabHost.requestFocus();
         // Change the state *after* we've called all the transition code
@@ -3155,12 +3137,9 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         Runnable setAllAppsRunnable = new Runnable() {
             public void run() {
                 if (mAppsCustomizeContent != null) {
-                	
                 	for (int i = 0; i < apps.size(); i++) {
 						Log.e(TAG, "apps-wwwwwwwwwwwwwwww-11->"+apps.get(i).componentName.getPackageName());
-						Log.e(TAG, "apps-wwwwwwwwwwwwwwww-33->"+apps.get(i).title);
 					}
-                	
                     mAppsCustomizeContent.setApps(apps);
                 }
             }
@@ -3409,9 +3388,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 //        dismissCling(cling, Cling.FOLDER_CLING_DISMISSED_KEY, DISMISS_CLING_DURATION);
 //    }
 
-    /**
-     * Prints out out state for debugging.
-     */
+    /***  Prints out out state for debugging.  */
     public void dumpState() {
         mModel.dumpState();
 
@@ -3430,6 +3407,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         }
     }
 }
+
 
 interface LauncherTransitionable {
     View getContent();

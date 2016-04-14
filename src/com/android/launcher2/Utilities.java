@@ -73,9 +73,7 @@ final class Utilities {
         return newmap;  
     }  
 
-    /**
-     * Returns a bitmap suitable for the all apps view.
-     */
+    /*** Returns a bitmap suitable for the all apps view. */
     static Bitmap createIconBitmap(Drawable icon, Context context) {
         synchronized (sCanvas) { // we share the statics :-(
             if (sIconWidth == -1) {

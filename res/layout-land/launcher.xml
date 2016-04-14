@@ -24,7 +24,7 @@
             android:paddingTop="@dimen/workspace_top_padding"
             launcher:cellCountX="@integer/cell_count_x"
             launcher:cellCountY="@integer/cell_count_y"
-            launcher:defaultScreen="0"
+            launcher:defaultScreen="1"
             launcher:pageSpacing="@dimen/workspace_page_spacing"
             launcher:scrollIndicatorPaddingLeft="@dimen/qsb_bar_height"
             launcher:scrollIndicatorPaddingRight="@dimen/button_bar_height" >
@@ -37,7 +37,7 @@
                 android:id="@+id/cell2"
                 layout="@layout/workspace_screen" />
 
-        </com.android.launcher2.Workspace>
+        </com.android.launcher2.Workspace>   
 
         <include
             android:id="@+id/qsb_divider"

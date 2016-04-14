@@ -180,7 +180,11 @@ public class IconCache {
             	
             } else if(entry.title.equals("亿连")){
             	entry.title = "手机互联";
-            }else {
+            	
+            }else if(entry.title.equals("高德地图")){
+            	entry.title = "导航";
+            	
+            }else{
             	
             }
             

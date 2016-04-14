@@ -255,7 +255,6 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
     // Previews & outlines
     ArrayList<AppsCustomizeAsyncTask> mRunningTasks;
     private static final int sPageSleepDelay = 200;
-
     private Runnable mInflateWidgetRunnable = null;
     private Runnable mBindWidgetRunnable = null;
     static final int WIDGET_NO_CLEANUP_REQUIRED = -1;
@@ -266,7 +265,6 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
     int mWidgetLoadingId = -1;
     PendingAddWidgetInfo mCreateWidgetInfo = null;
     private boolean mDraggingWidget = false;
-
     private Toast mWidgetInstructionToast;
 
     // Deferral of loading widget previews during launcher transitions
@@ -327,8 +325,7 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         setDragSlopeThreshold(r.getInteger(R.integer.config_appsCustomizeDragSlopeThreshold)/100f);
     }
 
-    /** Returns the item index of the center item on this page so that we can restore to this
-     *  item index when we rotate. */
+    /** Returns the item index of the center item on this page so that we can restore to this item index when we rotate. */
     private int getMiddleComponentIndexOnCurrentPage() {
         int i = -1;
         if (getPageCount() > 0) {
@@ -520,6 +517,7 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
             }
             mWidgetInstructionToast = Toast.makeText(getContext(),R.string.long_press_widget_to_add, Toast.LENGTH_SHORT);
             mWidgetInstructionToast.show();
+            
             // Create a little animation to show that the widget can move
             float offsetY = getResources().getDimensionPixelSize(R.dimen.dragViewOffsetY);
             final ImageView p = (ImageView) v.findViewById(R.id.widget_preview);
@@ -1284,9 +1282,7 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
             // Layout each widget
             int ix = i % mWidgetCountX;
             int iy = i / mWidgetCountX;
-            GridLayout.LayoutParams lp = new GridLayout.LayoutParams(
-                    GridLayout.spec(iy, GridLayout.LEFT),
-                    GridLayout.spec(ix, GridLayout.TOP));
+            GridLayout.LayoutParams lp = new GridLayout.LayoutParams(GridLayout.spec(iy, GridLayout.LEFT), GridLayout.spec(ix, GridLayout.TOP));
             lp.width = cellWidth;
             lp.height = cellHeight;
             lp.setGravity(Gravity.TOP | Gravity.LEFT);
@@ -1295,8 +1291,7 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
             layout.addView(widget, lp);
         }
 
-        // wait until a call on onLayout to start loading, because
-        // PagedViewWidget.getPreviewSize() will return 0 if it hasn't been laid out
+        // wait until a call on onLayout to start loading, because PagedViewWidget.getPreviewSize() will return 0 if it hasn't been laid out
         // TODO: can we do a measure/layout immediately?
         layout.setOnLayoutListener(new Runnable() {
             public void run() {
@@ -1310,25 +1305,21 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
                     maxPreviewHeight = maxSize[1];
                 }
                 if (immediate) {
-                    AsyncTaskPageData data = new AsyncTaskPageData(page, items,
-                            maxPreviewWidth, maxPreviewHeight, null, null);
+                    AsyncTaskPageData data = new AsyncTaskPageData(page, items, maxPreviewWidth, maxPreviewHeight, null, null);
                     loadWidgetPreviewsInBackground(null, data);
                     onSyncWidgetPageItems(data);
                 } else {
                     if (mInTransition) {
                         mDeferredPrepareLoadWidgetPreviewsTasks.add(this);
                     } else {
-                        prepareLoadWidgetPreviewsTask(page, items,
-                                maxPreviewWidth, maxPreviewHeight, mWidgetCountX);
+                        prepareLoadWidgetPreviewsTask(page, items, maxPreviewWidth, maxPreviewHeight, mWidgetCountX);
                     }
                 }
             }
         });
     }
-    private void loadWidgetPreviewsInBackground(AppsCustomizeAsyncTask task,
-            AsyncTaskPageData data) {
-        // loadWidgetPreviewsInBackground can be called without a task to load a set of widget
-        // previews synchronously
+    private void loadWidgetPreviewsInBackground(AppsCustomizeAsyncTask task, AsyncTaskPageData data) {
+        // loadWidgetPreviewsInBackground can be called without a task to load a set of widget previews synchronously
         if (task != null) {
             // Ensure that this task starts running at the correct priority
             task.syncThreadPriority();
@@ -1342,8 +1333,7 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
             if (task != null) {
                 // Ensure we haven't been cancelled yet
                 if (task.isCancelled()) break;
-                // Before work on each item, ensure that this task is running at the correct
-                // priority
+                // Before work on each item, ensure that this task is running at the correct priority
                 task.syncThreadPriority();
             }
 
@@ -1351,13 +1341,9 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
             if (rawInfo instanceof AppWidgetProviderInfo) {
                 AppWidgetProviderInfo info = (AppWidgetProviderInfo) rawInfo;
                 int[] cellSpans = Launcher.getSpanForWidget(mLauncher, info);
-
-                int maxWidth = Math.min(data.maxImageWidth,
-                        mWidgetSpacingLayout.estimateCellWidth(cellSpans[0]));
-                int maxHeight = Math.min(data.maxImageHeight,
-                        mWidgetSpacingLayout.estimateCellHeight(cellSpans[1]));
-                Bitmap b = getWidgetPreview(info.provider, info.previewImage, info.icon,
-                        cellSpans[0], cellSpans[1], maxWidth, maxHeight);
+                int maxWidth = Math.min(data.maxImageWidth, mWidgetSpacingLayout.estimateCellWidth(cellSpans[0]));
+                int maxHeight = Math.min(data.maxImageHeight, mWidgetSpacingLayout.estimateCellHeight(cellSpans[1]));
+                Bitmap b = getWidgetPreview(info.provider, info.previewImage, info.icon, cellSpans[0], cellSpans[1], maxWidth, maxHeight);
                 images.add(b);
             } else if (rawInfo instanceof ResolveInfo) {
                 // Fill in the shortcuts information
@@ -1408,11 +1394,9 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
 
         Context context = getContext();
         for (int j = 0; j < mNumWidgetPages; ++j) {
-            PagedViewGridLayout layout = new PagedViewGridLayout(context, mWidgetCountX,
-                    mWidgetCountY);
+            PagedViewGridLayout layout = new PagedViewGridLayout(context, mWidgetCountX, mWidgetCountY);
             setupPage(layout);
-            addView(layout, new PagedView.LayoutParams(LayoutParams.MATCH_PARENT,
-                    LayoutParams.MATCH_PARENT));
+            addView(layout, new PagedView.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
         }
 
         for (int i = 0; i < mNumAppsPages; ++i) {
@@ -1431,8 +1415,7 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         }
     }
 
-    // We want our pages to be z-ordered such that the further a page is to the left, the higher
-    // it is in the z-order. This is important to insure touch events are handled correctly.
+    // We want our pages to be z-ordered such that the further a page is to the left, the higher it is in the z-order. This is important to insure touch events are handled correctly.
     View getPageAt(int index) {
         return getChildAt(indexToPage(index));
     }
@@ -1446,23 +1429,18 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
     @Override
     protected void screenScrolled(int screenCenter) {
         super.screenScrolled(screenCenter);
-
+        
         for (int i = 0; i < getChildCount(); i++) {
             View v = getPageAt(i);
             if (v != null) {
                 float scrollProgress = getScrollProgress(screenCenter, v, i);
-
-                float interpolatedProgress =
-                        mZInterpolator.getInterpolation(Math.abs(Math.min(scrollProgress, 0)));
-                float scale = (1 - interpolatedProgress) +
-                        interpolatedProgress * TRANSITION_SCALE_FACTOR;
+                float interpolatedProgress = mZInterpolator.getInterpolation(Math.abs(Math.min(scrollProgress, 0)));
+                float scale = (1 - interpolatedProgress) + interpolatedProgress * TRANSITION_SCALE_FACTOR;
                 float translationX = Math.min(0, scrollProgress) * v.getMeasuredWidth();
-
                 float alpha;
 
                 if (scrollProgress < 0) {
-                    alpha = scrollProgress < 0 ? mAlphaInterpolator.getInterpolation(
-                        1 - Math.abs(scrollProgress)) : 1.0f;
+                    alpha = scrollProgress < 0 ? mAlphaInterpolator.getInterpolation(1 - Math.abs(scrollProgress)) : 1.0f;
                 } else {
                     // On large screens we need to fade the page as it nears its leftmost position
                     alpha = mLeftScreenAlphaInterpolator.getInterpolation(1 - scrollProgress);
@@ -1561,6 +1539,8 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         updatePageCounts();
         invalidateOnDataChange();
     }
+    
+    // zgy name
     private void addAppsWithoutInvalidate(ArrayList<ApplicationInfo> list) {
         // We add it in place, in alphabetical order
         int count = list.size();

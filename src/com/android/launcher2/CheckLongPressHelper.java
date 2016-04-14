@@ -56,7 +56,7 @@ public class CheckLongPressHelper {
         }
     }
 
-    public boolean hasPerformedLongPress() {
+    public boolean hasPerformedLongPress() {   
         return mHasPerformedLongPress;
     }
 }

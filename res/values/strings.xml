@@ -271,7 +271,7 @@ s -->
     <string name="custom_workspace_cling_description_1"></string>
     <!-- Dummy string [CHAR_LIMIT=40] -->
     <string name="custom_workspace_cling_title_2"></string>
-    <!-- Dummy string [CHAR_LIMIT=60] -->
+    <!-- Dummy string [CHAR_LIMIT=60]   |  EEEEMMMMdd-->
     <string name="custom_workspace_cling_description_2"></string>
     
     <string name="widget_app_app">All App</string>
@@ -302,4 +302,8 @@ s -->
     <string name="app_bt_name">Bluetooth</string>
     <string name="app_music_name">Music</string>
     <string name="app_parking_name">Parking</string>
+    
+    <string name="main_widget_12_hours_format" translatable="false" >h&#58;mm</string>
+    <string name="clock_24_hours_format" translatable="false" >kk&#58;mm</string>
+    <string name="abbrev_wday_month_day_no_year">EEEEMMMMdd</string>
 </resources>
