@@ -17,6 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
 
+            <!--  -->
             <com.android.launcher2.AppsCustomizePagedView
                 android:id="@+id/apps_customize_pane_content"
                 android:layout_width="match_parent"

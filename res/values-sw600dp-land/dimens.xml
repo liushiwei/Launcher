@@ -17,7 +17,7 @@
 <resources>
     <dimen name="app_icon_padding_top">0dp</dimen>
     <dimen name="app_icon_drawable_padding_land">0dp</dimen>
-    <dimen name="workspace_icon_text_size">42px</dimen>
+    <dimen name="workspace_icon_text_size">38px</dimen>
 
 <!-- Hotseat -->
     <dimen name="button_bar_width_left_padding">14dp</dimen>
