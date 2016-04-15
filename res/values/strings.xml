@@ -303,7 +303,7 @@ s -->
     <string name="app_music_name">Music</string>
     <string name="app_parking_name">Parking</string>
     
-    <string name="main_widget_12_hours_format" translatable="false" >h&#58;mm</string>
-    <string name="clock_24_hours_format" translatable="false" >kk&#58;mm</string>
-    <string name="abbrev_wday_month_day_no_year">EEEEMMMMdd</string>
+    <string name="widget_12_format" translatable="false" >h&#58;mm</string>
+    <string name="widget_year_month_day" translatable="false" >yyyy&#045;MM&#045;dd</string>
+    <string name="widget_week_format">EEEE</string>
 </resources>

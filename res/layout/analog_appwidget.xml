@@ -1,15 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- new -->
-<!--
-<AnalogClock xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/analog_appwidget"
-    android:dial="@drawable/clock"
-    android:hand_hour="@drawable/clock_analog_hour"
-    android:hand_minute="@drawable/clock_analog_minute"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
-</AnalogClock>
--->
+<!-- widget clock layout -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -39,8 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|top"
             android:baselineAligned="true"
-            android:format12Hour="@string/main_widget_12_hours_format"
-            android:format24Hour="@string/clock_24_hours_format"
+            android:format12Hour="@string/widget_12_format"
             android:gravity="center_horizontal"
             android:textSize="140sp" />
 
@@ -55,61 +44,19 @@
                 style="@style/small_thin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:format12Hour=""
-                android:format24Hour=""
+                android:format12Hour="@string/widget_year_month_day"
                 android:gravity="center"
-                android:textSize="40sp" />
+                android:textSize="50sp" />
 
             <TextClock
                 android:id="@+id/weekTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
-                android:format12Hour=""
-                android:format24Hour=""
+                android:format12Hour="@string/widget_week_format"
                 android:textSize="40sp"
                 android:typeface="serif" />
         </LinearLayout>
     </LinearLayout>
-
-    <!--
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="fill_parent"
-        android:layout_weight="8"
-        android:gravity="center_vertical"
-        android:orientation="vertical" >
-
-        <TextView
-            android:id="@+id/timeTv"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:text="11"
-            android:textSize="110sp" />
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical|center_horizontal"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:id="@+id/dateTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="22"
-                android:textSize="50sp" />
-
-            <TextView
-                android:id="@+id/weekTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="33"
-                android:textSize="40sp"
-                android:typeface="sans" />
-        </LinearLayout>
-    </LinearLayout>
-    -->
 
 </LinearLayout>

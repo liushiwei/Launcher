@@ -20,6 +20,6 @@
         android:layout_marginLeft="20px"
         android:text="@string/widget_app_navit"
         android:textColor="@android:color/white"
-        android:textSize="25sp" />
+        android:textSize="38px" />  
 
 </RelativeLayout>

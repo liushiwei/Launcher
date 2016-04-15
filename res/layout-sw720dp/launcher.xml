@@ -5,8 +5,7 @@
     xmlns:launcher="http://schemas.android.com/apk/res/com.android.launcher"
     android:id="@+id/launcher"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/workspace_bg" >
+    android:layout_height="match_parent" >
 
     <com.android.launcher2.DragLayer
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -14,7 +13,6 @@
         android:id="@+id/drag_layer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/workspace_bg"
         android:fitsSystemWindows="true" >
 
         <include
@@ -44,12 +42,11 @@
                 layout="@layout/scroll_indicator" />
         </FrameLayout>
 
-        <!-- workspace_screen_clock -->
-
         <com.android.launcher2.Workspace
             android:id="@+id/workspace"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@drawable/allapp_bg"
             android:paddingBottom="@dimen/workspace_bottom_padding"
             android:paddingLeft="@dimen/workspace_left_padding"
             android:paddingRight="@dimen/workspace_right_padding"
