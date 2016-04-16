@@ -11,7 +11,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
+
 import java.util.HashMap;
+
 import com.android.launcher.R;
 
 public class IconCache {
@@ -168,23 +171,27 @@ public class IconCache {
             // M by zgy / change title
             if (entry.title == null) {
                 entry.title = info.activityInfo.name;
+//                Log.d("zgy", "entry.title -------> " + info.activityInfo.name);
                 
-            } else if(entry.title.equals("Baidu CarLife")){
+            } else if(entry.title.trim().equals("Baidu CarLife")){
             	entry.title = "Baidu CarLife";
             	
-            }else if(entry.title.equals("百度 CarLife")){
+            }else if(entry.title.trim().equals("百度 CarLife")){
             	entry.title = "百度 CarLife";
             	
-            }else if(entry.title.equals("EasyConnected")){  
-            	entry.title = "E-Link";
+            }else if(entry.title.trim().equals("EasyConnected")){  
+            	entry.title = "R-Link";
             	
-            } else if(entry.title.equals("亿连")){
+            } else if(entry.title.trim().equals("亿连")){
             	entry.title = "手机互联";
             	
-            }else if(entry.title.equals("高德地图")){
+            }  else if(entry.title.trim().equals(" 高德地图 ")){
             	entry.title = "导航";
             	
-            }else{
+            } else if(entry.title.trim().equals("Amap")){
+            	entry.title = "Navi";
+            }
+            else{
             	
             }
             

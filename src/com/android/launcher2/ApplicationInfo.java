@@ -54,7 +54,7 @@ class ApplicationInfo extends ItemInfo {
         }
         iconCache.getTitleAndIcon(this, info, labelCache);
     }
-
+    
     public ApplicationInfo(ApplicationInfo info) {
         super(info);
         componentName = info.componentName;

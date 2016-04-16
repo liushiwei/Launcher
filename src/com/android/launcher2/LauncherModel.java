@@ -9,10 +9,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
+import android.annotation.SuppressLint;
 import android.app.SearchManager;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProviderInfo;
@@ -104,7 +103,8 @@ public class LauncherModel extends BroadcastReceiver {
     static final HashMap<Object, byte[]> sBgDbIconCache = new HashMap<Object, byte[]>();
     
     //
-    private static HashMap<String, Integer> sortMap;
+//    private static HashMap<Integer, String> sortMap;
+      private static ArrayList<String> sortList; 
     
     // </ only access in worker thread >
     private IconCache mIconCache;
@@ -587,9 +587,7 @@ public class LauncherModel extends BroadcastReceiver {
         runOnWorkerThread(r);
     }
 
-    /**
-     * Remove the contents of the specified folder from the database
-     */
+    /*** Remove the contents of the specified folder from the database */
     static void deleteFolderContentsFromDatabase(Context context, final FolderInfo info) {
         final ContentResolver cr = context.getContentResolver();
 
@@ -617,19 +615,14 @@ public class LauncherModel extends BroadcastReceiver {
         runOnWorkerThread(r);
     }
 
-    /**
-     * Set this as the current Launcher activity object for the loader.
-     */
+    /***  Set this as the current Launcher activity object for the loader. */
     public void initialize(Callbacks callbacks) {
         synchronized (mLock) {
             mCallbacks = new WeakReference<Callbacks>(callbacks);
         }
     }
 
-    /**
-     * Call from the handler for ACTION_PACKAGE_ADDED, ACTION_PACKAGE_REMOVED and
-     * ACTION_PACKAGE_CHANGED.
-     */
+    /** Call from the handler for ACTION_PACKAGE_ADDED, ACTION_PACKAGE_REMOVED and ACTION_PACKAGE_CHANGED. */
     @Override
     public void onReceive(Context context, Intent intent) {
         if (DEBUG_LOADERS) Log.d(TAG, "onReceive intent=" + intent);
@@ -712,12 +705,7 @@ public class LauncherModel extends BroadcastReceiver {
         }
     }
 
-    /**
-     * When the launcher is in the background, it's possible for it to miss paired
-     * configuration changes.  So whenever we trigger the loader from the background
-     * tell the launcher that it needs to re-run the loader when it comes back instead
-     * of doing it now.
-     */
+    /** When the launcher is in the background, it's possible for it to miss paired configuration changes.  So whenever we trigger the loader from the background tell the launcher that it needs to re-run the loader when it comes back instead of doing it now.*/
     public void startLoaderFromBackground() {
         boolean runLoader = false;
         if (mCallbacks != null) {
@@ -817,24 +805,25 @@ public class LauncherModel extends BroadcastReceiver {
 
         private HashMap<Object, CharSequence> mLabelCache;
 
-        LoaderTask(Context context, boolean isLaunching) {
+        @SuppressLint("UseSparseArrays")
+		LoaderTask(Context context, boolean isLaunching) {
             mContext = context;
             mIsLaunching = isLaunching;
             mLabelCache = new HashMap<Object, CharSequence>();
             //s  add by zgy
-            sortMap = new HashMap<String, Integer>();
-            sortMap.put("com.autonavi.amapauto", 0);
-            sortMap.put("com.baidu.carlifevehicle", 1);
-            sortMap.put("com.carit.bluetooth", 2);
-            sortMap.put("com.android.music", 3);
-            sortMap.put("com.carit.filemanager", 4);
-            sortMap.put("com.android.settings", 5);
-            sortMap.put("com.carit.radioplayer", 6);
-            sortMap.put("net.easyconn", 7);
-            sortMap.put("com.carit.auxplayer", 8);
-            sortMap.put("com.android.gallery3d", 9);
-            sortMap.put("com.android.browser", 10);
-            
+//            sortMap = new HashMap<Integer, String>();
+            sortList = new ArrayList<String>();
+            sortList.add(0,"com.autonavi.amapauto");
+            sortList.add(1,"com.baidu.carlifevehicle");
+            sortList.add(2,"com.carit.bluetooth");
+            sortList.add(3,"com.android.music");
+            sortList.add(4,"com.carit.filemanager");
+            sortList.add(5,"com.android.settings");
+            sortList.add(6,"com.carit.radioplayer");
+            sortList.add(7,"net.easyconn");
+            sortList.add(8,"com.carit.auxplayer");
+            sortList.add(9,"com.android.gallery3d");
+            sortList.add(10,"com.android.browser");
         }
 
         boolean isLaunching() {
@@ -848,10 +837,6 @@ public class LauncherModel extends BroadcastReceiver {
         private void loadAndBindWorkspace() {
             mIsLoadingAndBindingWorkspace = true;
             // Load the workspace
-            if (DEBUG_LOADERS) {
-                Log.d(TAG, "loadAndBindWorkspace mWorkspaceLoaded---eeeeeee----------->" + mWorkspaceLoaded);
-            }
-
             if (!mWorkspaceLoaded) {
                 loadWorkspace();
                 synchronized (LoaderTask.this) {
@@ -885,7 +870,6 @@ public class LauncherModel extends BroadcastReceiver {
                     try {
                         this.wait();
                     } catch (InterruptedException ex) {
-                        // Ignore
                     }
                 }
                 if (DEBUG_LOADERS) {
@@ -911,10 +895,8 @@ public class LauncherModel extends BroadcastReceiver {
             }
 
             // XXX: Throw an exception if we are already loading (since we touch the worker thread data structures, we can't allow any other thread to touch that data, but because this call is synchronous, we can get away with not locking).
-
             // The LauncherModel is static in the LauncherApplication and mHandler may have queued operations from the previous activity.  We need to ensure that all queued operations are executed before any synchronous binding work is done.
             mHandler.flush();
-
             // Divide the set of loaded items into those that we are binding synchronously, and everything else that is to be bound normally (asynchronously).
             bindWorkspace(synchronousBindPage);
             // XXX: For now, continue posting the binding of AllApps as there are other issues that arise from that.
@@ -1033,8 +1015,7 @@ public class LauncherModel extends BroadcastReceiver {
                     return false;
                 }
 
-                // We use the last index to refer to the hotseat and the screen as the rank, so
-                // test and update the occupied state accordingly
+                // We use the last index to refer to the hotseat and the screen as the rank, so test and update the occupied state accordingly
                 if (occupied[Launcher.SCREEN_COUNT][item.screen][0] != null) {
                     Log.e(TAG, "Error loading shortcut into hotseat " + item + " into position (" + item.screen + ":" + item.cellX + "," + item.cellY + ") occupied by " + occupied[Launcher.SCREEN_COUNT][item.screen][0]);
                     return false;
@@ -1065,14 +1046,12 @@ public class LauncherModel extends BroadcastReceiver {
         }
 
         private void loadWorkspace() {
-            final long t = DEBUG_LOADERS ? SystemClock.uptimeMillis() : 0;
-
+//            final long t = DEBUG_LOADERS ? SystemClock.uptimeMillis() : 0;
             final Context context = mContext;
             final ContentResolver contentResolver = context.getContentResolver();
             final PackageManager manager = context.getPackageManager();
             final AppWidgetManager widgets = AppWidgetManager.getInstance(context);
             final boolean isSafeMode = manager.isSafeMode();
-
             // Make sure the default workspace is loaded, if needed
             mApp.getLauncherProvider().loadDefaultFavoritesIfNecessary(0);
 
@@ -1112,7 +1091,6 @@ public class LauncherModel extends BroadcastReceiver {
                     int container;
                     long id;
                     Intent intent;
-                    
 
                     while (!mStopped && c.moveToNext()) {
                         try {
@@ -1133,10 +1111,7 @@ public class LauncherModel extends BroadcastReceiver {
                                 } else {
                                     info = getShortcutInfo(c, context, iconTypeIndex, iconPackageIndex, iconResourceIndex, iconIndex, titleIndex);
                                     // App shortcuts that used to be automatically added to Launcher didn't always have the correct intent flags set, so do that here
-                                    if (intent.getAction() != null &&
-                                        intent.getCategories() != null &&
-                                        intent.getAction().equals(Intent.ACTION_MAIN) &&
-                                        intent.getCategories().contains(Intent.CATEGORY_LAUNCHER)) {
+                                    if (intent.getAction() != null && intent.getCategories() != null && intent.getAction().equals(Intent.ACTION_MAIN) && intent.getCategories().contains(Intent.CATEGORY_LAUNCHER)) {
                                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
                                     }
                                 }
@@ -1530,7 +1505,6 @@ public class LauncherModel extends BroadcastReceiver {
                     if (DEBUG_LOADERS) {
                         Log.d(TAG, "bound workspace in " + (SystemClock.uptimeMillis()-t) + "ms");
                     }
-
                     mIsLoadingAndBindingWorkspace = false;
                 }
             };
@@ -1634,22 +1608,45 @@ public class LauncherModel extends BroadcastReceiver {
                     } else {
                         batchSize = mBatchSize;
                     }
-                    
-                    Collections.sort(apps, new LauncherModel.ShortcutNameComparator(packageManager, mLabelCache));
-//                    final long sortTime = DEBUG_LOADERS ? SystemClock.uptimeMillis() : 0;
-//                    if (DEBUG_LOADERS) {
-//                        Log.d(TAG, "sort took " + (SystemClock.uptimeMillis()-sortTime) + "ms");
-//                    }
+//                    Collections.sort(apps, new LauncherModel.ShortcutNameComparator(packageManager, mLabelCache));  // del by zgy
                 }
 
-//                final long t2 = DEBUG_LOADERS ? SystemClock.uptimeMillis() : 0;
-
-//                startIndex = i;
                 for (int j=0; i<N && j<batchSize; j++) {
                     // This builds the icon bitmaps.
-                    mBgAllAppsList.add(new ApplicationInfo(packageManager, apps.get(i), mIconCache, mLabelCache));
+                	String packageName = apps.get(i).activityInfo.packageName;
+//                	boolean b = apps.get(i).isDefault;
+//                	Log.d(TAG, "paclageName--->"+packageName+"/ isDefault-->"+b);
+                	
+//                	if(! sortMap.get(i).equals(packageName)){
+//                		sortMap.put(10+j, packageName);
+//                	}
+                	if(sortList.get(j).equals(packageName)){
+                		return;
+                	} else {
+                		sortList.add(packageName);
+                	}
+//                	mBgAllAppsList.add(new ApplicationInfo(packageManager, apps.get(i), mIconCache, mLabelCache));
+                	Log.d(TAG, "addPackage--->"+ sortList.get(j));
+                	mBgAllAppsList.addPackage(mApp, sortList.get(j));
                     i++;
                 }
+                
+                /**
+                List<HashMap.Entry<Integer, String>> tempList = new ArrayList<HashMap.Entry<Integer, String>>(sortMap.entrySet());  
+                Collections.sort(tempList, new Comparator<HashMap.Entry<Integer, String>>() {  
+                    @Override  
+                    public int compare(Entry<Integer, String> o1, Entry<Integer, String> o2) {  
+                        //return o1.getValue().compareTo(o2.getValue());  
+                        return o2.getValue().compareTo(o1.getValue());  
+                    }  
+                });  
+                
+                for(int h = 0; h < sortMap.size(); h++){
+//                	Log.d(TAG, "排序的Map------->"+sortMap.get(h));
+                	mBgAllAppsList.addPackage(mApp, sortMap.get(h));
+//                	mBgAllAppsList.add(new ApplicationInfo(sortpackageManager, apps.get(i), mIconCache, mLabelCache));
+                }
+              **/
 
                 final boolean first = i <= batchSize;
                 final Callbacks callbacks = tryGetCallbacks(oldCallbacks);
@@ -1658,39 +1655,22 @@ public class LauncherModel extends BroadcastReceiver {
 
                 mHandler.post(new Runnable() {
                     public void run() {
-//                        final long t = SystemClock.uptimeMillis();
                         if (callbacks != null) {
                             if (first) {
                                 callbacks.bindAllApplications(added);
                             } else {
                                 callbacks.bindAppsAdded(added);
                             }
-//                            if (DEBUG_LOADERS) {
-//                                Log.d(TAG, "bound " + added.size() + " apps in " + (SystemClock.uptimeMillis() - t) + "ms");
-//                            }
                         }
-//                        else {
-//                            Log.i(TAG, "not binding apps: no Launcher activity");
-//                        }
                     }
                 });
 
-//                if (DEBUG_LOADERS) {
-//                    Log.d(TAG, "batch of ---111 llllllooooo---------->" + (i-startIndex) + " icons processed in " + (SystemClock.uptimeMillis()-t2) + "ms");
-//                }
-
                 if (mAllAppsLoadDelay > 0 && i < N) {
                     try {
-//                        if (DEBUG_LOADERS) {
-//                            Log.d(TAG, "sleeping for " + mAllAppsLoadDelay + "ms");
-//                        }
                         Thread.sleep(mAllAppsLoadDelay);
                     } catch (InterruptedException exc) { }
                 }
             }
-//            if (DEBUG_LOADERS) {
-//                Log.d(TAG, "cached all " + N + " apps in " + (SystemClock.uptimeMillis()-t) + "ms" + (mAllAppsLoadDelay > 0 ? " (including delay)" : ""));
-//            }
         }
 
         public void dumpState() {
@@ -1762,8 +1742,7 @@ public class LauncherModel extends BroadcastReceiver {
                 modified = new ArrayList<ApplicationInfo>(mBgAllAppsList.modified);
                 mBgAllAppsList.modified.clear();
             }
-            // We may be removing packages that have no associated launcher application, so we pass through the removed package names directly.
-            // We flush the icon cache aggressively in removePackage() above.
+            // We may be removing packages that have no associated launcher application, so we pass through the removed package names directly. We flush the icon cache aggressively in removePackage() above.
             final ArrayList<String> removedPackageNames = new ArrayList<String>();
             if (mBgAllAppsList.removed.size() > 0) {
                 mBgAllAppsList.removed.clear();
@@ -2184,6 +2163,7 @@ public class LauncherModel extends BroadcastReceiver {
     
     
     // zgy install time  sssssssssssss
+    /**
     public static class ShortcutNameComparator implements Comparator<ResolveInfo> {
         private Collator mCollator;
         private PackageManager mPackageManager;
@@ -2241,6 +2221,7 @@ public class LauncherModel extends BroadcastReceiver {
 			return 0;
 		}
     };
+    **/
     
     public static class WidgetAndShortcutNameComparator implements Comparator<Object> {
         private Collator mCollator;

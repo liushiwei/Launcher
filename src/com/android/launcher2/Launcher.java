@@ -23,7 +23,6 @@ import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.SearchManager;
-import android.app.WallpaperManager;
 import android.appwidget.AppWidgetHostView;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProviderInfo;
@@ -44,10 +43,8 @@ import android.content.res.Resources;
 import android.database.ContentObserver;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -302,12 +299,12 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 
         // If we are getting an onCreate, we can actually preempt onResume and unset mPaused here, this also ensures that any synchronous binding below doesn't re-trigger another LauncherModel load.
         mPaused = false;
-        WallpaperManager wpm = (WallpaperManager) getSystemService(Context.WALLPAPER_SERVICE);
-        try {
-			wpm.setResource(R.drawable.workspace_bg);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//        WallpaperManager wpm = (WallpaperManager) getSystemService(Context.WALLPAPER_SERVICE);
+//        try {
+//			wpm.setResource(R.drawable.workspace_bg);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
         if (PROFILE_STARTUP) {
             android.os.Debug.startMethodTracing(Environment.getExternalStorageDirectory() + "/launcher");
         }
@@ -1808,8 +1805,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 
     void startApplicationUninstallActivity(ApplicationInfo appInfo) {
         if ((appInfo.flags & ApplicationInfo.DOWNLOADED_FLAG) == 0) {
-            // System applications cannot be installed. For now, show a toast explaining that.
-            // We may give them the option of disabling apps this way.
+            // System applications cannot be installed. For now, show a toast explaining that. We may give them the option of disabling apps this way.
             int messageId = R.string.uninstall_system_app_text;
             Toast.makeText(this, messageId, Toast.LENGTH_SHORT).show();
         } else {
@@ -3138,7 +3134,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
             public void run() {
                 if (mAppsCustomizeContent != null) {
                 	for (int i = 0; i < apps.size(); i++) {
-						Log.e(TAG, "apps-wwwwwwwwwwwwwwww-11->"+apps.get(i).componentName.getPackageName());
+						Log.e(TAG, "apps-wwwwwwwwwwwwwwww-11->"+apps.get(i).title);
 					}
                     mAppsCustomizeContent.setApps(apps);
                 }
@@ -3161,6 +3157,10 @@ public final class Launcher extends Activity implements View.OnClickListener, On
     public void bindAppsAdded(ArrayList<ApplicationInfo> apps) {
         setLoadOnResume();
         if (mAppsCustomizeContent != null) {
+        	
+        	for (int i = 0; i < apps.size(); i++) {
+				Log.d(TAG, "bindAppsAdded---->"+apps.get(i).toString());
+			}
             mAppsCustomizeContent.addApps(apps);
         }
     }

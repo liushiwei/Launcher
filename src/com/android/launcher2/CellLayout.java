@@ -68,14 +68,14 @@ public class CellLayout extends ViewGroup {
     private ArrayList<FolderRingAnimator> mFolderOuterRings = new ArrayList<FolderRingAnimator>();
     private int[] mFolderLeaveBehindCell = {-1, -1};
 
-    private int mForegroundAlpha = 0;
+//    private int mForegroundAlpha = 0;
     private float mBackgroundAlpha;
     private float mBackgroundAlphaMultiplier = 1.0f;
 
     private Drawable mNormalBackground;
     private Drawable mActiveGlowBackground;
-    private Drawable mOverScrollForegroundDrawable;
     // delete by zgy
+//    private Drawable mOverScrollForegroundDrawable;
 //    private Drawable mOverScrollLeft;
 //    private Drawable mOverScrollRight;
     private Rect mBackgroundRect;
@@ -177,7 +177,7 @@ public class CellLayout extends ViewGroup {
         mActiveGlowBackground = res.getDrawable(R.drawable.homescreen_blue_strong_holo);
 //        mOverScrollLeft = res.getDrawable(R.drawable.overscroll_glow_left);
 //        mOverScrollRight = res.getDrawable(R.drawable.overscroll_glow_right);
-        mOverScrollForegroundDrawable = res.getDrawable(R.drawable.overscroll_glow_left);
+//        mOverScrollForegroundDrawable = res.getDrawable(R.drawable.overscroll_glow_left);
         
         mForegroundPadding = res.getDimensionPixelSize(R.dimen.workspace_overscroll_drawable_padding);
 
@@ -290,16 +290,16 @@ public class CellLayout extends ViewGroup {
     }
 
     // zgy del
-    void setOverScrollAmount(float r, boolean left) {
+//    void setOverScrollAmount(float r, boolean left) {
 //        if (left && mOverScrollForegroundDrawable != mOverScrollLeft) {
 //            mOverScrollForegroundDrawable = mOverScrollLeft;
 //        } else if (!left && mOverScrollForegroundDrawable != mOverScrollRight) {
 //            mOverScrollForegroundDrawable = mOverScrollRight;
 //        }
-        mForegroundAlpha = (int) Math.round((r * 255));
-        mOverScrollForegroundDrawable.setAlpha(mForegroundAlpha);
-        invalidate();
-    }
+//        mForegroundAlpha = (int) Math.round((r * 255));
+//        mOverScrollForegroundDrawable.setAlpha(mForegroundAlpha);
+//        invalidate();
+//    }
 
     void setPressedOrFocusedIcon(BubbleTextView icon) {
         // We draw the pressed or focused BubbleTextView's background in CellLayout because it requires an expanded clip rect (due to the glow's blur radius)
@@ -334,7 +334,7 @@ public class CellLayout extends ViewGroup {
             setTranslationX(0);
             setRotationY(0);
             // It doesn't matter if we pass true or false here, the important thing is that we pass 0, which results in the overscroll drawable not being drawn any more.
-            setOverScrollAmount(0, false);
+//            setOverScrollAmount(0, false);
             setPivotX(getMeasuredWidth() / 2);
             setPivotY(getMeasuredHeight() / 2);
         }
@@ -471,13 +471,14 @@ public class CellLayout extends ViewGroup {
     @Override
     protected void dispatchDraw(Canvas canvas) {
         super.dispatchDraw(canvas);
-        if (mForegroundAlpha > 0) {
+        // del by zgy
+      /*  if (mForegroundAlpha > 0) {
             mOverScrollForegroundDrawable.setBounds(mForegroundRect);
             Paint p = ((NinePatchDrawable) mOverScrollForegroundDrawable).getPaint();
             p.setXfermode(sAddBlendMode);
             mOverScrollForegroundDrawable.draw(canvas);
             p.setXfermode(null);
-        }
+        }*/
     }
 
     public void showFolderAccept(FolderRingAnimator fra) {
