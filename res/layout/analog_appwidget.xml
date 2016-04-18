@@ -22,6 +22,11 @@
         android:gravity="center_vertical"
         android:orientation="vertical" >
 
+        <!--
+            android:format12Hour="@string/main_widget_12_hours_format"
+            android:format24Hour="@string/clock_24_hours_format"
+        -->
+
         <TextClock
             android:id="@+id/timeTv"
             style="@style/small_thin"
@@ -29,7 +34,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|top"
             android:baselineAligned="true"
-            android:format12Hour="@string/widget_12_format"
+            android:format12Hour="@string/main_widget_12_hours_format"
+            android:format24Hour="@string/clock_24_hours_format"
             android:gravity="center_horizontal"
             android:textSize="140sp" />
 
@@ -39,14 +45,19 @@
             android:gravity="center_vertical|center_horizontal"
             android:orientation="horizontal" >
 
+            <!-- android:format24Hour="@string/widget_year_month_day" -->
+
             <TextClock
                 android:id="@+id/dateTv"
                 style="@style/small_thin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:format12Hour="@string/widget_year_month_day"
+                android:format24Hour="@string/widget_year_month_day"
                 android:gravity="center"
                 android:textSize="50sp" />
+
+            <!-- android:format24Hour="@string/widget_week_format" -->
 
             <TextClock
                 android:id="@+id/weekTv"
@@ -54,6 +65,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:format12Hour="@string/widget_week_format"
+                android:format24Hour="@string/widget_week_format"
                 android:textSize="40sp"
                 android:typeface="serif" />
         </LinearLayout>
