@@ -2413,7 +2413,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         showHotseat(animated);
         if (animated) {
             final LauncherViewPropertyAnimator scaleAnim = new LauncherViewPropertyAnimator(fromView);
-            scaleAnim.scaleX(scaleFactor).scaleY(scaleFactor).setDuration(duration).setInterpolator(new Workspace.ZoomInInterpolator());
+            scaleAnim.scaleX(1).scaleY(1).setDuration(duration).setInterpolator(new Workspace.ZoomInInterpolator());
 
             final ObjectAnimator alphaAnim = ObjectAnimator.ofFloat(fromView, "alpha", 1f, 0f).setDuration(fadeOutDuration);
             alphaAnim.setInterpolator(new AccelerateDecelerateInterpolator());
