@@ -1075,7 +1075,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
                 updateRunning();
             }else if(AllAppWidgetProvider.CLICK_ACTION.equals(action)){ // zgy all
             	if (!isAllAppsVisible()) {
-            		Log.d(TAG, "AllAppWidgetProvider.CLICK_ACTION------------>");
+//            		Log.d(TAG, "AllAppWidgetProvider.CLICK_ACTION------------>");
         			showAllApps(true);
         		}
             }
@@ -3071,15 +3071,16 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         AnimatorSet anim = LauncherAnimUtils.createAnimatorSet();
         Collection<Animator> bounceAnims = new ArrayList<Animator>();
         // Order these new views spatially so that they animate in order
-        Collections.sort(mNewShortcutAnimateViews, new Comparator<View>() {
-            @Override
-            public int compare(View a, View b) {
-                CellLayout.LayoutParams alp = (CellLayout.LayoutParams) a.getLayoutParams();
-                CellLayout.LayoutParams blp = (CellLayout.LayoutParams) b.getLayoutParams();
-                int cellCountX = LauncherModel.getCellCountX();
-                return (alp.cellY * cellCountX + alp.cellX) - (blp.cellY * cellCountX + blp.cellX);
-            }
-        });
+        //del by zgy
+//        Collections.sort(mNewShortcutAnimateViews, new Comparator<View>() {
+//            @Override
+//            public int compare(View a, View b) {
+//                CellLayout.LayoutParams alp = (CellLayout.LayoutParams) a.getLayoutParams();
+//                CellLayout.LayoutParams blp = (CellLayout.LayoutParams) b.getLayoutParams();
+//                int cellCountX = LauncherModel.getCellCountX();
+//                return (alp.cellY * cellCountX + alp.cellX) - (blp.cellY * cellCountX + blp.cellX);
+//            }
+//        });
 
         // Animate each of the views in place (or show them immediately if requested)
         if (immediate) {
@@ -3173,6 +3174,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         }
 
         if (mAppsCustomizeContent != null) {
+        	Log.d(TAG, "bindAppsUpdated | mAppsCustomizeContent != null--------------------------->");
             mAppsCustomizeContent.updateApps(apps);
         }
     }

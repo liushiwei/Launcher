@@ -10,7 +10,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-
 import android.annotation.SuppressLint;
 import android.app.SearchManager;
 import android.appwidget.AppWidgetManager;
@@ -42,7 +41,6 @@ import android.os.Process;
 import android.os.RemoteException;
 import android.os.SystemClock;
 import android.util.Log;
-
 import com.android.launcher.R;
 import com.android.launcher2.InstallWidgetReceiver.WidgetMimeTypeHandlerData;
 
@@ -104,7 +102,13 @@ public class LauncherModel extends BroadcastReceiver {
     
     //
 //    private static HashMap<Integer, String> sortMap;
-      private static ArrayList<String> sortList; 
+//      public static ArrayList<String> sortList; 
+      private final int UNKNOW_APP = 0;
+      private final int USER_APP = 1;  
+      public static final int SYSTEM_APP = 2; 
+      public static final int SYSTEM_UPDATE_APP = 4; 
+      private final int SYSTEM_REF_APP = SYSTEM_APP | SYSTEM_UPDATE_APP;
+      // add end
     
     // </ only access in worker thread >
     private IconCache mIconCache;
@@ -458,10 +462,8 @@ public class LauncherModel extends BroadcastReceiver {
         item.container = container;
         item.cellX = cellX;
         item.cellY = cellY;
-        // We store hotseat items in canonical form which is this orientation invariant position
-        // in the hotseat
-        if (context instanceof Launcher && screen < 0 &&
-                container == LauncherSettings.Favorites.CONTAINER_HOTSEAT) {
+        // We store hotseat items in canonical form which is this orientation invariant position in the hotseat
+        if (context instanceof Launcher && screen < 0 && container == LauncherSettings.Favorites.CONTAINER_HOTSEAT) {
             item.screen = ((Launcher) context).getHotseat().getOrderInHotseat(cellX, cellY);
         } else {
             item.screen = screen;
@@ -590,7 +592,6 @@ public class LauncherModel extends BroadcastReceiver {
     /*** Remove the contents of the specified folder from the database */
     static void deleteFolderContentsFromDatabase(Context context, final FolderInfo info) {
         final ContentResolver cr = context.getContentResolver();
-
         Runnable r = new Runnable() {
             public void run() {
                 cr.delete(LauncherSettings.Favorites.getContentUri(info.id, false), null, null);
@@ -625,8 +626,7 @@ public class LauncherModel extends BroadcastReceiver {
     /** Call from the handler for ACTION_PACKAGE_ADDED, ACTION_PACKAGE_REMOVED and ACTION_PACKAGE_CHANGED. */
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (DEBUG_LOADERS) Log.d(TAG, "onReceive intent=" + intent);
-
+//        if (DEBUG_LOADERS) Log.d(TAG, "onReceive intent=" + intent);
         final String action = intent.getAction();
 
         if (Intent.ACTION_PACKAGE_CHANGED.equals(action) || Intent.ACTION_PACKAGE_REMOVED.equals(action) || Intent.ACTION_PACKAGE_ADDED.equals(action)) {
@@ -812,6 +812,7 @@ public class LauncherModel extends BroadcastReceiver {
             mLabelCache = new HashMap<Object, CharSequence>();
             //s  add by zgy
 //            sortMap = new HashMap<Integer, String>();
+            /**
             sortList = new ArrayList<String>();
             sortList.add(0,"com.autonavi.amapauto");
             sortList.add(1,"com.baidu.carlifevehicle");
@@ -824,6 +825,7 @@ public class LauncherModel extends BroadcastReceiver {
             sortList.add(8,"com.carit.auxplayer");
             sortList.add(9,"com.android.gallery3d");
             sortList.add(10,"com.android.browser");
+            **/
         }
 
         boolean isLaunching() {
@@ -1569,7 +1571,6 @@ public class LauncherModel extends BroadcastReceiver {
             final Callbacks oldCallbacks = mCallbacks.get();
             if (oldCallbacks == null) {
                 // This launcher has exited and nobody bothered to tell us.  Just bail.
-                Log.w(TAG, "LoaderTask running with no launcher (loadAllAppsByBatch)--------------->");
                 return;
             }
 
@@ -1581,24 +1582,17 @@ public class LauncherModel extends BroadcastReceiver {
 
             int N = Integer.MAX_VALUE;
 
-//            int startIndex;
             int i=0;
             int batchSize = -1;
             while (i < N && !mStopped) {
                 if (i == 0) {
                     mBgAllAppsList.clear();
-                    final long qiaTime = DEBUG_LOADERS ? SystemClock.uptimeMillis() : 0;
+                    
                     apps = packageManager.queryIntentActivities(mainIntent, 0);
-                    if (DEBUG_LOADERS) {
-                        Log.d(TAG, "queryIntentActivities took " + (SystemClock.uptimeMillis()-qiaTime) + "ms");
-                    }
                     if (apps == null) {
                         return;
                     }
                     N = apps.size();
-                    if (DEBUG_LOADERS) {
-                        Log.d(TAG, "queryIntentActivities got " + N + " apps");
-                    }
                     if (N == 0) {
                         // There are no apps?!?
                         return;
@@ -1611,42 +1605,12 @@ public class LauncherModel extends BroadcastReceiver {
 //                    Collections.sort(apps, new LauncherModel.ShortcutNameComparator(packageManager, mLabelCache));  // del by zgy
                 }
 
-                for (int j=0; i<N && j<batchSize; j++) {
-                    // This builds the icon bitmaps.
+                // This builds the icon bitmaps. Modify by zgy
+                for (int j = 0; i < N && j < batchSize; j++) {
                 	String packageName = apps.get(i).activityInfo.packageName;
-//                	boolean b = apps.get(i).isDefault;
-//                	Log.d(TAG, "paclageName--->"+packageName+"/ isDefault-->"+b);
-                	
-//                	if(! sortMap.get(i).equals(packageName)){
-//                		sortMap.put(10+j, packageName);
-//                	}
-                	if(sortList.get(j).equals(packageName)){
-                		return;
-                	} else {
-                		sortList.add(packageName);
-                	}
-//                	mBgAllAppsList.add(new ApplicationInfo(packageManager, apps.get(i), mIconCache, mLabelCache));
-                	Log.d(TAG, "addPackage--->"+ sortList.get(j));
-                	mBgAllAppsList.addPackage(mApp, sortList.get(j));
+                	mBgAllAppsList.addPackage(mApp, packageName);
                     i++;
                 }
-                
-                /**
-                List<HashMap.Entry<Integer, String>> tempList = new ArrayList<HashMap.Entry<Integer, String>>(sortMap.entrySet());  
-                Collections.sort(tempList, new Comparator<HashMap.Entry<Integer, String>>() {  
-                    @Override  
-                    public int compare(Entry<Integer, String> o1, Entry<Integer, String> o2) {  
-                        //return o1.getValue().compareTo(o2.getValue());  
-                        return o2.getValue().compareTo(o1.getValue());  
-                    }  
-                });  
-                
-                for(int h = 0; h < sortMap.size(); h++){
-//                	Log.d(TAG, "排序的Map------->"+sortMap.get(h));
-                	mBgAllAppsList.addPackage(mApp, sortMap.get(h));
-//                	mBgAllAppsList.add(new ApplicationInfo(sortpackageManager, apps.get(i), mIconCache, mLabelCache));
-                }
-              **/
 
                 final boolean first = i <= batchSize;
                 final Callbacks callbacks = tryGetCallbacks(oldCallbacks);
@@ -1683,7 +1647,7 @@ public class LauncherModel extends BroadcastReceiver {
             }
         }
     }
-
+    
     void enqueuePackageUpdated(PackageUpdatedTask task) {
         sWorker.post(task);
     }
@@ -2123,10 +2087,11 @@ public class LauncherModel extends BroadcastReceiver {
         return folderInfo;
     }
 
-    public static final Comparator<ApplicationInfo> getAppNameComparator() {
+    // del by zgy
+   public static final Comparator<ApplicationInfo> getAppNameComparator() {
         final Collator collator = Collator.getInstance();
         return new Comparator<ApplicationInfo>() {
-            public final int compare(ApplicationInfo a, ApplicationInfo b) {
+            public final int compare(ApplicationInfo a, ApplicationInfo b) {           	
                 int result = collator.compare(a.title.toString(), b.title.toString());
                 if (result == 0) {
                     result = a.componentName.compareTo(b.componentName);
@@ -2135,6 +2100,7 @@ public class LauncherModel extends BroadcastReceiver {
             }
         };
     }
+    
     
     public static final Comparator<ApplicationInfo> APP_INSTALL_TIME_COMPARATOR = new Comparator<ApplicationInfo>() {
         public final int compare(ApplicationInfo a, ApplicationInfo b) {
