@@ -71,8 +71,7 @@ public class LauncherApplication extends Application {
 
         // Register for changes to the favorites
         ContentResolver resolver = getContentResolver();
-        resolver.registerContentObserver(LauncherSettings.Favorites.CONTENT_URI, true,
-                mFavoritesObserver);
+        resolver.registerContentObserver(LauncherSettings.Favorites.CONTENT_URI, true, mFavoritesObserver);
     }
 
     /**

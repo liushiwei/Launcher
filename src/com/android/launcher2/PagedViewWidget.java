@@ -45,9 +45,9 @@ public class PagedViewWidget extends LinearLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
         final ImageView image = (ImageView) findViewById(R.id.widget_preview);
-        mOriginalImagePadding.left = image.getPaddingLeft();
-        mOriginalImagePadding.top = image.getPaddingTop();
-        mOriginalImagePadding.right = image.getPaddingRight();
+        mOriginalImagePadding.left = image.getPaddingLeft() + 10;
+        mOriginalImagePadding.top = image.getPaddingTop() + 10;
+        mOriginalImagePadding.right = image.getPaddingRight() + 10;
         mOriginalImagePadding.bottom = image.getPaddingBottom();
     }
 

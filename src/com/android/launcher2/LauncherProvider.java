@@ -153,7 +153,6 @@ public class LauncherProvider extends ContentProvider {
         } finally {
             db.endTransaction();
         }
-
         sendNotify(uri);
         return values.length;
     }
@@ -164,18 +163,15 @@ public class LauncherProvider extends ContentProvider {
         SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         int count = db.delete(args.table, args.where, args.args);
         if (count > 0) sendNotify(uri);
-
         return count;
     }
 
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         SqlArguments args = new SqlArguments(uri, selection, selectionArgs);
-
         SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         int count = db.update(args.table, values, args.where, args.args);
         if (count > 0) sendNotify(uri);
-
         return count;
     }
 
@@ -202,7 +198,7 @@ public class LauncherProvider extends ContentProvider {
             // Use default workspace resource if none provided
             if (workspaceResId == 0) { 
             	int defaultXmlId = R.xml.default_workspace;
-            	String version = CaritUtil.getCaritVersion2();
+//            	String version = CaritUtil.getCaritVersion2();
 //            	if(version.contains("teana_en")){
 //            		defaultXmlId = R.xml.default_workspace_teana_en;
 //            	}else if(version.contains("teana") ||
@@ -555,7 +551,6 @@ public class LauncherProvider extends ContentProvider {
                     c.close();
                 }
             }
-
             return true;
         }
 
@@ -684,19 +679,11 @@ public class LauncherProvider extends ContentProvider {
                         db.update(TABLE_FAVORITES, values, updateWhere, null);
 
                         if (favoriteType == Favorites.ITEM_TYPE_WIDGET_CLOCK) {
-                            // TODO: check return value
-                            appWidgetManager.bindAppWidgetIdIfAllowed(appWidgetId,
-                                    new ComponentName("com.android.alarmclock",
-                                    "com.android.alarmclock.AnalogAppWidgetProvider"));
+                            appWidgetManager.bindAppWidgetIdIfAllowed(appWidgetId, new ComponentName("com.android.alarmclock", "com.android.alarmclock.AnalogAppWidgetProvider"));
                         } else if (favoriteType == Favorites.ITEM_TYPE_WIDGET_PHOTO_FRAME) {
-                            // TODO: check return value
-                            appWidgetManager.bindAppWidgetIdIfAllowed(appWidgetId,
-                                    new ComponentName("com.android.camera",
-                                    "com.android.camera.PhotoAppWidgetProvider"));
+                            appWidgetManager.bindAppWidgetIdIfAllowed(appWidgetId, new ComponentName("com.android.camera", "com.android.camera.PhotoAppWidgetProvider"));
                         } else if (favoriteType == Favorites.ITEM_TYPE_WIDGET_SEARCH) {
-                            // TODO: check return value
-                            appWidgetManager.bindAppWidgetIdIfAllowed(appWidgetId,
-                                    getSearchWidgetProvider());
+                            appWidgetManager.bindAppWidgetIdIfAllowed(appWidgetId, getSearchWidgetProvider());
                         }
                     } catch (RuntimeException ex) {
                         Log.e(TAG, "Problem allocating appWidgetId", ex);
@@ -714,11 +701,9 @@ public class LauncherProvider extends ContentProvider {
             }
         }
 
-        private static final void beginDocument(XmlPullParser parser, String firstElementName)
-                throws XmlPullParserException, IOException {
+        private static final void beginDocument(XmlPullParser parser, String firstElementName) throws XmlPullParserException, IOException {
             int type;
-            while ((type = parser.next()) != XmlPullParser.START_TAG
-                    && type != XmlPullParser.END_DOCUMENT) {
+            while ((type = parser.next()) != XmlPullParser.START_TAG && type != XmlPullParser.END_DOCUMENT) {
                 ;
             }
 
@@ -727,14 +712,12 @@ public class LauncherProvider extends ContentProvider {
             }
 
             if (!parser.getName().equals(firstElementName)) {
-                throw new XmlPullParserException("Unexpected start tag: found " + parser.getName() +
-                        ", expected " + firstElementName);
+                throw new XmlPullParserException("Unexpected start tag: found " + parser.getName() + ", expected " + firstElementName);
             }
         }
 
         /**
          * Loads the default set of favorite packages from an xml file.
-         *
          * @param db The database to write the values into
          * @param filterContainerId The specific container id of items to load
          */
@@ -744,8 +727,7 @@ public class LauncherProvider extends ContentProvider {
             ContentValues values = new ContentValues();
 
             PackageManager packageManager = mContext.getPackageManager();
-            int allAppsButtonRank =
-                    mContext.getResources().getInteger(R.integer.hotseat_all_apps_index);
+            int allAppsButtonRank = mContext.getResources().getInteger(R.integer.hotseat_all_apps_index);
             int i = 0;
             try {
                 XmlResourceParser parser = mContext.getResources().getXml(workspaceResourceId);
@@ -755,8 +737,7 @@ public class LauncherProvider extends ContentProvider {
                 final int depth = parser.getDepth();
 
                 int type;
-                while (((type = parser.next()) != XmlPullParser.END_TAG ||
-                        parser.getDepth() > depth) && type != XmlPullParser.END_DOCUMENT) {
+                while (((type = parser.next()) != XmlPullParser.END_TAG || parser.getDepth() > depth) && type != XmlPullParser.END_DOCUMENT) {
 
                     if (type != XmlPullParser.START_TAG) {
                         continue;
@@ -776,11 +757,8 @@ public class LauncherProvider extends ContentProvider {
                     String x = a.getString(R.styleable.Favorite_x);
                     String y = a.getString(R.styleable.Favorite_y);
 
-                    // If we are adding to the hotseat, the screen is used as the position in the
-                    // hotseat. This screen can't be at position 0 because AllApps is in the
-                    // zeroth position.
-                    if (container == LauncherSettings.Favorites.CONTAINER_HOTSEAT
-                            && Integer.valueOf(screen) == allAppsButtonRank) {
+                    // If we are adding to the hotseat, the screen is used as the position in the hotseat. This screen can't be at position 0 because AllApps is in the zeroth position.
+                    if (container == LauncherSettings.Favorites.CONTAINER_HOTSEAT && Integer.valueOf(screen) == allAppsButtonRank) {
                         throw new RuntimeException("Invalid screen position for hotseat item");
                     }
 
@@ -829,8 +807,7 @@ public class LauncherProvider extends ContentProvider {
                             values.put(LauncherSettings.Favorites.CONTAINER, folderId);
 
                             if (TAG_FAVORITE.equals(folder_item_name) && folderId >= 0) {
-                                long id =
-                                    addAppShortcut(db, values, ar, packageManager, intent);
+                                long id = addAppShortcut(db, values, ar, packageManager, intent);
                                 if (id >= 0) {
                                     folderItems.add(id);
                                 }
@@ -878,8 +855,7 @@ public class LauncherProvider extends ContentProvider {
                     cn = new ComponentName(packageName, className);
                     info = packageManager.getActivityInfo(cn, 0);
                 } catch (PackageManager.NameNotFoundException nnfe) {
-                    String[] packages = packageManager.currentToCanonicalPackageNames(
-                        new String[] { packageName });
+                    String[] packages = packageManager.currentToCanonicalPackageNames(new String[] { packageName });
                     cn = new ComponentName(packages[0], className);
                     info = packageManager.getActivityInfo(cn, 0);
                 }
@@ -1004,7 +980,6 @@ public class LauncherProvider extends ContentProvider {
         private boolean addAppWidget(SQLiteDatabase db, ContentValues values, ComponentName cn, int spanX, int spanY, Bundle extras) {
             boolean allocatedAppWidgets = false;
             final AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(mContext);
-
             try {
                 int appWidgetId = mAppWidgetHost.allocateAppWidgetId();
 
@@ -1035,10 +1010,8 @@ public class LauncherProvider extends ContentProvider {
             return allocatedAppWidgets;
         }
 
-        private long addUriShortcut(SQLiteDatabase db, ContentValues values,
-                TypedArray a) {
+        private long addUriShortcut(SQLiteDatabase db, ContentValues values, TypedArray a) {
             Resources r = mContext.getResources();
-
             final int iconResId = a.getResourceId(R.styleable.Favorite_icon, 0);
             final int titleResId = a.getResourceId(R.styleable.Favorite_title, 0);
 
@@ -1076,10 +1049,7 @@ public class LauncherProvider extends ContentProvider {
         }
     }
 
-    /**
-     * Build a query string that will match any row where the column matches
-     * anything in the values list.
-     */
+    /** Build a query string that will match any row where the column matches anything in the values list. */
     static String buildOrWhereString(String column, int[] values) {
         StringBuilder selectWhere = new StringBuilder();
         for (int i = values.length - 1; i >= 0; i--) {

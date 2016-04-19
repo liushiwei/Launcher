@@ -63,6 +63,51 @@ class ApplicationInfo extends ItemInfo {
         flags = info.flags;
         firstInstallTime = info.firstInstallTime;
     }
+    
+    // add by zgy
+	public int getSortId() {
+		String s = componentName.getClassName()/* title.toString() */;
+		if (s.equals("com.autonavi.auto.remote.fill.UsbFillActivity")) {
+			return 1;
+		}else if(s.equals("com.carit.radioplayer.RedAndBlackActivity")){
+			return 2;
+		}else if(s.equals("com.carit.bluetooth.BluetoothApplication")){
+			return 3;
+		} else if(s.equals("com.android.music.MusicBrowserActivity")){
+			return 4;
+			
+		}else if(s.equals("com.carit.filemanager.FileManagerActivity")){
+			return 5;
+		}else if(s.equals("com.android.settings.CaritSettings")){
+			 return 6;
+		}else if(s.equals("com.baidu.carlifevehicle.CarlifeActivity")){
+			return 7;
+		}else if(s.equals("net.easyconn.WelcomeActivity")){
+			return 8;
+		}else if(s.equals("com.carit.auxplayer.FrontAUXPlayer")){ // HDMI
+			return 9;
+		}else if(s.equals("com.carit.auxplayer.DVRPlayer")){ //行车记录
+			return 10;
+		}else if(s.equals("")){ //胎压测试
+			return 11;
+		}else if(s.equals("")){ // 4G
+			return 12;
+		}else if(s.equals("com.carit.bluetooth.BTMusic")){ // 蓝牙音乐
+			return 13;
+		}else if(s.equals("com.android.gallery3d.app.Video")){ // 视频
+			return 14;
+		}else if(s.equals("com.android.gallery3d.app.GalleryActivity")){ // 图库
+			return 15;
+		}else if(s.equals("com.carit.auxplayer.AUXPlayer")){ // AUX
+			return 16;
+		}else if(s.equals("com.carit.auxplayer.AVPlayer")){ // AV
+			return 17;
+		}else if(s.equals("com.android.music.MusicBrowserActivity")){ //浏览器
+			return 18;
+		}
+		return 100;
+	}
+    //end
 
     /** Returns the package name that the shortcut's intent will resolve to, or an empty string if none exists. */
     String getPackageName() {

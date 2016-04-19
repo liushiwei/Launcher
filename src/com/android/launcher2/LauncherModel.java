@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+
 import android.annotation.SuppressLint;
 import android.app.SearchManager;
 import android.appwidget.AppWidgetManager;
@@ -41,6 +42,7 @@ import android.os.Process;
 import android.os.RemoteException;
 import android.os.SystemClock;
 import android.util.Log;
+
 import com.android.launcher.R;
 import com.android.launcher2.InstallWidgetReceiver.WidgetMimeTypeHandlerData;
 
@@ -99,16 +101,6 @@ public class LauncherModel extends BroadcastReceiver {
 
     // sBgDbIconCache is the set of ItemInfos that need to have their icons updated in the database
     static final HashMap<Object, byte[]> sBgDbIconCache = new HashMap<Object, byte[]>();
-    
-    //
-//    private static HashMap<Integer, String> sortMap;
-//      public static ArrayList<String> sortList; 
-      private final int UNKNOW_APP = 0;
-      private final int USER_APP = 1;  
-      public static final int SYSTEM_APP = 2; 
-      public static final int SYSTEM_UPDATE_APP = 4; 
-      private final int SYSTEM_REF_APP = SYSTEM_APP | SYSTEM_UPDATE_APP;
-      // add end
     
     // </ only access in worker thread >
     private IconCache mIconCache;
@@ -363,10 +355,7 @@ public class LauncherModel extends BroadcastReceiver {
         updateItemInDatabaseHelper(context, values, item, "updateItemInDatabase");
     }
 
-    /**
-     * Returns true if the shortcuts already exists in the database.
-     * we identify a shortcut by its title and intent.
-     */
+    /** Returns true if the shortcuts already exists in the database. we identify a shortcut by its title and intent. */
     static boolean shortcutExists(Context context, String title, Intent intent) {
         final ContentResolver cr = context.getContentResolver();
         Cursor c = cr.query(LauncherSettings.Favorites.CONTENT_URI, new String[] { "title", "intent" }, "title=? and intent=?", new String[] { title, intent.toUri(0) }, null);
@@ -379,10 +368,7 @@ public class LauncherModel extends BroadcastReceiver {
         return result;
     }
 
-    /**
-     * Returns an ItemInfo array containing all the items in the LauncherModel.
-     * The ItemInfo.id is not set through this function.
-     */
+    /**  Returns an ItemInfo array containing all the items in the LauncherModel. The ItemInfo.id is not set through this function.  */
     static ArrayList<ItemInfo> getItemsInLocalCoordinates(Context context) {
         ArrayList<ItemInfo> items = new ArrayList<ItemInfo>();
         final ContentResolver cr = context.getContentResolver();
@@ -415,13 +401,10 @@ public class LauncherModel extends BroadcastReceiver {
         return items;
     }
 
-    /**
-     * Find a folder in the db, creating the FolderInfo if necessary, and adding it to folderList.
-     */
+    /*** Find a folder in the db, creating the FolderInfo if necessary, and adding it to folderList.  */
     FolderInfo getFolderById(Context context, HashMap<Long,FolderInfo> folderList, long id) {
         final ContentResolver cr = context.getContentResolver();
         Cursor c = cr.query(LauncherSettings.Favorites.CONTENT_URI, null, "_id=? and (itemType=? or itemType=?)", new String[] { String.valueOf(id), String.valueOf(LauncherSettings.Favorites.ITEM_TYPE_FOLDER)}, null);
-
         try {
             if (c.moveToFirst()) {
                 final int itemTypeIndex = c.getColumnIndexOrThrow(LauncherSettings.Favorites.ITEM_TYPE);
@@ -453,12 +436,8 @@ public class LauncherModel extends BroadcastReceiver {
         return null;
     }
 
-    /**
-     * Add an item to the database in a specified container. Sets the container, screen, cellX and
-     * cellY fields of the item. Also assigns an ID to the item.
-     */
-    static void addItemToDatabase(Context context, final ItemInfo item, final long container,
-            final int screen, final int cellX, final int cellY, final boolean notify) {
+    /*** Add an item to the database in a specified container. Sets the container, screen, cellX and cellY fields of the item. Also assigns an ID to the item.  */
+    static void addItemToDatabase(Context context, final ItemInfo item, final long container, final int screen, final int cellX, final int cellY, final boolean notify) {
         item.container = container;
         item.cellX = cellX;
         item.cellY = cellY;
@@ -517,9 +496,7 @@ public class LauncherModel extends BroadcastReceiver {
         runOnWorkerThread(r);
     }
 
-    /**
-     * Creates a new unique child id, for a given cell span across all layouts.
-     */
+    /*** Creates a new unique child id, for a given cell span across all layouts.  */
     static int getCellLayoutChildId(long container, int screen, int localCellX, int localCellY, int spanX, int spanY) {
         return (((int) container & 0xFF) << 24) | (screen & 0xFF) << 16 | (localCellX & 0xFF) << 8 | (localCellY & 0xFF);
     }
@@ -532,10 +509,7 @@ public class LauncherModel extends BroadcastReceiver {
         return mCellCountY;
     }
 
-    /**
-     * Updates the model orientation helper to take into account the current layout dimensions
-     * when performing local/canonical coordinate transformations.
-     */
+    /** Updates the model orientation helper to take into account the current layout dimensions when performing local/canonical coordinate transformations. */
     static void updateWorkspaceLayoutCells(int shortAxisCellCount, int longAxisCellCount) {
         mCellCountX = shortAxisCellCount;
         mCellCountY = longAxisCellCount;
@@ -810,22 +784,6 @@ public class LauncherModel extends BroadcastReceiver {
             mContext = context;
             mIsLaunching = isLaunching;
             mLabelCache = new HashMap<Object, CharSequence>();
-            //s  add by zgy
-//            sortMap = new HashMap<Integer, String>();
-            /**
-            sortList = new ArrayList<String>();
-            sortList.add(0,"com.autonavi.amapauto");
-            sortList.add(1,"com.baidu.carlifevehicle");
-            sortList.add(2,"com.carit.bluetooth");
-            sortList.add(3,"com.android.music");
-            sortList.add(4,"com.carit.filemanager");
-            sortList.add(5,"com.android.settings");
-            sortList.add(6,"com.carit.radioplayer");
-            sortList.add(7,"net.easyconn");
-            sortList.add(8,"com.carit.auxplayer");
-            sortList.add(9,"com.android.gallery3d");
-            sortList.add(10,"com.android.browser");
-            **/
         }
 
         boolean isLaunching() {
@@ -1607,8 +1565,9 @@ public class LauncherModel extends BroadcastReceiver {
 
                 // This builds the icon bitmaps. Modify by zgy
                 for (int j = 0; i < N && j < batchSize; j++) {
-                	String packageName = apps.get(i).activityInfo.packageName;
-                	mBgAllAppsList.addPackage(mApp, packageName);
+//                	String packageName = apps.get(i).activityInfo.packageName;
+//                	mBgAllAppsList.addPackage(mApp, packageName);
+                	  mBgAllAppsList.add(new ApplicationInfo(packageManager, apps.get(i), mIconCache, mLabelCache));
                     i++;
                 }
 
@@ -2087,20 +2046,32 @@ public class LauncherModel extends BroadcastReceiver {
         return folderInfo;
     }
 
-    // del by zgy
-   public static final Comparator<ApplicationInfo> getAppNameComparator() {
+    // m by zgy
+  public static final Comparator<ApplicationInfo> getAppNameComparator() {
         final Collator collator = Collator.getInstance();
         return new Comparator<ApplicationInfo>() {
             public final int compare(ApplicationInfo a, ApplicationInfo b) {           	
-                int result = collator.compare(a.title.toString(), b.title.toString());
-                if (result == 0) {
-                    result = a.componentName.compareTo(b.componentName);
-                }
-                return result;
+//                int result = collator.compare(a.title.toString(), b.title.toString());
+//                if (result == 0) {
+//                    result = a.componentName.compareTo(b.componentName);
+//                }
+            	int  aId, bId, result;
+            	aId = a.getSortId();
+            	bId =  b.getSortId();
+            	
+            	if(aId > bId){
+            		result = 1;
+            		
+            	}else if(aId < bId){
+            		result = -1;
+            		
+            	}else{
+            		result = a.componentName.compareTo(b.componentName);
+            	}
+                return   result ;
             }
         };
     }
-    
     
     public static final Comparator<ApplicationInfo> APP_INSTALL_TIME_COMPARATOR = new Comparator<ApplicationInfo>() {
         public final int compare(ApplicationInfo a, ApplicationInfo b) {

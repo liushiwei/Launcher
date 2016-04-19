@@ -4,8 +4,7 @@
     xmlns:launcher="http://schemas.android.com/apk/res/com.android.launcher"
     android:id="@+id/launcher"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/allapp_bg" >
+    android:layout_height="match_parent" >
 
     <com.android.launcher2.DragLayer
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -13,6 +12,7 @@
         android:id="@+id/drag_layer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/mian_pager"
         android:fitsSystemWindows="true" >
 
         <include
@@ -56,8 +56,11 @@
             launcher:pageSpacing="@dimen/workspace_page_spacing"
             launcher:scrollIndicatorPaddingLeft="@dimen/workspace_divider_padding_left"
             launcher:scrollIndicatorPaddingRight="@dimen/workspace_divider_padding_right" >
+
             <include layout="@layout/workspace_screen" />
+
             <include layout="@layout/workspace_screen" />
+
             <include layout="@layout/workspace_screen" />
         </com.android.launcher2.Workspace>
 

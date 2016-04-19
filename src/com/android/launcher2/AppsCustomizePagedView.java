@@ -1558,6 +1558,7 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         updatePageCounts();
         invalidateOnDataChange();
     }
+    
     private int findAppByComponent(List<ApplicationInfo> list, ApplicationInfo item) {
         ComponentName removeComponent = item.intent.getComponent();
         int length = list.size();
@@ -1569,6 +1570,7 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         }
         return -1;
     }
+    
     private int findAppByPackage(List<ApplicationInfo> list, String packageName) {
         int length = list.size();
         for (int i = 0; i < length; ++i) {
@@ -1579,6 +1581,7 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         }
         return -1;
     }
+    
     private void removeAppsWithoutInvalidate(ArrayList<ApplicationInfo> list) {
         // loop through all the apps and remove apps that have the same component
         int length = list.size();
@@ -1590,6 +1593,7 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
             }
         }
     }
+    
     private void removeAppsWithPackageNameWithoutInvalidate(ArrayList<String> packageNames) {
         // loop through all the package names and remove apps that have the same package name
         for (String pn : packageNames) {
@@ -1600,11 +1604,13 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
             }
         }
     }
+    
     public void removeApps(ArrayList<String> packageNames) {
         removeAppsWithPackageNameWithoutInvalidate(packageNames);
         updatePageCounts();
         invalidateOnDataChange();
     }
+    
     public void updateApps(ArrayList<ApplicationInfo> list) {
         // We remove and re-add the updated applications list because it's properties may have changed (ie. the title), and this will ensure that the items will be in their proper place in the list.
         removeAppsWithoutInvalidate(list);

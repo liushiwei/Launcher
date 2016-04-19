@@ -82,16 +82,12 @@ public class AppsCustomizeTabHost extends FrameLayout implements LauncherTransit
     @Override
     protected void onFinishInflate() {
         // Setup the tab host
-        final AppsCustomizePagedView appsCustomizePane = (AppsCustomizePagedView)
-                findViewById(R.id.apps_customize_pane_content);
+        final AppsCustomizePagedView appsCustomizePane = (AppsCustomizePagedView)findViewById(R.id.apps_customize_pane_content);
         mAppsCustomizePane = appsCustomizePane;
         mAnimationBuffer = (FrameLayout) findViewById(R.id.animation_buffer);
         mContent = (LinearLayout) findViewById(R.id.apps_customize_content);
         if ( mAppsCustomizePane == null) throw new Resources.NotFoundException();
-
-        // Configure the tabs content factory to return the same paged view (that we change the
-        // content filter on)
-       
+        // Configure the tabs content factory to return the same paged view (that we change the content filter on)
         // Hide the tab bar until we measure
     }
 
@@ -156,9 +152,7 @@ public class AppsCustomizeTabHost extends FrameLayout implements LauncherTransit
     public void setCurrentTabFromContent(AppsCustomizePagedView.ContentType type) {
     }
 
-    /**
-     * Returns the content type for the specified tab tag.
-     */
+    /** Returns the content type for the specified tab tag. */
     public AppsCustomizePagedView.ContentType getContentTypeForTabTag(String tag) {
         if (tag.equals(APPS_TAB_TAG)) {
             return AppsCustomizePagedView.ContentType.Applications;

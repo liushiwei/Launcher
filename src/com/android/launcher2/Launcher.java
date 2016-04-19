@@ -7,8 +7,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -982,9 +980,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
      * @param cellInfo The position on screen where to create the widget.
      */
     private void completeAddAppWidget(final int appWidgetId, long container, int screen, AppWidgetHostView hostView, AppWidgetProviderInfo appWidgetInfo) {
-        if (appWidgetInfo == null) {
-            appWidgetInfo = mAppWidgetManager.getAppWidgetInfo(appWidgetId);
-        }
+        if (appWidgetInfo == null)     appWidgetInfo = mAppWidgetManager.getAppWidgetInfo(appWidgetId);
 
         // Calculate the grid spans needed to fit this widget
         CellLayout layout = getCellLayout(container, screen);
@@ -999,9 +995,11 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         int[] touchXY = mPendingAddInfo.dropPos;
         int[] finalSpan = new int[2];
         boolean foundCellSpan = false;
+        
         if (mPendingAddInfo.cellX >= 0 && mPendingAddInfo.cellY >= 0) {
             cellXY[0] = mPendingAddInfo.cellX;
             cellXY[1] = mPendingAddInfo.cellY;
+            
             spanXY[0] = mPendingAddInfo.spanX;
             spanXY[1] = mPendingAddInfo.spanY;
             foundCellSpan = true;
@@ -1493,8 +1491,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         mPendingAddInfo.dropPos = null;
     }
 
-    void addAppWidgetImpl(final int appWidgetId, ItemInfo info, AppWidgetHostView boundWidget,
-            AppWidgetProviderInfo appWidgetInfo) {
+    void addAppWidgetImpl(final int appWidgetId, ItemInfo info, AppWidgetHostView boundWidget, AppWidgetProviderInfo appWidgetInfo) {
         if (appWidgetInfo.configure != null) {
             mPendingAddWidgetInfo = appWidgetInfo;
             // Launch over to configure widget, if needed
@@ -2966,22 +2963,17 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         workspace.requestLayout();
     }
 
-    /**
-     * Implementation of the method from LauncherModel.Callbacks.
-     */
+    /*** Implementation of the method from LauncherModel.Callbacks.  */
     public void bindFolders(HashMap<Long, FolderInfo> folders) {
         setLoadOnResume();
         sFolders.clear();
         sFolders.putAll(folders);
     }
 
-    /**
-     * Add the views for a widget to the workspace.
-     * Implementation of the method from LauncherModel.Callbacks.
-     */
+    /*** Add the views for a widget to the workspace. Implementation of the method from LauncherModel.Callbacks.
+     * zgy */
     public void bindAppWidget(LauncherAppWidgetInfo item) {
         setLoadOnResume();
-
         final long start = DEBUG_WIDGETS ? SystemClock.uptimeMillis() : 0;
         if (DEBUG_WIDGETS) {
             Log.d(TAG, "bindAppWidget: " + item);
@@ -3002,19 +2994,14 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         workspace.addInScreen(item.hostView, item.container, item.screen, item.cellX, item.cellY, item.spanX, item.spanY, false);
         addWidgetToAutoAdvanceIfNeeded(item.hostView, appWidgetInfo);
         workspace.requestLayout();
-        if (DEBUG_WIDGETS) {
-            Log.d(TAG, "bound widget id="+item.appWidgetId+" in "  + (SystemClock.uptimeMillis()-start) + "ms");
-        }
+        Log.d(TAG, "bound widget id========================>"+item.appWidgetId+" in ");
     }
 
     public void onPageBoundSynchronously(int page) {
         mSynchronouslyBoundPages.add(page);
     }
 
-    /**
-     * Callback saying that there aren't any more items to bind.
-     * Implementation of the method from LauncherModel.Callbacks.
-     */
+    /*** Callback saying that there aren't any more items to bind. Implementation of the method from LauncherModel.Callbacks.  */
     public void finishBindingItems() {
         setLoadOnResume();
         if (mSavedState != null) {
@@ -3131,12 +3118,10 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 
     /*** Add the icons for all apps. Implementation of the method from LauncherModel.Callbacks. */
     public void bindAllApplications(final ArrayList<ApplicationInfo> apps) {
+    	Log.e(TAG, "bindAllApplications--------111111111111----------->");
         Runnable setAllAppsRunnable = new Runnable() {
             public void run() {
                 if (mAppsCustomizeContent != null) {
-                	for (int i = 0; i < apps.size(); i++) {
-						Log.e(TAG, "apps-wwwwwwwwwwwwwwww-11->"+apps.get(i).title);
-					}
                     mAppsCustomizeContent.setApps(apps);
                 }
             }
@@ -3156,18 +3141,16 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 
     /*** A package was installed. Implementation of the method from LauncherModel.Callbacks.  */
     public void bindAppsAdded(ArrayList<ApplicationInfo> apps) {
+    	Log.e(TAG, "bindAppsAdded------------------->");
         setLoadOnResume();
         if (mAppsCustomizeContent != null) {
-        	
-        	for (int i = 0; i < apps.size(); i++) {
-				Log.d(TAG, "bindAppsAdded---->"+apps.get(i).toString());
-			}
             mAppsCustomizeContent.addApps(apps);
         }
     }
 
     /**  A package was updated.  Implementation of the method from LauncherModel.Callbacks.  */
     public void bindAppsUpdated(ArrayList<ApplicationInfo> apps) {
+    	Log.e(TAG, "bindAppsUpdated------------------->");
         setLoadOnResume();
         if (mWorkspace != null) {
             mWorkspace.updateShortcuts(apps);
@@ -3193,6 +3176,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 
     /*** A number of packages were updated. */
     public void bindPackagesUpdated() {
+    	Log.e(TAG, "bindPackagesUpdated------------------->");
         if (mAppsCustomizeContent != null) {
             mAppsCustomizeContent.onPackagesUpdated();
         }

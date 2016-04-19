@@ -274,7 +274,7 @@ s -->
     <!-- Dummy string [CHAR_LIMIT=60]   |  EEEEMMMMdd-->
     <string name="custom_workspace_cling_description_2"></string>
     
-    <string name="widget_app_app">App</string>
+    <string name="widget_app_app">Apps</string>
     <string name="widget_app_filemanager">File Manager</string>
     <string name="widget_app_gallery">Gallery</string>
     <string name="widget_app_market">Market</string>

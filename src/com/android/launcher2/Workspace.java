@@ -504,12 +504,10 @@ public class Workspace extends SmoothPagedView
      * @param spanY The number of cells spanned vertically by the child.
      * @param insert When true, the child is inserted at the beginning of the children list.
      */
-    void addInScreen(View child, long container, int screen, int x, int y, int spanX, int spanY,
-            boolean insert) {
+    void addInScreen(View child, long container, int screen, int x, int y, int spanX, int spanY, boolean insert) {
         if (container == LauncherSettings.Favorites.CONTAINER_DESKTOP) {
             if (screen < 0 || screen >= getChildCount()) {
-                Log.e(TAG, "The screen must be >= 0 and < " + getChildCount()
-                    + " (was " + screen + "); skipping child");
+                Log.e(TAG, "The screen must be >= 0 and < " + getChildCount() + " (was " + screen + "); skipping child");
                 return;
             }
         }
@@ -527,8 +525,7 @@ public class Workspace extends SmoothPagedView
             if (screen < 0) {
                 screen = mLauncher.getHotseat().getOrderInHotseat(x, y);
             } else {
-                // Note: We do this to ensure that the hotseat is always laid out in the orientation
-                // of the hotseat in order regardless of which orientation they were added
+                // Note: We do this to ensure that the hotseat is always laid out in the orientation of the hotseat in order regardless of which orientation they were added
                 x = mLauncher.getHotseat().getCellXFromOrder(screen);
                 y = mLauncher.getHotseat().getCellYFromOrder(screen);
             }
@@ -562,9 +559,7 @@ public class Workspace extends SmoothPagedView
         int childId = LauncherModel.getCellLayoutChildId(container, screen, x, y, spanX, spanY);
         boolean markCellsAsOccupied = !(child instanceof Folder);
         if (!layout.addViewToCellLayout(child, insert ? 0 : -1, childId, lp, markCellsAsOccupied)) {
-            // TODO: This branch occurs when the workspace is adding views
-            // outside of the defined grid
-            // maybe we should be deleting these items from the LauncherModel?
+            // TODO: This branch occurs when the workspace is adding views outside of the defined grid maybe we should be deleting these items from the LauncherModel?
             Log.w(TAG, "Failed to add to item at (" + lp.cellX + "," + lp.cellY + ") to CellLayout");
         }
 
@@ -593,12 +588,10 @@ public class Workspace extends SmoothPagedView
 
     @Override
     protected boolean hitsPreviousPage(float x, float y) {
-        // mNextPage is set to INVALID_PAGE whenever we are stationary.
-        // Calculating "next page" this way ensures that you scroll to whatever page you tap on
+        // mNextPage is set to INVALID_PAGE whenever we are stationary. Calculating "next page" this way ensures that you scroll to whatever page you tap on
         final int current = (mNextPage == INVALID_PAGE) ? mCurrentPage : mNextPage;
 
-        // Only allow tap to next page on large devices, where there's significant margin outside
-        // the active workspace
+        // Only allow tap to next page on large devices, where there's significant margin outside the active workspace
         return LauncherApplication.isScreenLarge() && hitsPage(current - 1, x, y);
     }
 
