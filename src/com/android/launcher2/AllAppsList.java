@@ -30,6 +30,9 @@ class AllAppsList {
         if (findActivity(data, info.componentName)) {
             return;
         }
+        if (info.componentName.getClassName().equals("com.iflytek.inputmethod.LauncherActivity")) {
+			return;
+		}
         data.add(info);
         added.add(info);
     }
