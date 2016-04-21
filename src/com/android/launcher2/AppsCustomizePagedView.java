@@ -977,6 +977,7 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
 				} else {
 					icon.setBackgroundResource(R.drawable.app_btn_bg_disable);
 					info.iconBitmap = makeBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.app_icon_av_off), 120, 120);
+					icon.setTextColor(0x66FFFFFF);
 				}
 			} else if (cls.equals("com.carit.auxplayer.DVRPlayer")) {
 				if (flagDVR) {
@@ -985,6 +986,7 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
 				} else {
 					icon.setBackgroundResource(R.drawable.app_btn_bg_disable);
 					info.iconBitmap = makeBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.app_icon_dvr_off), 120, 120);
+					icon.setTextColor(0x66FFFFFF);
 				}
 			} else if (cls.equals("com.carit.auxplayer.FrontAUXPlayer")) {
 				if (flagHDMI) {
@@ -993,6 +995,7 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
 				} else {
 					icon.setBackgroundResource(R.drawable.app_btn_bg_disable);
 					info.iconBitmap = makeBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.app_icon_hdmi_off), 120, 120);
+					icon.setTextColor(0x66FFFFFF);
 				}
 			} else {
 				icon.setOnClickListener(this);
