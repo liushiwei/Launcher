@@ -1,9 +1,12 @@
 package com.android.launcher2;
+import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,6 +14,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ThreadPoolExecutor;
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
@@ -273,6 +278,12 @@ public final class Launcher extends Activity implements View.OnClickListener, On
     private static boolean isPropertyEnabled(String propertyName) {
         return Log.isLoggable(propertyName, Log.VERBOSE);
     }
+    String avPath = "/sys/class/mub/camera/av_signal";
+    String dvrPath = "/sys/class/mub/camera/dvr_signal";
+    String hdmiPath = "/proc/driver/hdmi_plug";
+    File avFile  = new File(avPath);
+	File dvrFile = new File(dvrPath);
+	File hdmiFile = new File(hdmiPath);
 
     @SuppressLint("ServiceCast")
 	@Override
@@ -348,6 +359,68 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         updateGlobalIcons();
         // On large interfaces, we want the screen to auto-rotate based on the current orientation
         unlockScreenOrientation(true);
+        
+        new Thread(){
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				super.run();
+				
+//				Log.i("Hegel---Thread", "av_signal is "+avFile.exists());
+//				Log.i("Hegel---Thread", "dvr_signal is "+dvrFile.exists());
+//				Log.i("Hegel---Thread", "hdmi_plug is "+hdmiFile.exists());
+				while (true) {
+					String flagAV = getFlag(avPath);
+					String flagDVR = getFlag(dvrPath);
+					String flagHDMI = getFlag(hdmiPath);
+					Intent intent = new Intent("com.android.launcher.action.refresh");
+					if (flagAV.equals("1")) {
+						intent.putExtra("flagAV", true);
+					} else {
+						intent.putExtra("flagAV", false);
+					}
+					if (flagDVR.equals("1")) {
+						intent.putExtra("flagDVR", true);
+					} else {
+						intent.putExtra("flagDVR", false);
+					}
+					if (flagHDMI.equals("1")) {
+						intent.putExtra("flagHDMI", true);
+					} else {
+						intent.putExtra("flagHDMI", false);
+					}
+					sendBroadcast(intent);
+					
+					try {
+						Thread.sleep(2000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				
+			}
+        	
+        }.start();
+    }
+    
+    public String getFlag(String path){
+    	String flag = "";
+		try {
+			Process process = Runtime.getRuntime().exec("cat "+path);
+			InputStreamReader mInputStreamReader = new InputStreamReader(process.getInputStream());
+			BufferedReader mBufferedReader = new BufferedReader(mInputStreamReader);
+			flag = mBufferedReader.readLine();
+			mBufferedReader.close();
+			mInputStreamReader.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//Log.e("Hegel---", path+" = "+flag);
+    	return flag;
     }
 
     protected void onUserLeaveHint() {
@@ -1080,6 +1153,31 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         }
     };
     
+    private final BroadcastReceiver refreshReceiver = new BroadcastReceiver() {
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			// TODO Auto-generated method stub
+			final String actionString = intent.getAction();
+			final boolean flagAV = intent.getBooleanExtra("flagAV", true);
+			final boolean flagDVR = intent.getBooleanExtra("flagDVR", true);
+			final boolean flagHDMI = intent.getBooleanExtra("flagHDMI", true);
+			final int pageCount = mAppsCustomizeContent.getPageCount();
+			//Log.i("Hegel---"+TAG, "flagAV = "+flagAV+", flagDVR = "+flagDVR+", flagHDMI = "+flagHDMI);
+			
+			if ("com.android.launcher.action.refresh".equals(actionString)) {
+				//Log.i("Hegel---"+TAG, "will refresh, call syncAppsPageItems()");				
+				mAppsCustomizeContent.flagAV = flagAV;
+				mAppsCustomizeContent.flagDVR = flagDVR;
+				mAppsCustomizeContent.flagHDMI = flagHDMI;
+				for (int i = 0; i < pageCount; i++) {
+					mAppsCustomizeContent.syncAppsPageItems(i, true);
+				}
+			}
+		}
+    	
+    };
+    
     @Override
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
@@ -1089,6 +1187,11 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         filter.addAction(Intent.ACTION_USER_PRESENT);
         filter.addAction(AllAppWidgetProvider.CLICK_ACTION);
         registerReceiver(mReceiver, filter);
+        
+        final IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("com.android.launcher.action.refresh");
+        registerReceiver(refreshReceiver, intentFilter);
+        //Log.i("Hegel---"+TAG, "registerReceiver");
         
         mAttached = true;
         mVisible = true;
@@ -1101,6 +1204,8 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 
         if (mAttached) {
             unregisterReceiver(mReceiver);
+            unregisterReceiver(refreshReceiver);
+            //Log.i("Hegel---"+TAG, "unregisterReceiver");
             mAttached = false;
         }
         updateRunning();

@@ -14,6 +14,7 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
@@ -207,6 +208,9 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         Applications,
         Widgets
     }
+    boolean flagAV=true;
+    boolean flagDVR=true;
+    boolean flagHDMI=true;
 
     // Refs
     private Launcher mLauncher;
@@ -499,7 +503,6 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         	Log.d(TAG, "按下图标 ------zgy------------>");
             // Animate some feedback to the click
             final ApplicationInfo appInfo = (ApplicationInfo) v.getTag();
-
             // Lock the drawable state to pressed until we return to Launcher
             if (mPressedIcon != null) {
                 mPressedIcon.lockDrawableState();
@@ -952,6 +955,8 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
 
     // zgy
     public void syncAppsPageItems(int page, boolean immediate) {
+    	//Log.i("Hegel---"+TAG, "syncAppsPageItems() is call");
+    	//Log.i("Hegel---"+TAG, "flagAV = "+flagAV+", flagDVR = "+flagDVR+", flagHDMI = "+flagHDMI);
         // ensure that we have the right number of items on the pages
         int numCells = mCellCountX * mCellCountY;
         int startIndex = page * numCells;
@@ -962,9 +967,38 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         ArrayList<Bitmap> images = new ArrayList<Bitmap>();
         for (int i = startIndex; i < endIndex; ++i) {
             ApplicationInfo info = mApps.get(i);
+            String cls = info.componentName.getClassName();
             PagedViewIcon icon = (PagedViewIcon) mLayoutInflater.inflate(R.layout.apps_customize_application, layout, false);
+
+            if (cls.equals("com.carit.auxplayer.AVPlayer")) {        	
+				if (flagAV) {
+					icon.setOnClickListener(this);
+					info.iconBitmap = makeBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.app_icon_av_on), 120, 120);
+				} else {
+					icon.setBackgroundResource(R.drawable.app_btn_bg_disable);
+					info.iconBitmap = makeBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.app_icon_av_off), 120, 120);
+				}
+			} else if (cls.equals("com.carit.auxplayer.DVRPlayer")) {
+				if (flagDVR) {
+					icon.setOnClickListener(this);
+					info.iconBitmap = makeBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.app_icon_dvr_on), 120, 120);
+				} else {
+					icon.setBackgroundResource(R.drawable.app_btn_bg_disable);
+					info.iconBitmap = makeBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.app_icon_dvr_off), 120, 120);
+				}
+			} else if (cls.equals("com.carit.auxplayer.FrontAUXPlayer")) {
+				if (flagHDMI) {
+					icon.setOnClickListener(this);
+					info.iconBitmap = makeBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.app_icon_hdmi_on), 120, 120);
+				} else {
+					icon.setBackgroundResource(R.drawable.app_btn_bg_disable);
+					info.iconBitmap = makeBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.app_icon_hdmi_off), 120, 120);
+				}
+			} else {
+				icon.setOnClickListener(this);
+			}
+            
             icon.applyFromApplicationInfo(info, true, this);
-            icon.setOnClickListener(this);
             icon.setOnLongClickListener(this);
             icon.setOnTouchListener(this);
             icon.setOnKeyListener(this);
@@ -974,9 +1008,22 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
             layout.addViewToCellLayout(icon, -1, i, new PagedViewCellLayout.LayoutParams(x,y, 1,1));
             items.add(info);
             images.add(info.iconBitmap);
+            //Log.e("Hegel---"+TAG, "mCellHeight = "+layout.getCellHeight()+", mCellWidth = "+layout.getCellWidth());
+            //Log.e("Hegel---"+TAG, "iconHeight = "+info.iconBitmap.getHeight()+", iconWidth = "+info.iconBitmap.getWidth());
         }
         layout.createHardwareLayers();
     }
+    
+    public Bitmap makeBitmap(Bitmap src, int newWidth, int newHeight) {
+		int srcWidth = src.getWidth();
+		int srcHeight = src.getHeight();
+		Matrix matrix = new Matrix();
+		float widthScale = ((float) newWidth) / srcWidth;
+		float heightScale = ((float) newHeight) / srcHeight;
+		matrix.postScale(widthScale, heightScale);
+		Bitmap bitmap = Bitmap.createBitmap(src, 0, 0, srcWidth, srcHeight, matrix, true);
+		return bitmap;
+	}
 
     /*** A helper to return the priority for loading of the specified widget page. */
     private int getWidgetPageLoadPriority(int page) {
