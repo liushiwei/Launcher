@@ -62,7 +62,7 @@
 
 <!-- CellLayout padding land / port-->
     <dimen name="cell_layout_left_padding_port">0dp</dimen>
-    <dimen name="cell_layout_left_padding_land">10dp</dimen>
+    <dimen name="cell_layout_left_padding_land">40dp</dimen>
     <dimen name="cell_layout_right_padding_port">0dp</dimen>
     <dimen name="cell_layout_right_padding_land">10dp</dimen>
     <dimen name="cell_layout_top_padding_port">0dp</dimen>
