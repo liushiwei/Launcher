@@ -180,7 +180,7 @@ public class IconCache {
             	entry.title = "百度 CarLife";
             	
             }else if(entry.title.trim().equals("EasyConnected")){  
-            	entry.title = "R-Link";
+            	entry.title = "E-Link";
             	
             } else if(entry.title.trim().equals("亿连")){
             	entry.title = "手机互联";
