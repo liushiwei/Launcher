@@ -102,7 +102,7 @@ class ApplicationInfo extends ItemInfo {
 			return 16;
 		}else if(s.equals("com.carit.auxplayer.AVPlayer")){ // AV
 			return 17;
-		}else if(s.equals("com.android.music.MusicBrowserActivity")){ //浏览器
+		}else if(s.equals("com.android.browser.BrowserActivity")){ //浏览器
 			return 18;
 		}
 		return 100;
