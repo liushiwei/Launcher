@@ -279,7 +279,7 @@ s -->
     <string name="widget_app_gallery">Gallery</string>
     <string name="widget_app_market">Market</string>
     <string name="widget_app_message">Message</string>
-    <string name="widget_app_navit">Navi</string>
+    <string name="widget_app_navit">Amap</string>
     <string name="widget_app_news">News</string>
     <string name="widget_app_setting">Setting</string>
     <string name="widget_app_video">Video</string>   
@@ -304,13 +304,15 @@ s -->
     <string name="app_parking_name">Parking</string>  
     
     <string name="widget_12_format" translatable="false" >h&#58;mm</string>
-    <string name="widget_year_month_day" translatable="false" >yyyy&#045;MM&#045;dd</string>
+    <string name="widget_year_month_day" translatable="false" >yyyy-MM-dd</string>
     <string name="widget_week_format">EEEE</string>
     
     
     <!-- old -->
-    <string name="clock_24_hours_format" translatable="false">kk&#58;mm</string>
-    <string name="main_widget_12_hours_format" translatable="false">h&#58;mm</string>
+    <string name="widget_12_time_format" translatable="false">h:mm</string>
+    <string name="widget_24_time_format" translatable="false">kk:mm</string>
+    <string name="widget_12_am_pm_format" translatable="false">aa</string>
+    <string name="widget_24_am_pm_format" translatable="false"></string>
     <string name="abbrev_wday_month_day_no_year">EEEMMMMd</string>
     
 </resources>
