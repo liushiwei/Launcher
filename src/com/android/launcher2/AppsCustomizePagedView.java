@@ -500,7 +500,7 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
         if (!mLauncher.isAllAppsVisible() || mLauncher.getWorkspace().isSwitchingState()) return;
 
         if (v instanceof PagedViewIcon) {  // zgy
-        	Log.d(TAG, "按下图标 ------zgy------------>");
+//        	Log.d(TAG, "按下图标 ------zgy------------>");
             // Animate some feedback to the click
             final ApplicationInfo appInfo = (ApplicationInfo) v.getTag();
             // Lock the drawable state to pressed until we return to Launcher
@@ -513,7 +513,7 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
             mLauncher.startActivitySafely(v, appInfo.intent, appInfo);
 
         } else if (v instanceof PagedViewWidget) {  // click deskTop icon
-        	Log.d(TAG, "按下图标 ------zgy--1111111111111111111---------->");
+//        	Log.d(TAG, "按下图标 ------zgy--1111111111111111111---------->");
             // Let the user know that they have to long press to add a widget
             if (mWidgetInstructionToast != null) {
                 mWidgetInstructionToast.cancel();

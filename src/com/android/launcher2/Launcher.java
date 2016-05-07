@@ -1953,10 +1953,10 @@ public final class Launcher extends Activity implements View.OnClickListener, On
             // Only launch using the new animation if the shortcut has not opted out (this is a private contract between launcher and may be ignored in the future).
             boolean useLaunchAnimation = (v != null) && !intent.hasExtra(INTENT_EXTRA_IGNORE_LAUNCH_ANIMATION);
             if (useLaunchAnimation) {
-            	Log.d(TAG, "useLaunchAnimation----if---------->"+useLaunchAnimation);
+//            	Log.d(TAG, "useLaunchAnimation----if---------->"+useLaunchAnimation);
                 startActivity(intent);
             } else {
-            	Log.d(TAG, "useLaunchAnimation----else---------->"+useLaunchAnimation);
+//            	Log.d(TAG, "useLaunchAnimation----else---------->"+useLaunchAnimation);
                 startActivity(intent);
             }
             return true;
