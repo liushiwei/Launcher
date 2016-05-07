@@ -15,6 +15,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.PaintDrawable;
 import android.util.DisplayMetrics;
+import android.util.Log;
+
 import com.android.launcher.R;
 
 final class Utilities {
@@ -99,7 +101,7 @@ final class Utilities {
             int sourceHeight = icon.getIntrinsicHeight();
             if (sourceWidth > 0 && sourceHeight > 0) {
                 // There are intrinsic sizes.
-                if (width < sourceWidth || height < sourceHeight) {
+//                if (width < sourceWidth || height < sourceHeight) {
                     // It's too big, scale it down.
                     final float ratio = (float) sourceWidth / sourceHeight;
                     if (sourceWidth > sourceHeight) {
@@ -107,11 +109,11 @@ final class Utilities {
                     } else if (sourceHeight > sourceWidth) {
                         width = (int) (height * ratio);
                     }
-                } else if (sourceWidth < width && sourceHeight < height) {
-                    // Don't scale up the icon
-                    width = sourceWidth;
-                    height = sourceHeight;
-                }
+//                } else if (sourceWidth < width && sourceHeight < height) {
+//                    // Don't scale up the icon
+//                    width = sourceWidth;
+//                    height = sourceHeight;
+//                }
             }
 
             // no intrinsic size --> use default size
@@ -141,6 +143,14 @@ final class Utilities {
             icon.draw(canvas);
             icon.setBounds(sOldBounds);
             canvas.setBitmap(null);
+            
+//            Log.e(TAG, "#########################");
+//            Log.e(TAG, "width = "+width);
+//            Log.e(TAG, "height = "+height);
+//            Log.e(TAG, "textureWidth = "+textureWidth);
+//            Log.e(TAG, "textureHeight = "+textureHeight);
+//            Log.e(TAG, "sourceWidth = "+sourceWidth);
+//            Log.e(TAG, "sourceHeight = "+sourceHeight);
 
             return bitmap;
         }
