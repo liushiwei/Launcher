@@ -33,6 +33,9 @@ class AllAppsList {
         if (info.componentName.getClassName().equals("com.iflytek.inputmethod.LauncherActivity")) {
 			return;
 		}
+        if (info.componentName.getClassName().equals("com.android.inputmethod.latin.setup.SetupActivity")) {
+			return;
+		}
         data.add(info);
         added.add(info);
     }
