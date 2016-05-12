@@ -171,6 +171,7 @@ public class IconCache {
             // M by zgy / change title
             if (entry.title == null) {
                 entry.title = info.activityInfo.name;
+                Log.e("Hegel---IC", "is null *"+entry.title+"*");
 //                Log.d("zgy", "entry.title -------> " + info.activityInfo.name);
                 
             } else if(entry.title.trim().equals("Baidu CarLife")){
@@ -188,8 +189,8 @@ public class IconCache {
             }  else if(entry.title.trim().equals(" 高德地图 ")){
             	entry.title = "导航";
             	
-            } else if(entry.title.trim().equals("Amap")){
-            	entry.title = "Navi";
+            } else if(entry.title.equals(" Amap ")){
+            	entry.title = "Navigation";
             }
             else{
             	

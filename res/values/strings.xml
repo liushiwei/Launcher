@@ -279,7 +279,7 @@ s -->
     <string name="widget_app_gallery">Gallery</string>
     <string name="widget_app_market">Market</string>
     <string name="widget_app_message">Message</string>
-    <string name="widget_app_navit">Amap</string>
+    <string name="widget_app_navit">Navigation</string>
     <string name="widget_app_news">News</string>
     <string name="widget_app_setting">Setting</string>
     <string name="widget_app_video">Video</string>   
