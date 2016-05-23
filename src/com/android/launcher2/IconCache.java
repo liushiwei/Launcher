@@ -183,7 +183,7 @@ public class IconCache {
             }else if(entry.title.trim().equals("EasyConnected")){  
             	entry.title = "E-Link";
             	
-            } else if(entry.title.trim().equals("亿连")){
+            } else if(entry.title.trim().equals("亿连手机互联")){
             	entry.title = "手机互联";
             	
             }  else if(entry.title.trim().equals(" 高德地图 ")){
