@@ -36,6 +36,9 @@ class AllAppsList {
         if (info.componentName.getClassName().equals("com.android.inputmethod.latin.setup.SetupActivity")) {
 			return;
 		}
+        if (info.componentName.getClassName().equals("com.baidu.input.ImeAppMainActivity")) {
+			return;
+		}
         data.add(info);
         added.add(info);
     }
