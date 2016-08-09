@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.util.Log;
 /*** Stores the list of all applications for the all apps view.  */
 class AllAppsList {
     public static final int DEFAULT_APPLICATIONS_NUMBER = 42;
@@ -30,14 +31,10 @@ class AllAppsList {
         if (findActivity(data, info.componentName)) {
             return;
         }
-        if (info.componentName.getClassName().equals("com.iflytek.inputmethod.LauncherActivity")) {
-			return;
-		}
-        if (info.componentName.getClassName().equals("com.android.inputmethod.latin.setup.SetupActivity")) {
-			return;
-		}
-        if (info.componentName.getClassName().equals("com.tencent.qqpinyin.SettingsActivity")) {
-			return;
+//        Log.e("Hegel---", "app = "+info.componentName.getClassName());
+        if (info.componentName.getClassName().equals("com.google.android.apps.inputmethod.libs.framework.core.LauncherActivity")) {
+			Log.e("Hegel---AllAppsList", "I will hide the icon of GooglePinyin.apk");
+        	return;
 		}
         data.add(info);
         added.add(info);
