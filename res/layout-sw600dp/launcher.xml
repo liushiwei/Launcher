@@ -80,7 +80,11 @@
             android:id="@+id/workspace_cling"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            layout="@layout/workspace_cling"
+            layout="@layout/workspace_cling" <include layout="@layout/workspace_screen" />
+
+            <include layout="@layout/workspace_screen" />
+
+            <include layout="@layout/workspace_screen" />
             android:visibility="gone" />
         <include
             android:id="@+id/folder_cling"
@@ -90,17 +94,7 @@
             android:visibility="gone" />
         -->
 
-        <com.android.launcher2.DrawableStateProxyView
-            android:id="@+id/voice_button_proxy"
-            android:layout_width="80dp"
-            android:layout_height="@dimen/qsb_bar_height"
-            android:layout_gravity="top|right"
-            android:layout_marginRight="@dimen/qsb_voice_proxy_padding_right"
-            android:clickable="true"
-            android:importantForAccessibility="no"
-            android:onClick="onClickVoiceButton"
-            launcher:sourceViewId="@+id/voice_button" />
-
+       
         <include
             android:id="@+id/apps_customize_pane"
             android:layout_width="match_parent"

@@ -360,49 +360,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         // On large interfaces, we want the screen to auto-rotate based on the current orientation
         unlockScreenOrientation(true);
         
-        new Thread(){
 
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				super.run();
-				
-//				Log.i("Hegel---Thread", "av_signal is "+avFile.exists());
-//				Log.i("Hegel---Thread", "dvr_signal is "+dvrFile.exists());
-//				Log.i("Hegel---Thread", "hdmi_plug is "+hdmiFile.exists());
-				while (true) {
-					String flagAV = getFlag(avPath);
-					String flagDVR = getFlag(dvrPath);
-					String flagHDMI = getFlag(hdmiPath);
-					Intent intent = new Intent("com.android.launcher.action.refresh");
-					if (flagAV.equals("1")) {
-						intent.putExtra("flagAV", true);
-					} else {
-						intent.putExtra("flagAV", false);
-					}
-					if (flagDVR.equals("1")) {
-						intent.putExtra("flagDVR", true);
-					} else {
-						intent.putExtra("flagDVR", false);
-					}
-					if (flagHDMI.equals("1")) {
-						intent.putExtra("flagHDMI", true);
-					} else {
-						intent.putExtra("flagHDMI", false);
-					}
-					sendBroadcast(intent);
-					
-					try {
-						Thread.sleep(2000);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-				
-			}
-        	
-        }.start();
     }
     
     public String getFlag(String path){
