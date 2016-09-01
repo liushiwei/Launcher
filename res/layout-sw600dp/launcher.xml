@@ -27,7 +27,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"
-            android:layout_marginBottom="25dp" >
+            android:layout_marginBottom="25dp" 
+            android:visibility="gone">
 
             <LinearLayout
                 android:id="@+id/linearLayout_fav"
@@ -56,10 +57,6 @@
             launcher:pageSpacing="@dimen/workspace_page_spacing"
             launcher:scrollIndicatorPaddingLeft="@dimen/workspace_divider_padding_left"
             launcher:scrollIndicatorPaddingRight="@dimen/workspace_divider_padding_right" >
-
-            <include layout="@layout/workspace_screen" />
-
-            <include layout="@layout/workspace_screen" />
 
             <include layout="@layout/workspace_screen" />
         </com.android.launcher2.Workspace>

@@ -113,7 +113,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
     private static final int REQUEST_UNINSTALLER = 120;
 
     static final String EXTRA_SHORTCUT_DUPLICATE = "duplicate";
-    static final int SCREEN_COUNT = 2;
+    static final int SCREEN_COUNT = 1;
     static final int DEFAULT_SCREEN = 0;
 
     private static final String PREFERENCES = "launcher.preferences";

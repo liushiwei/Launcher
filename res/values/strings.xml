@@ -313,6 +313,6 @@ s -->
     <string name="widget_24_time_format" translatable="false">kk:mm</string>
     <string name="widget_12_am_pm_format" translatable="false">aa</string>
     <string name="widget_24_am_pm_format" translatable="false"></string>
-    <string name="abbrev_wday_month_day_no_year">EEEMMMMd</string>
-    
+    <string name="abbrev_wday_month_day_no_year">yyyyEEEMMMMd</string>
+    <string name="system_ui_date_pattern">@*android:string/system_ui_date_pattern</string>
 </resources>
