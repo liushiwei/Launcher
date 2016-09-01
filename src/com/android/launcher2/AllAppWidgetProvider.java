@@ -11,7 +11,7 @@ import com.android.launcher.R;
 
 public class AllAppWidgetProvider extends AppWidgetProvider {
 	 public static final String TAG = "MyAppWidgetProvider";  
-	    public static final String CLICK_ACTION = "showApp";  
+	    public static final String CLICK_ACTION = "com.android.launcher2.showApp";  
 	    private static RemoteViews mRemoteViews;  
 	  
 	    /** 
