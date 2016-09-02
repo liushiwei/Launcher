@@ -1375,11 +1375,11 @@ public final class Launcher extends Activity implements View.OnClickListener, On
             outState.putLong(RUNTIME_STATE_PENDING_FOLDER_RENAME_ID, mFolderInfo.id);
         }
 
-        // Save the current AppsCustomize tab
-        if (mAppsCustomizeTabHost != null) {
-            int currentIndex = mAppsCustomizeContent.getSaveInstanceStateIndex();
-            outState.putInt("apps_customize_currentIndex", currentIndex);
-        }
+//        // Save the current AppsCustomize tab
+//        if (mAppsCustomizeTabHost != null) {
+//            int currentIndex = mAppsCustomizeContent.getSaveInstanceStateIndex();
+//            outState.putInt("apps_customize_currentIndex", currentIndex);
+//        }
     }
 
     @Override
