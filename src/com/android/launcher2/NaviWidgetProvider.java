@@ -15,7 +15,7 @@ import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
-import com.android.launcher.R;
+import com.george.launcher.R;
 
 public class NaviWidgetProvider extends AppWidgetProvider {
 		private final String TAG = "MyAppWidgetProvider";  

@@ -33,7 +33,7 @@ import android.widget.TabHost;
 import android.widget.TabWidget;
 import android.widget.TextView;
 
-import com.android.launcher.R;
+import com.george.launcher.R;
 
 import java.util.ArrayList;
 

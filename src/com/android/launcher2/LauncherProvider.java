@@ -49,7 +49,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.util.Xml;
 
-import com.android.launcher.R;
+import com.george.launcher.R;
 import com.android.launcher2.LauncherSettings.Favorites;
 import com.carit.util.CaritUtil;
 
@@ -70,7 +70,7 @@ public class LauncherProvider extends ContentProvider {
     private static final boolean LOGD = false;
     private static final String DATABASE_NAME = "launcher.db";
     private static final int DATABASE_VERSION = 12;
-    static final String AUTHORITY = "com.android.launcher2.settings";
+    static final String AUTHORITY = "com.george.launcher2.settings";
     static final String TABLE_FAVORITES = "favorites";
     static final String PARAMETER_NOTIFY = "notify";
     static final String DB_CREATED_BUT_DEFAULT_WORKSPACE_NOT_LOADED = "DB_CREATED_BUT_DEFAULT_WORKSPACE_NOT_LOADED";

@@ -33,7 +33,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.android.launcher.R;
+import com.george.launcher.R;
 
 public class Cling extends FrameLayout {
 //    static final String WORKSPACE_CLING_DISMISSED_KEY = "cling.workspace.dismissed";

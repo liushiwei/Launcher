@@ -15,7 +15,7 @@ import android.util.Log;
 
 import java.util.HashMap;
 
-import com.android.launcher.R;
+import com.george.launcher.R;
 
 public class IconCache {
     @SuppressWarnings("unused")

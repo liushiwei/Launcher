@@ -17,7 +17,7 @@ import android.graphics.drawable.PaintDrawable;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
-import com.android.launcher.R;
+import com.george.launcher.R;
 
 final class Utilities {
     @SuppressWarnings("unused")

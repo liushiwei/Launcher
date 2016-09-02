@@ -80,7 +80,6 @@ public class Clock extends TextView {
 			filter.addAction(Intent.ACTION_TIME_CHANGED);
 			filter.addAction(Intent.ACTION_TIMEZONE_CHANGED);
 			filter.addAction(Intent.ACTION_CONFIGURATION_CHANGED);
-			filter.addAction(Intent.ACTION_USER_SWITCHED);
 
 			getContext().registerReceiver(mIntentReceiver, filter);
 		}

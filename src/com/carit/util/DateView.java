@@ -29,7 +29,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import com.android.launcher.R;
+import com.george.launcher.R;
 
 public class DateView extends TextView {
     private static final String TAG = "DateView";

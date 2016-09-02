@@ -24,7 +24,7 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.widget.Toast;
 
-import com.android.launcher.R;
+import com.george.launcher.R;
 
 import java.util.ArrayList;
 import java.util.HashSet;

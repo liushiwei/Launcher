@@ -85,7 +85,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Advanceable;
 import android.widget.ImageView;
 import android.widget.Toast;
-import com.android.launcher.R;
+import com.george.launcher.R;
 import com.android.launcher2.DropTarget.DragObject;
 
 public final class Launcher extends Activity implements View.OnClickListener, OnLongClickListener, LauncherModel.Callbacks, View.OnTouchListener {

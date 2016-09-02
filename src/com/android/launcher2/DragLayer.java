@@ -21,7 +21,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import com.android.launcher.R;
+import com.george.launcher.R;
 import java.util.ArrayList;
 
 public class DragLayer extends FrameLayout implements ViewGroup.OnHierarchyChangeListener {

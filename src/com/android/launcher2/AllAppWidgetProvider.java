@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.RemoteViews;
 
-import com.android.launcher.R;
+import com.george.launcher.R;
 
 public class AllAppWidgetProvider extends AppWidgetProvider {
 	 public static final String TAG = "MyAppWidgetProvider";  

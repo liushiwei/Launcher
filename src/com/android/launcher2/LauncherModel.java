@@ -43,7 +43,7 @@ import android.os.RemoteException;
 import android.os.SystemClock;
 import android.util.Log;
 
-import com.android.launcher.R;
+import com.george.launcher.R;
 import com.android.launcher2.InstallWidgetReceiver.WidgetMimeTypeHandlerData;
 
 public class LauncherModel extends BroadcastReceiver {

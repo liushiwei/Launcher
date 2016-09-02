@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- come her zgy -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:launcher="http://schemas.android.com/apk/res/com.android.launcher"
+    xmlns:launcher="http://schemas.android.com/apk/res/com.george.launcher"
     android:id="@+id/launcher"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
     <com.android.launcher2.DragLayer
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:launcher="http://schemas.android.com/apk/res/com.android.launcher"
+        xmlns:launcher="http://schemas.android.com/apk/res/com.george.launcher"
         android:id="@+id/drag_layer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

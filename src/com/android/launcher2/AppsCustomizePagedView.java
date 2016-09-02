@@ -42,7 +42,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
-import com.android.launcher.R;
+import com.george.launcher.R;
 import com.android.launcher2.DropTarget.DragObject;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;

@@ -40,7 +40,6 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import android.os.FileUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -53,7 +52,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.launcher.R;
+import com.george.launcher.R;
 
 public class Hotseat extends FrameLayout {
     @SuppressWarnings("unused")
@@ -227,90 +226,7 @@ public class Hotseat extends FrameLayout {
 			
 			@Override
 			public boolean onLongClick(View v) {
-						
-						mViews = new ArrayList<View>();
-						final Intent mainIntent = new Intent(
-								Intent.ACTION_MAIN, null);
-						mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-						final List<ResolveInfo> apps = mPackageManager
-								.queryIntentActivities(mainIntent, 0);
-						mApps = new ArrayList<ResolveInfo>();
-						for (ResolveInfo appInfo : apps) {
-								mApps.add(appInfo);
-						}
-						LayoutInflater inflater = LayoutInflater
-								.from(getContext());
-						for (ResolveInfo app : mApps) {
-							View row = inflater.inflate(R.layout.app_list_view,
-									null, false);
-							ViewWrapper wrapper = new ViewWrapper(row);
-							wrapper.getIcon().setImageDrawable(
-									app.loadIcon(mPackageManager));
-							String pkgName = app.activityInfo.applicationInfo.packageName;
-							// Log.e(TAG,
-							// "position = "+position+"pkgName = "+mApps.get(position).activityInfo.applicationInfo.packageName+
-							// "mPackageName ="+mPackageName);
-							wrapper.setPackageName(pkgName);
-							wrapper.setClassName(app.activityInfo.name);
-							wrapper.setAppName(app.loadLabel(mPackageManager).toString());
-							wrapper.getLabel().setText(
-									app.loadLabel(mPackageManager).toString());
-							
-							row.setTag(wrapper);
-							mViews.add(row);
-						}
-						mAdapter = new IconicAdapter(R.layout.app_list_view,mViews);
-						new AlertDialog.Builder(getContext())
-								.setIcon(android.R.drawable.ic_dialog_info)
-								.setSingleChoiceItems(mAdapter, 1,
-										new DialogInterface.OnClickListener() {
-											public void onClick(
-													DialogInterface dialog,
-													int which) {
-												ViewWrapper tag = (ViewWrapper) mViews.get(which).getTag();
-												String temp = "";
-												try {
-													File file = new File(PROPERTIESFILE);
-													if (!file.exists()) {
-														file.createNewFile();
-														FileUtils.setPermissions(PROPERTIESFILE, FileUtils.S_IRWXU | FileUtils.S_IRWXG | FileUtils.S_IRWXO, -1, -1);
-													}
-													FileInputStream fis = new FileInputStream(file);
-													InputStreamReader isr = new InputStreamReader(fis);
-													BufferedReader br = new BufferedReader(isr);
-													StringBuffer buf = new StringBuffer();
-
-													do {
-														temp = br.readLine();
-														if (temp!=null&&temp.indexOf("launcher_app3_class_name") < 0&&temp.indexOf("launcher_app3_package_name") < 0&&temp.indexOf("launcher_app3_app_name") < 0) {
-															buf = buf.append(temp);
-															buf = buf.append("\n");
-														}
-													} while (temp != null);
-
-													br.close();
-													buf.append("launcher_app3_class_name=" + tag.getClassName() + "\n");
-													buf.append("launcher_app3_package_name=" + tag.getPackageName() + "\n");
-													buf.append("launcher_app3_app_name=" + tag.getAppName() + "\n");
-													temp = buf.toString();
-													Log.e(TAG,temp);
-													FileOutputStream fos = new FileOutputStream(file);
-													PrintWriter pw = new PrintWriter(fos);
-													pw.write(temp);
-													pw.flush();
-													pw.close();
-												} catch (IOException e) {
-													e.printStackTrace();
-												}
-												resetLayout();
-												dialog.dismiss();
-											}
-										})
-								.setNegativeButton(
-										getContext()
-												.getString(android.R.string.cancel), null).show();
-				return false;
-			}
+				return mIsLandscape;}
 		});
          
         if(isInstallApp("globalmain.apk")){
