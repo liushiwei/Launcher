@@ -867,16 +867,17 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         if (mSearchDropTargetBar != null) {
             mSearchDropTargetBar.setup(this, dragController);
         }
+        mAllAppsButton  = findViewById(R.id.apps);
+        mAllAppsButton.setOnClickListener(this);
+        ShortcutInfo navi = new ShortcutInfo();
+        navi.setActivity(new ComponentName("com.autonavi.amapauto", "com.autonavi.auto.remote.fill.UsbFillActivity"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+        findViewById(R.id.navi).setTag(navi);
+        navi = new ShortcutInfo();
+        navi.intent = new Intent(android.provider.Settings.ACTION_SETTINGS);
+        findViewById(R.id.settings).setTag(navi);
         
-      /**  del by zgy
-        TextView  appIcon5 = (TextView)findViewById(R.id.launch_app_icon5);
-        if(appIcon5 != null){
-	        if(Hotseat.isInstallApp("globalmain.apk")){
-	        	appIcon5.setText(R.string.app_parking_name);
-	        }else{
-	        	appIcon5.setText(R.string.app_music_name);	
-	        }
-        }*/
+        findViewById(R.id.settings).setOnClickListener(this);
+        findViewById(R.id.navi).setOnClickListener(this);
     }
 
     /**
