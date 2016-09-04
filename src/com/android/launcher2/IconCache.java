@@ -196,22 +196,8 @@ public class IconCache {
             	
             }
             
-            // add by zgy / changer icon
-            if(componentName.getPackageName().equals("net.easyconn")){  // 亿连
-            	entry.icon = Utilities.createIconBitmap(drawable2Bitmap(R.drawable.easy_connected), mContext);
-            	
-            }else if(componentName.getPackageName().equals("com.baidu.carlifevehicle")){ // CarLife 
-            	entry.icon = Utilities.createIconBitmap(drawableId2BitMap(R.drawable.carlife), mContext);
-            	
-            }else if(componentName.getPackageName().equals("com.autonavi.amapauto")){ // 高德地图
-            	entry.icon = Utilities.createIconBitmap(drawableId2BitMap(R.drawable.navigation_widget), mContext);
-            	
-            }else if(componentName.getPackageName().equals("com.android.browser")){
-            	entry.icon = Utilities.createIconBitmap(drawableId2BitMap(R.drawable.browser), mContext);
-            	
-            }else {
-            	entry.icon = Utilities.createIconBitmap(getFullResIcon(info), mContext);
-            }
+            
+            entry.icon = Utilities.createIconBitmap(getFullResIcon(info), mContext);
         }
         return entry;
     }

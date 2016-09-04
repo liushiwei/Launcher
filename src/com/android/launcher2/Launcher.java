@@ -873,11 +873,17 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         navi.setActivity(new ComponentName("com.autonavi.amapauto", "com.autonavi.auto.remote.fill.UsbFillActivity"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
         findViewById(R.id.navi).setTag(navi);
         navi = new ShortcutInfo();
+        navi.setActivity(new ComponentName("org.videolan.vlc", "org.videolan.vlc.StartActivity"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+        findViewById(R.id.media).setTag(navi);
+
+        navi = new ShortcutInfo();
         navi.intent = new Intent(android.provider.Settings.ACTION_SETTINGS);
         findViewById(R.id.settings).setTag(navi);
         
         findViewById(R.id.settings).setOnClickListener(this);
         findViewById(R.id.navi).setOnClickListener(this);
+        findViewById(R.id.media).setOnClickListener(this);
+
     }
 
     /**
