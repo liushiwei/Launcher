@@ -56,8 +56,8 @@
     <dimen name="workspace_divider_padding_right">19dp</dimen>
 
 <!-- AppsCustomize -->
-    <dimen name="apps_customize_cell_width">96dp</dimen>
-    <dimen name="apps_customize_cell_height">96dp</dimen>
+    <dimen name="apps_customize_cell_width">137dp</dimen>
+    <dimen name="apps_customize_cell_height">141dp</dimen>
     <dimen name="apps_customize_pageLayoutPaddingLeft">12dp</dimen>
     <dimen name="apps_customize_pageLayoutPaddingRight">12dp</dimen>
     <dimen name="apps_customize_tab_bar_height">60dp</dimen>
