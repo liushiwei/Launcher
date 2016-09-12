@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- 
 /*
 * Copyright (C) 2008 The Android Open Source Project
@@ -15,103 +15,99 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
- -->
-
-<resources xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="application_name" msgid="8424725141379931883">"首页"</string>
-    <string name="home" msgid="5921706419368316758">"主屏幕"</string>
-    <string name="uid_name" msgid="3371120195364560632">"Android 核心应用"</string>
-    <string name="folder_name" msgid="8551881338202938211"></string>
-    <string name="chooser_wallpaper" msgid="6063168087625352235">"选择壁纸来源"</string>
-    <string name="wallpaper_instructions" msgid="4215640646180727542">"设置壁纸"</string>
-    <string name="pick_wallpaper" msgid="5630222540525626723">"壁纸"</string>
-    <string name="activity_not_found" msgid="217823393239365967">"未安装该应用。"</string>
-    <string name="widgets_tab_label" msgid="9145860100000983599">"小部件"</string>
-    <string name="long_press_widget_to_add" msgid="7395697462851217506">"触摸并按住可选取小部件。"</string>
-    <string name="market" msgid="2652226429823445833">"购买"</string>
-    <string name="external_drop_widget_error" msgid="2285187188524172774">"无法将项拖放到此主屏幕上。"</string>
-    <string name="external_drop_widget_pick_title" msgid="7040647073452295370">"选择要创建的小部件"</string>
-    <string name="rename_folder_label" msgid="5646236631298452787">"文件夹名称"</string>
-    <string name="rename_folder_title" msgid="4544573104191526550">"重命名文件夹"</string>
-    <string name="rename_action" msgid="6016003384693240896">"确定"</string>
-    <string name="cancel_action" msgid="3811860427489435048">"取消"</string>
-    <string name="menu_item_add_item" msgid="6233177331075781114">"添加到主屏幕"</string>
-    <string name="group_applications" msgid="2103752818818161976">"应用"</string>
-    <string name="group_shortcuts" msgid="9133529424900391877">"快捷方式"</string>
-    <string name="group_widgets" msgid="6704978494073105844">"小部件"</string>
-    <string name="group_wallpapers" msgid="1568191644272224858">"壁纸"</string>
-    <string name="completely_out_of_space" msgid="1759078539443491182">"您的主屏幕上没有空间了。"</string>
-    <string name="out_of_space" msgid="8365249326091984698">"此主屏幕上已没有空间。"</string>
-    <string name="hotseat_out_of_space" msgid="6304886797358479361">"底部区域已无空间。"</string>
-    <string name="invalid_hotseat_item" msgid="6545340627805449250">"该小部件太大，超出基座区域可用空间。"</string>
-    <string name="shortcut_installed" msgid="7071557296331322355">"已创建“<xliff:g id="NAME">%s</xliff:g>”快捷方式。"</string>
-    <string name="shortcut_uninstalled" msgid="2129499669449749995">"已删除“<xliff:g id="NAME">%s</xliff:g>”快捷方式。"</string>
-    <string name="shortcut_duplicate" msgid="4757756326465060694">"“<xliff:g id="NAME">%s</xliff:g>”快捷方式已存在。"</string>
-    <string name="title_select_shortcut" msgid="1873670208166882222">"选择快捷方式"</string>
-    <string name="title_select_application" msgid="1793455815754848652">"选择应用"</string>
-    <string name="all_apps_button_label" msgid="2578400570124163469">"应用"</string>
-    <string name="all_apps_home_button_label" msgid="1022222300329398558">"主屏幕"</string>
-    <string name="delete_zone_label_workspace" msgid="7153615831493049150">"删除"</string>
-    <string name="delete_zone_label_all_apps" msgid="6664588234817475108">"卸载"</string>
-    <string name="delete_target_label" msgid="665300185123139530">"删除"</string>
-    <string name="delete_target_uninstall_label" msgid="748894921183769150">"卸载"</string>
-    <string name="info_target_label" msgid="4019495079517426980">"应用信息"</string>
-    <string name="accessibility_search_button" msgid="816822994629942611">"搜索"</string>
-    <string name="accessibility_voice_search_button" msgid="3938249215065842475">"语音搜索"</string>
-    <string name="accessibility_all_apps_button" msgid="8803738611398979849">"应用"</string>
-    <string name="accessibility_delete_button" msgid="3628162007991023603">"删除"</string>
-    <string name="delete_zone_label_all_apps_system_app" msgid="3683920959591819044">"卸载更新"</string>
-    <string name="menu_add" msgid="3065046628354640854">"添加"</string>
-    <string name="menu_manage_apps" msgid="2308685199463588895">"管理应用"</string>
-    <string name="menu_wallpaper" msgid="5837429080911269832">"壁纸"</string>
-    <string name="menu_search" msgid="4826514464423239041">"搜索"</string>
-    <string name="menu_notifications" msgid="6424587053194766192">"通知"</string>
-    <string name="menu_settings" msgid="3946232973327980394">"系统设置"</string>
-    <string name="menu_help" msgid="4901160661634590633">"帮助"</string>
-    <string name="cab_menu_delete_app" msgid="4089398025537640349">"卸载该应用"</string>
-    <string name="cab_menu_app_info" msgid="914548323652698884">"应用详情"</string>
-    <string name="cab_app_selection_text" msgid="6378522164293415735">"选中了 1 个应用"</string>
-    <string name="cab_widget_selection_text" msgid="962527270506951955">"已选中 1 个小部件"</string>
-    <string name="cab_folder_selection_text" msgid="8916111874189565067">"已选中 1 个文件夹"</string>
-    <string name="cab_shortcut_selection_text" msgid="8115847384500412878">"已选中 1 个快捷方式"</string>
-    <string name="permlab_install_shortcut" msgid="1201690825493376489">"安装快捷方式"</string>
-    <string name="permdesc_install_shortcut" msgid="8634424803272077038">"允许应用自行添加快捷方式。"</string>
-    <string name="permlab_uninstall_shortcut" msgid="7696645932555926449">"卸载快捷方式"</string>
-    <string name="permdesc_uninstall_shortcut" msgid="274355570620220977">"允许应用自行删除快捷方式，而无需用户干预。"</string>
-    <string name="permlab_read_settings" msgid="3452408290738106747">"读取主屏幕的设置和快捷方式"</string>
-    <string name="permdesc_read_settings" msgid="5788109303585403679">"允许应用读取主屏幕中的设置和快捷方式。"</string>
-    <string name="permlab_write_settings" msgid="1360567537236705628">"写入主屏幕的设置和快捷方式"</string>
-    <string name="permdesc_write_settings" msgid="8530105489115785531">"允许应用更改主屏幕中的设置和快捷方式。"</string>
-    <string name="gadget_error_text" msgid="8359351016167075858">"载入小部件时出现问题"</string>
-    <string name="uninstall_system_app_text" msgid="6429814133777046491">"这是系统应用，无法卸载。"</string>
-    <string name="dream_name" msgid="2847171357608437154">"Rocket Launcher"</string>
-    <string name="folder_hint_text" msgid="8633351560105748141">"未命名文件夹"</string>
-    <string name="workspace_description_format" msgid="2968608205939373034">"主屏幕 %1$d"</string>
-    <string name="default_scroll_format" msgid="4057140866420001240">"第 %1$d 页，共 %2$d 页"</string>
-    <string name="workspace_scroll_format" msgid="1704767047951143301">"主屏幕 %1$d（共 %2$d 个）"</string>
-    <string name="apps_customize_apps_scroll_format" msgid="5494241912377704885">"应用：第 %1$d 页，共 %2$d 页"</string>
-    <string name="apps_customize_widgets_scroll_format" msgid="5383009742241717437">"小部件：第 %1$d 页，共 %2$d 页"</string>
-    <string name="workspace_cling_title" msgid="738396473989890567">"您的主屏幕您做主"</string>
-    <string name="workspace_cling_move_item" msgid="791013895761065070">"您可以在此处放置自己喜爱的应用。"</string>
-    <string name="workspace_cling_open_all_apps" msgid="2459977609848572588">"要查看您的所有应用，请触摸该圆圈。"</string>
-    <string name="all_apps_cling_title" msgid="2559734712581447107">"选择一些应用"</string>
-    <string name="all_apps_cling_add_item" msgid="5665035103260318891">"要将某个应用添加到主屏幕，请触摸并按住该应用。"</string>
-    <string name="folder_cling_title" msgid="4308949882377840953">"使用文件夹整理应用"</string>
-    <string name="folder_cling_move_item" msgid="270598675060435169">"要移动应用，请触摸并按住该应用。"</string>
-    <string name="folder_cling_create_folder" msgid="8352867485656129478">"要在主屏幕上创建新文件夹，请将一个应用叠放到另一个上。"</string>
-    <string name="cling_dismiss" msgid="2780907108735868381">"确定"</string>
-    <string name="folder_opened" msgid="1262064100943801533">"文件夹已打开，尺寸为 <xliff:g id="WIDTH">%1$d</xliff:g> × <xliff:g id="HEIGHT">%2$d</xliff:g>"</string>
-    <string name="folder_tap_to_close" msgid="1335478160661137579">"触摸可关闭文件夹"</string>
-    <string name="folder_tap_to_rename" msgid="5201612989905472442">"触摸可保存重命名"</string>
-    <string name="folder_closed" msgid="3130534551370511932">"文件夹已关闭"</string>
-    <string name="folder_renamed" msgid="7951233572858053642">"已将文件夹重命名为“<xliff:g id="NAME">%1$s</xliff:g>”"</string>
-    <string name="folder_name_format" msgid="3051680259794759037">"文件夹：<xliff:g id="NAME">%1$s</xliff:g>"</string>
-    <string name="custom_workspace_cling_title_1" msgid="1433009175359948587"></string>
-    <string name="custom_workspace_cling_description_1" msgid="6875529190849858047"></string>
-    <string name="custom_workspace_cling_title_2" msgid="5516006164661020362"></string>
-    <string name="custom_workspace_cling_description_2" msgid="2758258454975288377"></string>
-    
+ --><resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string msgid="8424725141379931883" name="application_name">"首页"</string>
+    <string msgid="5921706419368316758" name="home">"主屏幕"</string>
+    <string msgid="3371120195364560632" name="uid_name">"Android 核心应用"</string>
+    <string msgid="8551881338202938211" name="folder_name"/>
+    <string msgid="6063168087625352235" name="chooser_wallpaper">"选择壁纸来源"</string>
+    <string msgid="4215640646180727542" name="wallpaper_instructions">"设置壁纸"</string>
+    <string msgid="5630222540525626723" name="pick_wallpaper">"壁纸"</string>
+    <string msgid="217823393239365967" name="activity_not_found">"未安装该应用。"</string>
+    <string msgid="9145860100000983599" name="widgets_tab_label">"小部件"</string>
+    <string msgid="7395697462851217506" name="long_press_widget_to_add">"触摸并按住可选取小部件。"</string>
+    <string msgid="2652226429823445833" name="market">"购买"</string>
+    <string msgid="2285187188524172774" name="external_drop_widget_error">"无法将项拖放到此主屏幕上。"</string>
+    <string msgid="7040647073452295370" name="external_drop_widget_pick_title">"选择要创建的小部件"</string>
+    <string msgid="5646236631298452787" name="rename_folder_label">"文件夹名称"</string>
+    <string msgid="4544573104191526550" name="rename_folder_title">"重命名文件夹"</string>
+    <string msgid="6016003384693240896" name="rename_action">"确定"</string>
+    <string msgid="3811860427489435048" name="cancel_action">"取消"</string>
+    <string msgid="6233177331075781114" name="menu_item_add_item">"添加到主屏幕"</string>
+    <string msgid="2103752818818161976" name="group_applications">"应用"</string>
+    <string msgid="9133529424900391877" name="group_shortcuts">"快捷方式"</string>
+    <string msgid="6704978494073105844" name="group_widgets">"小部件"</string>
+    <string msgid="1568191644272224858" name="group_wallpapers">"壁纸"</string>
+    <string msgid="1759078539443491182" name="completely_out_of_space">"您的主屏幕上没有空间了。"</string>
+    <string msgid="8365249326091984698" name="out_of_space">"此主屏幕上已没有空间。"</string>
+    <string msgid="6304886797358479361" name="hotseat_out_of_space">"底部区域已无空间。"</string>
+    <string msgid="6545340627805449250" name="invalid_hotseat_item">"该小部件太大，超出基座区域可用空间。"</string>
+    <string msgid="7071557296331322355" name="shortcut_installed">"已创建“<xliff:g id="NAME">%s</xliff:g>”快捷方式。"</string>
+    <string msgid="2129499669449749995" name="shortcut_uninstalled">"已删除“<xliff:g id="NAME">%s</xliff:g>”快捷方式。"</string>
+    <string msgid="4757756326465060694" name="shortcut_duplicate">"“<xliff:g id="NAME">%s</xliff:g>”快捷方式已存在。"</string>
+    <string msgid="1873670208166882222" name="title_select_shortcut">"选择快捷方式"</string>
+    <string msgid="1793455815754848652" name="title_select_application">"选择应用"</string>
+    <string msgid="2578400570124163469" name="all_apps_button_label">"应用"</string>
+    <string msgid="1022222300329398558" name="all_apps_home_button_label">"主屏幕"</string>
+    <string msgid="7153615831493049150" name="delete_zone_label_workspace">"删除"</string>
+    <string msgid="6664588234817475108" name="delete_zone_label_all_apps">"卸载"</string>
+    <string msgid="665300185123139530" name="delete_target_label">"删除"</string>
+    <string msgid="748894921183769150" name="delete_target_uninstall_label">"卸载"</string>
+    <string msgid="4019495079517426980" name="info_target_label">"应用信息"</string>
+    <string msgid="816822994629942611" name="accessibility_search_button">"搜索"</string>
+    <string msgid="3938249215065842475" name="accessibility_voice_search_button">"语音搜索"</string>
+    <string msgid="8803738611398979849" name="accessibility_all_apps_button">"应用"</string>
+    <string msgid="3628162007991023603" name="accessibility_delete_button">"删除"</string>
+    <string msgid="3683920959591819044" name="delete_zone_label_all_apps_system_app">"卸载更新"</string>
+    <string msgid="3065046628354640854" name="menu_add">"添加"</string>
+    <string msgid="2308685199463588895" name="menu_manage_apps">"管理应用"</string>
+    <string msgid="5837429080911269832" name="menu_wallpaper">"壁纸"</string>
+    <string msgid="4826514464423239041" name="menu_search">"搜索"</string>
+    <string msgid="6424587053194766192" name="menu_notifications">"通知"</string>
+    <string msgid="3946232973327980394" name="menu_settings">"系统设置"</string>
+    <string msgid="4901160661634590633" name="menu_help">"帮助"</string>
+    <string msgid="4089398025537640349" name="cab_menu_delete_app">"卸载该应用"</string>
+    <string msgid="914548323652698884" name="cab_menu_app_info">"应用详情"</string>
+    <string msgid="6378522164293415735" name="cab_app_selection_text">"选中了 1 个应用"</string>
+    <string msgid="962527270506951955" name="cab_widget_selection_text">"已选中 1 个小部件"</string>
+    <string msgid="8916111874189565067" name="cab_folder_selection_text">"已选中 1 个文件夹"</string>
+    <string msgid="8115847384500412878" name="cab_shortcut_selection_text">"已选中 1 个快捷方式"</string>
+    <string msgid="1201690825493376489" name="permlab_install_shortcut">"安装快捷方式"</string>
+    <string msgid="8634424803272077038" name="permdesc_install_shortcut">"允许应用自行添加快捷方式。"</string>
+    <string msgid="7696645932555926449" name="permlab_uninstall_shortcut">"卸载快捷方式"</string>
+    <string msgid="274355570620220977" name="permdesc_uninstall_shortcut">"允许应用自行删除快捷方式，而无需用户干预。"</string>
+    <string msgid="3452408290738106747" name="permlab_read_settings">"读取主屏幕的设置和快捷方式"</string>
+    <string msgid="5788109303585403679" name="permdesc_read_settings">"允许应用读取主屏幕中的设置和快捷方式。"</string>
+    <string msgid="1360567537236705628" name="permlab_write_settings">"写入主屏幕的设置和快捷方式"</string>
+    <string msgid="8530105489115785531" name="permdesc_write_settings">"允许应用更改主屏幕中的设置和快捷方式。"</string>
+    <string msgid="8359351016167075858" name="gadget_error_text">"载入小部件时出现问题"</string>
+    <string msgid="6429814133777046491" name="uninstall_system_app_text">"这是系统应用，无法卸载。"</string>
+    <string msgid="2847171357608437154" name="dream_name">"Rocket Launcher"</string>
+    <string msgid="8633351560105748141" name="folder_hint_text">"未命名文件夹"</string>
+    <string msgid="2968608205939373034" name="workspace_description_format">"主屏幕 %1$d"</string>
+    <string msgid="4057140866420001240" name="default_scroll_format">"第 %1$d 页，共 %2$d 页"</string>
+    <string msgid="1704767047951143301" name="workspace_scroll_format">"主屏幕 %1$d（共 %2$d 个）"</string>
+    <string msgid="5494241912377704885" name="apps_customize_apps_scroll_format">"应用：第 %1$d 页，共 %2$d 页"</string>
+    <string msgid="5383009742241717437" name="apps_customize_widgets_scroll_format">"小部件：第 %1$d 页，共 %2$d 页"</string>
+    <string msgid="738396473989890567" name="workspace_cling_title">"您的主屏幕您做主"</string>
+    <string msgid="791013895761065070" name="workspace_cling_move_item">"您可以在此处放置自己喜爱的应用。"</string>
+    <string msgid="2459977609848572588" name="workspace_cling_open_all_apps">"要查看您的所有应用，请触摸该圆圈。"</string>
+    <string msgid="2559734712581447107" name="all_apps_cling_title">"选择一些应用"</string>
+    <string msgid="5665035103260318891" name="all_apps_cling_add_item">"要将某个应用添加到主屏幕，请触摸并按住该应用。"</string>
+    <string msgid="4308949882377840953" name="folder_cling_title">"使用文件夹整理应用"</string>
+    <string msgid="270598675060435169" name="folder_cling_move_item">"要移动应用，请触摸并按住该应用。"</string>
+    <string msgid="8352867485656129478" name="folder_cling_create_folder">"要在主屏幕上创建新文件夹，请将一个应用叠放到另一个上。"</string>
+    <string msgid="2780907108735868381" name="cling_dismiss">"确定"</string>
+    <string msgid="1262064100943801533" name="folder_opened">"文件夹已打开，尺寸为 <xliff:g id="WIDTH">%1$d</xliff:g> × <xliff:g id="HEIGHT">%2$d</xliff:g>"</string>
+    <string msgid="1335478160661137579" name="folder_tap_to_close">"触摸可关闭文件夹"</string>
+    <string msgid="5201612989905472442" name="folder_tap_to_rename">"触摸可保存重命名"</string>
+    <string msgid="3130534551370511932" name="folder_closed">"文件夹已关闭"</string>
+    <string msgid="7951233572858053642" name="folder_renamed">"已将文件夹重命名为“<xliff:g id="NAME">%1$s</xliff:g>”"</string>
+    <string msgid="3051680259794759037" name="folder_name_format">"文件夹：<xliff:g id="NAME">%1$s</xliff:g>"</string>
+    <string msgid="1433009175359948587" name="custom_workspace_cling_title_1"/>
+    <string msgid="6875529190849858047" name="custom_workspace_cling_description_1"/>
+    <string msgid="5516006164661020362" name="custom_workspace_cling_title_2"/>
+    <string msgid="2758258454975288377" name="custom_workspace_cling_description_2"/>
     <string name="widget_app_app">应用</string>
     <string name="widget_app_filemanager">文件管理</string>
     <string name="widget_app_gallery">图库</string>
@@ -120,19 +116,21 @@
     <string name="widget_app_navit">导航</string>
     <string name="widget_app_news">新闻</string>
     <string name="widget_app_setting">设置</string>
-    <string name="widget_app_video">视频</string> 
-    <string name="widget_app_email">邮件</string> 
-    <string name="widget_app_calc">计算器</string> 
-    <string name="widget_app_eq">均衡器</string> 
+    <string name="widget_app_video">视频</string>
+    <string name="widget_app_email">邮件</string>
+    <string name="widget_app_calc">计算器</string>
+    <string name="widget_app_eq">均衡器</string>
     <string name="widget_app_dtv">数字电视</string>
     <string name="widget_app_maxthon">遨游浏览器</string>
-    <string name="widget_app_driving_mode">驾驶模式</string>  
-    <string name="no_navi_app">没有安装导航应用程序或者没有设置导航应用程序信息</string> 
-    
+    <string name="widget_app_driving_mode">驾驶模式</string>
+    <string name="no_navi_app">没有安装导航应用程序或者没有设置导航应用程序信息</string>
     <string name="app_navi_name">导航</string>
     <string name="app_radio_name">收音</string>
     <string name="app_allapp_name">应用</string>
     <string name="app_bt_name">蓝牙</string>
     <string name="app_music_name">音乐</string>
     <string name="app_parking_name">全景泊车</string>
+    <string name="time">"时间"</string>
+    <string name="settings">"设置"</string>
+    <string name="menu">"菜单"</string>
 </resources>

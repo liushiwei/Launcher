@@ -64,8 +64,8 @@ public class Clock extends TextView {
 	public Clock(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		mAmPmStyle = AM_PM_STYLE_NORMAL;
-		Typeface customFont = Typeface.createFromAsset(context.getAssets(), "fonts/LiquidCrystal-Normal.otf");
-		setTypeface(customFont);
+//		Typeface customFont = Typeface.createFromAsset(context.getAssets(), "fonts/LiquidCrystal-Normal.otf");
+//		setTypeface(customFont);
 	}
 
 	@Override

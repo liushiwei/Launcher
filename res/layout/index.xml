@@ -6,43 +6,179 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:gravity="center"
-        android:orientation="vertical" >
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp" >
 
-        <com.carit.util.Clock
-            android:id="@+id/clock1"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="90dp" />
+            android:orientation="vertical" >
 
-        <com.carit.util.DateView
-            android:id="@+id/date1"
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/time"
+                android:textSize="30dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:src="@drawable/left_line" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/menu"
+            android:textSize="30dp" />
+
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:textSize="25dp" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/settings"
+                android:textSize="30dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:src="@drawable/right_line" />
+        </LinearLayout>
     </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/index_bg_1" />
+
+        <TextView
+            android:id="@+id/navi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/navi_btn"
+            android:focusable="true"
+            android:gravity="center_horizontal"
+            android:nextFocusLeft="@+id/media"
+            android:nextFocusRight="@+id/media"
+            android:paddingTop="40dp"
+            android:text="NAVI"
+            android:layout_marginTop="200dp"
+            android:textSize="20dp" 
+            android:layout_gravity="center_horizontal"
+            />
+        <TextView
+            android:id="@+id/camera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/navi_btn"
+            android:focusable="true"
+            android:gravity="center_horizontal"
+            android:nextFocusLeft="@+id/media"
+            android:nextFocusRight="@+id/media"
+            android:paddingTop="40dp"
+            android:text="NAVI"
+            android:layout_marginTop="200dp"
+            android:textSize="20dp" 
+            android:layout_gravity="center_horizontal"
+            />
+
+        <TextView
+            android:id="@+id/media"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="100dp"
+            android:layout_marginTop="200dp"
+            android:focusable="true"
+            android:background="@drawable/media_btn"
+            android:gravity="center_horizontal"
+            android:nextFocusLeft="@+id/navi"
+            android:nextFocusRight="@+id/navi"
+            android:paddingTop="30dp"
+            android:text="MEDIA"
+            android:textSize="20dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="63dp"
+            android:layout_gravity="bottom"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/bottom_line" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp" >
+
+                <ImageView
+                    android:id="@+id/mute"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:src="@drawable/mute_icon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bottom_text_bg"
+                    android:gravity="center"
+                    android:text="TMC"
+                    android:textSize="20dp" />
+
+                <com.carit.util.Clock
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textSize="35dp" />
+
+                <ImageView
+                    android:id="@+id/bluetooth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:src="@drawable/mute_icon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bottom_text_bg"
+                    android:gravity="center"
+                    android:text="SIM"
+                    android:textSize="20dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center" >
-
-        <ImageButton
-            android:id="@+id/navi"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@android:color/transparent"
-            android:src="@drawable/navi_btn" />
-
-        <ImageButton
-            android:id="@+id/media"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@android:color/transparent"
-            android:src="@drawable/media_btn" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:visibility="gone" >
 
         <ImageButton
             android:id="@+id/yilian"

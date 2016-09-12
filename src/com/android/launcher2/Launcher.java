@@ -73,6 +73,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.View;
+import android.view.View.OnFocusChangeListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -870,19 +871,31 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         mAllAppsButton  = findViewById(R.id.apps);
         mAllAppsButton.setOnClickListener(this);
         ShortcutInfo navi = new ShortcutInfo();
+        navi.title = "amap";
         navi.setActivity(new ComponentName("com.autonavi.amapauto", "com.autonavi.auto.remote.fill.UsbFillActivity"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
         findViewById(R.id.navi).setTag(navi);
         navi = new ShortcutInfo();
+        navi.title = "vlc";
         navi.setActivity(new ComponentName("org.videolan.vlc", "org.videolan.vlc.StartActivity"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
         findViewById(R.id.media).setTag(navi);
 
         navi = new ShortcutInfo();
+        navi.title = "settings";
         navi.intent = new Intent(android.provider.Settings.ACTION_SETTINGS);
         findViewById(R.id.settings).setTag(navi);
         
         findViewById(R.id.settings).setOnClickListener(this);
         findViewById(R.id.navi).setOnClickListener(this);
         findViewById(R.id.media).setOnClickListener(this);
+        findViewById(R.id.navi).setOnFocusChangeListener(new OnFocusChangeListener() {
+			
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				Log.e(TAG, "onFocusChange  hasFocus"+hasFocus);
+				
+			}
+		});
+        findViewById(R.id.navi).requestFocus();
 
     }
 
@@ -2583,9 +2596,9 @@ public final class Launcher extends Activity implements View.OnClickListener, On
             // We only need to animate in the dock divider if we're going from spring loaded mode
             showDockDivider(animated && wasInSpringLoadedMode);
             // Set focus to the AppsCustomize button
-            if (mAllAppsButton != null) {
-                mAllAppsButton.requestFocus();
-            }
+//            if (mAllAppsButton != null) {
+//                mAllAppsButton.requestFocus();
+//            }
         }
 
         mWorkspace.flashScrollingIndicator(animated);

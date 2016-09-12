@@ -15,8 +15,8 @@
 -->
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_focused="true" android:state_pressed="true" android:drawable="@drawable/media_f_c" />
-    <item android:state_focused="true" android:state_pressed="false" android:drawable="@drawable/media_f" />
-    <item android:state_focused="false" android:state_pressed="true" android:drawable="@drawable/media_n_c" />
-    <item android:state_focused="false" android:state_pressed="false" android:drawable="@drawable/media_n" />
+    <item android:state_focused="true" android:state_pressed="true" android:drawable="@drawable/net_f_c" />
+    <item android:state_focused="true" android:state_pressed="false" android:drawable="@drawable/net_f" />
+    <item android:state_focused="false" android:state_pressed="true" android:drawable="@drawable/net_n_c" />
+    <item android:state_focused="false" android:state_pressed="false" android:drawable="@drawable/net_n" />
 </selector>
