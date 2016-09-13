@@ -887,17 +887,89 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         findViewById(R.id.settings).setOnClickListener(this);
         findViewById(R.id.navi).setOnClickListener(this);
         findViewById(R.id.media).setOnClickListener(this);
-        findViewById(R.id.navi).setOnFocusChangeListener(new OnFocusChangeListener() {
-			
-			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
-				Log.e(TAG, "onFocusChange  hasFocus"+hasFocus);
-				
-			}
-		});
+        findViewById(R.id.navi).setOnFocusChangeListener(mOnFocusChangeListener);
+        findViewById(R.id.settings).setOnFocusChangeListener(mOnFocusChangeListener);
+        findViewById(R.id.media).setOnFocusChangeListener(mOnFocusChangeListener);
+        findViewById(R.id.phone_con).setOnFocusChangeListener(mOnFocusChangeListener);
+        findViewById(R.id.net).setOnFocusChangeListener(mOnFocusChangeListener);
+        findViewById(R.id.voice).setOnFocusChangeListener(mOnFocusChangeListener);
+        findViewById(R.id.camera).setOnFocusChangeListener(mOnFocusChangeListener);
+        findViewById(R.id.apps).setOnFocusChangeListener(mOnFocusChangeListener);
+        findViewById(R.id.camera360).setOnFocusChangeListener(mOnFocusChangeListener);
         findViewById(R.id.navi).requestFocus();
-
     }
+    OnFocusChangeListener mOnFocusChangeListener = new OnFocusChangeListener() {
+		
+		@Override
+		public void onFocusChange(View v, boolean hasFocus) {
+			switch(v.getId()){
+			case R.id.navi:{
+				if(hasFocus){
+					ImageView bg = (ImageView) findViewById(R.id.index_bg);
+					bg.getDrawable().setLevel(1);
+				}
+				}
+				break;
+			case R.id.media:{
+				if(hasFocus){
+					ImageView bg = (ImageView) findViewById(R.id.index_bg);
+					bg.getDrawable().setLevel(2);
+				}
+				}
+				break;
+			case R.id.phone_con:{
+				if(hasFocus){
+					ImageView bg = (ImageView) findViewById(R.id.index_bg);
+					bg.getDrawable().setLevel(3);
+				}
+				}
+				break;
+			case R.id.net:{
+				if(hasFocus){
+					ImageView bg = (ImageView) findViewById(R.id.index_bg);
+					bg.getDrawable().setLevel(4);
+				}
+				}
+				break;
+			case R.id.voice:{
+				if(hasFocus){
+					ImageView bg = (ImageView) findViewById(R.id.index_bg);
+					bg.getDrawable().setLevel(5);
+				}
+				}
+				break;
+			case R.id.camera:{
+				if(hasFocus){
+					ImageView bg = (ImageView) findViewById(R.id.index_bg);
+					bg.getDrawable().setLevel(6);
+				}
+				}
+				break;
+			case R.id.settings:{
+				if(hasFocus){
+					ImageView bg = (ImageView) findViewById(R.id.index_bg);
+					bg.getDrawable().setLevel(7);
+				}
+				}
+				break;
+			case R.id.apps:{
+				if(hasFocus){
+					ImageView bg = (ImageView) findViewById(R.id.index_bg);
+					bg.getDrawable().setLevel(8);
+				}
+				}
+				break;
+			case R.id.camera360:{
+				if(hasFocus){
+					ImageView bg = (ImageView) findViewById(R.id.index_bg);
+					bg.getDrawable().setLevel(9);
+				}
+				}
+				break;
+			}
+			
+		}
+	};
 
     /**
      * Creates a view representing a shortcut.
