@@ -841,9 +841,9 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 
         // Setup the hotseat
         mHotseat = (Hotseat) findViewById(R.id.hotseat);
-        if (mHotseat != null) {
-            mHotseat.setup(this);
-        }
+//        if (mHotseat != null) {
+//            mHotseat.setup(this);
+//        }
 
         // Setup the workspace
         mWorkspace.setHapticFeedbackEnabled(false);

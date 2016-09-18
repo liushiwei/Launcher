@@ -2,60 +2,6 @@
 <!--  come here zgy -->
 
 <favorites xmlns:launcher="http://schemas.android.com/apk/res/com.george.launcher">
-    <appwidget
-        launcher:packageName="com.android.music"
-        launcher:className="com.android.music.MediaAppWidgetProvider_roadrover"
-        launcher:screen="2"
-        launcher:x="0"
-        launcher:y="0"
-        launcher:spanX="2"
-        launcher:spanY="2"/> 
-        
-    <!--  add by zgy -->
-    <appwidget
-        launcher:packageName="com.carit.bluetooth"
-          launcher:className="com.carit.bluetooth.BtWidgetProvider"
-        launcher:screen="2"
-        launcher:x="2"
-        launcher:y="0"
-        launcher:spanX="2"
-        launcher:spanY="2"/> 
-    
-    <appwidget
-        launcher:packageName="com.android.launcher"
-        launcher:className="com.android.launcher2.NaviWidgetProvider"
-        launcher:screen="1"
-        launcher:x="0"
-        launcher:y="0"
-        launcher:spanX="2"
-        launcher:spanY="1"/>   
-         
-    <appwidget
-        launcher:packageName="com.android.launcher"  
-        launcher:className="com.android.launcher2.AllAppWidgetProvider"
-        launcher:screen="1"
-        launcher:x="0"
-        launcher:y="1"
-        launcher:spanX="2"
-        launcher:spanY="1"/>   
-        
-    <appwidget
-        launcher:packageName="com.carit.radioplayer"
-        launcher:className="com.carit.radioplayer.WidgetProvider_roadrover"
-        launcher:screen="1"
-        launcher:x="2"
-        launcher:y="0"
-        launcher:spanX="2"
-        launcher:spanY="2"/> 
-        
-    <!-- add by zgy -->
-     <appwidget
-        launcher:packageName="com.android.launcher"
-        launcher:className="com.android.launcher2.AnalogAppWidgetProvider"   
-        launcher:screen="0"
-        launcher:x="0"
-        launcher:y="0"
-        launcher:spanX="4"
-        launcher:spanY="2" /> 
+   
         
 </favorites>
