@@ -54,7 +54,7 @@
             android:clearTaskOnLaunch="true"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|fontScale"
             android:launchMode="singleTask"
-            android:screenOrientation="nosensor"
+            android:screenOrientation="landscape"
             android:stateNotNeeded="true"
             android:theme="@style/Theme"
             android:windowSoftInputMode="adjustPan" >
