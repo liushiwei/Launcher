@@ -285,12 +285,12 @@ s -->
     <string name="time">Time</string>
     <string name="settings">Settings</string>
     <string name="menu">Menu</string>
-    <string name="navi">Navigation</string>
+    <string name="navi">Navi</string>
     <string name="media">Media</string>
     <string name="camera">DVR</string>
     <string name="camera360">360DVR</string>
     <string name="apps">All App</string>
     <string name="voice">Voice</string>
     <string name="net">Network</string>
-    <string name="phone_con">Phone Connector</string>
+    <string name="phone_con">E-Con</string>
 </resources>

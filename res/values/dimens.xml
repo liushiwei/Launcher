@@ -158,5 +158,7 @@
     <dimen name="widget_width">131dp</dimen>
     <dimen name="widget_width2">282dp</dimen>
     <dimen name="widget_height">130dp</dimen>
-    
+    <dimen name="icon_font_size1">20dp</dimen>
+    <dimen name="icon_font_size2">15dp</dimen>
+    <dimen name="icon_font_size3">20dp</dimen>
 </resources>
