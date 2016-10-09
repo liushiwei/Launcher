@@ -887,6 +887,11 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         findViewById(R.id.settings).setOnClickListener(this);
         findViewById(R.id.navi).setOnClickListener(this);
         findViewById(R.id.media).setOnClickListener(this);
+        findViewById(R.id.phone_con).setOnClickListener(this);
+        findViewById(R.id.net).setOnClickListener(this);
+        findViewById(R.id.voice).setOnClickListener(this);
+        findViewById(R.id.camera).setOnClickListener(this);
+        findViewById(R.id.camera360).setOnClickListener(this);
         findViewById(R.id.navi).setOnFocusChangeListener(mOnFocusChangeListener);
         findViewById(R.id.settings).setOnFocusChangeListener(mOnFocusChangeListener);
         findViewById(R.id.media).setOnFocusChangeListener(mOnFocusChangeListener);
