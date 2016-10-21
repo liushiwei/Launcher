@@ -22,10 +22,18 @@
          qsb_bar_height_inset represents qsb_bar_height minus the padding
          that we put on each page for allowing folders to draw out of bounds
     -->
-    <integer name="apps_customize_maxCellCountX">3</integer>
+    <integer name="apps_customize_maxCellCountX">4</integer>
     <integer name="apps_customize_maxCellCountY">2</integer>
+    
+    <dimen name="apps_customize_pageLayoutWidthGap">30dp</dimen>
+    <dimen name="apps_customize_pageLayoutHeightGap">30dp</dimen>
+    <dimen name="apps_customize_pageLayoutPaddingTop">20dp</dimen>
+    <dimen name="apps_customize_pageLayoutPaddingBottom">20dp</dimen>
+    <dimen name="apps_customize_pageLayoutPaddingLeft">5dp</dimen>
+    <dimen name="apps_customize_pageLayoutPaddingRight">5dp</dimen>
+    <bool name="is_large_screen">true</bool>
 
     <dimen name="apps_customize_cell_width">137dp</dimen>
-    <dimen name="apps_customize_cell_height">141dp</dimen>
-
+    <dimen name="apps_customize_cell_height">137dp</dimen>
+    <integer name="cell_count_y">2</integer>
 </resources>

@@ -880,6 +880,11 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         findViewById(R.id.media).setTag(navi);
 
         navi = new ShortcutInfo();
+        navi.title = "browser";
+        navi.setActivity(new ComponentName("com.android.browser", "com.android.browser.BrowserActivity"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+        findViewById(R.id.net).setTag(navi);
+        
+        navi = new ShortcutInfo();
         navi.title = "settings";
         navi.intent = new Intent(android.provider.Settings.ACTION_SETTINGS);
         findViewById(R.id.settings).setTag(navi);
@@ -2662,6 +2667,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
     }
 
     void showWorkspace(boolean animated, Runnable onCompleteRunnable) {
+    	hideStatusBar();
         if (mState != State.WORKSPACE) {
             boolean wasInSpringLoadedMode = (mState == State.APPS_CUSTOMIZE_SPRING_LOADED);
             mWorkspace.setVisibility(View.VISIBLE);
@@ -2689,6 +2695,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
     }
 
     void showAllApps(boolean animated) {
+    	showStatusBar();
         if (mState != State.WORKSPACE)   return;
         
         showAppsCustomizeHelper(animated, false);
@@ -3552,7 +3559,22 @@ public final class Launcher extends Activity implements View.OnClickListener, On
             writer.println("  " + sDumpLogs.get(i));
         }
     }
+    
+
+	private void hideStatusBar() {
+		WindowManager.LayoutParams attrs = getWindow().getAttributes();
+		attrs.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
+		getWindow().setAttributes(attrs);
+	}
+	
+	private void showStatusBar() {
+		WindowManager.LayoutParams attrs = getWindow().getAttributes();
+		attrs.flags &= ~WindowManager.LayoutParams.FLAG_FULLSCREEN;
+		getWindow().setAttributes(attrs);
+	}
 }
+
+
 
 
 interface LauncherTransitionable {
