@@ -274,7 +274,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
     }
 
     int getPageCount() {
-        return 1;
+        return getChildCount();
     }
 
     View getPageAt(int index) {
@@ -1723,9 +1723,9 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
             if (parent != null) {
                 mScrollIndicator = (View) (parent.findViewById(R.id.paged_view_indicator));
                 mHasScrollIndicator = mScrollIndicator != null;
-                if (mHasScrollIndicator) {
-                    mScrollIndicator.setVisibility(View.VISIBLE);
-                }
+//                if (mHasScrollIndicator) {
+//                    mScrollIndicator.setVisibility(View.VISIBLE);
+//                }
             }
             updateScrollingIndicatorBg();
         }

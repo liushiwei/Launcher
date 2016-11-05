@@ -51,15 +51,7 @@
             android:layout_marginRight="@dimen/button_bar_height"
             layout="@layout/workspace_divider" />
 
-         <include
-            android:id="@+id/paged_view_indicator1"
-            android:layout_width="0dp"
-            android:layout_height="2dp"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="150dp"
-            android:layout_marginLeft="460dp"
-            layout="@layout/scroll_home_indicator"
-            android:visibility="invisible" />
+        
 
         <include
             android:id="@+id/paged_view_indicator"
@@ -67,7 +59,8 @@
             android:layout_height="2dp"
             android:layout_gravity="bottom"
             android:layout_marginBottom="150dp"
-            layout="@layout/scroll_indicator" />
+            layout="@layout/scroll_indicator"
+            android:visibility="gone" />
 
         <include
             android:id="@+id/hotseat"
