@@ -16,6 +16,7 @@
             android:orientation="vertical" >
 
             <TextView
+                android:id="@+id/time_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -43,6 +44,7 @@
             android:orientation="vertical" >
 
             <TextView
+                android:id="@+id/settings_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -232,20 +234,7 @@
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp" >
 
-                <ImageView
-                    android:id="@+id/mute"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="15dp"
-                    android:src="@drawable/mute_icon" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bottom_text_bg"
-                    android:gravity="center"
-                    android:text="@string/tmc"
-                    android:textSize="20dp" />
+                
 
                 <com.carit.util.Clock
                     android:layout_width="0dp"
@@ -254,20 +243,7 @@
                     android:gravity="center"
                     android:textSize="35dp" />
 
-                <ImageView
-                    android:id="@+id/bluetooth"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="15dp"
-                    android:src="@drawable/bluetooth_icon" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bottom_text_bg"
-                    android:gravity="center"
-                    android:text="@string/sim"
-                    android:textSize="20dp" />
+                
             </LinearLayout>
         </LinearLayout>
     </FrameLayout>

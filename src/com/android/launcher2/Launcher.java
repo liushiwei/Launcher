@@ -893,7 +893,8 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         navi.title = "phone_con";
         navi.setActivity(new ComponentName("com.baidu.carlifevehicle", "com.baidu.carlifevehicle.CarlifeActivity"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
         findViewById(R.id.phone_con).setTag(navi);
-        
+        findViewById(R.id.settings_title).setOnClickListener(this);
+        findViewById(R.id.time_title).setOnClickListener(this);
         findViewById(R.id.settings).setOnClickListener(this);
         findViewById(R.id.navi).setOnClickListener(this);
         findViewById(R.id.media).setOnClickListener(this);
@@ -1899,6 +1900,10 @@ public final class Launcher extends Activity implements View.OnClickListener, On
             } else {
                 onClickAllAppsButton(v);
             }
+        }else if(v.getId() == R.id.settings_title){
+        	startActivity(new Intent(android.provider.Settings.ACTION_SETTINGS));
+        }else if(v.getId() == R.id.time_title){
+        	startActivity(new Intent(android.provider.Settings.ACTION_DATE_SETTINGS));
         }
     }
 
