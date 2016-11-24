@@ -287,8 +287,6 @@ public class FocusHelper {
         // Note we have an extra parent because of the
         // PagedViewCellLayout/PagedViewCellLayoutChildren relationship
         final PagedView container = (PagedView) parentLayout.getParent();
-        final TabHost tabHost = findTabHostParent(container);
-        final TabWidget tabs = tabHost.getTabWidget();
         final int iconIndex = itemContainer.indexOfChild(v);
         final int itemCount = itemContainer.getChildCount();
         final int pageIndex = ((PagedView) container).indexToPage(container.indexOfChild(parentLayout));
@@ -347,9 +345,7 @@ public class FocusHelper {
                     if (y > 0) {
                         int newiconIndex = ((y - 1) * countX) + x;
                         itemContainer.getChildAt(newiconIndex).requestFocus();
-                    } else {
-                        tabs.requestFocus();
-                    }
+                    } 
                 }
                 wasHandled = true;
                 break;
