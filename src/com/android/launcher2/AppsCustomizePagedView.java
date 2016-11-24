@@ -41,9 +41,12 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.GridLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
+
 import com.george.launcher.R;
 import com.android.launcher2.DropTarget.DragObject;
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -1756,5 +1759,23 @@ public class AppsCustomizePagedView extends PagedViewWithDraggableItems implemen
             count = mNumWidgetPages;
         }
         return String.format(getContext().getString(stringId), page + 1, count);
+    }
+    public void updateScrollingIndicatorBg(){
+    	ViewGroup parent = (ViewGroup) getParent();
+    	mScrollIndicatorBg = (LinearLayout) parent.findViewById(R.id.linearLayout_fav);
+    	
+        if(mScrollIndicatorBg!=null){
+        	if (mScrollIndicatorBg.getChildCount() > 0)
+        		mScrollIndicatorBg.removeAllViews();
+        	Log.e(TAG, "getChildCount() ="+getChildCount());
+        	for (int i = 0; i < getChildCount(); i++) {
+        		ImageView iv = new ImageView(getContext());
+        		LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        		iv.setLayoutParams(p);
+        		iv.setBackgroundResource(R.drawable.point_n);
+        		mScrollIndicatorBg.addView(iv);
+        	}
+        	mScrollIndicatorBg.postInvalidate();
+        }
     }
 }

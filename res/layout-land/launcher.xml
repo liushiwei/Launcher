@@ -53,14 +53,6 @@
 
         
 
-        <include
-            android:id="@+id/paged_view_indicator"
-            android:layout_width="40dp"
-            android:layout_height="2dp"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="150dp"
-            layout="@layout/scroll_indicator"
-            android:visibility="gone" />
 
         <include
             android:id="@+id/hotseat"

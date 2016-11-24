@@ -164,7 +164,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
     protected static final int sScrollIndicatorFlashDuration = 650;
     private boolean mScrollingPaused = false;
     
-    private LinearLayout mScrollIndicatorBg;
+    public LinearLayout mScrollIndicatorBg;
 
     // If set, will defer loading associated pages until the scrolling settles
     private boolean mDeferLoadAssociatedPagesUntilScrollCompletes;
@@ -1910,18 +1910,18 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
     	ViewGroup parent = (ViewGroup) getParent();
     	mScrollIndicatorBg = (LinearLayout) parent.findViewById(R.id.linearLayout_fav);
     	
-        if(mScrollIndicatorBg!=null){
-        	if (mScrollIndicatorBg.getChildCount() > 0)
-        		mScrollIndicatorBg.removeAllViews();
-        	Log.e(TAG, "getChildCount() ="+getChildCount());
-        	for (int i = 0; i < getChildCount(); i++) {
-        		ImageView iv = new ImageView(getContext());
-        		LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        		iv.setLayoutParams(p);
-        		iv.setBackgroundResource(R.drawable.point_n);
-        		mScrollIndicatorBg.addView(iv);
-        	}
-        	mScrollIndicatorBg.postInvalidate();
-        }
+//        if(mScrollIndicatorBg!=null){
+//        	if (mScrollIndicatorBg.getChildCount() > 0)
+//        		mScrollIndicatorBg.removeAllViews();
+//        	Log.e(TAG, "getChildCount() ="+getChildCount());
+//        	for (int i = 0; i < getChildCount(); i++) {
+//        		ImageView iv = new ImageView(getContext());
+//        		LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+//        		iv.setLayoutParams(p);
+//        		iv.setBackgroundResource(R.drawable.point_n);
+//        		mScrollIndicatorBg.addView(iv);
+//        	}
+//        	mScrollIndicatorBg.postInvalidate();
+//        }
     }
 }
