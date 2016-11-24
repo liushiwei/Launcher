@@ -874,9 +874,15 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         navi.title = "amap";
         navi.setActivity(new ComponentName("com.autonavi.amapauto", "com.autonavi.auto.remote.fill.UsbFillActivity"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
         findViewById(R.id.navi).setTag(navi);
+        
         navi = new ShortcutInfo();
-        navi.title = "vlc";
-        navi.setActivity(new ComponentName("org.videolan.vlc", "org.videolan.vlc.StartActivity"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+        navi.title = "mxplayer";
+        navi.setActivity(new ComponentName("com.mxtech.videoplayer.ad", "com.mxtech.videoplayer.ad.ActivityMediaList"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+        findViewById(R.id.video).setTag(navi);
+        
+        navi = new ShortcutInfo();
+        navi.title = "music";
+        navi.setActivity(new ComponentName("com.george.music", "com.carit.bmw.activity.HomeActivity"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
         findViewById(R.id.media).setTag(navi);
 
         navi = new ShortcutInfo();
@@ -898,6 +904,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         findViewById(R.id.settings).setOnClickListener(this);
         findViewById(R.id.navi).setOnClickListener(this);
         findViewById(R.id.media).setOnClickListener(this);
+        findViewById(R.id.video).setOnClickListener(this);
         findViewById(R.id.phone_con).setOnClickListener(this);
         findViewById(R.id.net).setOnClickListener(this);
         findViewById(R.id.voice).setOnClickListener(this);

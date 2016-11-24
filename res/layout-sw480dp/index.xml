@@ -131,7 +131,7 @@
             android:focusable="true"
             android:gravity="center_horizontal"
             android:nextFocusLeft="@+id/phone_con"
-            android:nextFocusRight="@+id/voice"
+            android:nextFocusRight="@+id/video"
             android:paddingTop="40dp"
             android:text="@string/net"
             android:textSize="@dimen/icon_font_size1" />
@@ -150,6 +150,22 @@
             android:nextFocusRight="@+id/camera"
             android:paddingTop="17dp"
             android:text="@string/voice"
+            android:textSize="@dimen/icon_font_size1" 
+            android:visibility="gone"/>
+        <TextView
+            android:id="@+id/video"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="140dp"
+            android:layout_marginTop="0dp"
+            android:background="@drawable/video_btn"
+            android:focusable="true"
+            android:gravity="center_horizontal"
+            android:nextFocusLeft="@+id/net"
+            android:nextFocusRight="@+id/camera"
+            android:paddingTop="17dp"
+            android:text="@string/video"
             android:textSize="@dimen/icon_font_size1" />
 
         <TextView
@@ -162,7 +178,7 @@
             android:background="@drawable/camera"
             android:focusable="true"
             android:gravity="center_horizontal"
-            android:nextFocusLeft="@+id/voice"
+            android:nextFocusLeft="@+id/video"
             android:nextFocusRight="@+id/settings"
             android:paddingTop="20dp"
             android:text="@string/camera"

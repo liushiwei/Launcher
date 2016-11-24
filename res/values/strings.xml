@@ -292,6 +292,7 @@ s -->
     <string name="camera360">360DVR</string>
     <string name="apps">All App</string>
     <string name="voice">Voice</string>
+    <string name="video">Video</string>
     <string name="net">Network</string>
     <string name="phone_con">E-Con</string>
     <string name="sim">SIM</string>
