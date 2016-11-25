@@ -875,6 +875,12 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         navi.setActivity(new ComponentName("com.autonavi.amapauto", "com.autonavi.auto.remote.fill.UsbFillActivity"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
         findViewById(R.id.navi).setTag(navi);
         
+        
+        navi = new ShortcutInfo();
+        navi.title = "dvr";
+        navi.setActivity(new ComponentName("com.coresmore.camera", "com.coresmore.camera.action.MainActivity"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+        findViewById(R.id.camera).setTag(navi);
+        
         navi = new ShortcutInfo();
         navi.title = "mxplayer";
         navi.setActivity(new ComponentName("com.mxtech.videoplayer.ad", "com.mxtech.videoplayer.ad.ActivityMediaList"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
