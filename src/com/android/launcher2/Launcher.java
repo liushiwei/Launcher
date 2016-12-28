@@ -1917,6 +1917,8 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         	startActivity(new Intent(android.provider.Settings.ACTION_SETTINGS));
         }else if(v.getId() == R.id.time_title){
         	startActivity(new Intent(android.provider.Settings.ACTION_DATE_SETTINGS));
+        }else if(v.getId() == R.id.camera360){
+        	Toast.makeText(mLauncher, "Not find camera device!", Toast.LENGTH_SHORT).show();
         }
     }
 
