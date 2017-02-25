@@ -916,6 +916,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         findViewById(R.id.voice).setOnClickListener(this);
         findViewById(R.id.camera).setOnClickListener(this);
         findViewById(R.id.camera360).setOnClickListener(this);
+        findViewById(R.id.mmi).setOnClickListener(this);
         findViewById(R.id.navi).setOnFocusChangeListener(mOnFocusChangeListener);
         findViewById(R.id.settings).setOnFocusChangeListener(mOnFocusChangeListener);
         findViewById(R.id.media).setOnFocusChangeListener(mOnFocusChangeListener);
@@ -1919,6 +1920,8 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         	startActivity(new Intent(android.provider.Settings.ACTION_DATE_SETTINGS));
         }else if(v.getId() == R.id.camera360){
         	Toast.makeText(mLauncher, "Did not find the camera!", Toast.LENGTH_SHORT).show();
+        }else if(v.getId() == R.id.mmi){
+        	sendBroadcast(new Intent("com.george.settings.switch_source"));
         }
     }
 
