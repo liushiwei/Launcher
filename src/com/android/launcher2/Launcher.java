@@ -883,12 +883,12 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         
         navi = new ShortcutInfo();
         navi.title = "simpleplayer";
-        navi.setActivity(new ComponentName("com.george.simpleplayer", "com.george.simpleplayer.ui.FoldersBrowserActivity"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+        navi.setActivity(new ComponentName("com.george.simpleplayer", "com.george.simpleplayer.ui.VideoMediaActivity"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
         findViewById(R.id.video).setTag(navi);
         
         navi = new ShortcutInfo();
         navi.title = "music";
-        navi.setActivity(new ComponentName("com.george.music", "com.carit.bmw.activity.HomeActivity"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+        navi.setActivity(new ComponentName("com.george.simpleplayer", "com.george.simpleplayer.ui.AudioMediaActivity"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
         findViewById(R.id.media).setTag(navi);
 
         navi = new ShortcutInfo();
