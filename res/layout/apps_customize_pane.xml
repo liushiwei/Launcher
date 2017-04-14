@@ -2,7 +2,7 @@
 <!-- Come here  shpw all app pager zgy -->
 <com.android.launcher2.AppsCustomizeTabHost xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:launcher="http://schemas.android.com/apk/res/com.george.launcher"
-    android:background="@android:color/black" >
+    android:background="@drawable/vbg" >
 
     <LinearLayout
         android:id="@+id/apps_customize_content"
