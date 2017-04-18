@@ -186,10 +186,7 @@ public class IconCache {
             } else if(entry.title.trim().equals("亿连手机互联")){
             	entry.title = "手机互联";
             	
-            }  else if(entry.title.trim().equals(" 高德地图 ")){
-            	entry.title = "导航";
-            	
-            } else if(entry.title.equals(" Amap ")){
+            }else if(entry.title.equals(" Amap ")){
             	entry.title = "Navigation";
             }
             else{
