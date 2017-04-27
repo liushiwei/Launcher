@@ -188,10 +188,8 @@ public class IconCache {
             	
             }else if(entry.title.equals(" Amap ")){
             	entry.title = "Navigation";
-            }
-            else{
-            	
-            }
+            } 
+           
             
             
             entry.icon = Utilities.createIconBitmap(getFullResIcon(info), mContext);

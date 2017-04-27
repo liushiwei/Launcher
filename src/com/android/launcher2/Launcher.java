@@ -643,6 +643,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
     @Override
     protected void onResume() {
         super.onResume();
+        sendBroadcast(new Intent("com.george.intent.launcher_show"));
         // Restore the previous launcher state
         if (mOnResumeState == State.WORKSPACE) {
             showWorkspace(false);
@@ -687,6 +688,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         // NOTE: We want all transitions from launcher to act as if the wallpaper were enabled to be consistent.  So re-enable the flag here, and we will re-disable it as necessary when Launcher resumes and we are still in AllApps.
         updateWallpaperVisibility(true);
         super.onPause();
+        sendBroadcast(new Intent("com.george.intent.launcher_hide"));
         mPaused = true;
         mDragController.cancelDrag();
         mDragController.resetLastGestureUpTime();
@@ -883,12 +885,12 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         
         navi = new ShortcutInfo();
         navi.title = "simpleplayer";
-        navi.setActivity(new ComponentName("com.george.simpleplayer", "com.george.simpleplayer.ui.VideoMediaActivity"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        navi.setActivity(new ComponentName("com.george.simpleplayer", "com.george.simpleplayer.ui.VideoPlayerActivity"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         findViewById(R.id.video).setTag(navi);
         
         navi = new ShortcutInfo();
         navi.title = "music";
-        navi.setActivity(new ComponentName("com.george.simpleplayer", "com.george.simpleplayer.ui.AudioMediaActivity"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        navi.setActivity(new ComponentName("com.george.simpleplayer", "com.george.simpleplayer.ui.AudioPlayerActivity"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         findViewById(R.id.media).setTag(navi);
 
         navi = new ShortcutInfo();

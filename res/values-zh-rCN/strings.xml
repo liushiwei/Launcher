@@ -136,9 +136,9 @@
     <string name="menu">"菜单"</string>
     <string name="navi">导航</string>
     <string name="media">多媒体</string>
-    <string name="camera">DVR</string>
+    <string name="camera">数字电视</string>
     <string name="apps">应用</string>
-    <string name="camera360">360DVR</string>
+    <string name="camera360">全景记录</string>
     <string name="voice">语音控制</string>
     <string name="video">视频</string>
     <string name="net">互联网</string>
