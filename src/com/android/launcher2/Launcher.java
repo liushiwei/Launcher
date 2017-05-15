@@ -880,7 +880,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         
         navi = new ShortcutInfo();
         navi.title = "dvr";
-        navi.setActivity(new ComponentName("com.coresmore.camera", "com.coresmore.camera.action.MainActivity"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+        navi.setActivity(new ComponentName("com.george.dtv", "com.george.dtv.MainActivity"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
         findViewById(R.id.camera).setTag(navi);
         
         navi = new ShortcutInfo();
@@ -907,6 +907,13 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         navi.title = "phone_con";
         navi.setActivity(new ComponentName("com.baidu.carlifevehicle", "com.baidu.carlifevehicle.CarlifeActivity"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
         findViewById(R.id.phone_con).setTag(navi);
+        
+        navi = new ShortcutInfo();
+        navi.title = "camera360";
+        navi.setActivity(new ComponentName("com.coresmore.camera", "com.coresmore.camera.action.MainActivity"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+        findViewById(R.id.camera360).setTag(navi);
+        
+        
         findViewById(R.id.settings_title).setOnClickListener(this);
         findViewById(R.id.time_title).setOnClickListener(this);
         findViewById(R.id.settings).setOnClickListener(this);
@@ -1921,7 +1928,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         }else if(v.getId() == R.id.time_title){
         	startActivity(new Intent(android.provider.Settings.ACTION_DATE_SETTINGS));
         }else if(v.getId() == R.id.camera360){
-        	Toast.makeText(mLauncher, "Did not find the camera!", Toast.LENGTH_SHORT).show();
+//        	Toast.makeText(mLauncher, "Did not find the camera!", Toast.LENGTH_SHORT).show();
         }else if(v.getId() == R.id.mmi){
         	sendBroadcast(new Intent("com.george.settings.switch_source"));
         }

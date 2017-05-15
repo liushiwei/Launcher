@@ -31,9 +31,14 @@ class AllAppsList {
         if (findActivity(data, info.componentName)) {
             return;
         }
-//        Log.e("Hegel---", "app = "+info.componentName.getClassName());
+        //Log.e("Hegel---", "app = "+info.componentName.getClassName());
         if (info.componentName.getClassName().equals("com.google.android.apps.inputmethod.libs.framework.core.LauncherActivity")) {
 			Log.e("Hegel---AllAppsList", "I will hide the icon of GooglePinyin.apk");
+        	return;
+		}
+        
+        if (info.componentName.getClassName().equals("com.chartcross.gpstest.GPSTest")) {
+			Log.e("Hegel---AllAppsList", "I will hide the icon of GPSTest.apk");
         	return;
 		}
         data.add(info);

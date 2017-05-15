@@ -288,7 +288,7 @@ s -->
     <string name="menu">Menu</string>
     <string name="navi">Navi</string>
     <string name="media">Media</string>
-    <string name="camera">DVR</string>
+    <string name="camera">DTV</string>
     <string name="camera360">360DVR</string>
     <string name="apps">All App</string>
     <string name="voice">Voice</string>
