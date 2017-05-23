@@ -5,6 +5,7 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -872,13 +873,9 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         }
         mAllAppsButton  = findViewById(R.id.apps);
         mAllAppsButton.setOnClickListener(this);
+        setNaviIntent();
+        
         ShortcutInfo navi = new ShortcutInfo();
-        navi.title = "amap";
-        navi.setActivity(new ComponentName("com.autonavi.amapauto", "com.autonavi.auto.remote.fill.UsbFillActivity"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-        findViewById(R.id.navi).setTag(navi);
-        
-        
-        navi = new ShortcutInfo();
         navi.title = "dvr";
         navi.setActivity(new ComponentName("com.george.dtv", "com.george.dtv.MainActivity"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
         findViewById(R.id.camera).setTag(navi);
@@ -905,7 +902,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         
         navi = new ShortcutInfo();
         navi.title = "phone_con";
-        navi.setActivity(new ComponentName("com.baidu.carlifevehicle", "com.baidu.carlifevehicle.CarlifeActivity"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+        navi.setActivity(new ComponentName("net.easyconn", "net.easyconn.WelcomeActivity"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
         findViewById(R.id.phone_con).setTag(navi);
         
         navi = new ShortcutInfo();
@@ -1238,9 +1235,54 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 //            		Log.d(TAG, "AllAppWidgetProvider.CLICK_ACTION------------>");
         			showAllApps(true);
         		}
+            }else if("android.intent.action.NAVI_CHANGED".equals(action)){
+            	setNaviIntent();
             }
         }
     };
+    private static final String PROPERTIESFILE = "/data/system/.properties_file";
+
+    private void setNaviIntent(){
+    	 Log.e(TAG, "setNaviIntent ");
+    	 ShortcutInfo navi = new ShortcutInfo();
+         navi.title = "amap";
+         File file = new File(PROPERTIESFILE);
+         String packageName = null;
+         String className = null;
+         ComponentName defaultCom =  new ComponentName("com.autonavi.amapauto", "com.autonavi.auto.remote.fill.UsbFillActivity");
+         ComponentName naviComponent = null;
+         if (file.exists()) {
+                 BufferedReader buf;
+                 String source = null;
+
+                 try {
+                         buf = new BufferedReader(new FileReader(file));
+                         do {
+                                 source = buf.readLine();
+                                 if (source != null && source.startsWith("nav_app_class_name=")) {
+                                         className = source.substring(source.indexOf("=") + 1);
+                                 }
+                                 if (source != null && source.startsWith("nav_app_package_name=")) {
+                                         packageName = source.substring(source.indexOf("=") + 1);
+                                 }
+                                 if (source != null)
+                                         Log.e(TAG, source);
+                         } while (source != null);
+                         buf.close();
+                         if (packageName != null && className != null) {
+                        	 naviComponent = new ComponentName(packageName, className);
+                         }
+                 } catch (FileNotFoundException e) {
+                         // TODO Auto-generated catch block
+                         e.printStackTrace();
+                 } catch (IOException e) {
+                         // TODO Auto-generated catch block
+                         e.printStackTrace();
+                 }
+         }
+         navi.setActivity(naviComponent!=null?naviComponent:defaultCom, Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+         findViewById(R.id.navi).setTag(navi);
+    }
     
     private final BroadcastReceiver refreshReceiver = new BroadcastReceiver() {
 
@@ -1275,6 +1317,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         filter.addAction(Intent.ACTION_SCREEN_OFF);
         filter.addAction(Intent.ACTION_USER_PRESENT);
         filter.addAction(AllAppWidgetProvider.CLICK_ACTION);
+        filter.addAction("android.intent.action.NAVI_CHANGED");
         registerReceiver(mReceiver, filter);
         
         final IntentFilter intentFilter = new IntentFilter();
