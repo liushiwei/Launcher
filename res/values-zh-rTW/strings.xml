@@ -128,4 +128,18 @@
     <string name="app_bt_name">藍牙</string>
     <string name="app_music_name">音樂</string>
     <string name="app_parking_name">全景泊车</string>
+    <string name ="time">時間</string>
+	<string name ="title_settings">Setup/設置</string>
+	<string name ="settings">設置</string>
+	<string name ="menu">"菜單"</string>
+	<string name ="navi">導航</string>
+	<string name ="media">多媒體</string>
+	<string name ="camera">數字電視</string>
+	<string name ="apps">應用</string>
+	<string name ="camera360">全景記錄</string>
+	<string name ="voice">語音控制</string>
+	<string name ="video">視頻</string>
+	<string name ="net">互聯網</string>
+	<string name ="phone_con">手機互聯</string>
+    
 </resources>
