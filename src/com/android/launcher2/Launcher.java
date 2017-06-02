@@ -1051,6 +1051,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
     	mIconPointss[0].rightPoint = mIconPointss[1];
     	mIconPointss[1].leftPoint = mIconPointss[0];
     	mIconPointss[1].rightControlPoint =  new PathPoint(PathPoint.MOVE, 286.6f, 35.0f);
+    	mIconPointss[1].scale =0.85f;
     	mIconPointss[1].isLableShow =false;
     	
     	mIconPointss[2] = new IconPoint();
@@ -1114,9 +1115,8 @@ public final class Launcher extends Activity implements View.OnClickListener, On
     				icon.setScaleX(point.scale);
     				icon.setScaleY(point.scale);
     				icon.setVisibility(View.VISIBLE);
-    				TextView lable= (TextView) icon.getChildAt(1);
-    				Log.e(TAG, " lable ="+lable.getText());
-    				//icon.getChildAt(1).setVisibility(point.isLableShow?View.VISIBLE:View.INVISIBLE);
+    				icon.getChildAt(1).setAlpha(point.isLableShow?1:0);
+    				icon.getChildAt(1).setFocusable(true);
     			}
     			mCurrentPoints++;
     		}
@@ -1192,7 +1192,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 			break;
 			case R.id.camera360_lable:{
 				if(hasFocus){
-					if(!v.isShown()){
+					if(!v.isShown()||v.getAlpha()<1){
 						rotateLeft();
 					}
 				}
@@ -1200,8 +1200,56 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 			break;
 			case R.id.atmo_lamp_lable:{
 				if(hasFocus){
-					if(!v.isShown()){
+					if(!v.isShown()||v.getAlpha()<1){
 						rotateLeft();
+					}
+				}
+				}
+				break;
+			case R.id.phone_lable:{
+				if(hasFocus){
+					if(!v.isShown()||v.getAlpha()<1){
+						rotateLeft();
+					}
+				}
+				}
+				break;
+			case R.id.setup_lable:{
+				if(hasFocus){
+					if(!v.isShown()||v.getAlpha()<1){
+						rotateLeft();
+					}
+				}
+				}
+				break;
+			case R.id.music_lable:{
+				if(hasFocus){
+					if(v.getAlpha()<1){
+						rotateRight();
+					}
+				}
+				}
+				break;
+			case R.id.more_lable:{
+				if(hasFocus){
+					if(v.getAlpha()<1){
+						rotateRight();
+					}
+				}
+				}
+				break;
+			case R.id.e_link_lable:{
+				if(hasFocus){
+					if(v.getAlpha()<1){
+						rotateRight();
+					}
+				}
+				}
+				break;
+			case R.id.voice_lable:{
+				if(hasFocus){
+					if(v.getAlpha()<1){
+						rotateRight();
 					}
 				}
 				}
@@ -3516,6 +3564,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
           				ObjectAnimator anim = ObjectAnimator.ofFloat(icon, "alpha", 0f, 1f);
           				anim.setDuration(300);
           				anim.start();
+          				icon.getChildAt(1).setAlpha(1);
           			}
           			continue;
           		}
@@ -3525,6 +3574,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
           			ObjectAnimator anim = ObjectAnimator.ofFloat(icon, "alpha", 1f, 0f);
       				anim.setDuration(300);
       				anim.start();
+      				icon.getChildAt(1).setAlpha(0);
 //          			icon.setVisibility(View.INVISIBLE);
           		}else{
           			if(l_PathPoint!=null){
@@ -3540,6 +3590,8 @@ public final class Launcher extends Activity implements View.OnClickListener, On
           				startAnimatorPath(icon, "Position", path);
           				startAnimatorScale(icon,t_icon.scale,t_icon.leftPoint.scale);
           			}
+          			icon.getChildAt(1).setAlpha(l_Point.isLableShow?1:0);
+          			icon.getChildAt(1).setFocusable(true);
           		}
           		icon.setIconPoint( t_icon.leftPoint);
           	}
@@ -3563,6 +3615,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         				ObjectAnimator anim = ObjectAnimator.ofFloat(icon, "alpha", 0f, 1f);
         				anim.setDuration(300);
         				anim.start();
+//        				icon.getChildAt(1).setAlpha(1);
         			}
         			continue;
         		}
@@ -3572,6 +3625,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         			ObjectAnimator anim = ObjectAnimator.ofFloat(icon, "alpha", 1f, 0f);
     				anim.setDuration(300);
     				anim.start();
+    				icon.getChildAt(1).setAlpha(0);
 //        			icon.setVisibility(View.INVISIBLE);
         		}else{
         			if(r_PathPoint!=null){
@@ -3587,6 +3641,8 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         				startAnimatorPath(icon, "Position", path);
         				startAnimatorScale(icon,t_icon.scale,t_icon.rightPoint.scale);
         			}
+        			icon.getChildAt(1).setAlpha(r_Point.isLableShow?1:0);
+        			icon.getChildAt(1).setFocusable(true);
         		}
         		icon.setIconPoint( t_icon.rightPoint);
         	}

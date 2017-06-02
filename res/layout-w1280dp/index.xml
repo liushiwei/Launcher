@@ -34,7 +34,8 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="100dp"
             android:focusable="true"
-            android:nextFocusRight="@+id/phone_con_lable"
+            android:nextFocusLeft="@+id/voice_lable"
+            android:nextFocusRight="@+id/e_link_lable"
             android:text="Voice" />
     </com.george.CustomView.CustomRelativeLayout>
 
@@ -84,7 +85,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="100dp"
             android:focusable="true"
-            android:nextFocusLeft="@+id/phone_con_lable"
+            android:nextFocusLeft="@+id/e_link_lable"
             android:nextFocusRight="@+id/music_lable"
             android:text="More" />
     </com.george.CustomView.CustomRelativeLayout>
@@ -264,6 +265,7 @@
             android:layout_centerVertical="true"
             android:focusable="true"
              android:nextFocusLeft="@+id/camera360_lable"
+             android:nextFocusRight="@+id/atmo_lamp_lable"
             android:text="Atmo Lamp" />
     </com.george.CustomView.CustomRelativeLayout>
 
