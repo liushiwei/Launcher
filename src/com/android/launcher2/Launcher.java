@@ -15,7 +15,14 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.ThreadPoolExecutor;
+
+import com.android.launcher2.DropTarget.DragObject;
+import com.george.AnimatorPath.AnimatorPath;
+import com.george.AnimatorPath.IconPoint;
+import com.george.AnimatorPath.PathEvaluator;
+import com.george.AnimatorPath.PathPoint;
+import com.george.CustomView.CustomRelativeLayout;
+import com.george.launcher.R;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -47,6 +54,7 @@ import android.content.res.Resources;
 import android.database.ContentObserver;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -86,9 +94,8 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Advanceable;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
-import com.george.launcher.R;
-import com.android.launcher2.DropTarget.DragObject;
 
 public final class Launcher extends Activity implements View.OnClickListener, OnLongClickListener, LauncherModel.Callbacks, View.OnTouchListener {
     static final String TAG = "Launcher";
@@ -255,6 +262,15 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 
     private BubbleTextView mWaitingForResume;
     private HideFromAccessibilityHelper mHideFromAccessibilityHelper = new HideFromAccessibilityHelper();
+    
+    private ArrayList<CustomRelativeLayout> mIcons;
+    private IconPoint[] mIconPointss = new IconPoint[8];
+    
+    private View[] mIconLables  ;
+    
+    private int mFistIconLoc = 0;
+    
+    private int mFocusIndex = 0;
 
     private Runnable mBuildLayersRunnable = new Runnable() {
         public void run() {
@@ -745,9 +761,37 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         if (keyCode == KeyEvent.KEYCODE_MENU && event.isLongPress()) {
             return true;
         }
-
+        /*
+      
+        
+*/
         return handled;
     }
+    
+    
+    /**
+     * 设置动画
+     * @param view 使用动画的View
+     * @param propertyName 属性名字
+     * @param path 动画路径集合
+     */
+    private void startAnimatorPath(View view, String propertyName, AnimatorPath path) {
+        ObjectAnimator anim = ObjectAnimator.ofObject(view, propertyName, new PathEvaluator(), path.getPoints().toArray());
+        anim.setInterpolator(new DecelerateInterpolator());
+        anim.setDuration(350);
+        anim.start();
+    }
+    private void startAnimatorScale(View view, float fromeScale,float toScale) {
+        ObjectAnimator animx = ObjectAnimator.ofFloat(view, "scaleX", fromeScale, toScale);
+        ObjectAnimator animy = ObjectAnimator.ofFloat(view, "scaleY", fromeScale, toScale);
+        animx.setInterpolator(new DecelerateInterpolator());
+        animx.setDuration(350);
+        animy.setInterpolator(new DecelerateInterpolator());
+        animy.setDuration(350);
+        animx.start();
+        animy.start();
+    }
+
 
     private String getTypedText() {
         return mDefaultKeySsb.toString();
@@ -871,68 +915,212 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         if (mSearchDropTargetBar != null) {
             mSearchDropTargetBar.setup(this, dragController);
         }
-        mAllAppsButton  = findViewById(R.id.apps);
-        mAllAppsButton.setOnClickListener(this);
-        setNaviIntent();
+        Point point = new Point();  
+        getWindowManager().getDefaultDisplay().getSize (point);  
         
         ShortcutInfo navi = new ShortcutInfo();
-        navi.title = "dvr";
-        navi.setActivity(new ComponentName("com.george.dtv", "com.george.dtv.MainActivity"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-        findViewById(R.id.camera).setTag(navi);
-        
-        navi = new ShortcutInfo();
-        navi.title = "simpleplayer";
-        navi.setActivity(new ComponentName("com.george.simpleplayer", "com.george.simpleplayer.ui.VideoPlayerActivity"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        findViewById(R.id.video).setTag(navi);
-        
-        navi = new ShortcutInfo();
-        navi.title = "music";
-        navi.setActivity(new ComponentName("com.george.simpleplayer", "com.george.simpleplayer.ui.AudioPlayerActivity"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        findViewById(R.id.media).setTag(navi);
+        if(point.x==800){
+        	mAllAppsButton  = findViewById(R.id.apps);
+        	mAllAppsButton.setOnClickListener(this);
+        	setNaviIntent();
+        	
+        	navi.title = "dvr";
+        	navi.setActivity(new ComponentName("com.george.dtv", "com.george.dtv.MainActivity"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+        	findViewById(R.id.camera).setTag(navi);
+        	
+        	navi = new ShortcutInfo();
+        	navi.title = "simpleplayer";
+        	navi.setActivity(new ComponentName("com.george.simpleplayer", "com.george.simpleplayer.ui.VideoPlayerActivity"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        	findViewById(R.id.video).setTag(navi);
+        	
+        	navi = new ShortcutInfo();
+        	navi.title = "music";
+        	navi.setActivity(new ComponentName("com.george.simpleplayer", "com.george.simpleplayer.ui.AudioPlayerActivity"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        	findViewById(R.id.media).setTag(navi);
+        	
+        	navi = new ShortcutInfo();
+        	navi.title = "browser";
+        	navi.setActivity(new ComponentName("com.android.browser", "com.android.browser.BrowserActivity"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+        	findViewById(R.id.net).setTag(navi);
+        	
+        	navi = new ShortcutInfo();
+        	navi.title = "settings";
+        	navi.intent = new Intent(android.provider.Settings.ACTION_SETTINGS);
+        	findViewById(R.id.settings).setTag(navi);
+        	
+        	navi = new ShortcutInfo();
+        	navi.title = "phone_con";
+        	navi.setActivity(new ComponentName("net.easyconn", "net.easyconn.WelcomeActivity"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+        	findViewById(R.id.phone_con).setTag(navi);
+        	
+        	navi = new ShortcutInfo();
+        	navi.title = "camera360";
+        	navi.setActivity(new ComponentName("com.coresmore.camera", "com.coresmore.camera.action.MainActivity"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+        	findViewById(R.id.camera360).setTag(navi);
+        	
+        	
+        	findViewById(R.id.settings_title).setOnClickListener(this);
+        	findViewById(R.id.time_title).setOnClickListener(this);
+        	findViewById(R.id.settings).setOnClickListener(this);
+        	findViewById(R.id.navi).setOnClickListener(this);
+        	findViewById(R.id.media).setOnClickListener(this);
+        	findViewById(R.id.video).setOnClickListener(this);
+        	findViewById(R.id.phone_con).setOnClickListener(this);
+        	findViewById(R.id.net).setOnClickListener(this);
+        	findViewById(R.id.voice).setOnClickListener(this);
+        	findViewById(R.id.camera).setOnClickListener(this);
+        	findViewById(R.id.camera360).setOnClickListener(this);
+        	findViewById(R.id.mmi).setOnClickListener(this);
+        	findViewById(R.id.navi).setOnFocusChangeListener(mOnFocusChangeListener);
+        	findViewById(R.id.settings).setOnFocusChangeListener(mOnFocusChangeListener);
+        	findViewById(R.id.media).setOnFocusChangeListener(mOnFocusChangeListener);
+        	findViewById(R.id.phone_con).setOnFocusChangeListener(mOnFocusChangeListener);
+        	findViewById(R.id.net).setOnFocusChangeListener(mOnFocusChangeListener);
+        	findViewById(R.id.voice).setOnFocusChangeListener(mOnFocusChangeListener);
+        	findViewById(R.id.camera).setOnFocusChangeListener(mOnFocusChangeListener);
+        	findViewById(R.id.apps).setOnFocusChangeListener(mOnFocusChangeListener);
+        	findViewById(R.id.camera360).setOnFocusChangeListener(mOnFocusChangeListener);
+        	findViewById(R.id.navi).requestFocus();
+        }
+        if(point.x==1280){
+        	mIcons = new ArrayList<>();
+        	CustomRelativeLayout mIcon  = (CustomRelativeLayout) findViewById(R.id.voice);
+            mIcon.setOnClickListener(this);
+            mIcons.add(mIcon);
+            mIcon  = (CustomRelativeLayout) findViewById(R.id.e_link);
+            mIcon.setOnClickListener(this);
+            mIcons.add(mIcon);
+            mIcon  = (CustomRelativeLayout) findViewById(R.id.more);
+            mIcon.setOnClickListener(this);
+            mIcons.add(mIcon);
+            mIcon  = (CustomRelativeLayout) findViewById(R.id.music);
+            mIcon.setOnClickListener(this);
+            mIcons.add(mIcon);
+            mIcon  = (CustomRelativeLayout) findViewById(R.id.video);
+            mIcon.setOnClickListener(this);
+            mIcons.add(mIcon);
+            mIcon  =(CustomRelativeLayout) findViewById(R.id.navi);
+            mIcon.setOnClickListener(this);
+            mIcons.add(mIcon);
+            mIcon  = (CustomRelativeLayout) findViewById(R.id.phone);
+            mIcon.setOnClickListener(this);
+            mIcons.add(mIcon);
+            mIcon  = (CustomRelativeLayout) findViewById(R.id.setup);
+            mIcon.setOnClickListener(this);
+            mIcons.add(mIcon);
+            
+            mIcon  =(CustomRelativeLayout)findViewById(R.id.camera360);
+            mIcon.setOnClickListener(this);
+            mIcons.add(mIcon);
 
-        navi = new ShortcutInfo();
-        navi.title = "browser";
-        navi.setActivity(new ComponentName("com.android.browser", "com.android.browser.BrowserActivity"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-        findViewById(R.id.net).setTag(navi);
-        
-        navi = new ShortcutInfo();
-        navi.title = "settings";
-        navi.intent = new Intent(android.provider.Settings.ACTION_SETTINGS);
-        findViewById(R.id.settings).setTag(navi);
-        
-        navi = new ShortcutInfo();
-        navi.title = "phone_con";
-        navi.setActivity(new ComponentName("net.easyconn", "net.easyconn.WelcomeActivity"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-        findViewById(R.id.phone_con).setTag(navi);
-        
-        navi = new ShortcutInfo();
-        navi.title = "camera360";
-        navi.setActivity(new ComponentName("com.coresmore.camera", "com.coresmore.camera.action.MainActivity"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-        findViewById(R.id.camera360).setTag(navi);
-        
-        
-        findViewById(R.id.settings_title).setOnClickListener(this);
-        findViewById(R.id.time_title).setOnClickListener(this);
-        findViewById(R.id.settings).setOnClickListener(this);
-        findViewById(R.id.navi).setOnClickListener(this);
-        findViewById(R.id.media).setOnClickListener(this);
-        findViewById(R.id.video).setOnClickListener(this);
-        findViewById(R.id.phone_con).setOnClickListener(this);
-        findViewById(R.id.net).setOnClickListener(this);
-        findViewById(R.id.voice).setOnClickListener(this);
-        findViewById(R.id.camera).setOnClickListener(this);
-        findViewById(R.id.camera360).setOnClickListener(this);
-        findViewById(R.id.mmi).setOnClickListener(this);
-        findViewById(R.id.navi).setOnFocusChangeListener(mOnFocusChangeListener);
-        findViewById(R.id.settings).setOnFocusChangeListener(mOnFocusChangeListener);
-        findViewById(R.id.media).setOnFocusChangeListener(mOnFocusChangeListener);
-        findViewById(R.id.phone_con).setOnFocusChangeListener(mOnFocusChangeListener);
-        findViewById(R.id.net).setOnFocusChangeListener(mOnFocusChangeListener);
-        findViewById(R.id.voice).setOnFocusChangeListener(mOnFocusChangeListener);
-        findViewById(R.id.camera).setOnFocusChangeListener(mOnFocusChangeListener);
-        findViewById(R.id.apps).setOnFocusChangeListener(mOnFocusChangeListener);
-        findViewById(R.id.camera360).setOnFocusChangeListener(mOnFocusChangeListener);
-        findViewById(R.id.navi).requestFocus();
+            mIcon  =(CustomRelativeLayout)findViewById(R.id.atmo_lamp);
+            mIcon.setOnClickListener(this);
+            mIcons.add(mIcon);
+            mIconLables = new View[mIcons.size()];
+//            for(int i=0;i<mIcons.size();i++){
+//            	View t = mIcons.get(i);
+//            	View lable = t.findViewById(R.id.label);
+//            	mIconLables[i] = lable;
+//            }
+            initPoints();
+            setupIconPoints();
+            findViewById(R.id.music).findViewById(R.id.music_lable).requestFocus();
+            
+            
+            findViewById(R.id.voice_lable).setOnFocusChangeListener(mOnFocusChangeListener);
+        	findViewById(R.id.e_link_lable).setOnFocusChangeListener(mOnFocusChangeListener);
+        	findViewById(R.id.more_lable).setOnFocusChangeListener(mOnFocusChangeListener);
+        	findViewById(R.id.music_lable).setOnFocusChangeListener(mOnFocusChangeListener);
+        	findViewById(R.id.video_lable).setOnFocusChangeListener(mOnFocusChangeListener);
+        	findViewById(R.id.navi_lable).setOnFocusChangeListener(mOnFocusChangeListener);
+        	findViewById(R.id.phone_lable).setOnFocusChangeListener(mOnFocusChangeListener);
+        	findViewById(R.id.setup_lable).setOnFocusChangeListener(mOnFocusChangeListener);
+        	findViewById(R.id.camera360_lable).setOnFocusChangeListener(mOnFocusChangeListener);
+        	findViewById(R.id.atmo_lamp_lable).setOnFocusChangeListener(mOnFocusChangeListener);
+        }
+    }
+    
+    private void initPoints(){
+    	mIconPointss[0] = new IconPoint();
+    	mIconPointss[0].point = new PathPoint(PathPoint.MOVE, 80, 40);
+    	mIconPointss[0].scale =0.8f;
+    	mIconPointss[0].isLableShow =false;
+    			
+    	mIconPointss[1] = new IconPoint();
+    	mIconPointss[1].point = new PathPoint(PathPoint.MOVE, 194.71248f, 36.67875f);
+    	mIconPointss[0].rightPoint = mIconPointss[1];
+    	mIconPointss[1].leftPoint = mIconPointss[0];
+    	mIconPointss[1].rightControlPoint =  new PathPoint(PathPoint.MOVE, 286.6f, 35.0f);
+    	mIconPointss[1].isLableShow =false;
+    	
+    	mIconPointss[2] = new IconPoint();
+    	mIconPointss[2].point = new PathPoint(PathPoint.MOVE, 376.43753f, 44.376255f);
+    	mIconPointss[1].rightPoint = mIconPointss[2];
+    	mIconPointss[2].rightControlPoint =  new PathPoint(PathPoint.MOVE,438.4f, 46.4f);
+    	mIconPointss[2].leftPoint = mIconPointss[1];
+    	mIconPointss[2].leftControlPoint = mIconPointss[1].rightControlPoint;
+    	mIconPointss[2].scale =0.9f;
+    	
+    	mIconPointss[3] = new IconPoint();
+    	mIconPointss[3].point = new PathPoint(PathPoint.MOVE, 539.9f, 83.11001f);
+    	mIconPointss[2].rightPoint = mIconPointss[3];
+    	mIconPointss[3].rightControlPoint =  new PathPoint(PathPoint.MOVE, 634.0f, 136.3f);
+    	mIconPointss[3].leftPoint = mIconPointss[2];
+    	mIconPointss[3].leftControlPoint = mIconPointss[2].rightControlPoint;
+    	mIconPointss[3].scale =0.95f;
+    	
+    	mIconPointss[4] = new IconPoint();
+    	mIconPointss[4].point = new PathPoint(PathPoint.MOVE, 546.6251f, 197.44914f);
+    	mIconPointss[3].rightPoint = mIconPointss[4];
+    	mIconPointss[4].rightControlPoint =  new PathPoint(PathPoint.MOVE, 483.4f, 238.6f);
+    	mIconPointss[4].leftPoint = mIconPointss[3];
+    	mIconPointss[4].leftControlPoint = mIconPointss[3].rightControlPoint;
+    	mIconPointss[4].scale =1f;
+    	
+    	mIconPointss[5] = new IconPoint();
+    	mIconPointss[5].point = new PathPoint(PathPoint.MOVE, 381.67285f, 256.31894f);
+    	mIconPointss[4].rightPoint = mIconPointss[5];
+    	mIconPointss[5].rightControlPoint =  new PathPoint(PathPoint.MOVE, 307.6f, 270.8f);
+    	mIconPointss[5].leftPoint = mIconPointss[4];
+    	mIconPointss[5].leftControlPoint = mIconPointss[4].rightControlPoint;
+    	mIconPointss[5].scale =1f;
+    	
+    	mIconPointss[6] = new IconPoint();
+    	mIconPointss[6].point = new PathPoint(PathPoint.MOVE, 228.50005f, 269.77002f);
+    	mIconPointss[5].rightPoint = mIconPointss[6];
+//    	mIconPointss[6].rightControlPoint =  new PathPoint(PathPoint.MOVE, 307.6f, 270.8f);
+    	mIconPointss[6].leftPoint = mIconPointss[5];
+    	mIconPointss[6].leftControlPoint = mIconPointss[5].rightControlPoint;
+    	mIconPointss[6].scale =1f;
+    	
+    	mIconPointss[7] = new IconPoint();
+    	mIconPointss[7].point = new PathPoint(PathPoint.MOVE, 95.53308f, 261.98077f);
+    	mIconPointss[6].rightPoint =  mIconPointss[7];
+    	mIconPointss[7].leftPoint = mIconPointss[6];
+    	mIconPointss[7].scale =1f;
+//    	mIconPointss[7].leftControlPoint = mIconPointss[6].rightControlPoint;
+    }
+    
+    private void setupIconPoints(){
+    	int mCurrentPoints = 0;
+    	if(mIconPointss!=null){
+    		for(CustomRelativeLayout icon :mIcons){
+    			if(mCurrentPoints<mIconPointss.length){
+    			IconPoint point =mIconPointss[mCurrentPoints];
+    				Log.e("time"," mPoints[point].mX = "+point.point.mX+" mPoints[point].mY = "+point.point.mY);
+    				icon.setTranslationX(point.point.mX);
+    				icon.setTranslationY(point.point.mY);
+    				icon.setIconPoint(point);
+    				icon.setScaleX(point.scale);
+    				icon.setScaleY(point.scale);
+    				icon.setVisibility(View.VISIBLE);
+    				TextView lable= (TextView) icon.getChildAt(1);
+    				Log.e(TAG, " lable ="+lable.getText());
+    				//icon.getChildAt(1).setVisibility(point.isLableShow?View.VISIBLE:View.INVISIBLE);
+    			}
+    			mCurrentPoints++;
+    		}
+    	}
     }
     OnFocusChangeListener mOnFocusChangeListener = new OnFocusChangeListener() {
 		
@@ -999,6 +1187,22 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 				if(hasFocus){
 					ImageView bg = (ImageView) findViewById(R.id.index_bg);
 					bg.getDrawable().setLevel(9);
+				}
+				}
+			break;
+			case R.id.camera360_lable:{
+				if(hasFocus){
+					if(!v.isShown()){
+						rotateLeft();
+					}
+				}
+				}
+			break;
+			case R.id.atmo_lamp_lable:{
+				if(hasFocus){
+					if(!v.isShown()){
+						rotateLeft();
+					}
 				}
 				}
 				break;
@@ -3295,6 +3499,99 @@ public final class Launcher extends Activity implements View.OnClickListener, On
     private boolean canRunNewAppsAnimation() {
         long diff = System.currentTimeMillis() - mDragController.getLastGestureUpTime();
         return diff > (NEW_APPS_ANIMATION_INACTIVE_TIMEOUT_SECONDS * 1000);
+    }
+    
+    private void rotateLeft(){
+          	if(mFistIconLoc<-2)
+          		return ;
+          	for(int i=0;i<mIcons.size();i++){
+          		CustomRelativeLayout icon = mIcons.get(i);
+          		IconPoint t_icon = icon.getIconPoint();
+          		if(t_icon==null){
+          			if((i+mFistIconLoc)==mIconPointss.length){
+          				icon.setTranslationX(mIconPointss[mIconPointss.length-1].point.mX);
+          				icon.setTranslationY(mIconPointss[mIconPointss.length-1].point.mY);
+          				icon.setIconPoint(mIconPointss[mIconPointss.length-1]);
+          				icon.setVisibility(View.VISIBLE);
+          				ObjectAnimator anim = ObjectAnimator.ofFloat(icon, "alpha", 0f, 1f);
+          				anim.setDuration(300);
+          				anim.start();
+          			}
+          			continue;
+          		}
+          		PathPoint l_PathPoint = t_icon.leftControlPoint;
+          		IconPoint l_Point = t_icon.leftPoint;
+          		if(l_Point==null){
+          			ObjectAnimator anim = ObjectAnimator.ofFloat(icon, "alpha", 1f, 0f);
+      				anim.setDuration(300);
+      				anim.start();
+//          			icon.setVisibility(View.INVISIBLE);
+          		}else{
+          			if(l_PathPoint!=null){
+          				AnimatorPath path = new AnimatorPath();
+          				path.moveTo(icon.getIconPoint().point.mX,icon.getIconPoint().point.mY);
+          				path.secondBesselCurveTo(l_PathPoint.mX, l_PathPoint.mY, l_Point.point.mX, l_Point.point.mY); 
+          				 startAnimatorPath(icon, "Position", path);
+          				 startAnimatorScale(icon,t_icon.scale,t_icon.leftPoint.scale);
+          			}else{
+          				AnimatorPath path = new AnimatorPath();
+          				path.moveTo(icon.getIconPoint().point.mX,icon.getIconPoint().point.mY);
+          				path.lineTo( l_Point.point.mX, l_Point.point.mY);
+          				startAnimatorPath(icon, "Position", path);
+          				startAnimatorScale(icon,t_icon.scale,t_icon.leftPoint.scale);
+          			}
+          		}
+          		icon.setIconPoint( t_icon.leftPoint);
+          	}
+          	mFistIconLoc--;
+             
+    }
+    
+    private void rotateRight(){
+
+        	if(mFistIconLoc>1)
+        		return ;
+        	for(int i=0;i<mIcons.size();i++){
+        		CustomRelativeLayout icon = mIcons.get(i);
+        		IconPoint t_icon = icon.getIconPoint();
+        		if(t_icon==null){
+        			if((i+mFistIconLoc)==-1){
+        				icon.setTranslationX(mIconPointss[0].point.mX);
+        				icon.setTranslationY(mIconPointss[0].point.mY);
+        				icon.setIconPoint(mIconPointss[0]);
+        				icon.setVisibility(View.VISIBLE);
+        				ObjectAnimator anim = ObjectAnimator.ofFloat(icon, "alpha", 0f, 1f);
+        				anim.setDuration(300);
+        				anim.start();
+        			}
+        			continue;
+        		}
+        		PathPoint r_PathPoint = t_icon.rightControlPoint;
+        		IconPoint r_Point = t_icon.rightPoint;
+        		if(r_Point==null){
+        			ObjectAnimator anim = ObjectAnimator.ofFloat(icon, "alpha", 1f, 0f);
+    				anim.setDuration(300);
+    				anim.start();
+//        			icon.setVisibility(View.INVISIBLE);
+        		}else{
+        			if(r_PathPoint!=null){
+        				AnimatorPath path = new AnimatorPath();
+        				path.moveTo(icon.getIconPoint().point.mX,icon.getIconPoint().point.mY);
+        				path.secondBesselCurveTo(r_PathPoint.mX, r_PathPoint.mY, r_Point.point.mX, r_Point.point.mY); 
+        				 startAnimatorPath(icon, "Position", path);
+        				 startAnimatorScale(icon,t_icon.scale,t_icon.rightPoint.scale);
+        			}else{
+        				AnimatorPath path = new AnimatorPath();
+        				path.moveTo(icon.getIconPoint().point.mX,icon.getIconPoint().point.mY);
+        				path.lineTo( r_Point.point.mX, r_Point.point.mY);
+        				startAnimatorPath(icon, "Position", path);
+        				startAnimatorScale(icon,t_icon.scale,t_icon.rightPoint.scale);
+        			}
+        		}
+        		icon.setIconPoint( t_icon.rightPoint);
+        	}
+        	mFistIconLoc++;
+           
     }
 
     /**

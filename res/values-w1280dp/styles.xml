@@ -1,0 +1,13 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Base application theme. -->
+     <style name="Icon2">
+        <item name="android:textColor">@android:color/white</item>
+         <item name="android:gravity">center</item>
+        <item name="android:textSize">25dp</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:padding">3dp</item>
+        <item name="android:background">@drawable/icon_text_bg</item>
+    </style>
+
+</resources>
