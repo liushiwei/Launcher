@@ -1039,55 +1039,55 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         	findViewById(R.id.atmo_lamp_lable).setOnFocusChangeListener(mOnFocusChangeListener);
         }
     }
-    
+    //0.65f,0.65f,0.7f,0.75f,0.75f,0.9f,1f,1f
     private void initPoints(){
     	mIconPointss[0] = new IconPoint();
-    	mIconPointss[0].point = new PathPoint(PathPoint.MOVE, 80, 40);
-    	mIconPointss[0].scale =0.8f;
+    	mIconPointss[0].point = new PathPoint(PathPoint.MOVE,104.250046f ,29.210213f);
+    	mIconPointss[0].scale =0.65f;
     	mIconPointss[0].isLableShow =false;
     			
     	mIconPointss[1] = new IconPoint();
-    	mIconPointss[1].point = new PathPoint(PathPoint.MOVE, 194.71248f, 36.67875f);
+    	mIconPointss[1].point = new PathPoint(PathPoint.MOVE, 235.36115f ,28.86803f);
     	mIconPointss[0].rightPoint = mIconPointss[1];
     	mIconPointss[1].leftPoint = mIconPointss[0];
-    	mIconPointss[1].rightControlPoint =  new PathPoint(PathPoint.MOVE, 286.6f, 35.0f);
-    	mIconPointss[1].scale =0.85f;
+    	mIconPointss[1].rightControlPoint =  new PathPoint(PathPoint.MOVE, 319.6f,32.0f);
+    	mIconPointss[1].scale =0.65f;
     	mIconPointss[1].isLableShow =false;
     	
     	mIconPointss[2] = new IconPoint();
-    	mIconPointss[2].point = new PathPoint(PathPoint.MOVE, 376.43753f, 44.376255f);
+    	mIconPointss[2].point = new PathPoint(PathPoint.MOVE, 358.48523f ,36.988243f);
     	mIconPointss[1].rightPoint = mIconPointss[2];
-    	mIconPointss[2].rightControlPoint =  new PathPoint(PathPoint.MOVE,438.4f, 46.4f);
+    	mIconPointss[2].rightControlPoint =  new PathPoint(PathPoint.MOVE,440f, 45.0f);
     	mIconPointss[2].leftPoint = mIconPointss[1];
     	mIconPointss[2].leftControlPoint = mIconPointss[1].rightControlPoint;
-    	mIconPointss[2].scale =0.9f;
+    	mIconPointss[2].scale =0.7f;
     	
     	mIconPointss[3] = new IconPoint();
-    	mIconPointss[3].point = new PathPoint(PathPoint.MOVE, 539.9f, 83.11001f);
+    	mIconPointss[3].point = new PathPoint(PathPoint.MOVE, 508.98822f ,71.06944f);
     	mIconPointss[2].rightPoint = mIconPointss[3];
-    	mIconPointss[3].rightControlPoint =  new PathPoint(PathPoint.MOVE, 634.0f, 136.3f);
+    	mIconPointss[3].rightControlPoint =  new PathPoint(PathPoint.MOVE, 583.3f, 104.8f);
     	mIconPointss[3].leftPoint = mIconPointss[2];
     	mIconPointss[3].leftControlPoint = mIconPointss[2].rightControlPoint;
-    	mIconPointss[3].scale =0.95f;
+    	mIconPointss[3].scale =0.75f;
     	
     	mIconPointss[4] = new IconPoint();
-    	mIconPointss[4].point = new PathPoint(PathPoint.MOVE, 546.6251f, 197.44914f);
+    	mIconPointss[4].point = new PathPoint(PathPoint.MOVE, 571.08673f ,146.58057f);
     	mIconPointss[3].rightPoint = mIconPointss[4];
-    	mIconPointss[4].rightControlPoint =  new PathPoint(PathPoint.MOVE, 483.4f, 238.6f);
+    	mIconPointss[4].rightControlPoint =  new PathPoint(PathPoint.MOVE, 559.3f, 189.4f);
     	mIconPointss[4].leftPoint = mIconPointss[3];
     	mIconPointss[4].leftControlPoint = mIconPointss[3].rightControlPoint;
-    	mIconPointss[4].scale =1f;
+    	mIconPointss[4].scale =0.75f;
     	
     	mIconPointss[5] = new IconPoint();
-    	mIconPointss[5].point = new PathPoint(PathPoint.MOVE, 381.67285f, 256.31894f);
+    	mIconPointss[5].point = new PathPoint(PathPoint.MOVE, 484.3813f ,223.52126f);
     	mIconPointss[4].rightPoint = mIconPointss[5];
-    	mIconPointss[5].rightControlPoint =  new PathPoint(PathPoint.MOVE, 307.6f, 270.8f);
+    	mIconPointss[5].rightControlPoint =  new PathPoint(PathPoint.MOVE, 407f, 257f);
     	mIconPointss[5].leftPoint = mIconPointss[4];
     	mIconPointss[5].leftControlPoint = mIconPointss[4].rightControlPoint;
-    	mIconPointss[5].scale =1f;
+    	mIconPointss[5].scale =0.9f;
     	
     	mIconPointss[6] = new IconPoint();
-    	mIconPointss[6].point = new PathPoint(PathPoint.MOVE, 228.50005f, 269.77002f);
+    	mIconPointss[6].point = new PathPoint(PathPoint.MOVE, 316.0124f ,266.98328f);
     	mIconPointss[5].rightPoint = mIconPointss[6];
 //    	mIconPointss[6].rightControlPoint =  new PathPoint(PathPoint.MOVE, 307.6f, 270.8f);
     	mIconPointss[6].leftPoint = mIconPointss[5];
@@ -1095,7 +1095,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
     	mIconPointss[6].scale =1f;
     	
     	mIconPointss[7] = new IconPoint();
-    	mIconPointss[7].point = new PathPoint(PathPoint.MOVE, 95.53308f, 261.98077f);
+    	mIconPointss[7].point = new PathPoint(PathPoint.MOVE, 135.75684f ,267.63455f);
     	mIconPointss[6].rightPoint =  mIconPointss[7];
     	mIconPointss[7].leftPoint = mIconPointss[6];
     	mIconPointss[7].scale =1f;
