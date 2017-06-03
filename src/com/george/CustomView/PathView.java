@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 /**
@@ -17,6 +18,11 @@ import android.view.View;
 public class PathView extends View {
 
     private Paint paint;
+    
+    private int x;
+    private int y;
+    private int width;
+    private int height;
 
 
     public PathView(Context context, AttributeSet attrs) {
@@ -46,5 +52,15 @@ public class PathView extends View {
         //path.quadTo(360, 160, 460, 360); //订单
         path.cubicTo(900,00,600,330,80,260);
         canvas.drawPath(path,paint);
+        
+        canvas.drawRect(x, y, x+width, y+height, paint);
+    }
+    
+    public void setPosition(int x,int y,int width,int height){
+    	this.x = x;
+    	this.y = y;
+    	this.width = width;
+    	this.height = height;
+    	Log.e("PathView", "  get height = "+height);
     }
 }

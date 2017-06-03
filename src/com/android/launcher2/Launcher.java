@@ -22,6 +22,7 @@ import com.george.AnimatorPath.IconPoint;
 import com.george.AnimatorPath.PathEvaluator;
 import com.george.AnimatorPath.PathPoint;
 import com.george.CustomView.CustomRelativeLayout;
+import com.george.CustomView.PathView;
 import com.george.launcher.R;
 
 import android.animation.Animator;
@@ -94,7 +95,6 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Advanceable;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public final class Launcher extends Activity implements View.OnClickListener, OnLongClickListener, LauncherModel.Callbacks, View.OnTouchListener {
@@ -270,7 +270,10 @@ public final class Launcher extends Activity implements View.OnClickListener, On
     
     private int mFistIconLoc = 0;
     
-    private int mFocusIndex = 0;
+    private int mFocusStartIndex = 0;
+    private int mFocusEndIndex = 0;
+    private View  mFocusStartView;
+    private View  mFocusEndView;
 
     private Runnable mBuildLayersRunnable = new Runnable() {
         public void run() {
@@ -1045,6 +1048,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
     	mIconPointss[0].point = new PathPoint(PathPoint.MOVE,104.250046f ,29.210213f);
     	mIconPointss[0].scale =0.65f;
     	mIconPointss[0].isLableShow =false;
+    	mIconPointss[0].index = 0;
     			
     	mIconPointss[1] = new IconPoint();
     	mIconPointss[1].point = new PathPoint(PathPoint.MOVE, 235.36115f ,28.86803f);
@@ -1053,6 +1057,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
     	mIconPointss[1].rightControlPoint =  new PathPoint(PathPoint.MOVE, 319.6f,32.0f);
     	mIconPointss[1].scale =0.65f;
     	mIconPointss[1].isLableShow =false;
+    	mIconPointss[1].index = 1;
     	
     	mIconPointss[2] = new IconPoint();
     	mIconPointss[2].point = new PathPoint(PathPoint.MOVE, 358.48523f ,36.988243f);
@@ -1061,6 +1066,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
     	mIconPointss[2].leftPoint = mIconPointss[1];
     	mIconPointss[2].leftControlPoint = mIconPointss[1].rightControlPoint;
     	mIconPointss[2].scale =0.7f;
+    	mIconPointss[2].index = 2;
     	
     	mIconPointss[3] = new IconPoint();
     	mIconPointss[3].point = new PathPoint(PathPoint.MOVE, 508.98822f ,71.06944f);
@@ -1069,6 +1075,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
     	mIconPointss[3].leftPoint = mIconPointss[2];
     	mIconPointss[3].leftControlPoint = mIconPointss[2].rightControlPoint;
     	mIconPointss[3].scale =0.75f;
+    	mIconPointss[3].index = 3;
     	
     	mIconPointss[4] = new IconPoint();
     	mIconPointss[4].point = new PathPoint(PathPoint.MOVE, 571.08673f ,146.58057f);
@@ -1077,6 +1084,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
     	mIconPointss[4].leftPoint = mIconPointss[3];
     	mIconPointss[4].leftControlPoint = mIconPointss[3].rightControlPoint;
     	mIconPointss[4].scale =0.75f;
+    	mIconPointss[4].index = 4;
     	
     	mIconPointss[5] = new IconPoint();
     	mIconPointss[5].point = new PathPoint(PathPoint.MOVE, 484.3813f ,223.52126f);
@@ -1085,6 +1093,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
     	mIconPointss[5].leftPoint = mIconPointss[4];
     	mIconPointss[5].leftControlPoint = mIconPointss[4].rightControlPoint;
     	mIconPointss[5].scale =0.9f;
+    	mIconPointss[5].index = 5;
     	
     	mIconPointss[6] = new IconPoint();
     	mIconPointss[6].point = new PathPoint(PathPoint.MOVE, 316.0124f ,266.98328f);
@@ -1093,12 +1102,14 @@ public final class Launcher extends Activity implements View.OnClickListener, On
     	mIconPointss[6].leftPoint = mIconPointss[5];
     	mIconPointss[6].leftControlPoint = mIconPointss[5].rightControlPoint;
     	mIconPointss[6].scale =1f;
+    	mIconPointss[6].index = 6;
     	
     	mIconPointss[7] = new IconPoint();
     	mIconPointss[7].point = new PathPoint(PathPoint.MOVE, 135.75684f ,267.63455f);
     	mIconPointss[6].rightPoint =  mIconPointss[7];
     	mIconPointss[7].leftPoint = mIconPointss[6];
     	mIconPointss[7].scale =1f;
+    	mIconPointss[7].index = 7;
 //    	mIconPointss[7].leftControlPoint = mIconPointss[6].rightControlPoint;
     }
     
@@ -1117,6 +1128,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
     				icon.setVisibility(View.VISIBLE);
     				icon.getChildAt(1).setAlpha(point.isLableShow?1:0);
     				icon.getChildAt(1).setFocusable(true);
+    				icon.getChildAt(1).setTag(mCurrentPoints);
     			}
     			mCurrentPoints++;
     		}
@@ -1190,11 +1202,39 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 				}
 				}
 			break;
+			case R.id.video_lable:{
+				if(hasFocus){
+					mFocusEndIndex = (int) v.getTag();
+					mFocusEndView = v;
+					startFocusLableAnim();
+				}else{
+					mFocusStartIndex= (int) v.getTag();
+					mFocusStartView = v;
+				}
+				}
+			break;
+			case R.id.navi_lable:{
+				if(hasFocus){
+					mFocusEndIndex = (int) v.getTag();
+					mFocusEndView = v;
+					startFocusLableAnim();
+				}else{
+					mFocusStartIndex= (int) v.getTag();
+					mFocusStartView = v;
+				}
+				}
+			break;
 			case R.id.camera360_lable:{
 				if(hasFocus){
 					if(!v.isShown()||v.getAlpha()<1){
 						rotateLeft();
 					}
+					mFocusEndIndex = (int) v.getTag();
+					mFocusEndView = v;
+					startFocusLableAnim();
+				}else{
+					mFocusStartIndex= (int) v.getTag();
+					mFocusStartView = v;
 				}
 				}
 			break;
@@ -1203,6 +1243,12 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 					if(!v.isShown()||v.getAlpha()<1){
 						rotateLeft();
 					}
+					mFocusEndIndex = (int) v.getTag();
+					mFocusEndView = v;
+					startFocusLableAnim();
+				}else{
+					mFocusStartIndex= (int) v.getTag();
+					mFocusStartView = v;
 				}
 				}
 				break;
@@ -1211,6 +1257,12 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 					if(!v.isShown()||v.getAlpha()<1){
 						rotateLeft();
 					}
+					mFocusEndIndex = (int) v.getTag();
+					mFocusEndView = v;
+					startFocusLableAnim();
+				}else{
+					mFocusStartIndex= (int) v.getTag();
+					mFocusStartView = v;
 				}
 				}
 				break;
@@ -1219,6 +1271,12 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 					if(!v.isShown()||v.getAlpha()<1){
 						rotateLeft();
 					}
+					mFocusEndIndex = (int) v.getTag();
+					mFocusEndView = v;
+					startFocusLableAnim();
+				}else{
+					mFocusStartIndex= (int) v.getTag();
+					mFocusStartView = v;
 				}
 				}
 				break;
@@ -1227,6 +1285,12 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 					if(v.getAlpha()<1){
 						rotateRight();
 					}
+					mFocusEndIndex = (int) v.getTag();
+					mFocusEndView = v;
+					startFocusLableAnim();
+				}else{
+					mFocusStartIndex= (int) v.getTag();
+					mFocusStartView = v;
 				}
 				}
 				break;
@@ -1235,6 +1299,12 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 					if(v.getAlpha()<1){
 						rotateRight();
 					}
+					mFocusEndIndex = (int) v.getTag();
+					mFocusEndView = v;
+					startFocusLableAnim();
+				}else{
+					mFocusStartIndex= (int) v.getTag();
+					mFocusStartView = v;
 				}
 				}
 				break;
@@ -1243,6 +1313,12 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 					if(v.getAlpha()<1){
 						rotateRight();
 					}
+					mFocusEndIndex = (int) v.getTag();
+					mFocusEndView = v;
+					startFocusLableAnim();
+				}else{
+					mFocusStartIndex= (int) v.getTag();
+					mFocusStartView = v;
 				}
 				}
 				break;
@@ -1251,6 +1327,12 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 					if(v.getAlpha()<1){
 						rotateRight();
 					}
+					mFocusEndIndex = (int) v.getTag();
+					mFocusEndView = v;
+					startFocusLableAnim();
+				}else{
+					mFocusStartIndex= (int) v.getTag();
+					mFocusStartView = v;
 				}
 				}
 				break;
@@ -1258,6 +1340,29 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 			
 		}
 	};
+	
+	private void startFocusLableAnim(){
+		if(mFocusStartView!=null&&mFocusEndView!=null){
+			int[] location = new  int[2] ;
+			mFocusEndView.getLocationOnScreen(location);
+//			CustomTextView endView= (CustomTextView) mFocusEndView;
+			float scale =1;
+			if(mFocusEndIndex>=0){
+				scale = mIconPointss[mFocusEndIndex].scale;
+			}
+			int width = View.MeasureSpec.makeMeasureSpec(0,
+			        View.MeasureSpec.UNSPECIFIED);
+			int height = View.MeasureSpec.makeMeasureSpec(0,
+			        View.MeasureSpec.UNSPECIFIED);
+			mFocusEndView.measure(width, height);
+			int w = mFocusEndView.getMeasuredWidth(); // 获取宽度
+			int h = mFocusEndView.getMeasuredHeight(); // 获取高度
+            PathView pathView = (PathView) findViewById(R.id.pathview);
+            Log.e(TAG, "endView.getScaleX()"+scale);
+            pathView.setPosition(location[0]-3, location[1], (int)((float)w*scale),(int) ((float)h*scale));
+            pathView.postInvalidate();
+		}
+	}
 
     /**
      * Creates a view representing a shortcut.
@@ -3565,6 +3670,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
           				anim.setDuration(300);
           				anim.start();
           				icon.getChildAt(1).setAlpha(1);
+          				icon.getChildAt(1).setTag(7);
           			}
           			continue;
           		}
@@ -3594,6 +3700,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
           			icon.getChildAt(1).setFocusable(true);
           		}
           		icon.setIconPoint( t_icon.leftPoint);
+          		icon.getChildAt(1).setTag(t_icon.leftPoint!=null?t_icon.leftPoint.index:-1);
           	}
           	mFistIconLoc--;
              
@@ -3615,6 +3722,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         				ObjectAnimator anim = ObjectAnimator.ofFloat(icon, "alpha", 0f, 1f);
         				anim.setDuration(300);
         				anim.start();
+        				icon.getChildAt(1).setTag(0);
 //        				icon.getChildAt(1).setAlpha(1);
         			}
         			continue;
@@ -3645,6 +3753,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         			icon.getChildAt(1).setFocusable(true);
         		}
         		icon.setIconPoint( t_icon.rightPoint);
+        		icon.getChildAt(1).setTag(t_icon.rightPoint!=null?t_icon.rightPoint.index:-1);
         	}
         	mFistIconLoc++;
            

@@ -12,6 +12,11 @@
         android:layout_height="wrap_content"
         android:scaleType="center"
         android:src="@drawable/bk" />
+     <com.george.CustomView.PathView
+        android:id="@+id/pathview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+         />
 
     <com.george.CustomView.CustomRelativeLayout
         android:id="@+id/voice"

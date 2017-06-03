@@ -8,4 +8,5 @@ public class IconPoint {
 	public PathPoint point;
 	public float scale;
 	public boolean isLableShow=true;
+	public int index =-1;
 }
