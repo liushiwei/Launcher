@@ -164,8 +164,8 @@
         android:smallScreens="true" />
 
     <uses-sdk
-        android:maxSdkVersion="20"
-        android:minSdkVersion="18"
-        android:targetSdkVersion="19" />
+        android:maxSdkVersion="25"
+        android:minSdkVersion="21"
+        android:targetSdkVersion="21" />
 
 </manifest>

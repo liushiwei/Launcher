@@ -5,7 +5,8 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.george.MainActivity" >
+    tools:context="com.george.MainActivity" 
+   >
 
     <ImageView
         android:layout_width="wrap_content"
@@ -16,7 +17,11 @@
         android:id="@+id/pathview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-         />
+        android:visibility="invisible" />
+     
+     <com.george.CustomView.BlurMaskFilterView  android:layout_width="400dp"
+        android:layout_height="400dp"
+        android:visibility="invisible"/>
 
     <com.george.CustomView.CustomRelativeLayout
         android:id="@+id/voice"

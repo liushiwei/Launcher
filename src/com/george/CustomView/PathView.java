@@ -1,10 +1,14 @@
 package com.george.CustomView;
 
+import com.george.AnimatorPath.FocusIconArg;
+
 import android.content.Context;
+import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.BlurMaskFilter.Blur;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -32,28 +36,30 @@ public class PathView extends View {
 
     private void initView() {
         paint = new Paint();
-        //抗锯齿
-        paint.setAntiAlias(true);
-        //防抖动
-        paint.setDither(true);
-        //设置画笔未实心
-        paint.setStyle(Paint.Style.STROKE);
-        //设置颜色
-        paint.setColor(Color.GREEN);
-        //设置画笔宽度
-        paint.setStrokeWidth(3);
+//        //抗锯齿
+//        paint.setAntiAlias(true);
+//        //防抖动
+//        paint.setDither(true);
+//        //设置画笔未实心
+//        paint.setStyle(Paint.Style.STROKE);
+//        //设置颜色
+//        paint.setColor(Color.GREEN);
+//        //设置画笔宽度
+//        paint.setStrokeWidth(3);
+        paint.setColor(Color.YELLOW);
+        paint.setMaskFilter(new BlurMaskFilter(5, Blur.OUTER));
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        Path path = new Path();
-        path.moveTo(80, 40);
-        //path.quadTo(360, 160, 460, 360); //订单
-        path.cubicTo(900,00,600,330,80,260);
-        canvas.drawPath(path,paint);
-        
-        canvas.drawRect(x, y, x+width, y+height, paint);
+//        Path path = new Path();
+//        path.moveTo(80, 40);
+//        //path.quadTo(360, 160, 460, 360); //订单
+//        path.cubicTo(900,00,600,330,80,260);
+//        canvas.drawPath(path,paint);
+        canvas.drawRoundRect(x, y, x+width, y+height, 5, 5, paint);
+//        canvas.drawRect(x, y, x+width, y+height, paint);
     }
     
     public void setPosition(int x,int y,int width,int height){
@@ -62,5 +68,14 @@ public class PathView extends View {
     	this.width = width;
     	this.height = height;
     	Log.e("PathView", "  get height = "+height);
+    }
+    
+    public void setFocusIconArg(FocusIconArg arg){
+    	this.x = arg.x;
+    	this.y = arg.y;
+    	this.width = arg.width;
+    	this.height =arg.height;
+    	 paint.setColor(arg.color);
+    	 postInvalidate();
     }
 }

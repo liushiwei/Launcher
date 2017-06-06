@@ -986,6 +986,8 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         	findViewById(R.id.navi).requestFocus();
         }
         if(point.x==1280){
+        	mAllAppsButton  = findViewById(R.id.more);
+        	mAllAppsButton.setOnClickListener(this);
         	mIcons = new ArrayList<>();
         	CustomRelativeLayout mIcon  = (CustomRelativeLayout) findViewById(R.id.voice);
             mIcon.setOnClickListener(this);
@@ -1359,7 +1361,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 			int h = mFocusEndView.getMeasuredHeight(); // 获取高度
             PathView pathView = (PathView) findViewById(R.id.pathview);
             Log.e(TAG, "endView.getScaleX()"+scale);
-            pathView.setPosition(location[0]-3, location[1], (int)((float)w*scale),(int) ((float)h*scale));
+            pathView.setPosition(location[0]-10, location[1], (int)((float)w*scale)+4,(int) ((float)h*scale));
             pathView.postInvalidate();
 		}
 	}
