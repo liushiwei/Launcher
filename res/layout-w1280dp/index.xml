@@ -13,21 +13,27 @@
         android:layout_height="wrap_content"
         android:scaleType="center"
         android:src="@drawable/bk" />
+    
+     <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="center"
+        android:src="@drawable/car" 
+        android:paddingLeft="130dp"
+        android:paddingTop="120dp"/>
+     
      <com.george.CustomView.PathView
         android:id="@+id/pathview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="invisible" />
+        android:visibility="visible" />
      
-     <com.george.CustomView.BlurMaskFilterView  android:layout_width="400dp"
-        android:layout_height="400dp"
-        android:visibility="invisible"/>
 
     <com.george.CustomView.CustomRelativeLayout
         android:id="@+id/voice"
         android:layout_width="200dp"
         android:layout_height="117dp"
-        android:visibility="invisible" >
+       >
 
         <ImageView
             android:layout_width="wrap_content"

@@ -23,6 +23,8 @@ public class PathView extends View {
 
     private Paint paint;
     
+    public FocusIconArg mFocusIconArg;
+    
     private int x;
     private int y;
     private int width;
@@ -35,6 +37,7 @@ public class PathView extends View {
     }
 
     private void initView() {
+    	setLayerType(LAYER_TYPE_SOFTWARE,null);
         paint = new Paint();
 //        //抗锯齿
 //        paint.setAntiAlias(true);
@@ -45,9 +48,10 @@ public class PathView extends View {
 //        //设置颜色
 //        paint.setColor(Color.GREEN);
 //        //设置画笔宽度
-//        paint.setStrokeWidth(3);
-        paint.setColor(Color.YELLOW);
-        paint.setMaskFilter(new BlurMaskFilter(5, Blur.OUTER));
+        paint.setStrokeWidth(3);
+        paint.setColor(Color.BLUE);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setMaskFilter(new BlurMaskFilter(5, Blur.SOLID));
     }
 
     @Override
@@ -76,6 +80,7 @@ public class PathView extends View {
     	this.width = arg.width;
     	this.height =arg.height;
     	 paint.setColor(arg.color);
+    	 mFocusIconArg = arg;
     	 postInvalidate();
     }
 }

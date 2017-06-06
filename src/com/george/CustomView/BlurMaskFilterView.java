@@ -33,7 +33,7 @@ public class BlurMaskFilterView extends View {
         setLayerType(LAYER_TYPE_SOFTWARE,null);
         mPaint = new Paint();
         mPaint.setColor(Color.RED);
-        mPaint.setMaskFilter(new BlurMaskFilter(5, Blur.OUTER));
+//        mPaint.setMaskFilter(new BlurMaskFilter(5, Blur.OUTER));
     }
 
     @Override

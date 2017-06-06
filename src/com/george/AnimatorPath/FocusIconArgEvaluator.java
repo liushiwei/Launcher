@@ -20,10 +20,9 @@ public class FocusIconArgEvaluator implements TypeEvaluator<FocusIconArg> {
     @Override
     public FocusIconArg evaluate(float t, FocusIconArg startValue, FocusIconArg endValue) {
         
-        Log.e("time", " time +"+t);
-        float oneMiunsT = 1 - t;
-//        int x = 
-//        FocusIconArg tArg = new FocusIconArg();
-        return endValue;
+         
+         FocusIconArg result = new FocusIconArg((int)(startValue.x+(endValue.x-startValue.x)*t),(int)(startValue.y+(endValue.y-startValue.y)*t),(int)(startValue.width+(endValue.width-startValue.width)*t),(int)(startValue.height+(endValue.height-startValue.height)*t),(int)(startValue.color+(endValue.color-startValue.color)*t));
+        
+        return result;
     }
 }
