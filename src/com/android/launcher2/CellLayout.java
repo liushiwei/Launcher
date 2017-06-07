@@ -1,4 +1,14 @@
 package com.android.launcher2;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Stack;
+
+import com.android.launcher2.FolderIcon.FolderRingAnimator;
+import com.george.launcher.R;
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
@@ -18,11 +28,11 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.NinePatchDrawable;
 import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.SparseArray;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewDebug;
@@ -30,14 +40,6 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LayoutAnimationController;
-import com.george.launcher.R;
-import com.android.launcher2.FolderIcon.FolderRingAnimator;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Stack;
 
 public class CellLayout extends ViewGroup {
     static final String TAG = "CellLayout";
@@ -242,6 +244,9 @@ public class CellLayout extends ViewGroup {
 
         mShortcutsAndWidgets = new ShortcutAndWidgetContainer(context);
         mShortcutsAndWidgets.setCellDimensions(mCellWidth, mCellHeight, mWidthGap, mHeightGap);
+        
+        View index = LayoutInflater.from(mLauncher).inflate(R.layout.index, null);
+        addView(index);
         addView(mShortcutsAndWidgets);
     }
 
@@ -1009,7 +1014,7 @@ public class CellLayout extends ViewGroup {
 
     public ShortcutAndWidgetContainer getShortcutsAndWidgets() {
         if (getChildCount() > 0) {
-            return (ShortcutAndWidgetContainer) getChildAt(0);
+            return (ShortcutAndWidgetContainer) getChildAt(1);
         }
         return null;
     }

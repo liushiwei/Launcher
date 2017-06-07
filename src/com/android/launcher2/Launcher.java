@@ -770,6 +770,10 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         if (keyCode == KeyEvent.KEYCODE_MENU && event.isLongPress()) {
             return true;
         }
+//        if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT){
+//        	findViewById(R.id.index).setVisibility(View.VISIBLE);
+//        	return false;
+//        }
         /*
       
         

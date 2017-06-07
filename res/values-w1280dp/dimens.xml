@@ -104,4 +104,10 @@
     <dimen name="cell_layout_top_padding_land">0dp</dimen>
     <dimen name="cell_layout_bottom_padding_port">0dp</dimen>
     <dimen name="cell_layout_bottom_padding_land">0dp</dimen>
+    
+    <!-- Workspace cell size -->
+    <dimen name="workspace_cell_width_land">156dp</dimen>
+    <dimen name="workspace_cell_width_port">80dp</dimen>
+    <dimen name="workspace_cell_height_land">78dp</dimen>
+    <dimen name="workspace_cell_height_port">100dp</dimen>
 </resources>
