@@ -52,7 +52,7 @@
             android:focusable="true"
             android:nextFocusLeft="@+id/voice_lable"
             android:nextFocusRight="@+id/e_link_lable"
-            android:text="Voice" />
+            android:text="@string/voice" />
     </com.george.CustomView.CustomRelativeLayout>
 
     <com.george.CustomView.CustomRelativeLayout
@@ -77,7 +77,7 @@
             android:focusable="true"
             android:nextFocusLeft="@+id/voice_lable"
             android:nextFocusRight="@+id/more_lable"
-            android:text="E-Link" />
+            android:text="@string/phone_con" />
     </com.george.CustomView.CustomRelativeLayout>
 
     <com.george.CustomView.CustomRelativeLayout
@@ -103,7 +103,7 @@
             android:focusable="true"
             android:nextFocusLeft="@+id/e_link_lable"
             android:nextFocusRight="@+id/music_lable"
-            android:text="More" />
+            android:text="@string/apps" />
     </com.george.CustomView.CustomRelativeLayout>
 
     <com.george.CustomView.CustomRelativeLayout
@@ -129,7 +129,7 @@
             android:focusable="true"
             android:nextFocusLeft="@+id/more_lable"
             android:nextFocusRight="@+id/video_lable"
-            android:text="Music" />
+            android:text="@string/media" />
     </com.george.CustomView.CustomRelativeLayout>
 
     <com.george.CustomView.CustomRelativeLayout
@@ -155,7 +155,7 @@
             android:focusable="true"
             android:nextFocusLeft="@+id/music_lable"
             android:nextFocusRight="@+id/navi_lable"
-            android:text="Video" />
+            android:text="@string/video" />
     </com.george.CustomView.CustomRelativeLayout>
 
     <com.george.CustomView.CustomRelativeLayout
@@ -180,7 +180,7 @@
              android:nextFocusLeft="@+id/video_lable"
             android:nextFocusRight="@+id/phone_lable"
             android:focusable="true"
-            android:text="Navigation" />
+            android:text="@string/navi" />
     </com.george.CustomView.CustomRelativeLayout>
 
     <com.george.CustomView.CustomRelativeLayout
@@ -206,7 +206,7 @@
             android:focusable="true"
             android:nextFocusLeft="@+id/navi_lable"
             android:nextFocusRight="@+id/setup_lable"
-            android:text="Phone" />
+            android:text="@string/phone_bt" />
     </com.george.CustomView.CustomRelativeLayout>
 
     <com.george.CustomView.CustomRelativeLayout
@@ -232,7 +232,7 @@
             android:focusable="true"
             android:nextFocusLeft="@+id/phone_lable"
             android:nextFocusRight="@+id/camera360_lable"
-            android:text="Setup" />
+            android:text="@string/settings" />
     </com.george.CustomView.CustomRelativeLayout>
 
     <com.george.CustomView.CustomRelativeLayout
@@ -257,7 +257,7 @@
             android:focusable="true"
             android:nextFocusLeft="@+id/setup_lable"
             android:nextFocusRight="@+id/atmo_lamp_lable"
-            android:text="Camera 360" />
+            android:text="@string/camera360" />
     </com.george.CustomView.CustomRelativeLayout>
 
     <com.george.CustomView.CustomRelativeLayout
@@ -282,7 +282,7 @@
             android:focusable="true"
              android:nextFocusLeft="@+id/camera360_lable"
              android:nextFocusRight="@+id/atmo_lamp_lable"
-            android:text="Atmo Lamp" />
+            android:text="@string/atmo_lamp" />
     </com.george.CustomView.CustomRelativeLayout>
 
 </RelativeLayout>
