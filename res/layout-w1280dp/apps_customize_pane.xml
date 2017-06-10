@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Come here  shpw all app pager zgy -->
+<com.android.launcher2.AppsCustomizeTabHost xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:launcher="http://schemas.android.com/apk/res/com.george.launcher"
+    android:background="@drawable/main_bg" >
+
+    <LinearLayout
+        android:id="@+id/apps_customize_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="40dp"
+        android:layoutDirection="ltr"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <FrameLayout
+            android:id="@android:id/tabcontent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <!--  -->
+            <com.android.launcher2.AppsCustomizePagedView
+                android:id="@+id/apps_customize_pane_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                launcher:clingFocusedX="@integer/apps_customize_cling_focused_x"
+                launcher:clingFocusedY="@integer/apps_customize_cling_focused_y"
+                launcher:maxAppCellCountX="@integer/apps_customize_maxCellCountX"
+                launcher:maxAppCellCountY="@integer/apps_customize_maxCellCountY"
+                launcher:maxGap="@dimen/workspace_max_gap"
+                launcher:pageLayoutHeightGap="@dimen/apps_customize_pageLayoutHeightGap"
+                launcher:pageLayoutPaddingBottom="@dimen/apps_customize_pageLayoutPaddingBottom"
+                launcher:pageLayoutPaddingLeft="@dimen/apps_customize_pageLayoutPaddingLeft"
+                launcher:pageLayoutPaddingRight="@dimen/apps_customize_pageLayoutPaddingRight"
+                launcher:pageLayoutPaddingTop="@dimen/apps_customize_pageLayoutPaddingTop"
+                launcher:pageLayoutWidthGap="@dimen/apps_customize_pageLayoutWidthGap"
+                launcher:widgetCellHeightGap="@dimen/apps_customize_widget_cell_height_gap"
+                launcher:widgetCellWidthGap="@dimen/apps_customize_widget_cell_width_gap"
+                launcher:widgetCountX="@integer/apps_customize_widget_cell_count_x"
+                launcher:widgetCountY="@integer/apps_customize_widget_cell_count_y" />
+
+            <FrameLayout
+                android:id="@+id/animation_buffer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#FF000000"
+                android:visibility="gone" />
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_marginBottom="25dp" >
+
+                <LinearLayout
+                    android:id="@+id/linearLayout_fav"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal" />
+
+                <include
+                    android:id="@+id/paged_view_indicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    layout="@layout/scroll_indicator" />
+            </FrameLayout>
+        </FrameLayout>
+    </LinearLayout>
+
+    <include
+        android:id="@+id/all_apps_cling"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        layout="@layout/all_apps_cling"
+        android:visibility="gone" />
+
+</com.android.launcher2.AppsCustomizeTabHost>

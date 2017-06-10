@@ -12,7 +12,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scaleType="center"
-        android:src="@drawable/bk" />
+        android:src="@drawable/main_bg" />
+    
+     <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="77dp"
+        android:src="@drawable/arc" />
     
      <ImageView
         android:layout_width="wrap_content"
@@ -72,8 +78,9 @@
             style="@style/Icon2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="100dp"
             android:focusable="true"
             android:nextFocusLeft="@+id/voice_lable"
             android:nextFocusRight="@+id/more_lable"
@@ -142,7 +149,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:focusable="false"
-            android:src="@drawable/video" />
+            android:src="@drawable/movie" />
 
         <TextView
             android:id="@+id/video_lable"
@@ -175,8 +182,9 @@
             style="@style/Icon2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="100dp"
              android:nextFocusLeft="@+id/video_lable"
             android:nextFocusRight="@+id/phone_lable"
             android:focusable="true"

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector
   xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_selected="false" android:state_pressed="false" android:drawable="@drawable/navigtion_n" />
-    <item android:state_selected="false" android:state_pressed="true" android:drawable="@drawable/navigtion_s" />
+    <item android:state_selected="false" android:state_pressed="false" android:drawable="@drawable/navigation_n" />
+    <item android:state_selected="false" android:state_pressed="true" android:drawable="@drawable/navigation_s" />
 </selector>

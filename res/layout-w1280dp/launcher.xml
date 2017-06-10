@@ -69,10 +69,7 @@
             android:layout_gravity="bottom"
             layout="@layout/hotseat" />
 
-        <include
-            android:id="@+id/qsb_bar"
-            layout="@layout/qsb_bar" />
-
+        
         <!--
         <include
             android:id="@+id/workspace_cling"

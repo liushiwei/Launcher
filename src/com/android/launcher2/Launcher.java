@@ -383,7 +383,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         IntentFilter filter = new IntentFilter(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
         registerReceiver(mCloseSystemDialogsReceiver, filter);
         
-        updateGlobalIcons();
+        //updateGlobalIcons();
         // On large interfaces, we want the screen to auto-rotate based on the current orientation
         unlockScreenOrientation(true);
         
@@ -706,7 +706,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         getWorkspace().reinflateWidgetsIfNecessary();
 
         // Again, as with the above scenario, it's possible that one or more of the global icons were updated in the wrong orientation.
-        updateGlobalIcons();
+        //updateGlobalIcons();
     }
 
     @Override
@@ -3185,7 +3185,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
     }
 
     void showAllApps(boolean animated) {
-    	showStatusBar();
+    	//showStatusBar();
         if (mState != State.WORKSPACE)   return;
         
         showAppsCustomizeHelper(animated, false);
