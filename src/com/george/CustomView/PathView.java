@@ -79,6 +79,7 @@ public class PathView extends View {
     	this.y = arg.y;
     	this.width = arg.width;
     	this.height =arg.height;
+    	Log.e("PathView", "arg.color = "+arg.color);
     	 paint.setColor(arg.color);
     	 mFocusIconArg = arg;
     	 postInvalidate();

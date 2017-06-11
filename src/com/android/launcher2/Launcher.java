@@ -280,6 +280,9 @@ public final class Launcher extends Activity implements View.OnClickListener, On
     private View  mFocusStartView;
     private View  mFocusEndView;
     private PathView mPathView ;
+    private ImageView mCarBg1;
+    private ImageView mCarBg2;
+    
 
     private Runnable mBuildLayersRunnable = new Runnable() {
         public void run() {
@@ -1004,35 +1007,62 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         	mIcons = new ArrayList<>();
         	CustomRelativeLayout mIcon  = (CustomRelativeLayout) findViewById(R.id.voice);
             mIcon.setOnClickListener(this);
+            mIcon.setCarBg(R.drawable.voice_bg);
+            mIcon.setColor(Color.parseColor("#EA0000"));
             mIcons.add(mIcon);
+            
             mIcon  = (CustomRelativeLayout) findViewById(R.id.e_link);
             mIcon.setOnClickListener(this);
+            mIcon.setCarBg(R.drawable.phone_con_bg);
+            mIcon.setColor(Color.parseColor("#C40000"));
             mIcons.add(mIcon);
+            
             mIcon  = (CustomRelativeLayout) findViewById(R.id.more);
             mIcon.setOnClickListener(this);
+            mIcon.setCarBg(R.drawable.more_bg);
+            mIcon.setColor(Color.parseColor("#C40000"));
             mIcons.add(mIcon);
+            
             mIcon  = (CustomRelativeLayout) findViewById(R.id.music);
             mIcon.setOnClickListener(this);
+            mIcon.setCarBg(R.drawable.media_bg);
+            mIcon.setColor(Color.parseColor("#F3B700"));
             mIcons.add(mIcon);
+            
             mIcon  = (CustomRelativeLayout) findViewById(R.id.video);
             mIcon.setOnClickListener(this);
+            mIcon.setColor(Color.parseColor("#E9A000"));
+            mIcon.setCarBg(R.drawable.moive_bg);
             mIcons.add(mIcon);
+            
             mIcon  =(CustomRelativeLayout) findViewById(R.id.navi);
             mIcon.setOnClickListener(this);
+            mIcon.setColor(Color.parseColor("#008CC3"));
+            mIcon.setCarBg(R.drawable.navi_bg);
             mIcons.add(mIcon);
+            
             mIcon  = (CustomRelativeLayout) findViewById(R.id.phone);
             mIcon.setOnClickListener(this);
+            mIcon.setColor(Color.parseColor("#E60000"));
+            mIcon.setCarBg(R.drawable.phone_bg);
             mIcons.add(mIcon);
+            
             mIcon  = (CustomRelativeLayout) findViewById(R.id.setup);
             mIcon.setOnClickListener(this);
+            mIcon.setCarBg(R.drawable.setup_bg);
+            mIcon.setColor(Color.parseColor("#E60000"));
             mIcons.add(mIcon);
             
             mIcon  =(CustomRelativeLayout)findViewById(R.id.camera360);
             mIcon.setOnClickListener(this);
+            mIcon.setCarBg(R.drawable.panorama_bg);
+            mIcon.setColor(Color.parseColor("#00A3FE"));
             mIcons.add(mIcon);
 
             mIcon  =(CustomRelativeLayout)findViewById(R.id.atmo_lamp);
             mIcon.setOnClickListener(this);
+            mIcon.setCarBg(R.drawable.light_bg);
+            mIcon.setColor(Color.parseColor("#E39E17"));
             mIcons.add(mIcon);
             mIconLables = new View[mIcons.size()];
 //            for(int i=0;i<mIcons.size();i++){
@@ -1042,6 +1072,8 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 //            }
             
             mPathView = (PathView) findViewById(R.id.pathview);
+            mCarBg1 = (ImageView) findViewById(R.id.car_bg1);
+            mCarBg2 = (ImageView) findViewById(R.id.car_bg2);
             
             initPoints();
             setupIconPoints();
@@ -1389,6 +1421,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 			int height = View.MeasureSpec.makeMeasureSpec(0,
 			        View.MeasureSpec.UNSPECIFIED);
 			mFocusEndView.measure(width, height);
+			
 			int w_end = mFocusEndView.getMeasuredWidth(); // 获取宽度
 			int h_end = mFocusEndView.getMeasuredHeight(); // 获取高度
 			
@@ -1402,8 +1435,45 @@ public final class Launcher extends Activity implements View.OnClickListener, On
             
 //            pathView.setPosition(location_end[0]-10, location_end[1], (int)((float)w*scale)+4,(int) ((float)h*scale));
 //            pathView.postInvalidate();
-            FocusIconArg start = new FocusIconArg(location_start[0],location_start[1],(int)((float)w_start*scale),(int) ((float)h_start*scale),Color.BLUE);
-            FocusIconArg end = new FocusIconArg(location_end[0],location_end[1],(int)((float)w_end*scale),(int) ((float)h_end*scale),Color.BLUE);
+           
+            CustomRelativeLayout layout_end = (CustomRelativeLayout) mFocusEndView.getParent();
+            CustomRelativeLayout layout_start = (CustomRelativeLayout) mFocusStartView.getParent();
+            if(mCarBg1.getAlpha()<0.5){
+            	mCarBg1.setImageResource(layout_end.getCarBg());
+            	 ObjectAnimator anim = ObjectAnimator.ofFloat(mCarBg1, "alpha", 0,1);
+            	 if(mFocusEndIndex  ==mFocusStartIndex&&mFocusEndIndex ==2){
+                 	anim.setDuration(100);
+                 }else
+                 anim.setDuration(350);
+                 anim.start();
+            }else{
+            	ObjectAnimator anim = ObjectAnimator.ofFloat(mCarBg1, "alpha", 1,0);
+           	 if(mFocusEndIndex  ==mFocusStartIndex&&mFocusEndIndex ==2){
+                	anim.setDuration(100);
+                }else
+                anim.setDuration(350);
+                anim.start();
+            }
+            
+            if(mCarBg2.getAlpha()<0.5){
+            	CustomRelativeLayout layout = (CustomRelativeLayout) mFocusEndView.getParent();
+            	mCarBg2.setImageResource(layout.getCarBg());
+            	 ObjectAnimator anim = ObjectAnimator.ofFloat(mCarBg2, "alpha", 0,1);
+            	 if(mFocusEndIndex  ==mFocusStartIndex&&mFocusEndIndex ==2){
+                 	anim.setDuration(100);
+                 }else
+                 anim.setDuration(350);
+                 anim.start();
+            }else{
+            	ObjectAnimator anim = ObjectAnimator.ofFloat(mCarBg2, "alpha", 1,0);
+           	 if(mFocusEndIndex  ==mFocusStartIndex&&mFocusEndIndex ==2){
+                	anim.setDuration(100);
+                }else
+                anim.setDuration(350);
+                anim.start();
+            }
+            FocusIconArg start = new FocusIconArg(location_start[0],location_start[1],(int)((float)w_start*scale),(int) ((float)h_start*scale),layout_start.getColor());
+            FocusIconArg end = new FocusIconArg(location_end[0],location_end[1],(int)((float)w_end*scale),(int) ((float)h_end*scale),layout_end.getColor());
             if(mFocusEndIndex  ==mFocusStartIndex&&mFocusEndIndex ==2){
             	start = mPathView.mFocusIconArg;
             }

@@ -5,41 +5,59 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.george.MainActivity" 
-   >
+    tools:context="com.george.MainActivity" >
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scaleType="center"
         android:src="@drawable/main_bg" />
-    
-     <ImageView
+
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="77dp"
         android:src="@drawable/arc" />
     
-     <ImageView
+    <ImageView
+        android:id="@+id/car_bg1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:scaleType="center"
-        android:src="@drawable/car" 
+        android:paddingTop="77dp"
+        />
+    <ImageView
+        android:id="@+id/car_bg2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="77dp"
+         android:alpha="0" 
+       />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/right_arc" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:paddingLeft="130dp"
-        android:paddingTop="120dp"/>
-     
-     <com.george.CustomView.PathView
+        android:paddingTop="120dp"
+        android:scaleType="center"
+        android:src="@drawable/car" />
+
+    <com.george.CustomView.PathView
         android:id="@+id/pathview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="visible" />
-     
 
     <com.george.CustomView.CustomRelativeLayout
         android:id="@+id/voice"
-        android:layout_width="200dp"
-        android:layout_height="117dp"
-       >
+        android:layout_width="205dp"
+        android:layout_height="117dp" >
 
         <ImageView
             android:layout_width="wrap_content"
@@ -54,7 +72,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="100dp"
+            android:layout_marginLeft="99dp"
             android:focusable="true"
             android:nextFocusLeft="@+id/voice_lable"
             android:nextFocusRight="@+id/e_link_lable"
@@ -63,9 +81,8 @@
 
     <com.george.CustomView.CustomRelativeLayout
         android:id="@+id/e_link"
-        android:layout_width="200dp"
-        android:layout_height="117dp"
-        >
+        android:layout_width="205dp"
+        android:layout_height="117dp" >
 
         <ImageView
             android:layout_width="wrap_content"
@@ -78,9 +95,9 @@
             style="@style/Icon2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-             android:layout_alignParentLeft="true"
+            android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="100dp"
+            android:layout_marginLeft="98dp"
             android:focusable="true"
             android:nextFocusLeft="@+id/voice_lable"
             android:nextFocusRight="@+id/more_lable"
@@ -185,9 +202,9 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="100dp"
-             android:nextFocusLeft="@+id/video_lable"
-            android:nextFocusRight="@+id/phone_lable"
             android:focusable="true"
+            android:nextFocusLeft="@+id/video_lable"
+            android:nextFocusRight="@+id/phone_lable"
             android:text="@string/navi" />
     </com.george.CustomView.CustomRelativeLayout>
 
@@ -253,15 +270,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:focusable="false"
-            android:src="@drawable/navi" />
+            android:src="@drawable/panorama" />
 
         <TextView
             android:id="@+id/camera360_lable"
             style="@style/Icon2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="90dp"
             android:focusable="true"
             android:nextFocusLeft="@+id/setup_lable"
             android:nextFocusRight="@+id/atmo_lamp_lable"
@@ -278,18 +296,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:focusable="false"
-            android:src="@drawable/navi" />
+            android:src="@drawable/light" />
 
         <TextView
             android:id="@+id/atmo_lamp_lable"
             style="@style/Icon2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="90dp"
             android:focusable="true"
-             android:nextFocusLeft="@+id/camera360_lable"
-             android:nextFocusRight="@+id/atmo_lamp_lable"
+            android:nextFocusLeft="@+id/camera360_lable"
+            android:nextFocusRight="@+id/atmo_lamp_lable"
             android:text="@string/atmo_lamp" />
     </com.george.CustomView.CustomRelativeLayout>
 
