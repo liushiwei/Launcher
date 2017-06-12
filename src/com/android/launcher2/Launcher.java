@@ -3860,7 +3860,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
           	if(mFistIconLoc<-2)
           		return ;
           	for(int i=0;i<mIcons.size();i++){
-          		CustomRelativeLayout icon = mIcons.get(i);
+          		final CustomRelativeLayout icon = mIcons.get(i);
           		IconPoint t_icon = icon.getIconPoint();
           		if(t_icon==null){
           			if((i+mFistIconLoc)==mIconPointss.length){
@@ -3871,6 +3871,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
           				ObjectAnimator anim = ObjectAnimator.ofFloat(icon, "alpha", 0f, 1f);
           				anim.setDuration(300);
           				anim.start();
+          				icon.setClickable(true);
           				icon.getChildAt(1).setAlpha(1);
           				icon.getChildAt(1).setTag(7);
           			}
@@ -3882,6 +3883,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
           			ObjectAnimator anim = ObjectAnimator.ofFloat(icon, "alpha", 1f, 0f);
       				anim.setDuration(300);
       				anim.start();
+      				icon.setClickable(false);
       				icon.getChildAt(1).setAlpha(0);
 //          			icon.setVisibility(View.INVISIBLE);
           		}else{
@@ -3925,6 +3927,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         				anim.setDuration(300);
         				Log.d(TAG, " rotateRight  =start=>");
         				anim.start();
+        				icon.setClickable(true);
         				icon.getChildAt(1).setTag(0);
 //        				icon.getChildAt(1).setAlpha(1);
         			}
@@ -3936,6 +3939,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         			ObjectAnimator anim = ObjectAnimator.ofFloat(icon, "alpha", 1f, 0f);
     				anim.setDuration(300);
     				anim.start();
+    				icon.setClickable(false);
     				icon.getChildAt(1).setAlpha(0);
 //        			icon.setVisibility(View.INVISIBLE);
         		}else{
