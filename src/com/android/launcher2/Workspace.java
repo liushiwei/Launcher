@@ -605,7 +605,7 @@ public class Workspace extends SmoothPagedView
         // the active workspace
         return LauncherApplication.isScreenLarge() && hitsPage(current + 1, x, y);
     }
-
+   private float x_tmp1,y_tmp1,x_tmp2,y_tmp2;
     /**
      * Called directly from a CellLayout (not by the framework), after we've been added as a
      * listener via setOnInterceptTouchEventListener(). This allows us to tell the CellLayout
@@ -613,6 +613,7 @@ public class Workspace extends SmoothPagedView
      */
     @Override
     public boolean onTouch(View v, MotionEvent event) {
+    
         return (isSmall() || !isFinishedSwitchingState());
     }
 
@@ -640,8 +641,33 @@ public class Workspace extends SmoothPagedView
     }
 
     @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        return super.onInterceptTouchEvent(ev);
+    public boolean onInterceptTouchEvent(MotionEvent event) {
+  	  //获取当前坐标  
+        float x = event.getX();  
+        float y = event.getY();  
+  
+        switch (event.getAction()){  
+            case MotionEvent.ACTION_DOWN:  
+                x_tmp1 = x;  
+                y_tmp1 = y;  
+                break;  
+            case MotionEvent.ACTION_UP:  
+                x_tmp2 = x;  
+                y_tmp2 = y;  
+//                Log.i(TAG,"滑动参值 x1="+ x_tmp1 +"; x2=" + x_tmp2);  
+                if(x_tmp1 != 0 && y_tmp1 != 0){  
+                    if(x_tmp1 - x_tmp2 > 8){  
+//                        Log.i(TAG,"向左滑动");  
+                        mLauncher.rotateRight();
+                    }  
+                    if(x_tmp2 - x_tmp1 > 8){  
+//                        Log.i(TAG,"向右滑动");  
+                        mLauncher.rotateLeft();
+                    }  
+                }  
+                break;  
+        }  
+        return false;
     }
 
     protected void reinflateWidgetsIfNecessary() {

@@ -3777,7 +3777,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         return diff > (NEW_APPS_ANIMATION_INACTIVE_TIMEOUT_SECONDS * 1000);
     }
     
-    private void rotateLeft(){
+    public void rotateLeft(){
           	if(mFistIconLoc<-2)
           		return ;
           	for(int i=0;i<mIcons.size();i++){
@@ -3829,7 +3829,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
              
     }
     
-    private void rotateRight(){
+    public void rotateRight(){
 
         	if(mFistIconLoc>1)
         		return ;
