@@ -2,15 +2,16 @@
 <!-- Come here  shpw all app pager zgy -->
 <com.android.launcher2.AppsCustomizeTabHost xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:launcher="http://schemas.android.com/apk/res/com.george.launcher"
+    xmlns:systemui="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/main_bg" >
 
     <LinearLayout
         android:id="@+id/apps_customize_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="40dp"
         android:layoutDirection="ltr"
         android:orientation="vertical"
+        android:paddingTop="40dp"
         android:visibility="gone" >
 
         <FrameLayout
@@ -19,6 +20,7 @@
             android:layout_height="match_parent" >
 
             <!--  -->
+
             <com.android.launcher2.AppsCustomizePagedView
                 android:id="@+id/apps_customize_pane_content"
                 android:layout_width="match_parent"
@@ -75,5 +77,35 @@
         android:layout_height="match_parent"
         layout="@layout/all_apps_cling"
         android:visibility="gone" />
+
+    <com.george.util.KeyButtonView
+        android:id="@+id/home"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|left"
+        android:layout_marginLeft="30dp"
+        android:paddingBottom="5dp"
+        android:src="@drawable/home"
+        systemui:keyCode="4"
+        systemui:keyRepeat="false" />
+
+    <com.george.util.KeyButtonView
+        android:id="@+id/back"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|left"
+        android:layout_marginLeft="150dp"
+        android:paddingBottom="5dp"
+        android:src="@drawable/back"
+        systemui:keyCode="4"
+        systemui:keyRepeat="false" />
+
+    <com.george.util.Clock
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginRight="20dp"
+        android:paddingBottom="20dp"
+        android:textSize="32dp" />
 
 </com.android.launcher2.AppsCustomizeTabHost>
