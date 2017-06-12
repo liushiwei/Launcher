@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.carit.util;
+package com.george.util;
 
 import android.app.ActivityManager;
 import android.content.BroadcastReceiver;

@@ -18,20 +18,19 @@
         android:layout_height="wrap_content"
         android:paddingTop="77dp"
         android:src="@drawable/arc" />
-    
+
     <ImageView
         android:id="@+id/car_bg1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="77dp"
-        />
+        android:paddingTop="77dp" />
+
     <ImageView
         android:id="@+id/car_bg2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="77dp"
-         android:alpha="0" 
-       />
+        android:alpha="0"
+        android:paddingTop="77dp" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -55,7 +54,7 @@
         android:visibility="visible" />
 
     <com.george.CustomView.CustomRelativeLayout
-        android:id="@+id/voice"
+        android:id="@+id/voice_1280"
         android:layout_width="205dp"
         android:layout_height="117dp" >
 
@@ -80,7 +79,7 @@
     </com.george.CustomView.CustomRelativeLayout>
 
     <com.george.CustomView.CustomRelativeLayout
-        android:id="@+id/e_link"
+        android:id="@+id/e_link_1280"
         android:layout_width="205dp"
         android:layout_height="117dp" >
 
@@ -105,7 +104,7 @@
     </com.george.CustomView.CustomRelativeLayout>
 
     <com.george.CustomView.CustomRelativeLayout
-        android:id="@+id/more"
+        android:id="@+id/more_1280"
         android:layout_width="200dp"
         android:layout_height="117dp"
         android:visibility="invisible" >
@@ -131,7 +130,7 @@
     </com.george.CustomView.CustomRelativeLayout>
 
     <com.george.CustomView.CustomRelativeLayout
-        android:id="@+id/music"
+        android:id="@+id/music_1280"
         android:layout_width="200dp"
         android:layout_height="117dp"
         android:visibility="invisible" >
@@ -157,7 +156,7 @@
     </com.george.CustomView.CustomRelativeLayout>
 
     <com.george.CustomView.CustomRelativeLayout
-        android:id="@+id/video"
+        android:id="@+id/video_1280"
         android:layout_width="200dp"
         android:layout_height="117dp"
         android:visibility="invisible" >
@@ -183,7 +182,7 @@
     </com.george.CustomView.CustomRelativeLayout>
 
     <com.george.CustomView.CustomRelativeLayout
-        android:id="@+id/navi"
+        android:id="@+id/navi_1280"
         android:layout_width="200dp"
         android:layout_height="117dp"
         android:visibility="invisible" >
@@ -209,7 +208,7 @@
     </com.george.CustomView.CustomRelativeLayout>
 
     <com.george.CustomView.CustomRelativeLayout
-        android:id="@+id/phone"
+        android:id="@+id/phone_1280"
         android:layout_width="200dp"
         android:layout_height="117dp"
         android:visibility="invisible" >
@@ -235,7 +234,7 @@
     </com.george.CustomView.CustomRelativeLayout>
 
     <com.george.CustomView.CustomRelativeLayout
-        android:id="@+id/setup"
+        android:id="@+id/setup_1280"
         android:layout_width="200dp"
         android:layout_height="117dp"
         android:visibility="invisible" >
@@ -261,7 +260,7 @@
     </com.george.CustomView.CustomRelativeLayout>
 
     <com.george.CustomView.CustomRelativeLayout
-        android:id="@+id/camera360"
+        android:id="@+id/camera360_1280"
         android:layout_width="200dp"
         android:layout_height="117dp"
         android:visibility="invisible" >
@@ -287,7 +286,7 @@
     </com.george.CustomView.CustomRelativeLayout>
 
     <com.george.CustomView.CustomRelativeLayout
-        android:id="@+id/atmo_lamp"
+        android:id="@+id/atmo_lamp_1280"
         android:layout_width="200dp"
         android:layout_height="117dp"
         android:visibility="invisible" >
@@ -311,5 +310,14 @@
             android:nextFocusRight="@+id/atmo_lamp_lable"
             android:text="@string/atmo_lamp" />
     </com.george.CustomView.CustomRelativeLayout>
+
+    <com.george.util.Clock
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:paddingBottom="25dp"
+        android:textSize="32dp" />
 
 </RelativeLayout>

@@ -50,8 +50,8 @@ import android.util.Log;
 import android.util.Xml;
 
 import com.george.launcher.R;
+import com.george.util.CaritUtil;
 import com.android.launcher2.LauncherSettings.Favorites;
-import com.carit.util.CaritUtil;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;

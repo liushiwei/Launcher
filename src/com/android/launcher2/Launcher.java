@@ -87,6 +87,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
@@ -941,7 +942,8 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         if(point.x==800){
         	mAllAppsButton  = findViewById(R.id.apps);
         	mAllAppsButton.setOnClickListener(this);
-        	setNaviIntent();
+        	
+        	findViewById(R.id.video).setTag(getNaviShortcutInfo());
         	
         	navi.title = "dvr";
         	navi.setActivity(new ComponentName("com.george.dtv", "com.george.dtv.MainActivity"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
@@ -1002,67 +1004,98 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         	findViewById(R.id.navi).requestFocus();
         }
         if(point.x==1280){
-        	mAllAppsButton  = findViewById(R.id.more);
+        	mAllAppsButton  = findViewById(R.id.more_1280);
         	mAllAppsButton.setOnClickListener(this);
         	mIcons = new ArrayList<>();
-        	CustomRelativeLayout mIcon  = (CustomRelativeLayout) findViewById(R.id.voice);
+        	CustomRelativeLayout mIcon  = (CustomRelativeLayout) findViewById(R.id.voice_1280);
             mIcon.setOnClickListener(this);
             mIcon.setCarBg(R.drawable.voice_bg);
             mIcon.setColor(Color.parseColor("#EA0000"));
+            
             mIcons.add(mIcon);
             
-            mIcon  = (CustomRelativeLayout) findViewById(R.id.e_link);
+            mIcon  = (CustomRelativeLayout) findViewById(R.id.e_link_1280);
             mIcon.setOnClickListener(this);
             mIcon.setCarBg(R.drawable.phone_con_bg);
             mIcon.setColor(Color.parseColor("#C40000"));
+            navi = new ShortcutInfo();
+        	navi.title = "phone_con";
+        	navi.setActivity(new ComponentName("net.easyconn", "net.easyconn.WelcomeActivity"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+        	mIcon.setTag(navi);
             mIcons.add(mIcon);
             
-            mIcon  = (CustomRelativeLayout) findViewById(R.id.more);
+            mIcon  = (CustomRelativeLayout) findViewById(R.id.more_1280);
             mIcon.setOnClickListener(this);
             mIcon.setCarBg(R.drawable.more_bg);
             mIcon.setColor(Color.parseColor("#C40000"));
             mIcons.add(mIcon);
             
-            mIcon  = (CustomRelativeLayout) findViewById(R.id.music);
+            mIcon  = (CustomRelativeLayout) findViewById(R.id.music_1280);
             mIcon.setOnClickListener(this);
             mIcon.setCarBg(R.drawable.media_bg);
             mIcon.setColor(Color.parseColor("#F3B700"));
+            navi = new ShortcutInfo();
+        	navi.title = "music";
+        	navi.setActivity(new ComponentName("com.george.simpleplayer", "com.george.simpleplayer.ui.AudioPlayerActivity"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        	mIcon.setTag(navi);
             mIcons.add(mIcon);
             
-            mIcon  = (CustomRelativeLayout) findViewById(R.id.video);
+            mIcon  = (CustomRelativeLayout) findViewById(R.id.video_1280);
             mIcon.setOnClickListener(this);
             mIcon.setColor(Color.parseColor("#E9A000"));
             mIcon.setCarBg(R.drawable.moive_bg);
+            navi = new ShortcutInfo();
+        	navi.title = "video";
+        	navi.setActivity(new ComponentName("com.mxtech.videoplayer.pro", "com.mxtech.videoplayer.pro.ActivityMediaList"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        	mIcon.setTag(navi);
             mIcons.add(mIcon);
             
-            mIcon  =(CustomRelativeLayout) findViewById(R.id.navi);
+            mIcon  =(CustomRelativeLayout) findViewById(R.id.navi_1280);
             mIcon.setOnClickListener(this);
             mIcon.setColor(Color.parseColor("#008CC3"));
             mIcon.setCarBg(R.drawable.navi_bg);
+            mIcon.setTag(getNaviShortcutInfo());
             mIcons.add(mIcon);
             
-            mIcon  = (CustomRelativeLayout) findViewById(R.id.phone);
+            mIcon  = (CustomRelativeLayout) findViewById(R.id.phone_1280);
             mIcon.setOnClickListener(this);
             mIcon.setColor(Color.parseColor("#E60000"));
             mIcon.setCarBg(R.drawable.phone_bg);
+            navi = new ShortcutInfo();
+        	navi.title = "phone";
+        	navi.setActivity(new ComponentName("com.george.bluetooth", "com.george.bluetooth.MainActivity"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        	mIcon.setTag(navi);
             mIcons.add(mIcon);
             
-            mIcon  = (CustomRelativeLayout) findViewById(R.id.setup);
+            mIcon  = (CustomRelativeLayout) findViewById(R.id.setup_1280);
             mIcon.setOnClickListener(this);
             mIcon.setCarBg(R.drawable.setup_bg);
             mIcon.setColor(Color.parseColor("#E60000"));
+            navi = new ShortcutInfo();
+            navi.title = "settings";
+            navi.intent = new Intent(android.provider.Settings.ACTION_SETTINGS);
+        	mIcon.setTag(navi);
             mIcons.add(mIcon);
             
-            mIcon  =(CustomRelativeLayout)findViewById(R.id.camera360);
+            mIcon  =(CustomRelativeLayout)findViewById(R.id.camera360_1280);
             mIcon.setOnClickListener(this);
             mIcon.setCarBg(R.drawable.panorama_bg);
             mIcon.setColor(Color.parseColor("#00A3FE"));
+            navi = new ShortcutInfo();
+        	navi.title = "camera360";
+        	navi.setActivity(new ComponentName("com.coresmore.camera", "com.coresmore.camera.action.MainActivity"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+        	mIcon.setTag(navi);
             mIcons.add(mIcon);
 
-            mIcon  =(CustomRelativeLayout)findViewById(R.id.atmo_lamp);
+            mIcon  =(CustomRelativeLayout)findViewById(R.id.atmo_lamp_1280);
             mIcon.setOnClickListener(this);
             mIcon.setCarBg(R.drawable.light_bg);
             mIcon.setColor(Color.parseColor("#E39E17"));
+            
+            navi = new ShortcutInfo();
+        	navi.title = "light";
+        	navi.setActivity(new ComponentName("com.vehicle.atmolamp", "com.vehicle.atmolamp.AtmoActivity"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+        	mIcon.setTag(navi);
             mIcons.add(mIcon);
             mIconLables = new View[mIcons.size()];
 //            for(int i=0;i<mIcons.size();i++){
@@ -1077,7 +1110,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
             
             initPoints();
             setupIconPoints();
-            findViewById(R.id.music).findViewById(R.id.music_lable).requestFocus();
+            findViewById(R.id.music_1280).findViewById(R.id.music_lable).requestFocus();
             
             
             findViewById(R.id.voice_lable).setOnFocusChangeListener(mOnFocusChangeListener);
@@ -1090,8 +1123,31 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         	findViewById(R.id.setup_lable).setOnFocusChangeListener(mOnFocusChangeListener);
         	findViewById(R.id.camera360_lable).setOnFocusChangeListener(mOnFocusChangeListener);
         	findViewById(R.id.atmo_lamp_lable).setOnFocusChangeListener(mOnFocusChangeListener);
+        	
+        	 findViewById(R.id.voice_lable).setOnClickListener(mListener);
+         	findViewById(R.id.e_link_lable).setOnClickListener(mListener);
+         	findViewById(R.id.more_lable).setOnClickListener(mListener);
+         	findViewById(R.id.music_lable).setOnClickListener(mListener);
+         	findViewById(R.id.video_lable).setOnClickListener(mListener);
+         	findViewById(R.id.navi_lable).setOnClickListener(mListener);
+         	findViewById(R.id.phone_lable).setOnClickListener(mListener);
+         	findViewById(R.id.setup_lable).setOnClickListener(mListener);
+         	findViewById(R.id.camera360_lable).setOnClickListener(mListener);
+         	findViewById(R.id.atmo_lamp_lable).setOnClickListener(mListener);
+        	
         }
     }
+    private OnClickListener mListener  = new OnClickListener(){
+
+		@Override
+		public void onClick(View v) {
+			
+			Launcher.this.onClick((View)v.getParent());
+			
+		}
+    
+    };
+    
     //0.65f,0.65f,0.7f,0.75f,0.75f,0.9f,1f,1f
     private void initPoints(){
     	mIconPointss[0] = new IconPoint();
@@ -1256,6 +1312,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 				if(hasFocus){
 					mFocusEndIndex = (int) v.getTag();
 					mFocusEndView = v;
+					mPathView.setShowFocus(true);
 					startFocusLableAnim();
 				}else{
 					mFocusStartIndex= (int) v.getTag();
@@ -1267,6 +1324,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 				if(hasFocus){
 					mFocusEndIndex = (int) v.getTag();
 					mFocusEndView = v;
+					mPathView.setShowFocus(true);
 					startFocusLableAnim();
 				}else{
 					mFocusStartIndex= (int) v.getTag();
@@ -1281,6 +1339,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 					}
 					mFocusEndIndex = (int) v.getTag();
 					mFocusEndView = v;
+					mPathView.setShowFocus(true);
 					startFocusLableAnim();
 				}else{
 					mFocusStartIndex= (int) v.getTag();
@@ -1295,6 +1354,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 					}
 						mFocusEndIndex = (int) v.getTag();
 						mFocusEndView = v;
+						mPathView.setShowFocus(true);
 						startFocusLableAnim();
 				}else{
 					mFocusStartIndex= (int) v.getTag();
@@ -1309,6 +1369,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 					}
 						mFocusEndIndex = (int) v.getTag();
 						mFocusEndView = v;
+						mPathView.setShowFocus(true);
 						startFocusLableAnim();
 				}else{
 					mFocusStartIndex= (int) v.getTag();
@@ -1323,6 +1384,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 					}
 						mFocusEndIndex = (int) v.getTag();
 						mFocusEndView = v;
+						mPathView.setShowFocus(true);
 						startFocusLableAnim();
 				}else{
 					mFocusStartIndex= (int) v.getTag();
@@ -1339,6 +1401,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 					}else{
 						mFocusEndIndex = (int) v.getTag();
 						mFocusEndView = v;
+						mPathView.setShowFocus(true);
 						startFocusLableAnim();
 					}
 				}else{
@@ -1356,6 +1419,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 					}else{
 						mFocusEndIndex = (int) v.getTag();
 						mFocusEndView = v;
+						mPathView.setShowFocus(true);
 						startFocusLableAnim();
 					}
 				}else{
@@ -1373,6 +1437,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 					}else{
 						mFocusEndIndex = (int) v.getTag();
 						mFocusEndView = v;
+						mPathView.setShowFocus(true);
 						startFocusLableAnim();
 					}
 				}else{
@@ -1390,6 +1455,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 					}else{
 						mFocusEndIndex = (int) v.getTag();
 						mFocusEndView = v;
+						mPathView.setShowFocus(true);
 						startFocusLableAnim();
 					}
 					
@@ -1716,13 +1782,14 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         			showAllApps(true);
         		}
             }else if("android.intent.action.NAVI_CHANGED".equals(action)){
-            	setNaviIntent();
+            	findViewById(R.id.navi).setTag(getNaviShortcutInfo());
+            	findViewById(R.id.navi_1280).setTag(getNaviShortcutInfo());
             }
         }
     };
     private static final String PROPERTIESFILE = "/data/system/.properties_file";
 
-    private void setNaviIntent(){
+    private ShortcutInfo getNaviShortcutInfo(){
     	 Log.e(TAG, "setNaviIntent ");
     	 ShortcutInfo navi = new ShortcutInfo();
          navi.title = "amap";
@@ -1761,7 +1828,8 @@ public final class Launcher extends Activity implements View.OnClickListener, On
                  }
          }
          navi.setActivity(naviComponent!=null?naviComponent:defaultCom, Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-         findViewById(R.id.navi).setTag(navi);
+         return navi;
+         //findViewById(R.id.navi).setTag(navi);
     }
     
     private final BroadcastReceiver refreshReceiver = new BroadcastReceiver() {
@@ -3777,6 +3845,17 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         return diff > (NEW_APPS_ANIMATION_INACTIVE_TIMEOUT_SECONDS * 1000);
     }
     
+    public void scrollLeft(){
+    	mPathView.setShowFocus(false);
+    	mPathView.postInvalidate();
+    	rotateLeft();
+    }
+    public void scrollRight(){
+    	mPathView.setShowFocus(false);
+    	mPathView.postInvalidate();
+    	rotateRight();
+    }
+    
     public void rotateLeft(){
           	if(mFistIconLoc<-2)
           		return ;
@@ -4094,150 +4173,6 @@ public final class Launcher extends Activity implements View.OnClickListener, On
             }
         }
     }
-
-    /* Cling related del by zgy */
-    /**
-    private boolean isClingsEnabled() {
-        // disable clings when running in a test harness
-        if(ActivityManager.isRunningInTestHarness()) return false;
-        return true;
-    }
-
-    private Cling initCling(int clingId, int[] positionData, boolean animate, int delay) {
-        final Cling cling = (Cling) findViewById(clingId);
-        if (cling != null) {
-            cling.init(this, positionData);
-            cling.setVisibility(View.VISIBLE);
-            cling.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-            if (animate) {
-                cling.buildLayer();
-                cling.setAlpha(0f);
-                cling.animate().alpha(1f).setInterpolator(new AccelerateInterpolator()).setDuration(SHOW_CLING_DURATION).setStartDelay(delay).start();
-            } else {
-                cling.setAlpha(1f);
-            }
-            cling.setFocusableInTouchMode(true);
-            cling.post(new Runnable() {
-                public void run() {
-                    cling.setFocusable(true);
-                    cling.requestFocus();
-                }
-            });
-            mHideFromAccessibilityHelper.setImportantForAccessibilityToNo(mDragLayer, clingId == R.id.all_apps_cling);
-        }
-        return cling;
-    }
-
-    private void dismissCling(final Cling cling, final String flag, int duration) {
-        // To catch cases where siblings of top-level views are made invisible, just check whether the cling is directly set to GONE before dismissing it.
-        if (cling != null && cling.getVisibility() != View.GONE) {
-            ObjectAnimator anim = LauncherAnimUtils.ofFloat(cling, "alpha", 0f);
-            anim.setDuration(duration);
-            anim.addListener(new AnimatorListenerAdapter() {
-                public void onAnimationEnd(Animator animation) {
-                    cling.setVisibility(View.GONE);
-                    cling.cleanup();
-                    // We should update the shared preferences on a background thread
-                    new Thread("dismissClingThread") {
-                        public void run() {
-                            SharedPreferences.Editor editor = mSharedPrefs.edit();
-                            editor.putBoolean(flag, true);
-                            editor.commit();
-                        }
-                    }.start();
-                };
-            });
-            anim.start();
-            mHideFromAccessibilityHelper.restoreImportantForAccessibility(mDragLayer);
-        }
-    }
-
-    private void removeCling(int id) {
-        final View cling = findViewById(id);
-        if (cling != null) {
-            final ViewGroup parent = (ViewGroup) cling.getParent();
-            parent.post(new Runnable() {
-                @Override
-                public void run() {
-                    parent.removeView(cling);
-                }
-            });
-            mHideFromAccessibilityHelper.restoreImportantForAccessibility(mDragLayer);
-        }
-    }
-
-    // zgy
-    private boolean skipCustomClingIfNoAccounts() {
-        Cling cling = (Cling) findViewById(R.id.workspace_cling);
-        boolean customCling = cling.getDrawIdentifier().equals("workspace_custom");
-        if (customCling) {
-            AccountManager am = AccountManager.get(this);
-            Account[] accounts = am.getAccountsByType("com.google");
-            return accounts.length == 0;
-        }
-        return false;
-    }
-    
-
-    public void showFirstRunWorkspaceCling() {
-        // Enable the clings only if they have not been dismissed before
-        if (isClingsEnabled() && !mSharedPrefs.getBoolean(Cling.WORKSPACE_CLING_DISMISSED_KEY, false) && !skipCustomClingIfNoAccounts() ) {
-            // If we're not using the default workspace layout, replace workspace cling  with a custom workspace cling (usually specified in an overlay) For now, only do this on tablets
-            if (mSharedPrefs.getInt(LauncherProvider.DEFAULT_WORKSPACE_RESOURCE_ID, 0) != 0 &&  getResources().getBoolean(R.bool.config_useCustomClings)) {
-                // Use a custom cling
-                View cling = findViewById(R.id.workspace_cling);
-                ViewGroup clingParent = (ViewGroup) cling.getParent();
-                int clingIndex = clingParent.indexOfChild(cling);
-                clingParent.removeViewAt(clingIndex);
-                View customCling = mInflater.inflate(R.layout.custom_workspace_cling, clingParent, false);
-                clingParent.addView(customCling, clingIndex);
-                customCling.setId(R.id.workspace_cling);
-            }
-            initCling(R.id.workspace_cling, null, false, 0);
-        } else {
-            removeCling(R.id.workspace_cling);
-        }
-    }
-    public void showFirstRunAllAppsCling(int[] position) {
-        // Enable the clings only if they have not been dismissed before
-        if (isClingsEnabled() && !mSharedPrefs.getBoolean(Cling.ALLAPPS_CLING_DISMISSED_KEY, false)) {
-            initCling(R.id.all_apps_cling, position, true, 0);
-        } else {
-            removeCling(R.id.all_apps_cling);
-        }
-    }
-    public Cling showFirstRunFoldersCling() {
-        // Enable the clings only if they have not been dismissed before
-        if (isClingsEnabled() && !mSharedPrefs.getBoolean(Cling.FOLDER_CLING_DISMISSED_KEY, false)) {
-            return initCling(R.id.folder_cling, null, true, 0);
-        } else {
-            removeCling(R.id.folder_cling);
-            return null;
-        }
-    }
-    public boolean isFolderClingVisible() {
-        Cling cling = (Cling) findViewById(R.id.folder_cling);
-        if (cling != null) {
-            return cling.getVisibility() == View.VISIBLE;
-        }
-        return false;
-    }
-    **/
-    
-//    public void dismissWorkspaceCling(View v) {
-//        Cling cling = (Cling) findViewById(R.id.workspace_cling);
-//        dismissCling(cling, Cling.WORKSPACE_CLING_DISMISSED_KEY, DISMISS_CLING_DURATION);
-//    }
-//    
-//    public void dismissAllAppsCling(View v) {
-//        Cling cling = (Cling) findViewById(R.id.all_apps_cling);
-//        dismissCling(cling, Cling.ALLAPPS_CLING_DISMISSED_KEY, DISMISS_CLING_DURATION);
-//    }
-//    
-//    public void dismissFolderCling(View v) {
-//        Cling cling = (Cling) findViewById(R.id.folder_cling);
-//        dismissCling(cling, Cling.FOLDER_CLING_DISMISSED_KEY, DISMISS_CLING_DURATION);
-//    }
 
     /***  Prints out out state for debugging.  */
     public void dumpState() {

@@ -1,4 +1,4 @@
-package com.carit.util;
+package com.george.util;
 
 import java.io.DataInputStream;
 import java.io.File;

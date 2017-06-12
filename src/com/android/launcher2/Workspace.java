@@ -658,11 +658,11 @@ public class Workspace extends SmoothPagedView
                 if(x_tmp1 != 0 && y_tmp1 != 0){  
                     if(x_tmp1 - x_tmp2 > 8){  
 //                        Log.i(TAG,"向左滑动");  
-                        mLauncher.rotateRight();
+                        mLauncher.scrollRight();;
                     }  
                     if(x_tmp2 - x_tmp1 > 8){  
 //                        Log.i(TAG,"向右滑动");  
-                        mLauncher.rotateLeft();
+                        mLauncher.scrollLeft();
                     }  
                 }  
                 break;  

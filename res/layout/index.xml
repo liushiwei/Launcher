@@ -247,7 +247,7 @@
                     android:text="@string/tmc"
                     android:textSize="20dp" />
 
-                <com.carit.util.Clock
+                <com.george.util.Clock
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

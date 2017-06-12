@@ -29,7 +29,15 @@ public class PathView extends View {
     private int y;
     private int width;
     private int height;
+    public boolean isShowFocus() {
+		return showFocus;
+	}
 
+	public void setShowFocus(boolean showFocus) {
+		this.showFocus = showFocus;
+	}
+
+	boolean showFocus;
 
     public PathView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -57,12 +65,18 @@ public class PathView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-//        Path path = new Path();
+
+		//        Path path = new Path();
 //        path.moveTo(80, 40);
 //        //path.quadTo(360, 160, 460, 360); //订单
 //        path.cubicTo(900,00,600,330,80,260);
 //        canvas.drawPath(path,paint);
-        canvas.drawRoundRect(x, y, x+width, y+height, 5, 5, paint);
+        if(showFocus){
+        	canvas.drawRoundRect(x, y, x+width, y+height, 5, 5, paint);
+        }else{
+        	paint.setColor(Color.TRANSPARENT);
+        	canvas.drawRoundRect(x, y, x+width, y+height, 5, 5, paint);
+        }
 //        canvas.drawRect(x, y, x+width, y+height, paint);
     }
     
