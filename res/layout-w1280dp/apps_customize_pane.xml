@@ -3,7 +3,7 @@
 <com.android.launcher2.AppsCustomizeTabHost xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:launcher="http://schemas.android.com/apk/res/com.george.launcher"
     xmlns:systemui="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/main_bg" >
+    android:background="@drawable/apps_bg" >
 
     <LinearLayout
         android:id="@+id/apps_customize_content"

@@ -22,6 +22,14 @@
   public void setHoverAlpha(float);
 }
 
+-keep class com.george.CustomView.CustomRelativeLayout {
+  public void setPosition(PathPoint);
+}
+
+-keep class com.george.CustomView.PathView {
+  public void setPosition(FocusIconArg);
+}
+
 -keep class com.android.launcher2.DragLayer$LayoutParams {
   public void setWidth(int);
   public int getWidth();
