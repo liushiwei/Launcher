@@ -297,7 +297,7 @@ s -->
     <string name="phone_con">E-Con</string>
     <string name="sim">SIM</string>
     <string name="tmc">TMC</string>
-    <string name="phone_bt">Phone</string>
+    <string name="phone_bt">BT</string>
     <string name="atmo_lamp">Atmo Lamp</string>
-    <string name="system_app_cannot_delete">系统软件无法卸载</string>
+    <string name="system_app_cannot_delete">System app can not uninstall</string>
 </resources>

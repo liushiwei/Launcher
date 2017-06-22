@@ -1007,6 +1007,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         	mAllAppsButton  = findViewById(R.id.more_1280);
         	mAllAppsButton.setOnClickListener(this);
         	mIcons = new ArrayList<>();
+        	
         	CustomRelativeLayout mIcon  = (CustomRelativeLayout) findViewById(R.id.voice_1280);
             mIcon.setOnClickListener(this);
             mIcon.setCarBg(R.drawable.voice_bg);
@@ -1501,43 +1502,10 @@ public final class Launcher extends Activity implements View.OnClickListener, On
             
 //            pathView.setPosition(location_end[0]-10, location_end[1], (int)((float)w*scale)+4,(int) ((float)h*scale));
 //            pathView.postInvalidate();
-           
             CustomRelativeLayout layout_end = (CustomRelativeLayout) mFocusEndView.getParent();
             CustomRelativeLayout layout_start = (CustomRelativeLayout) mFocusStartView.getParent();
-            if(mCarBg1.getAlpha()<0.5){
-            	mCarBg1.setImageResource(layout_end.getCarBg());
-            	 ObjectAnimator anim = ObjectAnimator.ofFloat(mCarBg1, "alpha", 0,1);
-            	 if(mFocusEndIndex  ==mFocusStartIndex&&mFocusEndIndex ==2){
-                 	anim.setDuration(100);
-                 }else
-                 anim.setDuration(350);
-                 anim.start();
-            }else{
-            	ObjectAnimator anim = ObjectAnimator.ofFloat(mCarBg1, "alpha", 1,0);
-           	 if(mFocusEndIndex  ==mFocusStartIndex&&mFocusEndIndex ==2){
-                	anim.setDuration(100);
-                }else
-                anim.setDuration(350);
-                anim.start();
-            }
+            changeCarBg(layout_end);
             
-            if(mCarBg2.getAlpha()<0.5){
-            	CustomRelativeLayout layout = (CustomRelativeLayout) mFocusEndView.getParent();
-            	mCarBg2.setImageResource(layout.getCarBg());
-            	 ObjectAnimator anim = ObjectAnimator.ofFloat(mCarBg2, "alpha", 0,1);
-            	 if(mFocusEndIndex  ==mFocusStartIndex&&mFocusEndIndex ==2){
-                 	anim.setDuration(100);
-                 }else
-                 anim.setDuration(350);
-                 anim.start();
-            }else{
-            	ObjectAnimator anim = ObjectAnimator.ofFloat(mCarBg2, "alpha", 1,0);
-           	 if(mFocusEndIndex  ==mFocusStartIndex&&mFocusEndIndex ==2){
-                	anim.setDuration(100);
-                }else
-                anim.setDuration(350);
-                anim.start();
-            }
             FocusIconArg start = new FocusIconArg(location_start[0],location_start[1],(int)((float)w_start*scale),(int) ((float)h_start*scale),layout_start.getColor());
             FocusIconArg end = new FocusIconArg(location_end[0],location_end[1],(int)((float)w_end*scale),(int) ((float)h_end*scale),layout_end.getColor());
             if(mFocusEndIndex  ==mFocusStartIndex&&mFocusEndIndex ==2){
@@ -1551,6 +1519,43 @@ public final class Launcher extends Activity implements View.OnClickListener, On
             anim.setDuration(350);
             anim.start();
 		}
+	}
+	
+	private void changeCarBg(CustomRelativeLayout layout_end){
+		
+        if(mCarBg1.getAlpha()<0.5){
+        	mCarBg1.setImageResource(layout_end.getCarBg());
+        	 ObjectAnimator anim = ObjectAnimator.ofFloat(mCarBg1, "alpha", 0,1);
+        	 if(mFocusEndIndex  ==mFocusStartIndex&&mFocusEndIndex ==2){
+             	anim.setDuration(100);
+             }else
+             anim.setDuration(350);
+             anim.start();
+        }else{
+        	ObjectAnimator anim = ObjectAnimator.ofFloat(mCarBg1, "alpha", 1,0);
+       	 if(mFocusEndIndex  ==mFocusStartIndex&&mFocusEndIndex ==2){
+            	anim.setDuration(100);
+            }else
+            anim.setDuration(350);
+            anim.start();
+        }
+        
+        if(mCarBg2.getAlpha()<0.5){
+        	mCarBg2.setImageResource(layout_end.getCarBg());
+        	 ObjectAnimator anim = ObjectAnimator.ofFloat(mCarBg2, "alpha", 0,1);
+        	 if(mFocusEndIndex  ==mFocusStartIndex&&mFocusEndIndex ==2){
+             	anim.setDuration(100);
+             }else
+             anim.setDuration(350);
+             anim.start();
+        }else{
+        	ObjectAnimator anim = ObjectAnimator.ofFloat(mCarBg2, "alpha", 1,0);
+       	 if(mFocusEndIndex  ==mFocusStartIndex&&mFocusEndIndex ==2){
+            	anim.setDuration(100);
+            }else
+            anim.setDuration(350);
+            anim.start();
+        }
 	}
 
     /**
@@ -2492,6 +2497,14 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         Object tag = v.getTag();
         if (tag instanceof ShortcutInfo) {
             // Open shortcut
+        	if(v instanceof CustomRelativeLayout){
+        		if(mCarBg1.getAlpha()>0.5){
+        			mCarBg1.setImageResource(((CustomRelativeLayout)v).getCarBg());
+        		}else if(mCarBg2.getAlpha()>0.5){
+        			mCarBg2.setImageResource(((CustomRelativeLayout)v).getCarBg());
+        		}
+        	}
+        	
             final Intent intent = ((ShortcutInfo) tag).intent;
             int[] pos = new int[2];
             v.getLocationOnScreen(pos);
@@ -2509,6 +2522,13 @@ public final class Launcher extends Activity implements View.OnClickListener, On
                 handleFolderClick(fi);
             }
         } else if (v == mAllAppsButton) {
+        	if(v instanceof CustomRelativeLayout){
+        		if(mCarBg1.getAlpha()>0.5){
+        			mCarBg1.setImageResource(((CustomRelativeLayout)v).getCarBg());
+        		}else if(mCarBg2.getAlpha()>0.5){
+        			mCarBg2.setImageResource(((CustomRelativeLayout)v).getCarBg());
+        		}
+        	}
             if (isAllAppsVisible()) {
                 showWorkspace(true);
             } else {

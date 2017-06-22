@@ -658,7 +658,7 @@ public class LauncherModel extends BroadcastReceiver {
             if (mCallbacks != null) {
                 Callbacks callbacks = mCallbacks.get();
                 if (callbacks != null) {
-                    callbacks.bindSearchablesChanged();
+//                    callbacks.bindSearchablesChanged();
                 }
             }
         }
