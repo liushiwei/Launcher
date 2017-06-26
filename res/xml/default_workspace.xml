@@ -3,7 +3,7 @@
 
 <favorites xmlns:launcher="http://schemas.android.com/apk/res/com.george.launcher">
     
-    <!-- add by zgy -->
+    <!-- 
      <appwidget
         launcher:packageName="com.moji.mjweather"
         launcher:className="com.moji.mjweather.CMojiWidget4x2"   
@@ -12,5 +12,5 @@
         launcher:y="1"
         launcher:spanX="3"
         launcher:spanY="2" /> 
-        
+        -->
 </favorites>
