@@ -270,7 +270,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
     private HideFromAccessibilityHelper mHideFromAccessibilityHelper = new HideFromAccessibilityHelper();
     
     private ArrayList<CustomRelativeLayout> mIcons;
-    private IconPoint[] mIconPointss = new IconPoint[8];
+    private IconPoint[] mIconPointss ;
     
     private View[] mIconLables  ;
     
@@ -1109,6 +1109,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
             mCarBg1 = (ImageView) findViewById(R.id.car_bg1);
             mCarBg2 = (ImageView) findViewById(R.id.car_bg2);
             
+            mIconPointss = new IconPoint[mIcons.size()>8?mIcons.size():8];
             initPoints();
             setupIconPoints();
             findViewById(R.id.music_1280).findViewById(R.id.music_lable).requestFocus();
@@ -1218,6 +1219,30 @@ public final class Launcher extends Activity implements View.OnClickListener, On
     	mIconPointss[7].scale =1f;
     	mIconPointss[7].index = 7;
 //    	mIconPointss[7].leftControlPoint = mIconPointss[6].rightControlPoint;
+    	for(int i=8;i<mIconPointss.length;i++){
+    		if(i==(mIconPointss.length-1)){
+    			mIconPointss[i] = new IconPoint();
+    	    	mIconPointss[i].point = new PathPoint(PathPoint.MOVE, 135.75684f ,267.63455f);
+    	    	mIconPointss[0].leftPoint =  mIconPointss[i];
+    	    	mIconPointss[i].leftPoint = mIconPointss[i-1];
+    	    	mIconPointss[i].rightPoint = mIconPointss[0];
+    	    	mIconPointss[i-1].rightPoint =  mIconPointss[i];
+    	    	mIconPointss[i].scale =1f;
+    	    	mIconPointss[i].index = i;
+    	    	mIconPointss[i].isLableShow =false;
+    	    	mIconPointss[i].isIconShow =false;
+    		}else{
+    			mIconPointss[i] = new IconPoint();
+    	    	mIconPointss[i].point = new PathPoint(PathPoint.MOVE, 135.75684f ,267.63455f);
+    	    	mIconPointss[i-1].rightPoint =  mIconPointss[i];
+    	    	mIconPointss[i].leftPoint = mIconPointss[i-1];
+    	    	mIconPointss[i].scale =1f;
+    	    	mIconPointss[i].index = i;
+    	    	mIconPointss[i].isLableShow =false;
+    	    	mIconPointss[i].isIconShow =false;
+    		}
+    		
+    	}
     }
     
     private void setupIconPoints(){
@@ -1232,10 +1257,11 @@ public final class Launcher extends Activity implements View.OnClickListener, On
     				icon.setIconPoint(point);
     				icon.setScaleX(point.scale);
     				icon.setScaleY(point.scale);
-    				icon.setVisibility(View.VISIBLE);
+    				icon.setVisibility(point.isIconShow?View.VISIBLE:View.INVISIBLE);
     				icon.getChildAt(1).setAlpha(point.isLableShow?1:0);
     				icon.getChildAt(1).setFocusable(true);
     				icon.getChildAt(1).setTag(mCurrentPoints);
+    				icon.setPointIndex(mCurrentPoints);
     			}
     			mCurrentPoints++;
     		}
@@ -1245,6 +1271,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 		
 		@Override
 		public void onFocusChange(View v, boolean hasFocus) {
+			
 			switch(v.getId()){
 			case R.id.navi:{
 				if(hasFocus){
@@ -1309,163 +1336,49 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 				}
 				}
 			break;
-			case R.id.video_lable:{
+			default:
 				if(hasFocus){
+					TextView t = (TextView) v;
+					Log.e("Launcher", "++"+t.getText());
 					mFocusEndIndex = (int) v.getTag();
 					mFocusEndView = v;
-					mPathView.setShowFocus(true);
-					startFocusLableAnim();
-				}else{
-					mFocusStartIndex= (int) v.getTag();
-					mFocusStartView = v;
-				}
-				}
-			break;
-			case R.id.navi_lable:{
-				if(hasFocus){
-					mFocusEndIndex = (int) v.getTag();
-					mFocusEndView = v;
-					mPathView.setShowFocus(true);
-					startFocusLableAnim();
-				}else{
-					mFocusStartIndex= (int) v.getTag();
-					mFocusStartView = v;
-				}
-				}
-			break;
-			case R.id.camera360_lable:{
-				if(hasFocus){
-					if(!v.isShown()||v.getAlpha()<1){
+					Log.e("Launcher", "mFocusStartIndex ="+mFocusStartIndex+"  mFocusEndIndex="+mFocusEndIndex);
+					if(mFocusStartIndex==(mFocusEndIndex+1)||mFocusStartIndex==(mFocusEndIndex-1)){
+						Log.e("Launcher", "startFocusLableAnim");
+						if(mFocusEndIndex!=1){
+							mPathView.setShowFocus(true);
+							startFocusLableAnim();
+						}
+					}else{
+						int width = View.MeasureSpec.makeMeasureSpec(0,
+						        View.MeasureSpec.UNSPECIFIED);
+						int height = View.MeasureSpec.makeMeasureSpec(0,
+						        View.MeasureSpec.UNSPECIFIED);
+						mFocusEndView.measure(width, height);
+						
+						int w_end = v.getMeasuredWidth(); // 获取宽度
+						int h_end = v.getMeasuredHeight(); // 获取高度
+						CustomRelativeLayout layout_start = (CustomRelativeLayout) v.getParent();
+						int point[] = new int[2];
+						v.getLocationOnScreen(point);
+						FocusIconArg arg = new FocusIconArg(point[0],point[1],w_end,h_end,layout_start.getColor());
+						mPathView.setFocusIconArg(arg);
+					}
+					if(mFocusStartIndex==8&&mFocusEndIndex==9){
+						Log.e("Launcher", "rotateLeft");
 						rotateLeft();
 					}
-					mFocusEndIndex = (int) v.getTag();
-					mFocusEndView = v;
-					mPathView.setShowFocus(true);
-					startFocusLableAnim();
-				}else{
-					mFocusStartIndex= (int) v.getTag();
-					mFocusStartView = v;
-				}
-				}
-			break;
-			case R.id.atmo_lamp_lable:{
-				if(hasFocus){
-					if(!v.isShown()||v.getAlpha()<1){
-						rotateLeft();
-					}
-						mFocusEndIndex = (int) v.getTag();
-						mFocusEndView = v;
-						mPathView.setShowFocus(true);
-						startFocusLableAnim();
-				}else{
-					mFocusStartIndex= (int) v.getTag();
-					mFocusStartView = v;
-				}
-				}
-				break;
-			case R.id.phone_lable:{
-				if(hasFocus){
-					if(!v.isShown()||v.getAlpha()<1){
-						rotateLeft();
-					}
-						mFocusEndIndex = (int) v.getTag();
-						mFocusEndView = v;
-						mPathView.setShowFocus(true);
-						startFocusLableAnim();
-				}else{
-					mFocusStartIndex= (int) v.getTag();
-					mFocusStartView = v;
-				}
-				}
-				break;
-			case R.id.setup_lable:{
-				if(hasFocus){
-					if(!v.isShown()||v.getAlpha()<1){
-						rotateLeft();
-					}
-						mFocusEndIndex = (int) v.getTag();
-						mFocusEndView = v;
-						mPathView.setShowFocus(true);
-						startFocusLableAnim();
-				}else{
-					mFocusStartIndex= (int) v.getTag();
-					mFocusStartView = v;
-				}
-				}
-				break;
-			case R.id.music_lable:{
-				if(hasFocus){
-					if(v.getAlpha()<1){
+					if(mFocusStartIndex==2&&mFocusEndIndex==1){
+						Log.e("Launcher", "rotateRight");
 						rotateRight();
-						mFocusEndIndex = (int) v.getTag();
-						mFocusEndView = v;
-					}else{
-						mFocusEndIndex = (int) v.getTag();
-						mFocusEndView = v;
-						mPathView.setShowFocus(true);
-						startFocusLableAnim();
 					}
 				}else{
+					TextView t = (TextView) v;
+					Log.e("Launcher", "--"+t.getText());
 					mFocusStartIndex= (int) v.getTag();
 					mFocusStartView = v;
+					Log.e("Launcher", " mFocusStartIndex ="+mFocusStartIndex);
 				}
-				}
-				break;
-			case R.id.more_lable:{
-				if(hasFocus){
-					if(v.getAlpha()<1){
-						rotateRight();
-						mFocusEndIndex = (int) v.getTag();
-						mFocusEndView = v;
-					}else{
-						mFocusEndIndex = (int) v.getTag();
-						mFocusEndView = v;
-						mPathView.setShowFocus(true);
-						startFocusLableAnim();
-					}
-				}else{
-					mFocusStartIndex= (int) v.getTag();
-					mFocusStartView = v;
-				}
-				}
-				break;
-			case R.id.e_link_lable:{
-				if(hasFocus){
-					if(v.getAlpha()<1){
-						rotateRight();
-						mFocusEndIndex = (int) v.getTag();
-						mFocusEndView = v;
-					}else{
-						mFocusEndIndex = (int) v.getTag();
-						mFocusEndView = v;
-						mPathView.setShowFocus(true);
-						startFocusLableAnim();
-					}
-				}else{
-					mFocusStartIndex= (int) v.getTag();
-					mFocusStartView = v;
-				}
-				}
-				break;
-			case R.id.voice_lable:{
-				if(hasFocus){
-					if(v.getAlpha()<1){
-						rotateRight();
-						mFocusEndIndex = (int) v.getTag();
-						mFocusEndView = v;
-					}else{
-						mFocusEndIndex = (int) v.getTag();
-						mFocusEndView = v;
-						mPathView.setShowFocus(true);
-						startFocusLableAnim();
-					}
-					
-				}else{
-					mFocusStartIndex= (int) v.getTag();
-					mFocusStartView = v;
-				}
-				}
-				break;
 			}
 			
 		}
@@ -1479,7 +1392,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 			mFocusEndView.getLocationOnScreen(location_end);
 //			CustomTextView endView= (CustomTextView) mFocusEndView;
 			float scale =1;
-			Log.e(TAG, "mFocusEndIndex = "+mFocusEndIndex+"  mFocusStartIndex="+mFocusStartIndex);
+//			Log.e(TAG, "mFocusEndIndex = "+mFocusEndIndex+"  mFocusStartIndex="+mFocusStartIndex);
 			if(mFocusEndIndex>=0){
 				scale = mIconPointss[mFocusEndIndex].scale;
 			}
@@ -1498,7 +1411,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
             
             TextView start_t = (TextView) mFocusStartView;
             TextView end_t = (TextView) mFocusEndView;
-            Log.e(TAG, "mFocusStartView"+start_t.getText()+" end view="+end_t.getText());
+//            Log.e(TAG, "mFocusStartView"+start_t.getText()+" end view="+end_t.getText());
             
 //            pathView.setPosition(location_end[0]-10, location_end[1], (int)((float)w*scale)+4,(int) ((float)h*scale));
 //            pathView.postInvalidate();
@@ -1508,12 +1421,12 @@ public final class Launcher extends Activity implements View.OnClickListener, On
             
             FocusIconArg start = new FocusIconArg(location_start[0],location_start[1],(int)((float)w_start*scale),(int) ((float)h_start*scale),layout_start.getColor());
             FocusIconArg end = new FocusIconArg(location_end[0],location_end[1],(int)((float)w_end*scale),(int) ((float)h_end*scale),layout_end.getColor());
-            if(mFocusEndIndex  ==mFocusStartIndex&&mFocusEndIndex ==2){
+            if(mFocusEndIndex  ==1){
             	start = mPathView.mFocusIconArg;
             }
             ObjectAnimator anim = ObjectAnimator.ofObject(mPathView, "FocusIconArg",new FocusIconArgEvaluator(), start, end);
             anim.setInterpolator(new DecelerateInterpolator());
-            if(mFocusEndIndex  ==mFocusStartIndex&&mFocusEndIndex ==2){
+            if(mFocusEndIndex  ==1){
             	anim.setDuration(100);
             }else
             anim.setDuration(350);
@@ -3877,36 +3790,34 @@ public final class Launcher extends Activity implements View.OnClickListener, On
     }
     
     public void rotateLeft(){
-          	if(mFistIconLoc<-2)
-          		return ;
+//          	if(mFistIconLoc<-2)
+//          		return ;
           	for(int i=0;i<mIcons.size();i++){
           		final CustomRelativeLayout icon = mIcons.get(i);
           		IconPoint t_icon = icon.getIconPoint();
-          		if(t_icon==null){
-          			if((i+mFistIconLoc)==mIconPointss.length){
-          				icon.setTranslationX(mIconPointss[mIconPointss.length-1].point.mX);
-          				icon.setTranslationY(mIconPointss[mIconPointss.length-1].point.mY);
-          				icon.setIconPoint(mIconPointss[mIconPointss.length-1]);
-          				icon.setVisibility(View.VISIBLE);
-          				ObjectAnimator anim = ObjectAnimator.ofFloat(icon, "alpha", 0f, 1f);
-          				anim.setDuration(300);
-          				anim.start();
-          				icon.setClickable(true);
-          				icon.getChildAt(1).setAlpha(1);
-          				icon.getChildAt(1).setTag(7);
-          			}
-          			continue;
-          		}
           		PathPoint l_PathPoint = t_icon.leftControlPoint;
           		IconPoint l_Point = t_icon.leftPoint;
-          		if(l_Point==null){
+          		if(l_Point.index==(mIconPointss.length-1)){
           			ObjectAnimator anim = ObjectAnimator.ofFloat(icon, "alpha", 1f, 0f);
       				anim.setDuration(300);
       				anim.start();
       				icon.setClickable(false);
       				icon.getChildAt(1).setAlpha(0);
+      				icon.getChildAt(1).setFocusable(false);
 //          			icon.setVisibility(View.INVISIBLE);
-          		}else{
+          		}else if(l_Point.index==7){
+          			icon.setTranslationX(mIconPointss[7].point.mX);
+      				icon.setTranslationY(mIconPointss[7].point.mY);
+      				icon.setIconPoint(mIconPointss[7]);
+      				icon.setVisibility(View.VISIBLE);
+      				ObjectAnimator anim = ObjectAnimator.ofFloat(icon, "alpha", 0f, 1f);
+      				anim.setDuration(300);
+      				anim.start();
+      				icon.setClickable(true);
+      				icon.getChildAt(1).setAlpha(1);
+      				icon.getChildAt(1).setFocusable(true);
+          		}
+          		else{
           			if(l_PathPoint!=null){
           				AnimatorPath path = new AnimatorPath();
           				path.moveTo(icon.getIconPoint().point.mX,icon.getIconPoint().point.mY);
@@ -3920,11 +3831,15 @@ public final class Launcher extends Activity implements View.OnClickListener, On
           				startAnimatorPath(icon, "Position", path,null);
           				startAnimatorScale(icon,t_icon.scale,t_icon.leftPoint.scale);
           			}
+          			icon.setAlpha(l_Point.isIconShow?1:0);
           			icon.getChildAt(1).setAlpha(l_Point.isLableShow?1:0);
-          			icon.getChildAt(1).setFocusable(true);
+          			if(l_Point.index==8)
+          				icon.getChildAt(1).setFocusable(true);
+          			else
+          				icon.getChildAt(1).setFocusable(l_Point.isIconShow);	
           		}
           		icon.setIconPoint( t_icon.leftPoint);
-          		icon.getChildAt(1).setTag(t_icon.leftPoint!=null?t_icon.leftPoint.index:-1);
+          		icon.getChildAt(1).setTag(t_icon.index);
           	}
           	mFistIconLoc--;
              
@@ -3932,37 +3847,36 @@ public final class Launcher extends Activity implements View.OnClickListener, On
     
     public void rotateRight(){
 
-        	if(mFistIconLoc>1)
-        		return ;
         	for(int i=0;i<mIcons.size();i++){
         		CustomRelativeLayout icon = mIcons.get(i);
         		IconPoint t_icon = icon.getIconPoint();
-        		if(t_icon==null){
-        			if((i+mFistIconLoc)==-1){
-        				icon.setTranslationX(mIconPointss[0].point.mX);
-        				icon.setTranslationY(mIconPointss[0].point.mY);
-        				icon.setIconPoint(mIconPointss[0]);
-        				icon.setVisibility(View.VISIBLE);
-        				ObjectAnimator anim = ObjectAnimator.ofFloat(icon, "alpha", 0f, 1f);
-        				anim.setDuration(300);
-        				Log.d(TAG, " rotateRight  =start=>");
-        				anim.start();
-        				icon.setClickable(true);
-        				icon.getChildAt(1).setTag(0);
-//        				icon.getChildAt(1).setAlpha(1);
-        			}
-        			continue;
-        		}
+        		
         		PathPoint r_PathPoint = t_icon.rightControlPoint;
         		IconPoint r_Point = t_icon.rightPoint;
-        		if(r_Point==null){
+        		Log.e(TAG, " t_icon = "+t_icon.index);
+        		if(r_Point.index==8){
         			ObjectAnimator anim = ObjectAnimator.ofFloat(icon, "alpha", 1f, 0f);
     				anim.setDuration(300);
     				anim.start();
     				icon.setClickable(false);
     				icon.getChildAt(1).setAlpha(0);
+    				icon.getChildAt(1).setFocusable(false);
 //        			icon.setVisibility(View.INVISIBLE);
-        		}else{
+        		}else if(r_Point.index==0){
+        			icon.setTranslationX(mIconPointss[0].point.mX);
+    				icon.setTranslationY(mIconPointss[0].point.mY);
+    				icon.setIconPoint(mIconPointss[0]);
+    				icon.setVisibility(View.VISIBLE);
+    				icon.setScaleX(mIconPointss[0].scale);
+    				icon.setScaleY(mIconPointss[0].scale);
+    				ObjectAnimator anim = ObjectAnimator.ofFloat(icon, "alpha", 0f, 1f);
+    				anim.setDuration(300);
+    				Log.d(TAG, " rotateRight  =start=>");
+    				anim.start();
+    				icon.setClickable(true);
+    				icon.getChildAt(1).setFocusable(true);
+        		}
+        		else{
         			if(r_PathPoint!=null){
         				AnimatorPath path = new AnimatorPath();
         				path.moveTo(icon.getIconPoint().point.mX,icon.getIconPoint().point.mY);
@@ -3981,10 +3895,10 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         				startAnimatorScale(icon,t_icon.scale,t_icon.rightPoint.scale);
         			}
         			icon.getChildAt(1).setAlpha(r_Point.isLableShow?1:0);
-        			icon.getChildAt(1).setFocusable(true);
+        			icon.getChildAt(1).setFocusable(r_Point.isIconShow);
         		}
         		icon.setIconPoint( t_icon.rightPoint);
-        		icon.getChildAt(1).setTag(t_icon.rightPoint!=null?t_icon.rightPoint.index:-1);
+        		icon.getChildAt(1).setTag(t_icon.rightPoint.index);
         	}
         	mFistIconLoc++;
            

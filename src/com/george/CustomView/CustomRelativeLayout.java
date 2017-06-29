@@ -11,6 +11,7 @@ public class CustomRelativeLayout extends RelativeLayout {
 	private IconPoint mIconPoint;
 	private int car_bg;
 	private int color;
+	private int point_index;
 	
 	public CustomRelativeLayout(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -50,6 +51,16 @@ public class CustomRelativeLayout extends RelativeLayout {
 
 	public void setColor(int color) {
 		this.color = color;
+	}
+
+
+	public int getPointIndex() {
+		return point_index;
+	}
+
+
+	public void setPointIndex(int point_index) {
+		this.point_index = point_index;
 	}
 	
 	

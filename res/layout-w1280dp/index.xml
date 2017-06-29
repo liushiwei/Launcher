@@ -92,7 +92,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="99dp"
             android:focusable="true"
-            android:nextFocusLeft="@+id/voice_lable"
+            android:nextFocusLeft="@+id/atmo_lamp_lable"
             android:nextFocusRight="@+id/e_link_lable"
             android:text="@string/voice" />
     </com.george.CustomView.CustomRelativeLayout>
@@ -326,7 +326,7 @@
             android:layout_marginLeft="90dp"
             android:focusable="true"
             android:nextFocusLeft="@+id/camera360_lable"
-            android:nextFocusRight="@+id/atmo_lamp_lable"
+            android:nextFocusRight="@+id/voice_lable"
             android:text="@string/atmo_lamp" />
     </com.george.CustomView.CustomRelativeLayout>
 
