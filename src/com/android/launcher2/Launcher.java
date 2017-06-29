@@ -274,7 +274,6 @@ public final class Launcher extends Activity implements View.OnClickListener, On
     
     private View[] mIconLables  ;
     
-    private int mFistIconLoc = 0;
     
     private int mFocusStartIndex = 0;
     private int mFocusEndIndex = 0;
@@ -1364,7 +1363,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 						FocusIconArg arg = new FocusIconArg(point[0],point[1],w_end,h_end,layout_start.getColor());
 						mPathView.setFocusIconArg(arg);
 					}
-					if(mFocusStartIndex==8&&mFocusEndIndex==9){
+					if(mFocusStartIndex==7&&mFocusEndIndex==8){
 						Log.e("Launcher", "rotateLeft");
 						rotateLeft();
 					}
@@ -1423,6 +1422,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
             FocusIconArg end = new FocusIconArg(location_end[0],location_end[1],(int)((float)w_end*scale),(int) ((float)h_end*scale),layout_end.getColor());
             if(mFocusEndIndex  ==1){
             	start = mPathView.mFocusIconArg;
+            	end.width+=5;
             }
             ObjectAnimator anim = ObjectAnimator.ofObject(mPathView, "FocusIconArg",new FocusIconArgEvaluator(), start, end);
             anim.setInterpolator(new DecelerateInterpolator());
@@ -3790,8 +3790,6 @@ public final class Launcher extends Activity implements View.OnClickListener, On
     }
     
     public void rotateLeft(){
-//          	if(mFistIconLoc<-2)
-//          		return ;
           	for(int i=0;i<mIcons.size();i++){
           		final CustomRelativeLayout icon = mIcons.get(i);
           		IconPoint t_icon = icon.getIconPoint();
@@ -3839,9 +3837,8 @@ public final class Launcher extends Activity implements View.OnClickListener, On
           				icon.getChildAt(1).setFocusable(l_Point.isIconShow);	
           		}
           		icon.setIconPoint( t_icon.leftPoint);
-          		icon.getChildAt(1).setTag(t_icon.index);
+          		icon.getChildAt(1).setTag(t_icon.leftPoint.index);
           	}
-          	mFistIconLoc--;
              
     }
     
@@ -3853,14 +3850,16 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         		
         		PathPoint r_PathPoint = t_icon.rightControlPoint;
         		IconPoint r_Point = t_icon.rightPoint;
-        		Log.e(TAG, " t_icon = "+t_icon.index);
+        		TextView lab = (TextView) icon.getChildAt(1);
+        		Log.e(TAG, " t_icon = "+t_icon.index+" text = "+lab.getText());
         		if(r_Point.index==8){
         			ObjectAnimator anim = ObjectAnimator.ofFloat(icon, "alpha", 1f, 0f);
     				anim.setDuration(300);
     				anim.start();
     				icon.setClickable(false);
     				icon.getChildAt(1).setAlpha(0);
-    				icon.getChildAt(1).setFocusable(false);
+    				icon.getChildAt(1).setFocusable(true);
+    				Log.e(TAG, "r_Point.index==8  setAlpha(0)  setFocusable(false)");
 //        			icon.setVisibility(View.INVISIBLE);
         		}else if(r_Point.index==0){
         			icon.setTranslationX(mIconPointss[0].point.mX);
@@ -3871,10 +3870,18 @@ public final class Launcher extends Activity implements View.OnClickListener, On
     				icon.setScaleY(mIconPointss[0].scale);
     				ObjectAnimator anim = ObjectAnimator.ofFloat(icon, "alpha", 0f, 1f);
     				anim.setDuration(300);
-    				Log.d(TAG, " rotateRight  =start=>");
+    				
     				anim.start();
     				icon.setClickable(true);
     				icon.getChildAt(1).setFocusable(true);
+    				Log.e(TAG, "r_Point.index==0  setAlpha(1)  setFocusable(true)");
+        		}else if(r_Point.index>8){
+        			icon.setTranslationX(mIconPointss[0].point.mX);
+    				icon.setTranslationY(mIconPointss[0].point.mY);
+    				icon.setIconPoint(mIconPointss[0]);
+    				icon.setAlpha(0);;
+    				icon.getChildAt(1).setFocusable(false);
+    				Log.e(TAG, "r_Point.index=="+r_Point.index+"  setAlpha(0)  setFocusable(false)");
         		}
         		else{
         			if(r_PathPoint!=null){
@@ -3896,12 +3903,11 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         			}
         			icon.getChildAt(1).setAlpha(r_Point.isLableShow?1:0);
         			icon.getChildAt(1).setFocusable(r_Point.isIconShow);
+        			Log.e(TAG, "r_Point.index=="+r_Point.index+"  setAlpha("+(r_Point.isLableShow?1:0)+")  setFocusable("+r_Point.isIconShow+")");
         		}
         		icon.setIconPoint( t_icon.rightPoint);
         		icon.getChildAt(1).setTag(t_icon.rightPoint.index);
         	}
-        	mFistIconLoc++;
-           
     }
     
     private AnimatorListener listener =  new AnimatorListener() {
