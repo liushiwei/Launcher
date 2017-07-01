@@ -791,22 +791,22 @@ public final class Launcher extends Activity implements View.OnClickListener, On
      * @param propertyName 属性名字
      * @param path 动画路径集合
      */
-    private void startAnimatorPath(View view, String propertyName, AnimatorPath path,AnimatorListener listener) {
+    private void startAnimatorPath(View view, String propertyName, AnimatorPath path,AnimatorListener listener,int duration) {
         ObjectAnimator anim = ObjectAnimator.ofObject(view, propertyName, new PathEvaluator(), path.getPoints().toArray());
         anim.setInterpolator(new DecelerateInterpolator());
         if(listener!=null)
         anim.addListener(listener);
-        anim.setDuration(350);
+        anim.setDuration(duration>0?duration:350);
         anim.start();
     }
     
-    private void startAnimatorScale(View view, float fromeScale,float toScale) {
+    private void startAnimatorScale(View view, float fromeScale,float toScale,int duration) {
         ObjectAnimator animx = ObjectAnimator.ofFloat(view, "scaleX", fromeScale, toScale);
         ObjectAnimator animy = ObjectAnimator.ofFloat(view, "scaleY", fromeScale, toScale);
         animx.setInterpolator(new DecelerateInterpolator());
-        animx.setDuration(350);
+        animx.setDuration(duration>0?duration:350);
         animy.setInterpolator(new DecelerateInterpolator());
-        animy.setDuration(350);
+        animy.setDuration(duration>0?duration:350);
         animx.start();
         animy.start();
     }
@@ -1365,11 +1365,11 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 					}
 					if(mFocusStartIndex==7&&mFocusEndIndex==8){
 						Log.e("Launcher", "rotateLeft");
-						rotateLeft();
+						rotateLeft(-1);
 					}
 					if(mFocusStartIndex==2&&mFocusEndIndex==1){
 						Log.e("Launcher", "rotateRight");
-						rotateRight();
+						rotateRight(-1);
 					}
 				}else{
 					TextView t = (TextView) v;
@@ -3778,18 +3778,18 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         return diff > (NEW_APPS_ANIMATION_INACTIVE_TIMEOUT_SECONDS * 1000);
     }
     
-    public void scrollLeft(){
+    public void scrollLeft(int duration){
     	mPathView.setShowFocus(false);
     	mPathView.postInvalidate();
-    	rotateLeft();
+    	rotateLeft(duration);
     }
-    public void scrollRight(){
+    public void scrollRight(int duration){
     	mPathView.setShowFocus(false);
     	mPathView.postInvalidate();
-    	rotateRight();
+    	rotateRight(duration);
     }
     
-    public void rotateLeft(){
+    public void rotateLeft(int duration){
           	for(int i=0;i<mIcons.size();i++){
           		final CustomRelativeLayout icon = mIcons.get(i);
           		IconPoint t_icon = icon.getIconPoint();
@@ -3820,14 +3820,14 @@ public final class Launcher extends Activity implements View.OnClickListener, On
           				AnimatorPath path = new AnimatorPath();
           				path.moveTo(icon.getIconPoint().point.mX,icon.getIconPoint().point.mY);
           				path.secondBesselCurveTo(l_PathPoint.mX, l_PathPoint.mY, l_Point.point.mX, l_Point.point.mY); 
-          				 startAnimatorPath(icon, "Position", path,null);
-          				 startAnimatorScale(icon,t_icon.scale,t_icon.leftPoint.scale);
+          				 startAnimatorPath(icon, "Position", path,null,duration);
+          				 startAnimatorScale(icon,t_icon.scale,t_icon.leftPoint.scale,duration);
           			}else{
           				AnimatorPath path = new AnimatorPath();
           				path.moveTo(icon.getIconPoint().point.mX,icon.getIconPoint().point.mY);
           				path.lineTo( l_Point.point.mX, l_Point.point.mY);
-          				startAnimatorPath(icon, "Position", path,null);
-          				startAnimatorScale(icon,t_icon.scale,t_icon.leftPoint.scale);
+          				startAnimatorPath(icon, "Position", path,null,duration);
+          				startAnimatorScale(icon,t_icon.scale,t_icon.leftPoint.scale,duration);
           			}
           			icon.setAlpha(l_Point.isIconShow?1:0);
           			icon.getChildAt(1).setAlpha(l_Point.isLableShow?1:0);
@@ -3842,7 +3842,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
              
     }
     
-    public void rotateRight(){
+    public void rotateRight(int duration){
 
         	for(int i=0;i<mIcons.size();i++){
         		CustomRelativeLayout icon = mIcons.get(i);
@@ -3889,17 +3889,17 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         				path.moveTo(icon.getIconPoint().point.mX,icon.getIconPoint().point.mY);
         				path.secondBesselCurveTo(r_PathPoint.mX, r_PathPoint.mY, r_Point.point.mX, r_Point.point.mY);
         				if(r_Point.index==2)
-        				 startAnimatorPath(icon, "Position", path,listener);
+        				 startAnimatorPath(icon, "Position", path,listener,duration);
         				else{
-        					startAnimatorPath(icon, "Position", path,null);
+        					startAnimatorPath(icon, "Position", path,null,duration);
         				}
-        				 startAnimatorScale(icon,t_icon.scale,t_icon.rightPoint.scale);
+        				 startAnimatorScale(icon,t_icon.scale,t_icon.rightPoint.scale,duration);
         			}else{
         				AnimatorPath path = new AnimatorPath();
         				path.moveTo(icon.getIconPoint().point.mX,icon.getIconPoint().point.mY);
         				path.lineTo( r_Point.point.mX, r_Point.point.mY);
-        				startAnimatorPath(icon, "Position", path,null);
-        				startAnimatorScale(icon,t_icon.scale,t_icon.rightPoint.scale);
+        				startAnimatorPath(icon, "Position", path,null,duration);
+        				startAnimatorScale(icon,t_icon.scale,t_icon.rightPoint.scale,duration);
         			}
         			icon.getChildAt(1).setAlpha(r_Point.isLableShow?1:0);
         			icon.getChildAt(1).setFocusable(r_Point.isIconShow);

@@ -16,6 +16,16 @@
 
 package com.android.launcher2;
 
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
+import com.android.launcher2.FolderIcon.FolderRingAnimator;
+import com.android.launcher2.LauncherSettings.Favorites;
+import com.george.launcher.R;
+
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
@@ -45,22 +55,14 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.Display;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.george.launcher.R;
-import com.android.launcher2.FolderIcon.FolderRingAnimator;
-import com.android.launcher2.LauncherSettings.Favorites;
-
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
 
 /**
  * The workspace is a wide area with a wallpaper and a finite number of pages.
@@ -252,6 +254,13 @@ public class Workspace extends SmoothPagedView
     private float[] mNewAlphas;
     private float[] mNewRotationYs;
     private float mTransitionProgress;
+    
+    GestureDetector mGestureDetector;
+    
+    VelocityTracker mVelocityTracker = null;
+    float xVelocity, yVelocity;
+    float startX,startY;
+    
 
     private final Runnable mBindPages = new Runnable() {
         @Override
@@ -349,6 +358,10 @@ public class Workspace extends SmoothPagedView
         if (getImportantForAccessibility() == View.IMPORTANT_FOR_ACCESSIBILITY_AUTO) {
             setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_YES);
         }
+        
+        FlingDetector flingDetector = new FlingDetector();
+        // Pass the FlingDetector to mGestureDetector to receive the appropriate callbacks
+        mGestureDetector = new GestureDetector(context, flingDetector);
     }
 
     // estimate the size of a widget with spans hSpan, vSpan. return MAX_VALUE for each
@@ -641,32 +654,45 @@ public class Workspace extends SmoothPagedView
     }
 
     @Override
-    public boolean onInterceptTouchEvent(MotionEvent event) {
-  	  //获取当前坐标  
-        float x = event.getX();  
-        float y = event.getY();  
-  
-        switch (event.getAction()){  
-            case MotionEvent.ACTION_DOWN:  
-                x_tmp1 = x;  
-                y_tmp1 = y;  
-                break;  
-            case MotionEvent.ACTION_UP:  
-                x_tmp2 = x;  
-                y_tmp2 = y;  
-//                Log.i(TAG,"滑动参值 x1="+ x_tmp1 +"; x2=" + x_tmp2);  
-                if(x_tmp1 != 0 && y_tmp1 != 0){  
-                    if(x_tmp1 - x_tmp2 > 8){  
-//                        Log.i(TAG,"向左滑动");  
-                        mLauncher.scrollRight();;
-                    }  
-                    if(x_tmp2 - x_tmp1 > 8){  
-//                        Log.i(TAG,"向右滑动");  
-                        mLauncher.scrollLeft();
-                    }  
-                }  
-                break;  
-        }  
+    public boolean onInterceptTouchEvent(MotionEvent motionEvent) {
+    	
+
+        int index = motionEvent.getActionIndex();
+        int action = motionEvent.getActionMasked();
+        int pointerId = motionEvent.getPointerId(index);
+
+        switch (action) {
+            case MotionEvent.ACTION_DOWN:
+                if (mVelocityTracker == null) {
+                    // Retrieve a new VelocityTracker object to watch the velocity of a motion.
+                    mVelocityTracker = VelocityTracker.obtain();
+                } else {
+                    // Reset the velocity tracker back to its initial state.
+                    mVelocityTracker.clear();
+                }
+                // Add a user's movement to the tracker.
+                mVelocityTracker.addMovement(motionEvent);
+                startX = motionEvent.getX();
+                startY = motionEvent.getY();
+                break;
+            case MotionEvent.ACTION_MOVE:
+                mVelocityTracker.addMovement(motionEvent);
+                // When you want to determine the velocity, call
+                // computeCurrentVelocity(). Then call getXVelocity()
+                // and getYVelocity() to retrieve the velocity for each pointer ID.
+                mVelocityTracker.computeCurrentVelocity(1000);
+                // Log velocity of pixels per second
+                xVelocity = mVelocityTracker.getXVelocity(pointerId);
+                yVelocity = mVelocityTracker.getYVelocity(pointerId);
+
+                break;
+            case MotionEvent.ACTION_CANCEL:
+                // Return a VelocityTracker object back to be re-used by others.
+                mVelocityTracker.recycle();
+                break;
+        }
+        // Call onTouchEvent which will invoke the callbacks in the listener that we passed into mGestureDetector's constructor.
+        mGestureDetector.onTouchEvent(motionEvent);
         return false;
     }
 
@@ -3812,4 +3838,68 @@ public class Workspace extends SmoothPagedView
         if (dockDivider != null) dockDivider.setAlpha(reducedFade);
         scrollIndicator.setAlpha(1 - fade);
     }
+    
+    /**
+     * Class to log scroll and fling events
+     */
+    private class FlingDetector extends GestureDetector.SimpleOnGestureListener {
+    	private long lastRotateTime;
+    	private static final int ROTATETIME = 300;
+    	private int lastRotateTimeDuration = 100;
+        public FlingDetector() {
+            super();
+        }
+
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
+                               float velocityY) {
+            //Log.e(TAG,"in onFling");
+            return true;
+        }
+
+		@Override
+		public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+			// Log.e(TAG,String.format("onScroll velocity = (%f, %f) distance =
+			// (%f, %f) ", mTouchListener.xVelocity,
+			// mTouchListener.yVelocity,distanceX,distanceY));
+			if ((System.currentTimeMillis() - lastRotateTime) > lastRotateTimeDuration) {
+				
+				if (Math.abs(xVelocity) > Math.abs(yVelocity)) {
+					
+//					Log.e(TAG,"xVelocity ="+xVelocity  +"   ( Math.abs(xVelocity) / 5000f) = "+( Math.abs(xVelocity) / 5000f));
+//					Log.e(TAG," (float)lastRotateTimeDuration *( Math.abs(xVelocity) / 5000f)"+ (float)lastRotateTimeDuration *( Math.abs(xVelocity) / 5000f));
+					lastRotateTimeDuration = (int) (150 - (float)lastRotateTimeDuration *( Math.abs(xVelocity) / 5000f));
+					Log.e(TAG, " lastRotateTimeDuration = "+lastRotateTimeDuration);
+					if (xVelocity > 0) {
+						if (startY >220) {
+//							Log.e(TAG, "屏下方向右滑");
+							mLauncher.scrollLeft(lastRotateTimeDuration);
+						} else {
+//							Log.e(TAG, "屏上方向右滑");
+								mLauncher.scrollRight(lastRotateTimeDuration);
+						}
+					} else {
+						if (startY > 220) {
+								mLauncher.scrollRight(lastRotateTimeDuration);
+//							Log.e(TAG, "屏下方向左滑");
+						} else {
+								mLauncher.scrollLeft(lastRotateTimeDuration);
+//							Log.e(TAG, "屏上方向左滑");
+						}
+					}
+				} else {
+					lastRotateTimeDuration = (int) (150 - (float)lastRotateTimeDuration *( Math.abs(xVelocity) / 5000f));
+					if (yVelocity > 0) {
+//						Log.e(TAG, "向下滑");
+							mLauncher.scrollRight(lastRotateTimeDuration);
+					} else {
+//						Log.e(TAG, "向上滑");
+							mLauncher.scrollLeft(lastRotateTimeDuration);
+					}
+				}
+				lastRotateTime = System.currentTimeMillis();
+			}
+			return false;
+		}
+	}
 }
