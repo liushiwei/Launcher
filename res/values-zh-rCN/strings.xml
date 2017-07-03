@@ -143,5 +143,7 @@
     <string name="video">视频</string>
     <string name="net">互联网</string>
     <string name="phone_bt">蓝牙</string>
+    <string name="car">原车</string>
+    <string name="filemanager">文件管理</string>
     <string name="phone_con">手机互联</string>
 </resources>

@@ -299,5 +299,7 @@ s -->
     <string name="tmc">TMC</string>
     <string name="phone_bt">BT</string>
     <string name="atmo_lamp">Atmo Lamp</string>
+    <string name="file_manager">File Manager</string>
+    <string name="car">Car</string>
     <string name="system_app_cannot_delete">System app can not uninstall</string>
 </resources>

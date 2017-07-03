@@ -1007,11 +1007,14 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         	mAllAppsButton.setOnClickListener(this);
         	mIcons = new ArrayList<>();
         	
-        	CustomRelativeLayout mIcon  = (CustomRelativeLayout) findViewById(R.id.voice_1280);
+        	CustomRelativeLayout mIcon  = (CustomRelativeLayout) findViewById(R.id.filemanager);
             mIcon.setOnClickListener(this);
             mIcon.setCarBg(R.drawable.voice_bg);
             mIcon.setColor(Color.parseColor("#EA0000"));
-            
+            navi = new ShortcutInfo();
+        	navi.title = "filemanager";
+        	navi.setActivity(new ComponentName("com.carit.filemanager", "com.carit.filemanager.FileManagerActivity"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+        	mIcon.setTag(navi);
             mIcons.add(mIcon);
             
             mIcon  = (CustomRelativeLayout) findViewById(R.id.e_link_1280);
@@ -1023,6 +1026,19 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         	navi.setActivity(new ComponentName("net.easyconn", "net.easyconn.WelcomeActivity"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
         	mIcon.setTag(navi);
             mIcons.add(mIcon);
+            
+
+            mIcon  =(CustomRelativeLayout)findViewById(R.id.car_1280);
+            mIcon.setOnClickListener(this);
+            mIcon.setCarBg(R.drawable.light_bg);
+            mIcon.setColor(Color.parseColor("#E39E17"));
+            
+            navi = new ShortcutInfo();
+        	navi.title = "light";
+        	navi.setActivity(new ComponentName("com.george.auxin", "com.george.carvideo.MainActivity"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+        	mIcon.setTag(navi);
+            mIcons.add(mIcon);
+            
             
             mIcon  = (CustomRelativeLayout) findViewById(R.id.more_1280);
             mIcon.setOnClickListener(this);
@@ -1087,16 +1103,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         	mIcon.setTag(navi);
             mIcons.add(mIcon);
 
-            mIcon  =(CustomRelativeLayout)findViewById(R.id.atmo_lamp_1280);
-            mIcon.setOnClickListener(this);
-            mIcon.setCarBg(R.drawable.light_bg);
-            mIcon.setColor(Color.parseColor("#E39E17"));
             
-            navi = new ShortcutInfo();
-        	navi.title = "light";
-        	navi.setActivity(new ComponentName("com.vehicle.atmolamp", "com.vehicle.atmolamp.AtmoActivity"), Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-        	mIcon.setTag(navi);
-            mIcons.add(mIcon);
             mIconLables = new View[mIcons.size()];
 //            for(int i=0;i<mIcons.size();i++){
 //            	View t = mIcons.get(i);
@@ -1114,7 +1121,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
             findViewById(R.id.music_1280).findViewById(R.id.music_lable).requestFocus();
             
             
-            findViewById(R.id.voice_lable).setOnFocusChangeListener(mOnFocusChangeListener);
+                findViewById(R.id.filemanager_lable).setOnFocusChangeListener(mOnFocusChangeListener);
         	findViewById(R.id.e_link_lable).setOnFocusChangeListener(mOnFocusChangeListener);
         	findViewById(R.id.more_lable).setOnFocusChangeListener(mOnFocusChangeListener);
         	findViewById(R.id.music_lable).setOnFocusChangeListener(mOnFocusChangeListener);
@@ -1123,9 +1130,9 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         	findViewById(R.id.phone_lable).setOnFocusChangeListener(mOnFocusChangeListener);
         	findViewById(R.id.setup_lable).setOnFocusChangeListener(mOnFocusChangeListener);
         	findViewById(R.id.camera360_lable).setOnFocusChangeListener(mOnFocusChangeListener);
-        	findViewById(R.id.atmo_lamp_lable).setOnFocusChangeListener(mOnFocusChangeListener);
+        	findViewById(R.id.car_lable).setOnFocusChangeListener(mOnFocusChangeListener);
         	
-        	 findViewById(R.id.voice_lable).setOnClickListener(mListener);
+        	findViewById(R.id.filemanager_lable).setOnClickListener(mListener);
          	findViewById(R.id.e_link_lable).setOnClickListener(mListener);
          	findViewById(R.id.more_lable).setOnClickListener(mListener);
          	findViewById(R.id.music_lable).setOnClickListener(mListener);
@@ -1134,7 +1141,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
          	findViewById(R.id.phone_lable).setOnClickListener(mListener);
          	findViewById(R.id.setup_lable).setOnClickListener(mListener);
          	findViewById(R.id.camera360_lable).setOnClickListener(mListener);
-         	findViewById(R.id.atmo_lamp_lable).setOnClickListener(mListener);
+         	findViewById(R.id.car_lable).setOnClickListener(mListener);
         	
         }
     }

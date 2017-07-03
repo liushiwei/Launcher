@@ -73,7 +73,7 @@
         android:visibility="visible" />
 
     <com.george.CustomView.CustomRelativeLayout
-        android:id="@+id/voice_1280"
+        android:id="@+id/filemanager"
         android:layout_width="205dp"
         android:layout_height="117dp" >
 
@@ -81,10 +81,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:focusable="false"
-            android:src="@drawable/voice" />
+            android:src="@drawable/filemanager" />
 
         <TextView
-            android:id="@+id/voice_lable"
+            android:id="@+id/filemanager_lable"
             style="@style/Icon2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -94,7 +94,7 @@
             android:focusable="true"
             android:nextFocusLeft="@+id/atmo_lamp_lable"
             android:nextFocusRight="@+id/e_link_lable"
-            android:text="@string/voice" />
+            android:text="@string/filemanager" />
     </com.george.CustomView.CustomRelativeLayout>
 
     <com.george.CustomView.CustomRelativeLayout
@@ -118,12 +118,12 @@
             android:layout_marginLeft="98dp"
             android:focusable="true"
             android:nextFocusLeft="@+id/voice_lable"
-            android:nextFocusRight="@+id/more_lable"
+            android:nextFocusRight="@+id/car_lable"
             android:text="@string/phone_con" />
     </com.george.CustomView.CustomRelativeLayout>
-
+    
     <com.george.CustomView.CustomRelativeLayout
-        android:id="@+id/more_1280"
+        android:id="@+id/car_1280"
         android:layout_width="200dp"
         android:layout_height="117dp"
         android:visibility="invisible" >
@@ -135,7 +135,7 @@
             android:src="@drawable/more" />
 
         <TextView
-            android:id="@+id/more_lable"
+            android:id="@+id/car_lable"
             style="@style/Icon2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -144,9 +144,40 @@
             android:layout_marginLeft="100dp"
             android:focusable="true"
             android:nextFocusLeft="@+id/e_link_lable"
+            android:nextFocusRight="@+id/more_lable"
+            android:text="@string/car" />
+    </com.george.CustomView.CustomRelativeLayout>
+    
+
+    <com.george.CustomView.CustomRelativeLayout
+        android:id="@+id/more_1280"
+        android:layout_width="200dp"
+        android:layout_height="117dp"
+        android:visibility="invisible" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            android:src="@drawable/apps" />
+
+        <TextView
+            android:id="@+id/more_lable"
+            style="@style/Icon2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="100dp"
+            android:focusable="true"
+            android:nextFocusLeft="@+id/car_lable"
             android:nextFocusRight="@+id/music_lable"
             android:text="@string/apps" />
     </com.george.CustomView.CustomRelativeLayout>
+    
+    
+    
+    
 
     <com.george.CustomView.CustomRelativeLayout
         android:id="@+id/music_1280"
@@ -173,6 +204,8 @@
             android:nextFocusRight="@+id/video_lable"
             android:text="@string/media" />
     </com.george.CustomView.CustomRelativeLayout>
+    
+    
 
     <com.george.CustomView.CustomRelativeLayout
         android:id="@+id/video_1280"
@@ -300,36 +333,11 @@
             android:layout_marginLeft="90dp"
             android:focusable="true"
             android:nextFocusLeft="@+id/setup_lable"
-            android:nextFocusRight="@+id/atmo_lamp_lable"
+            android:nextFocusRight="@+id/filemanager_lable"
             android:text="@string/camera360" />
     </com.george.CustomView.CustomRelativeLayout>
 
-    <com.george.CustomView.CustomRelativeLayout
-        android:id="@+id/atmo_lamp_1280"
-        android:layout_width="200dp"
-        android:layout_height="117dp"
-        android:visibility="invisible" >
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:focusable="false"
-            android:src="@drawable/light" />
-
-        <TextView
-            android:id="@+id/atmo_lamp_lable"
-            style="@style/Icon2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="90dp"
-            android:focusable="true"
-            android:nextFocusLeft="@+id/camera360_lable"
-            android:nextFocusRight="@+id/voice_lable"
-            android:text="@string/atmo_lamp" />
-    </com.george.CustomView.CustomRelativeLayout>
-
+    
     <com.george.util.Clock
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
