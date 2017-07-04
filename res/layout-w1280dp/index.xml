@@ -31,6 +31,26 @@
         android:layout_height="wrap_content"
         android:alpha="0"
         android:paddingTop="77dp" />
+    
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="80dp"
+        android:layout_marginTop="60dp"
+        android:layout_centerVertical="true"
+        android:src="@drawable/left_arrow_top" />
+    
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="80dp"
+        android:layout_marginBottom="140dp"
+        android:layout_centerVertical="true"
+        android:src="@drawable/left_arrow_down" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -92,7 +112,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="99dp"
             android:focusable="true"
-            android:nextFocusLeft="@+id/atmo_lamp_lable"
+            android:nextFocusLeft="@+id/camera360_lable"
             android:nextFocusRight="@+id/e_link_lable"
             android:text="@string/filemanager" />
     </com.george.CustomView.CustomRelativeLayout>
@@ -117,7 +137,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="98dp"
             android:focusable="true"
-            android:nextFocusLeft="@+id/voice_lable"
+            android:nextFocusLeft="@+id/filemanager_lable"
             android:nextFocusRight="@+id/car_lable"
             android:text="@string/phone_con" />
     </com.george.CustomView.CustomRelativeLayout>
