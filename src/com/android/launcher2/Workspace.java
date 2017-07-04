@@ -256,11 +256,13 @@ public class Workspace extends SmoothPagedView
     private float mTransitionProgress;
     
     GestureDetector mGestureDetector;
+    FlingDetector flingDetector;
     
     VelocityTracker mVelocityTracker = null;
     float xVelocity, yVelocity;
     float startX,startY;
-    
+    private static final int ROTATETIME = 300;
+	private int lastRotateTimeDuration = 100;
 
     private final Runnable mBindPages = new Runnable() {
         @Override
@@ -359,7 +361,7 @@ public class Workspace extends SmoothPagedView
             setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_YES);
         }
         
-        FlingDetector flingDetector = new FlingDetector();
+        flingDetector = new FlingDetector();
         // Pass the FlingDetector to mGestureDetector to receive the appropriate callbacks
         mGestureDetector = new GestureDetector(context, flingDetector);
     }
@@ -660,9 +662,9 @@ public class Workspace extends SmoothPagedView
         int index = motionEvent.getActionIndex();
         int action = motionEvent.getActionMasked();
         int pointerId = motionEvent.getPointerId(index);
-
         switch (action) {
             case MotionEvent.ACTION_DOWN:
+            	lastRotateTimeDuration = 100;
                 if (mVelocityTracker == null) {
                     // Retrieve a new VelocityTracker object to watch the velocity of a motion.
                     mVelocityTracker = VelocityTracker.obtain();
@@ -672,8 +674,7 @@ public class Workspace extends SmoothPagedView
                 }
                 // Add a user's movement to the tracker.
                 mVelocityTracker.addMovement(motionEvent);
-                startX = motionEvent.getX();
-                startY = motionEvent.getY();
+                
                 break;
             case MotionEvent.ACTION_MOVE:
                 mVelocityTracker.addMovement(motionEvent);
@@ -684,7 +685,8 @@ public class Workspace extends SmoothPagedView
                 // Log velocity of pixels per second
                 xVelocity = mVelocityTracker.getXVelocity(pointerId);
                 yVelocity = mVelocityTracker.getYVelocity(pointerId);
-
+                startX = motionEvent.getX();
+                startY = motionEvent.getY();
                 break;
             case MotionEvent.ACTION_CANCEL:
                 // Return a VelocityTracker object back to be re-used by others.
@@ -3844,8 +3846,7 @@ public class Workspace extends SmoothPagedView
      */
     private class FlingDetector extends GestureDetector.SimpleOnGestureListener {
     	private long lastRotateTime;
-    	private static final int ROTATETIME = 300;
-    	private int lastRotateTimeDuration = 100;
+    	
         public FlingDetector() {
             super();
         }
@@ -3853,7 +3854,7 @@ public class Workspace extends SmoothPagedView
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
                                float velocityY) {
-            //Log.e(TAG,"in onFling");
+//            Log.e(TAG,"in onFling");
             return true;
         }
 
@@ -3871,29 +3872,29 @@ public class Workspace extends SmoothPagedView
 					lastRotateTimeDuration = (int) (150 - (float)lastRotateTimeDuration *( Math.abs(xVelocity) / 5000f));
 					Log.e(TAG, " lastRotateTimeDuration = "+lastRotateTimeDuration);
 					if (xVelocity > 0) {
-						if (startY >220) {
-//							Log.e(TAG, "屏下方向右滑");
+						if (startY>220) {
+							Log.e(TAG, "屏下方向右滑");
 							mLauncher.scrollLeft(lastRotateTimeDuration);
 						} else {
-//							Log.e(TAG, "屏上方向右滑");
+						Log.e(TAG, "屏上方向右滑");
 								mLauncher.scrollRight(lastRotateTimeDuration);
 						}
 					} else {
 						if (startY > 220) {
 								mLauncher.scrollRight(lastRotateTimeDuration);
-//							Log.e(TAG, "屏下方向左滑");
+								Log.e(TAG, "屏下方向左滑");
 						} else {
 								mLauncher.scrollLeft(lastRotateTimeDuration);
-//							Log.e(TAG, "屏上方向左滑");
+							    Log.e(TAG, "屏上方向左滑");
 						}
 					}
 				} else {
 					lastRotateTimeDuration = (int) (150 - (float)lastRotateTimeDuration *( Math.abs(xVelocity) / 5000f));
 					if (yVelocity > 0) {
-//						Log.e(TAG, "向下滑");
+					Log.e(TAG, "向下滑");
 							mLauncher.scrollRight(lastRotateTimeDuration);
 					} else {
-//						Log.e(TAG, "向上滑");
+						Log.e(TAG, "向上滑");
 							mLauncher.scrollLeft(lastRotateTimeDuration);
 					}
 				}

@@ -3858,7 +3858,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         		PathPoint r_PathPoint = t_icon.rightControlPoint;
         		IconPoint r_Point = t_icon.rightPoint;
         		TextView lab = (TextView) icon.getChildAt(1);
-        		Log.e(TAG, " t_icon = "+t_icon.index+" text = "+lab.getText());
+//        		Log.e(TAG, " t_icon = "+t_icon.index+" text = "+lab.getText());
         		if(r_Point.index==8){
         			ObjectAnimator anim = ObjectAnimator.ofFloat(icon, "alpha", 1f, 0f);
     				anim.setDuration(300);
@@ -3866,7 +3866,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
     				icon.setClickable(false);
     				icon.getChildAt(1).setAlpha(0);
     				icon.getChildAt(1).setFocusable(true);
-    				Log.e(TAG, "r_Point.index==8  setAlpha(0)  setFocusable(false)");
+//    				Log.e(TAG, "r_Point.index==8  setAlpha(0)  setFocusable(false)");
 //        			icon.setVisibility(View.INVISIBLE);
         		}else if(r_Point.index==0){
         			icon.setTranslationX(mIconPointss[0].point.mX);
@@ -3881,14 +3881,14 @@ public final class Launcher extends Activity implements View.OnClickListener, On
     				anim.start();
     				icon.setClickable(true);
     				icon.getChildAt(1).setFocusable(true);
-    				Log.e(TAG, "r_Point.index==0  setAlpha(1)  setFocusable(true)");
+//    				Log.e(TAG, "r_Point.index==0  setAlpha(1)  setFocusable(true)");
         		}else if(r_Point.index>8){
         			icon.setTranslationX(mIconPointss[0].point.mX);
     				icon.setTranslationY(mIconPointss[0].point.mY);
     				icon.setIconPoint(mIconPointss[0]);
     				icon.setAlpha(0);;
     				icon.getChildAt(1).setFocusable(false);
-    				Log.e(TAG, "r_Point.index=="+r_Point.index+"  setAlpha(0)  setFocusable(false)");
+//    				Log.e(TAG, "r_Point.index=="+r_Point.index+"  setAlpha(0)  setFocusable(false)");
         		}
         		else{
         			if(r_PathPoint!=null){
@@ -3910,7 +3910,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
         			}
         			icon.getChildAt(1).setAlpha(r_Point.isLableShow?1:0);
         			icon.getChildAt(1).setFocusable(r_Point.isIconShow);
-        			Log.e(TAG, "r_Point.index=="+r_Point.index+"  setAlpha("+(r_Point.isLableShow?1:0)+")  setFocusable("+r_Point.isIconShow+")");
+//        			Log.e(TAG, "r_Point.index=="+r_Point.index+"  setAlpha("+(r_Point.isLableShow?1:0)+")  setFocusable("+r_Point.isIconShow+")");
         		}
         		icon.setIconPoint( t_icon.rightPoint);
         		icon.getChildAt(1).setTag(t_icon.rightPoint.index);
