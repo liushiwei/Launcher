@@ -1265,7 +1265,10 @@ public final class Launcher extends Activity implements View.OnClickListener, On
     				icon.setScaleY(point.scale);
     				icon.setVisibility(point.isIconShow?View.VISIBLE:View.INVISIBLE);
     				icon.getChildAt(1).setAlpha(point.isLableShow?1:0);
-    				icon.getChildAt(1).setFocusable(true);
+    				if(mCurrentPoints>0&&mCurrentPoints<9)
+    					icon.getChildAt(1).setFocusable(true);
+    				else
+    					icon.getChildAt(1).setFocusable(false);
     				icon.getChildAt(1).setTag(mCurrentPoints);
     				icon.setPointIndex(mCurrentPoints);
     			}
@@ -1351,24 +1354,30 @@ public final class Launcher extends Activity implements View.OnClickListener, On
 					Log.e("Launcher", "mFocusStartIndex ="+mFocusStartIndex+"  mFocusEndIndex="+mFocusEndIndex);
 					if(mFocusStartIndex==(mFocusEndIndex+1)||mFocusStartIndex==(mFocusEndIndex-1)){
 						Log.e("Launcher", "startFocusLableAnim");
-						if(mFocusEndIndex!=1){
+						if(mFocusEndIndex>1&&mFocusEndIndex<9){
 							mPathView.setShowFocus(true);
 							startFocusLableAnim();
 						}
 					}else{
-						int width = View.MeasureSpec.makeMeasureSpec(0,
-						        View.MeasureSpec.UNSPECIFIED);
-						int height = View.MeasureSpec.makeMeasureSpec(0,
-						        View.MeasureSpec.UNSPECIFIED);
-						mFocusEndView.measure(width, height);
-						
-						int w_end = v.getMeasuredWidth(); // 获取宽度
-						int h_end = v.getMeasuredHeight(); // 获取高度
-						CustomRelativeLayout layout_start = (CustomRelativeLayout) v.getParent();
-						int point[] = new int[2];
-						v.getLocationOnScreen(point);
-						FocusIconArg arg = new FocusIconArg(point[0],point[1],w_end,h_end,layout_start.getColor());
-						mPathView.setFocusIconArg(arg);
+						if(mFocusEndIndex<8&&mFocusEndIndex>1){
+							int width = View.MeasureSpec.makeMeasureSpec(0,
+									View.MeasureSpec.UNSPECIFIED);
+							int height = View.MeasureSpec.makeMeasureSpec(0,
+									View.MeasureSpec.UNSPECIFIED);
+							mFocusEndView.measure(width, height);
+							
+							int w_end = v.getMeasuredWidth(); // 获取宽度
+							int h_end = v.getMeasuredHeight(); // 获取高度
+							CustomRelativeLayout layout_start = (CustomRelativeLayout) v.getParent();
+							int point[] = new int[2];
+							v.getLocationOnScreen(point);
+							float scale = mIconPointss[mFocusEndIndex].scale;
+							FocusIconArg arg = new FocusIconArg(point[0],point[1],(int)((float)w_end*scale),(int)((float)h_end*scale),layout_start.getColor());
+							Log.e("Launcher", "--get focuse mPathView.postInvalidate() ");
+							mPathView.setShowFocus(true);
+							mPathView.setFocusIconArg(arg);
+							mPathView.postInvalidate();
+						}
 					}
 					if(mFocusStartIndex==7&&mFocusEndIndex==8){
 						Log.e("Launcher", "rotateLeft");
@@ -2405,6 +2414,8 @@ public final class Launcher extends Activity implements View.OnClickListener, On
      * @param v The view representing the clicked shortcut.
      */
     public void onClick(View v) {
+    	mPathView.setShowFocus(false);
+    	mPathView.postInvalidate();
         // Make sure that rogue clicks don't get through while allapps is launching, or after the view has detached (it's possible for this to happen if the view is removed mid touch).
         if (v.getWindowToken() == null) {
             return;
@@ -3840,6 +3851,8 @@ public final class Launcher extends Activity implements View.OnClickListener, On
           			icon.getChildAt(1).setAlpha(l_Point.isLableShow?1:0);
           			if(l_Point.index==8)
           				icon.getChildAt(1).setFocusable(true);
+          			else if(l_Point.index==0)
+          				icon.getChildAt(1).setFocusable(false);
           			else
           				icon.getChildAt(1).setFocusable(l_Point.isIconShow);	
           		}
@@ -3880,7 +3893,7 @@ public final class Launcher extends Activity implements View.OnClickListener, On
     				
     				anim.start();
     				icon.setClickable(true);
-    				icon.getChildAt(1).setFocusable(true);
+    				icon.getChildAt(1).setFocusable(false);
 //    				Log.e(TAG, "r_Point.index==0  setAlpha(1)  setFocusable(true)");
         		}else if(r_Point.index>8){
         			icon.setTranslationX(mIconPointss[0].point.mX);
